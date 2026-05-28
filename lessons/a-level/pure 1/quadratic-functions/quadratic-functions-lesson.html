@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quadratic Functions and their Graphs — What shape does balance make?</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; margin: 0.75em 0; }
+  th, td { border: 1px solid #C0B8A8; padding: 0.4em 0.7em; text-align: left; }
+  th { background: #F5EFE3; }
+  code { background: #FFFDF5; padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+  blockquote { border-left: 3px solid #B5A88A; padding-left: 1em; margin: 0.75em 0; color: #4A4438; font-style: italic; }
+
+  /* --- Completing-the-Square Explorer applet styles --- */
+  .cs-stage { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1em; margin: 1em 0; }
+  .cs-controls { display: flex; flex-wrap: wrap; gap: 1.25em; align-items: center; background: #F5EFE3; border-radius: 8px; padding: 0.75em 1em; margin-bottom: 1em; font-size: 0.95em; }
+  .cs-control-group { display: flex; flex-direction: column; gap: 0.25em; min-width: 160px; flex: 1; }
+  .cs-controls label { font-weight: bold; color: #4A4438; }
+  .cs-controls input[type="range"] { width: 100%; }
+  .cs-readout { font-family: 'Courier New', monospace; color: #3A5A6B; font-weight: bold; }
+  .cs-svg { display: block; margin: 0 auto; background: #F8FBFD; border-radius: 6px; }
+  .cs-axis-line { stroke: #B5A88A; stroke-width: 1; }
+  .cs-axis-tick { stroke: #B5A88A; stroke-width: 1; }
+  .cs-axis-label { font-family: Georgia, serif; font-size: 11px; fill: #6B5E48; }
+  .cs-parabola { fill: none; stroke: #3A5A6B; stroke-width: 3; }
+  .cs-axis-sym { stroke: #6B4A6B; stroke-width: 1.5; stroke-dasharray: 5 3; opacity: 0.7; }
+  .cs-vertex { fill: #C9A227; stroke: #6B4A2E; stroke-width: 1.5; }
+  .cs-root { fill: #4A7A37; stroke: #2E5C1F; stroke-width: 1.5; }
+  .cs-forms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75em; margin-top: 1em; }
+  .cs-form-box { background: #FFFDF5; border: 1px solid #D8CFB8; border-radius: 6px; padding: 0.85em 1em; }
+  .cs-form-name { font-size: 0.85em; color: #8B6F47; font-style: italic; margin-bottom: 0.3em; }
+  .cs-form-eq { font-family: 'Courier New', monospace; font-size: 1.05em; color: #3A5A6B; font-weight: bold; }
+  .cs-facts { background: #FFF9E6; border: 1px dashed #C9A227; border-radius: 6px; padding: 0.6em 1em; margin-top: 0.75em; font-family: 'Courier New', monospace; font-size: 0.95em; line-height: 1.7; }
+  .cs-prompts { background: #DAE2EA; padding: 0.75em 1.25em; border-radius: 8px; margin-top: 1em; }
+  .cs-prompts ol { margin: 0.5em 0; padding-left: 1.5em; }
+  .cs-prompts li { margin: 0.4em 0; }
+
+  /* --- Completing-the-Square Dissection (drag-and-drop) applet styles --- */
+  .dd-stage { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1.25em; margin: 1em 0; }
+  .dd-board { position: relative; width: 100%; max-width: 460px; height: 460px; margin: 1em auto; background: #F8FBFD; border-radius: 6px; touch-action: none; }
+  .dd-grid-label { position: absolute; font-family: Georgia, serif; font-size: 13px; color: #6B5E48; pointer-events: none; }
+  .dd-target { position: absolute; border: 2px dashed #C9B89A; border-radius: 4px; box-sizing: border-box; background: rgba(201,184,154,0.08); display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; color: #B5A88A; font-size: 0.85em; text-align: center; }
+  .dd-target.filled { border-style: solid; }
+  .dd-piece { position: absolute; box-sizing: border-box; border-radius: 4px; cursor: grab; display: flex; align-items: center; justify-content: center; font-family: 'Courier New', monospace; font-weight: bold; color: #FDFBF6; text-align: center; user-select: none; touch-action: none; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transition: box-shadow 0.15s ease; }
+  .dd-piece:active { cursor: grabbing; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
+  .dd-piece.placed { cursor: default; box-shadow: none; }
+  .dd-xsq { background: #3A5A6B; }      /* x² square */
+  .dd-rect { background: #4A7A37; }     /* x·(b/2) rectangles */
+  .dd-corner { background: #C9A227; color: #4A3A0A; } /* (b/2)² corner */
+  .dd-tray { display: flex; flex-wrap: wrap; gap: 0.75em; justify-content: center; align-items: center; background: #F5EFE3; border-radius: 8px; padding: 0.85em; margin: 0.5em auto; max-width: 460px; min-height: 70px; }
+  .dd-tray-label { width: 100%; text-align: center; font-size: 0.85em; color: #8B6F47; font-style: italic; margin-bottom: 0.25em; }
+  .dd-tally { background: #FFF9E6; border: 1px dashed #C9A227; border-radius: 6px; padding: 0.7em 1em; margin: 0.75em auto; max-width: 460px; font-family: 'Courier New', monospace; font-size: 1.05em; text-align: center; color: #2B2B2B; }
+  .dd-success { background: #DCEFD3; border: 2px solid #4A7A37; border-radius: 8px; padding: 0.85em 1.1em; margin: 0.75em auto; max-width: 460px; text-align: center; color: #2E5C1F; display: none; }
+  .dd-success.shown { display: block; }
+  .dd-controls { text-align: center; margin-top: 0.75em; }
+  .dd-btn { background: #E5EBF0; border: 2px solid #3A5A6B; color: #3A5A6B; padding: 0.45em 1.1em; border-radius: 8px; cursor: pointer; font-family: Georgia, serif; font-size: 0.95em; font-weight: bold; margin: 0 0.3em; }
+  .dd-btn:hover { background: #D4DEE8; }
+</style>
+</head>
+<body>
+
+<h1>Quadratic Functions and their Graphs — What shape does balance make?</h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Throw a ball, and its path traces a curve. Shine a torch at a wall at an angle, and the edge of the light is a curve. Hang a chain — almost the same curve. Spin water in a bucket and its surface settles into that curve. Why does the very same shape — the parabola — keep appearing whenever something is pulled evenly from two directions, or accelerates steadily, or seeks balance? And how can a single fold in the algebra reveal everything about where that curve sits?
+</div>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>A <strong>quadratic function</strong> has the form</p>
+  <p style="text-align: center; font-size: 1.1em;"><code>y = ax² + bx + c</code> &nbsp;&nbsp;(where <code>a ≠ 0</code>)</p>
+
+  <p>Its graph is always a <strong>parabola</strong> — a smooth, symmetric U-shape (opening upward if <code>a &gt; 0</code>, downward if <code>a &lt; 0</code>). Three features matter most:</p>
+
+  <ul>
+    <li>The <strong>vertex</strong> — the turning point, where the curve reaches its minimum (if <code>a &gt; 0</code>) or maximum (if <code>a &lt; 0</code>).</li>
+    <li>The <strong>axis of symmetry</strong> — the vertical line through the vertex; the parabola is a perfect mirror image across it.</li>
+    <li>The <strong>roots</strong> (if any) — where the curve crosses the x-axis, i.e. the solutions of <code>ax² + bx + c = 0</code>.</li>
+  </ul>
+
+  <h3>Completing the square</h3>
+
+  <p>The standard form <code>y = ax² + bx + c</code> tells you the curve is a parabola, but it hides the vertex. There is a second way to write the same function that reveals the vertex immediately — the <strong>vertex form</strong> (or "completed-square form"):</p>
+
+  <p style="text-align: center; font-size: 1.1em;"><code>y = a(x − h)² + k</code></p>
+
+  <p>In this form, the vertex sits exactly at <code>(h, k)</code> and the axis of symmetry is the line <code>x = h</code>. The process of rewriting <code>ax² + bx + c</code> into this form is called <strong>completing the square</strong>.</p>
+
+  <p>Here is the method for a simple case where <code>a = 1</code>, say <code>y = x² + 6x + 5</code>:</p>
+
+  <table>
+    <tr><th>Step</th><th>What you do</th><th>Result</th></tr>
+    <tr><td>1</td><td>Take half the coefficient of <code>x</code></td><td>half of 6 is 3</td></tr>
+    <tr><td>2</td><td>Write <code>(x + 3)²</code> — this gives <code>x² + 6x + 9</code></td><td><code>(x + 3)²</code></td></tr>
+    <tr><td>3</td><td>But <code>(x + 3)²</code> is 9 too big (we only had +5), so subtract the surplus</td><td><code>(x + 3)² − 9 + 5</code></td></tr>
+    <tr><td>4</td><td>Simplify</td><td><code>(x + 3)² − 4</code></td></tr>
+  </table>
+
+  <p>So <code>y = x² + 6x + 5 = (x + 3)² − 4</code>. Reading off the vertex form: the vertex is at <code>(−3, −4)</code> and the axis of symmetry is <code>x = −3</code>. We never had to plot a single point — the algebra told us where the curve sits.</p>
+
+  <p><strong>Why "completing the square"?</strong> The name is literal. The expression <code>x² + 6x</code> is like a square of side <code>(x + 3)</code> with a corner missing; adding 9 "completes" it into a perfect square. The interactive in The Designed World lets you watch this happen.</p>
+
+  <div class="seed">
+    🌱 <strong>Seed of Change:</strong> Solve quadratic equations by factorising, completing the square, and the quadratic formula — with the emphasis in this lesson on completing the square and the graphical meaning of a quadratic. <em>(Pearson Edexcel International A-Level Pure Mathematics 1: Algebra and Functions.)</em>
+  </div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>Completing the square is far older than the symbolic algebra we use to write it. When the 9th-century Baghdad mathematician <strong>al-Khwarizmi</strong> wrote his foundational book on algebra (the one whose title, <em>al-jabr</em>, gives us the word "algebra"), he had no symbols at all — no <code>x</code>, no <code>²</code>, no equals sign. He wrote everything in words.</p>
+
+  <p>And yet he solved quadratics, and he did it by <em>completing the square</em> — literally, geometrically, with actual squares. To solve a problem equivalent to <code>x² + 10x = 39</code>, al-Khwarizmi imagined a square of side <code>x</code>, then attached four rectangles of width <code>10/4</code> to its sides, then noticed that to make the whole thing into a bigger square he needed to add four little corner squares. "Completing the square" was, for him, a picture you could draw in sand — not a manipulation of symbols. The algebra we write today is a shorthand for a piece of geometry that is more than a thousand years old.</p>
+
+  <p>The parabola itself has an even older and grander history. The ancient Greeks — <strong>Menaechmus</strong> in the 4th century BCE, and later <strong>Apollonius of Perga</strong>, who literally wrote the book on them — studied parabolas as <em>conic sections</em>: the shapes you get by slicing a cone at various angles. They had no idea that two thousand years later, <strong>Galileo</strong> would show that a thrown object follows exactly this curve, or that the curve would turn out to focus parallel rays of light to a single point (which is why satellite dishes, car headlights, and reflecting telescopes are all parabolic). A shape studied for its pure geometric beauty turned out to be written into the physics of the universe.</p>
+
+  <p>There is something quietly moving in this: the Greeks studied the parabola because it was elegant, with no application in mind. Centuries later it turned out to describe falling bodies, planetary motion, and the focusing of light. Mathematics done for its own sake has a way of becoming, eventually, the language the world happens to be written in.</p>
+
+  <p>You can try al-Khwarizmi's idea with your own hands. The modern version is even simpler than his: instead of splitting the <code>bx</code> term into four rectangles, we split it into <strong>two</strong>. Below is a square of side <code>x</code> (area <code>x²</code>). Drag the two green rectangles and the gold corner piece into place to <em>complete the square</em> — and watch where the "extra" area comes from.</p>
+
+  <!-- Completing-the-Square Dissection (drag-and-drop) applet -->
+  <div class="dd-stage">
+
+    <h3 style="margin-top: 0; color: #3A5A6B;">🧩 Complete the Square — With Your Hands</h3>
+    <p style="margin-top:0; font-size: 0.95em;" id="ddPrompt">Building: <code>x² + 6x</code>. Drag each piece into a dashed target to complete the large square.</p>
+
+    <div class="dd-board" id="ddBoard"></div>
+
+    <div class="dd-tray" id="ddTray">
+      <div class="dd-tray-label">Pieces to place — drag them onto the board</div>
+    </div>
+
+    <div class="dd-tally" id="ddTally"></div>
+
+    <div class="dd-success" id="ddSuccess"></div>
+
+    <div class="dd-controls">
+      <button class="dd-btn" id="ddReset">↺ Reset</button>
+      <button class="dd-btn" id="ddAnother">Try another →</button>
+    </div>
+
+  </div>
+
+  <p style="margin-top: 1em; font-size: 0.95em;"><em>The gold corner piece is the heart of it. Its area — (half the <code>x</code>-coefficient), squared — is exactly the number you add when completing the square algebraically. Seeing it as a literal missing corner is seeing why the <code>+9</code> (or <code>+(b/2)²</code> in general) has to be there.</em></p>
+
+  <script>
+  (function() {
+    // Presets: b is the linear coefficient. Half is d = b/2; corner area = d².
+    const presets = [
+      { b: 6 },
+      { b: 4 },
+      { b: 8 },
+      { b: 10 }
+    ];
+    let presetIndex = 0;
+
+    const board = document.getElementById('ddBoard');
+    const tray = document.getElementById('ddTray');
+    const tally = document.getElementById('ddTally');
+    const success = document.getElementById('ddSuccess');
+    const prompt = document.getElementById('ddPrompt');
+    const resetBtn = document.getElementById('ddReset');
+    const anotherBtn = document.getElementById('ddAnother');
+
+    let pieces = [];     // piece state objects
+    let placedCount = 0;
+    let BOARD_PX = 460;  // logical board size; updated to actual on layout
+
+    // Tidy number display: 3.0 -> "3", 2.5 -> "2.5"
+    function nf(x) { return Number.isInteger(x) ? String(x) : String(Math.round(x * 100) / 100); }
+
+    // Geometry: the completed square has side (x + d). We choose a notional
+    // pixel length for "x" and for "d" so the whole thing fits the board with margin.
+    // Let x be represented by X_LEN px and d by D_LEN px. We want X_LEN + D_LEN + margins <= board.
+    function computeLayout(d) {
+      const margin = 40;
+      const avail = BOARD_PX - 2 * margin;
+      // Represent x as 3.2 "units" and d as (d/ (b/2 reference)) ... simpler:
+      // pick x to be a fixed visual length, d proportional to the real ratio d : x.
+      // Treat the *drawn* x as a fixed 0.62 of available, and d as 0.38 * (d / 3) scaled,
+      // but keep it bounded. To keep proportions sensible across b=4..10 (d=2..5),
+      // map d visually via a gentle scale so the corner is visible but not huge.
+      const xLen = avail * 0.60;
+      const dLen = avail * 0.40 * (d / 3);   // d=3 -> 0.40 of avail; scales gently
+      return { margin, xLen, dLen };
+    }
+
+    function buildPuzzle() {
+      const d = presets[presetIndex].b / 2;
+      const b = presets[presetIndex].b;
+      board.innerHTML = '';
+      tray.innerHTML = '<div class="dd-tray-label">Pieces to place — drag them onto the board</div>';
+      success.classList.remove('shown');
+      placedCount = 0;
+      pieces = [];
+
+      prompt.innerHTML = `Building: <code>x² + ${b}x</code>. Drag each piece into a dashed target to complete the large square.`;
+
+      // Recompute board pixel size from actual rendered width
+      BOARD_PX = board.clientWidth || 460;
+      const { margin, xLen, dLen } = computeLayout(d);
+
+      // Coordinate origin: bottom-left of the big square at (margin, BOARD_PX - margin).
+      // The big square spans from x=margin to x=margin+xLen+dLen, same vertically.
+      const originX = margin;
+      const originBottom = BOARD_PX - margin;
+
+      // --- The x² square (pre-placed, fixed) bottom-left ---
+      const xsq = document.createElement('div');
+      xsq.className = 'dd-piece dd-xsq placed';
+      xsq.style.width = xLen + 'px';
+      xsq.style.height = xLen + 'px';
+      xsq.style.left = originX + 'px';
+      xsq.style.top = (originBottom - xLen) + 'px';
+      xsq.style.fontSize = '1.2em';
+      xsq.textContent = 'x²';
+      board.appendChild(xsq);
+
+      // --- Target zones (dashed) ---
+      // Right rectangle target: to the right of the x² square, height xLen, width dLen
+      // Top rectangle target: above the x² square, width xLen, height dLen
+      // Corner target: top-right, dLen x dLen
+      const targets = [
+        { id: 'right',  left: originX + xLen,        top: originBottom - xLen,        w: dLen,  h: xLen,  label: 'rectangle' },
+        { id: 'top',    left: originX,               top: originBottom - xLen - dLen, w: xLen,  h: dLen,  label: 'rectangle' },
+        { id: 'corner', left: originX + xLen,        top: originBottom - xLen - dLen, w: dLen,  h: dLen,  label: 'corner' }
+      ];
+      const targetEls = {};
+      targets.forEach(t => {
+        const el = document.createElement('div');
+        el.className = 'dd-target';
+        el.style.left = t.left + 'px';
+        el.style.top = t.top + 'px';
+        el.style.width = t.w + 'px';
+        el.style.height = t.h + 'px';
+        el.dataset.id = t.id;
+        board.appendChild(el);
+        targetEls[t.id] = { el: el, ...t, occupied: false };
+      });
+
+      // --- Draggable pieces, start in the tray ---
+      // Two rectangles (each accepts 'right' or 'top' — both are x-by-d), one corner.
+      const pieceDefs = [
+        { type: 'rect',   w: dLen, h: xLen, label: `${nf(d)}·x`, accepts: ['right', 'top'] },
+        { type: 'rect',   w: xLen, h: dLen, label: `${nf(d)}·x`, accepts: ['right', 'top'] },
+        { type: 'corner', w: dLen, h: dLen, label: `${nf(d)}²`,  accepts: ['corner'] }
+      ];
+
+      pieceDefs.forEach((pd, i) => {
+        const el = document.createElement('div');
+        el.className = 'dd-piece ' + (pd.type === 'corner' ? 'dd-corner' : 'dd-rect');
+        // In the tray we show pieces at a scaled-down size for neat layout
+        const trayScale = pd.type === 'corner' ? 1 : 0.5;
+        el.style.position = 'relative';
+        el.style.width = (pd.w * (pd.type === 'corner' ? 1 : 0.7)) + 'px';
+        el.style.height = (pd.h * (pd.type === 'corner' ? 1 : 0.7)) + 'px';
+        el.style.fontSize = '0.8em';
+        el.textContent = pd.label;
+        el.dataset.index = i;
+        tray.appendChild(el);
+
+        const piece = { el, def: pd, placed: false, w: pd.w, h: pd.h };
+        pieces.push(piece);
+        makeDraggable(piece, targetEls);
+      });
+
+      updateTally();
+    }
+
+    function makeDraggable(piece, targetEls) {
+      const el = piece.el;
+      let dragging = false;
+      let startX, startY, originLeft, originTop;
+      let floatEl = null;
+
+      function pointerDown(e) {
+        if (piece.placed) return;
+        e.preventDefault();
+        const pt = getPoint(e);
+        dragging = true;
+
+        // Create a floating clone positioned over the board for free dragging
+        const rect = el.getBoundingClientRect();
+        const boardRect = board.getBoundingClientRect();
+        floatEl = el.cloneNode(true);
+        floatEl.style.position = 'fixed';
+        floatEl.style.left = rect.left + 'px';
+        floatEl.style.top = rect.top + 'px';
+        floatEl.style.width = piece.w + 'px';   // full board-scale size while dragging
+        floatEl.style.height = piece.h + 'px';
+        floatEl.style.margin = '0';
+        floatEl.style.zIndex = 1000;
+        floatEl.style.opacity = '0.9';
+        document.body.appendChild(floatEl);
+        el.style.visibility = 'hidden';
+
+        startX = pt.x; startY = pt.y;
+        originLeft = rect.left; originTop = rect.top;
+
+        document.addEventListener('mousemove', pointerMove);
+        document.addEventListener('touchmove', pointerMove, { passive: false });
+        document.addEventListener('mouseup', pointerUp);
+        document.addEventListener('touchend', pointerUp);
+      }
+
+      function pointerMove(e) {
+        if (!dragging) return;
+        e.preventDefault();
+        const pt = getPoint(e);
+        floatEl.style.left = (originLeft + pt.x - startX) + 'px';
+        floatEl.style.top = (originTop + pt.y - startY) + 'px';
+      }
+
+      function pointerUp(e) {
+        if (!dragging) return;
+        dragging = false;
+        document.removeEventListener('mousemove', pointerMove);
+        document.removeEventListener('touchmove', pointerMove);
+        document.removeEventListener('mouseup', pointerUp);
+        document.removeEventListener('touchend', pointerUp);
+
+        // Determine drop location: centre of the floating piece
+        const fRect = floatEl.getBoundingClientRect();
+        const cx = fRect.left + fRect.width / 2;
+        const cy = fRect.top + fRect.height / 2;
+
+        // Check against accepted, unoccupied targets
+        let dropped = false;
+        for (const acceptId of piece.def.accepts) {
+          const t = targetEls[acceptId];
+          if (t.occupied) continue;
+          const tRect = t.el.getBoundingClientRect();
+          if (cx >= tRect.left && cx <= tRect.right && cy >= tRect.top && cy <= tRect.bottom) {
+            // Snap into this target
+            placePiece(piece, t);
+            dropped = true;
+            break;
+          }
+        }
+
+        // Remove the floating clone
+        document.body.removeChild(floatEl);
+        floatEl = null;
+
+        if (!dropped) {
+          // Return to tray
+          el.style.visibility = 'visible';
+        }
+      }
+
+      el.addEventListener('mousedown', pointerDown);
+      el.addEventListener('touchstart', pointerDown, { passive: false });
+    }
+
+    function placePiece(piece, target) {
+      target.occupied = true;
+      target.el.classList.add('filled');
+      piece.placed = true;
+
+      // Place the real element onto the board at the target's position, full size
+      const el = piece.el;
+      el.style.position = 'absolute';
+      el.style.visibility = 'visible';
+      el.style.left = target.left + 'px';
+      el.style.top = target.top + 'px';
+      el.style.width = target.w + 'px';
+      el.style.height = target.h + 'px';
+      el.classList.add('placed');
+      board.appendChild(el);
+
+      placedCount++;
+      updateTally();
+
+      if (placedCount === 3) {
+        showSuccess();
+      }
+    }
+
+    function updateTally() {
+      const b = presets[presetIndex].b;
+      const d = b / 2;
+      // Build the running area expression based on what's placed
+      let area = 'x²';
+      // Count placed rects and corner
+      const rectsPlaced = pieces.filter(p => p.def.type === 'rect' && p.placed).length;
+      const cornerPlaced = pieces.some(p => p.def.type === 'corner' && p.placed);
+      if (rectsPlaced >= 1) area += ` + ${nf(d)}x`;
+      if (rectsPlaced >= 2) area += ` + ${nf(d)}x`;
+      if (cornerPlaced) area += ` + ${nf(d * d)}`;
+
+      let line = `Area so far: ${area}`;
+      if (rectsPlaced === 2 && !cornerPlaced) {
+        line += `  =  x² + ${b}x   (the two rectangles together make ${b}x)`;
+      }
+      tally.textContent = line;
+    }
+
+    function showSuccess() {
+      const b = presets[presetIndex].b;
+      const d = b / 2;
+      success.innerHTML =
+        `<strong>Square complete!</strong> The big square has side (x + ${nf(d)}), so its area is (x + ${nf(d)})².<br>` +
+        `You added a ${nf(d)}×${nf(d)} corner (area ${nf(d * d)}) to complete it — that's the “+${nf(d * d)}”.<br>` +
+        `So &nbsp;<code>x² + ${b}x = (x + ${nf(d)})² − ${nf(d * d)}</code>.`;
+      success.classList.add('shown');
+    }
+
+    function getPoint(e) {
+      if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      if (e.changedTouches && e.changedTouches.length) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    resetBtn.addEventListener('click', buildPuzzle);
+    anotherBtn.addEventListener('click', () => {
+      presetIndex = (presetIndex + 1) % presets.length;
+      buildPuzzle();
+    });
+
+    // Build on load, and rebuild on resize (board pixel size may change)
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildPuzzle, 200);
+    });
+
+    // Defer initial build slightly so the board has its layout width
+    setTimeout(buildPuzzle, 50);
+  })();
+  </script>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Choose <strong>one</strong> of the following to explore the ideas in your own way. There is no single right answer.</p>
+
+  <ol>
+    <li><strong>The completed square, drawn.</strong> Recreate al-Khwarizmi's geometric picture for <code>x² + 6x</code>: draw a square of side <code>x</code>, attach two rectangles of width 3 to two of its sides, and show the little 3×3 square needed to "complete" it. Annotate it to show why the area is <code>(x + 3)² − 9</code>.</li>
+    <li><strong>A parabola hunt.</strong> Find three parabolas in the real world — a photograph, a sketch, or just a careful description. (Water from a fountain, a suspension-bridge cable, the path of a basketball, the curve of a banana, the cross-section of a satellite dish...) For each, say where you think the vertex is and which way it opens.</li>
+    <li><strong>A short metaphor.</strong> The vertex of a parabola is its turning point — the moment a thrown ball stops rising and begins to fall; the bottom of a valley; the instant of balance. Write a paragraph or a few lines of a poem about a "vertex moment" in something other than mathematics.</li>
+    <li><strong>Voice note.</strong> Record a 60-second explanation of why completing the square reveals the vertex, as if explaining to a friend who can factorise quadratics but has never seen the vertex form. No formulas — only ideas.</li>
+  </ol>
+
+  <blockquote>The way you turn a mathematical idea into your own voice — a drawing, a hunt, a metaphor — is part of what you know.</blockquote>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Quadratics model anything where a quantity depends on the <em>square</em> of another: the area of a square plot as its side changes, the stopping distance of a car as its speed rises, the height of a projectile over time, the profit of a business as a function of price (too cheap and you lose money; too expensive and nobody buys; the maximum profit sits at a vertex). In every case, finding the vertex means finding the <em>best</em> or <em>worst</em> point — the maximum profit, the minimum cost, the highest point of the throw. Completing the square is how you find it without calculus.</p>
+
+  <p>The interactive below lets you change <code>a</code>, <code>b</code>, and <code>c</code> and watch the parabola respond. As you do, the standard form is converted into vertex form live, and the vertex, axis of symmetry, and roots are marked on the graph. Watch how the completed-square form <em>reads off</em> the vertex directly.</p>
+
+  <!-- Completing-the-Square Explorer dynamic applet -->
+  <div class="cs-stage">
+
+    <h3 style="margin-top: 0; color: #3A5A6B;">📐 The Completing-the-Square Explorer</h3>
+
+    <div class="cs-controls">
+      <div class="cs-control-group">
+        <label for="csA">a <span class="cs-readout" id="csAReadout">a = 1</span></label>
+        <input type="range" id="csA" min="-3" max="3" step="0.5" value="1">
+      </div>
+      <div class="cs-control-group">
+        <label for="csB">b <span class="cs-readout" id="csBReadout">b = 6</span></label>
+        <input type="range" id="csB" min="-8" max="8" step="1" value="6">
+      </div>
+      <div class="cs-control-group">
+        <label for="csC">c <span class="cs-readout" id="csCReadout">c = 5</span></label>
+        <input type="range" id="csC" min="-8" max="8" step="1" value="5">
+      </div>
+    </div>
+
+    <svg id="csDiagram" class="cs-svg" viewBox="0 0 600 420" width="100%" preserveAspectRatio="xMidYMid meet">
+      <g id="csAxes"></g>
+      <line id="csAxisSym" class="cs-axis-sym" x1="0" y1="0" x2="0" y2="0"/>
+      <path id="csParabola" class="cs-parabola" d=""/>
+      <g id="csRoots"></g>
+      <circle id="csVertex" class="cs-vertex" cx="0" cy="0" r="5"/>
+    </svg>
+
+    <div class="cs-forms">
+      <div class="cs-form-box">
+        <div class="cs-form-name">Standard form</div>
+        <div class="cs-form-eq" id="csStandard">y = x² + 6x + 5</div>
+      </div>
+      <div class="cs-form-box">
+        <div class="cs-form-name">Vertex (completed-square) form</div>
+        <div class="cs-form-eq" id="csVertexForm">y = (x + 3)² − 4</div>
+      </div>
+    </div>
+
+    <div class="cs-facts" id="csFacts"></div>
+
+    <div class="cs-prompts">
+      <strong>Investigation prompts:</strong>
+      <ol>
+        <li>Set <code>a = 1</code>, <code>b = 6</code>, <code>c = 5</code>. Read off the vertex from the vertex form. Now change only <code>c</code> — what moves, and what stays still? Why does changing <code>c</code> slide the curve vertically but not change the axis of symmetry?</li>
+        <li>Keep <code>a = 1</code> and change only <code>b</code>. Watch the axis of symmetry move. Can you find the rule connecting <code>b</code> to the position of the axis of symmetry? (Hint: look at the <code>h</code> in the vertex form.)</li>
+        <li>Set <code>a</code> to a negative value. What happens to the parabola? Where is the vertex now — a maximum or a minimum?</li>
+        <li>Find values of <code>a</code>, <code>b</code>, <code>c</code> that give a parabola with <em>no</em> roots (it never crosses the x-axis). What do you notice about the vertex in that case? (This is a foretaste of the next lessons.)</li>
+        <li><strong>Looking ahead:</strong> The vertex form makes the vertex obvious but the roots less so. The standard form makes <code>c</code> (the y-intercept) obvious but the vertex hidden. No single form shows everything at once. Why might that be — and what would it take to find a form that shows the <em>roots</em> directly?</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <script>
+  (function() {
+    const X_MIN = -10, X_MAX = 10;
+    const Y_MIN = -10, Y_MAX = 10;
+    const SVG_W = 600, SVG_H = 420;
+    const PAD = 30;
+    const PLOT_W = SVG_W - 2 * PAD;
+    const PLOT_H = SVG_H - 2 * PAD;
+
+    function xToPx(x) { return PAD + (x - X_MIN) / (X_MAX - X_MIN) * PLOT_W; }
+    function yToPx(y) { return PAD + (Y_MAX - y) / (Y_MAX - Y_MIN) * PLOT_H; }
+
+    const aSlider = document.getElementById('csA');
+    const bSlider = document.getElementById('csB');
+    const cSlider = document.getElementById('csC');
+    const aReadout = document.getElementById('csAReadout');
+    const bReadout = document.getElementById('csBReadout');
+    const cReadout = document.getElementById('csCReadout');
+    const axesEl = document.getElementById('csAxes');
+    const parabolaEl = document.getElementById('csParabola');
+    const vertexEl = document.getElementById('csVertex');
+    const axisSymEl = document.getElementById('csAxisSym');
+    const rootsEl = document.getElementById('csRoots');
+    const standardEl = document.getElementById('csStandard');
+    const vertexFormEl = document.getElementById('csVertexForm');
+    const factsEl = document.getElementById('csFacts');
+
+    // Build static axes
+    let axisHTML = '';
+    const x0 = xToPx(0), y0 = yToPx(0);
+    axisHTML += `<line class="cs-axis-line" x1="${xToPx(X_MIN)}" y1="${y0}" x2="${xToPx(X_MAX)}" y2="${y0}"/>`;
+    axisHTML += `<line class="cs-axis-line" x1="${x0}" y1="${yToPx(Y_MIN)}" x2="${x0}" y2="${yToPx(Y_MAX)}"/>`;
+    for (let i = X_MIN; i <= X_MAX; i += 2) {
+      if (i === 0) continue;
+      axisHTML += `<line class="cs-axis-tick" x1="${xToPx(i)}" y1="${y0 - 3}" x2="${xToPx(i)}" y2="${y0 + 3}"/>`;
+      axisHTML += `<text class="cs-axis-label" x="${xToPx(i)}" y="${y0 + 14}" text-anchor="middle">${i}</text>`;
+    }
+    for (let j = Y_MIN; j <= Y_MAX; j += 2) {
+      if (j === 0) continue;
+      axisHTML += `<line class="cs-axis-tick" x1="${x0 - 3}" y1="${yToPx(j)}" x2="${x0 + 3}" y2="${yToPx(j)}"/>`;
+      axisHTML += `<text class="cs-axis-label" x="${x0 - 7}" y="${yToPx(j) + 4}" text-anchor="end">${j}</text>`;
+    }
+    axesEl.innerHTML = axisHTML;
+
+    function fmtNum(x) {
+      // Tidy number formatting
+      if (Number.isInteger(x)) return String(x);
+      return (Math.round(x * 100) / 100).toString();
+    }
+
+    // Format a signed term for display, e.g. (+3) -> "+ 3", (-4) -> "− 4"
+    function signedTerm(x) {
+      const v = Math.round(x * 100) / 100;
+      if (v >= 0) return `+ ${fmtNum(v)}`;
+      return `− ${fmtNum(Math.abs(v))}`;
+    }
+
+    function update() {
+      const a = parseFloat(aSlider.value);
+      const b = parseFloat(bSlider.value);
+      const c = parseFloat(cSlider.value);
+
+      aReadout.textContent = `a = ${fmtNum(a)}`;
+      bReadout.textContent = `b = ${fmtNum(b)}`;
+      cReadout.textContent = `c = ${fmtNum(c)}`;
+
+      // Guard: a must be non-zero. If slider hits 0, nudge it conceptually.
+      if (a === 0) {
+        standardEl.textContent = 'a cannot be 0 (that would be a straight line, not a quadratic)';
+        vertexFormEl.textContent = '—';
+        parabolaEl.setAttribute('d', '');
+        vertexEl.setAttribute('cx', -100);
+        axisSymEl.setAttribute('x1', -100); axisSymEl.setAttribute('x2', -100);
+        rootsEl.innerHTML = '';
+        factsEl.innerHTML = '<span style="color:#B23A22;">Set a to a non-zero value to see a parabola.</span>';
+        return;
+      }
+
+      // Standard form display
+      let stdStr = 'y = ';
+      stdStr += (a === 1 ? '' : (a === -1 ? '−' : fmtNum(a))) + 'x²';
+      if (b !== 0) stdStr += ' ' + signedTerm(b) + 'x';
+      if (c !== 0) stdStr += ' ' + signedTerm(c);
+      standardEl.textContent = stdStr;
+
+      // Completing the square: y = a(x - h)^2 + k, where h = -b/(2a), k = c - b^2/(4a)
+      const h = -b / (2 * a);
+      const k = c - (b * b) / (4 * a);
+
+      // Vertex form display: y = a(x - h)^2 + k
+      // (x - h): if h is positive, write (x - h); if negative, (x + |h|)
+      let vfStr = 'y = ';
+      if (a !== 1) vfStr += (a === -1 ? '−' : fmtNum(a));
+      // inner bracket
+      if (h >= 0) {
+        vfStr += `(x ${h === 0 ? '' : '− ' + fmtNum(h)})²`.replace('( ', '(');
+      } else {
+        vfStr += `(x + ${fmtNum(Math.abs(h))})²`;
+      }
+      // + k
+      if (k !== 0) vfStr += ' ' + signedTerm(k);
+      vertexFormEl.textContent = vfStr;
+
+      // Draw parabola
+      let d = '';
+      const N = 240;
+      let started = false;
+      for (let i = 0; i <= N; i++) {
+        const x = X_MIN + (i / N) * (X_MAX - X_MIN);
+        const y = a * x * x + b * x + c;
+        if (y < Y_MIN - 2 || y > Y_MAX + 2) { started = false; continue; }
+        const px = xToPx(x), py = yToPx(y);
+        d += (started ? 'L' : 'M') + px.toFixed(2) + ',' + py.toFixed(2) + ' ';
+        started = true;
+      }
+      parabolaEl.setAttribute('d', d);
+
+      // Vertex marker (only if on screen)
+      if (h >= X_MIN && h <= X_MAX && k >= Y_MIN && k <= Y_MAX) {
+        vertexEl.setAttribute('cx', xToPx(h));
+        vertexEl.setAttribute('cy', yToPx(k));
+      } else {
+        vertexEl.setAttribute('cx', -100);
+      }
+
+      // Axis of symmetry
+      if (h >= X_MIN && h <= X_MAX) {
+        axisSymEl.setAttribute('x1', xToPx(h));
+        axisSymEl.setAttribute('y1', yToPx(Y_MIN));
+        axisSymEl.setAttribute('x2', xToPx(h));
+        axisSymEl.setAttribute('y2', yToPx(Y_MAX));
+      } else {
+        axisSymEl.setAttribute('x1', -100); axisSymEl.setAttribute('x2', -100);
+      }
+
+      // Roots (discriminant)
+      const disc = b * b - 4 * a * c;
+      let rootsHTML = '';
+      let rootText = '';
+      if (disc > 1e-9) {
+        const r1 = (-b - Math.sqrt(disc)) / (2 * a);
+        const r2 = (-b + Math.sqrt(disc)) / (2 * a);
+        [r1, r2].forEach(r => {
+          if (r >= X_MIN && r <= X_MAX) {
+            rootsHTML += `<circle class="cs-root" cx="${xToPx(r)}" cy="${y0}" r="5"/>`;
+          }
+        });
+        rootText = `two roots at x = ${fmtNum(r1)} and x = ${fmtNum(r2)}`;
+      } else if (Math.abs(disc) <= 1e-9) {
+        const r = -b / (2 * a);
+        if (r >= X_MIN && r <= X_MAX) {
+          rootsHTML += `<circle class="cs-root" cx="${xToPx(r)}" cy="${y0}" r="5"/>`;
+        }
+        rootText = `one repeated root at x = ${fmtNum(r)} (the vertex sits on the x-axis)`;
+      } else {
+        rootText = `no real roots (the parabola does not cross the x-axis)`;
+      }
+      rootsEl.innerHTML = rootsHTML;
+
+      // Facts panel
+      factsEl.innerHTML =
+        `vertex: (${fmtNum(h)}, ${fmtNum(k)}) &nbsp;·&nbsp; axis of symmetry: x = ${fmtNum(h)}` +
+        `<br>opens ${a > 0 ? 'upward (vertex is a minimum)' : 'downward (vertex is a maximum)'}` +
+        `<br>${rootText}`;
+    }
+
+    aSlider.addEventListener('input', update);
+    bSlider.addEventListener('input', update);
+    cSlider.addEventListener('input', update);
+    update();
+  })();
+  </script>
+
+  <p style="margin-top: 1em;"><em>Watch how completing the square doesn't change the curve at all — it just rewrites the same function in a form that reads off the vertex directly. The standard form and the vertex form are two descriptions of one parabola.</em></p>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>Take a breath. Quadratics are often the first place where algebra stops being about "find x" and starts being about <em>shape</em> and <em>structure</em>. Some questions to sit with — there are no wrong answers:</p>
+
+  <ul>
+    <li>Completing the square can feel fiddly the first few times — all those halvings and surplus-subtractings. Did it feel mechanical, mysterious, or satisfying to you? Notice the answer without judging it.</li>
+    <li>Some people "see" the parabola move as they change <code>a</code>, <code>b</code>, <code>c</code>; others prefer to trust the algebra and check the picture afterwards. Which are you? Both are legitimate mathematical styles.</li>
+    <li>The vertex is the turning point — the moment of balance between rising and falling. Is there a "vertex" in how you're feeling about mathematics right now: a point where struggle turned into understanding, or vice versa?</li>
+    <li>On a scale of 1 (uncomfortable) to 5 (interesting), how do you feel when an expression has to be rewritten in a different form before it gives up its secret? That willingness to <em>transform</em> rather than <em>solve directly</em> is a real mathematical maturity.</li>
+  </ul>
+
+  <p>If you'd like a short reset before the Final Task: take three slow breaths, trace a gentle U-shape in the air with your finger, and notice the turning point at the bottom. Then come back.</p>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <h3>The Parabola Portfolio</h3>
+
+  <p>Produce a short illustrated portfolio (1–2 sides of A4, digital or handwritten) titled <em>The Parabola Portfolio</em>, containing all of the following:</p>
+
+  <ol>
+    <li><strong>Two completions of the square</strong>, shown step by step:
+      <ul>
+        <li>Complete the square for <code>y = x² + 8x + 11</code> and state the vertex.</li>
+        <li>Complete the square for <code>y = 2x² − 12x + 7</code> and state the vertex. (Note the leading coefficient is not 1 — factor it out of the first two terms first.)</li>
+      </ul>
+    </li>
+    <li><strong>A sketch:</strong> for <code>y = x² + 8x + 11</code>, draw the parabola, marking the vertex, the axis of symmetry, and the y-intercept. (You don't need the roots precisely — just the overall shape and position.)</li>
+    <li><strong>An optimisation problem:</strong> A farmer has 40 m of fencing to make a rectangular pen against an existing wall (so only three sides need fencing). If the side perpendicular to the wall is <code>x</code> metres, the area is <code>A = x(40 − 2x)</code>. Expand this, complete the square, and use the vertex to find the value of <code>x</code> that gives the maximum area. What is that maximum area?</li>
+    <li><strong>A "two forms" reflection:</strong> Take any quadratic of your choice. Write it in both standard form and vertex form. In 2–3 sentences, explain what each form tells you "at a glance" that the other form hides.</li>
+    <li><strong>A reflection</strong> (3–4 sentences): what did completing the square reveal that you hadn't quite seen before? Where might finding a "vertex" — a maximum or minimum — matter outside mathematics?</li>
+  </ol>
+
+  <div class="seed">
+    🌱 <strong>Seed of Change targeted:</strong> Solve quadratic equations by factorising, completing the square, and the quadratic formula — with this lesson emphasising completing the square and graphical interpretation. <em>(Pearson Edexcel International A-Level Pure Mathematics 1 — Algebra and Functions.)</em>
+  </div>
+
+  <h4>Assessment — Haven Maths Rubric</h4>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>The "two forms" reflection shows genuine grasp of <em>why</em> each form reveals different features — not just how to convert between them.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Both completions of the square are correct, including the trickier case where <code>a ≠ 1</code>; the sketch is accurate in shape and position.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The fencing optimisation is set up and solved cleanly, using the vertex to find the maximum rather than guessing.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The chosen quadratic in the "two forms" task is genuinely yours; the reflection shows honest thinking about where optimisation matters.</td></tr>
+  </table>
+
+  <p><em>Take whatever form for the portfolio feels right — handwritten and photographed, typed and illustrated, a slide, a video walk-through. The mathematics is what's being assessed; the form is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="quadratic_functions_practice_companion.html" target="_blank" rel="noopener"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Deriving the Quadratic Formula — Where does the formula actually come from?</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; margin: 0.75em 0; }
+  th, td { border: 1px solid #C0B8A8; padding: 0.4em 0.7em; text-align: left; }
+  th { background: #F5EFE3; }
+  code { background: #FFFDF5; padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+  blockquote { border-left: 3px solid #B5A88A; padding-left: 1em; margin: 0.75em 0; color: #4A4438; font-style: italic; }
+
+  /* --- Derivation Revealer applet styles --- */
+  .dr-stage { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1.25em; margin: 1em 0; }
+  .dr-intro { font-style: italic; color: #4A4438; margin-bottom: 1em; }
+  .dr-step { background: #FFFDF5; border: 1px solid #D8CFB8; border-radius: 6px; padding: 1em 1.25em; margin: 0.75em 0; }
+  .dr-step-goal { font-weight: bold; color: #3A5A6B; margin-bottom: 0.5em; }
+  .dr-step-eq { font-family: 'Courier New', monospace; font-size: 1.15em; text-align: center; color: #2B2B2B; padding: 0.5em 0; }
+  .dr-think { margin: 0.75em 0; }
+  .dr-think-btn { background: #F2E8F0; border: 1px solid #6B4A6B; color: #6B4A6B; padding: 0.4em 0.9em; border-radius: 6px; cursor: pointer; font-family: Georgia, serif; font-size: 0.9em; }
+  .dr-think-btn:hover { background: #EAD9EA; }
+  .dr-reveal { display: none; margin-top: 0.6em; padding: 0.6em 0.9em; background: #F2E8F0; border-left: 4px solid #6B4A6B; border-radius: 4px; font-size: 0.95em; }
+  .dr-reveal.shown { display: block; }
+  .dr-controls { text-align: center; margin: 1em 0; }
+  .dr-btn { background: #E5EBF0; border: 2px solid #3A5A6B; color: #3A5A6B; padding: 0.5em 1.2em; border-radius: 8px; cursor: pointer; font-family: Georgia, serif; font-size: 1em; font-weight: bold; margin: 0 0.3em; }
+  .dr-btn:hover { background: #D4DEE8; }
+  .dr-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .dr-final { background: #DCEFD3; border: 2px solid #4A7A37; border-radius: 8px; padding: 1em 1.25em; margin-top: 1em; display: none; text-align: center; }
+  .dr-final.shown { display: block; }
+  .dr-final-eq { font-family: 'Courier New', monospace; font-size: 1.3em; font-weight: bold; color: #2E5C1F; padding: 0.5em 0; }
+  .dr-progress { text-align: center; font-size: 0.9em; color: #6B5E48; margin-bottom: 0.5em; }
+</style>
+</head>
+<body>
+
+<h1>Deriving the Quadratic Formula — Where does the formula actually come from?</h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Almost everyone who has done GCSE maths can recite it: <em>x equals minus b, plus or minus the square root of b squared minus four a c, all over two a.</em> It is one of the most memorised sentences in all of mathematics. But where does it <em>come from</em>? Was it handed down on a stone tablet? Or could you — armed with only the technique you just learned, completing the square — <em>derive it yourself</em>, from nothing but the general equation <code>ax² + bx + c = 0</code>?
+</div>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>In the previous lesson you learned to <strong>complete the square</strong> on specific quadratics — turning <code>x² + 6x + 5</code> into <code>(x + 3)² − 4</code>, and reading off the vertex.</p>
+
+  <p>This lesson does something both simple and profound: it applies that <em>exact same technique</em> not to a specific quadratic, but to the <strong>general</strong> quadratic equation</p>
+
+  <p style="text-align: center; font-size: 1.1em;"><code>ax² + bx + c = 0</code></p>
+
+  <p>where <code>a</code>, <code>b</code>, and <code>c</code> stand for <em>any</em> numbers (with <code>a ≠ 0</code>). When you complete the square on this general equation and solve for <code>x</code>, what falls out the other end is the quadratic formula itself:</p>
+
+  <p style="text-align: center; font-size: 1.15em;"><code>x = (−b ± √(b² − 4ac)) / 2a</code></p>
+
+  <p>This is the central idea of the lesson: <strong>the quadratic formula is not a separate fact to memorise — it is what completing the square looks like when you do it once, in general, for every quadratic at the same time.</strong> Every time you "use the formula", you are reusing a single completed square that someone did long ago, so you don't have to do it again each time.</p>
+
+  <p>The interactive in The Designed World walks through the derivation step by step. Before you reach for it, see how far you can get on your own — you genuinely have all the tools you need.</p>
+
+  <div class="seed">
+    🌱 <strong>Seed of Change:</strong> Solve quadratic equations by factorising, completing the square, and the quadratic formula — this lesson establishes <em>where the formula comes from</em>, deriving it by completing the square on the general quadratic. <em>(Pearson Edexcel International A-Level Pure Mathematics 1: Algebra and Functions.)</em>
+  </div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>The quadratic formula has one of the longest histories of any single result in mathematics — and for most of that history, there <em>was no formula</em>, only methods.</p>
+
+  <p>The Babylonians, around 2000 BCE, could already solve quadratic problems — working in base 60, on clay tablets, using a recipe that is essentially completing the square, though they would never have written it as a formula. They had no symbol for an unknown, no concept of a negative number, and certainly no <code>±</code>. They had a <em>procedure</em>: do this, then this, then this, and you get the answer.</p>
+
+  <p>For nearly four thousand years, that's how quadratics were solved — as procedures, described in words, often tied to specific geometric pictures. Al-Khwarizmi in 9th-century Baghdad, whose completing-the-square method we met in the last lesson, still wrote everything in prose. The Indian mathematician <strong>Brahmagupta</strong> (7th century) came remarkably close to a general rule and, importantly, was willing to work with negative numbers — a crucial step, because the <code>±</code> in the modern formula only makes sense once you accept that a quadratic can have two solutions.</p>
+
+  <p>The formula as we write it — compact, symbolic, with letters standing for any coefficients — could not exist until symbolic algebra itself was invented. That came gradually, with mathematicians like <strong>François Viète</strong> (16th century) introducing letters for unknowns and constants, and <strong>René Descartes</strong> (17th century) giving us much of the notation we still use. Only then could the accumulated wisdom of four thousand years be compressed into a single line.</p>
+
+  <p>There's a lovely lesson hidden here about the power of <em>notation</em>. The Babylonians, al-Khwarizmi, and Brahmagupta were not less clever than us — in many ways they were extraordinary. What they lacked was a <em>language</em> compact enough to say "for any a, b, c..." in a single breath. The formula you're about to derive is not just a piece of mathematics; it's a monument to the slow human invention of a language good enough to hold it. When you write <code>x = (−b ± √(b² − 4ac)) / 2a</code>, you are using a sentence that took civilisations to learn how to write.</p>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Choose <strong>one</strong> of the following. There is no single right answer.</p>
+
+  <ol>
+    <li><strong>The derivation, in your own hand.</strong> Once you've worked through the interactive, write out the full derivation yourself, from <code>ax² + bx + c = 0</code> to the formula, <em>without looking</em>. Then check it. Where did you get stuck? That sticky step is the one worth understanding most deeply.</li>
+    <li><strong>Teach it back.</strong> Explain to an imaginary GCSE student why the <code>2a</code> is on the bottom and where the <code>b² − 4ac</code> under the root "comes from". Write it as a short dialogue, or record it as a voice note. Teaching is the strongest test of understanding.</li>
+    <li><strong>A history strip.</strong> Draw a simple timeline showing four moments in the quadratic formula's story: Babylonians (~2000 BCE), al-Khwarizmi (~820 CE), Brahmagupta (~628 CE), and the symbolic formula (~1600s). Add one sentence to each about what they could and couldn't yet do.</li>
+    <li><strong>A metaphor for generality.</strong> The leap from "completing the square on <code>x² + 6x + 5</code>" to "completing the square on <code>ax² + bx + c</code>" is the leap from solving <em>one</em> problem to solving <em>all</em> problems of that kind at once. Write a paragraph about another moment — in maths or in life — where solving the general case once saves you from solving the specific case forever.</li>
+  </ol>
+
+  <blockquote>Deriving a result you already "knew" transforms it from something you <em>trust</em> into something you <em>own</em>.</blockquote>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>This lesson's "designed object" is the derivation itself — a small piece of mathematical engineering, built one step at a time. Each step has a <em>goal</em> (what we're trying to achieve) and a <em>move</em> (the algebra that achieves it). Before you reveal each step's reasoning, pause and try to predict it: <em>what would I do next, and why?</em></p>
+
+  <p>Work through it below. Try each step in your head (or on paper) first, then reveal the thinking, then advance.</p>
+
+  <!-- Derivation Revealer dynamic applet (click-to-reveal pattern) -->
+  <div class="dr-stage">
+
+    <h3 style="margin-top: 0; color: #3A5A6B;">🧩 Derive the Formula, Step by Step</h3>
+    <p class="dr-intro">Starting point: the general quadratic equation, with <code>a ≠ 0</code>.</p>
+
+    <div class="dr-progress" id="drProgress">Step 1 of 7</div>
+    <div id="drStepsContainer"></div>
+
+    <div class="dr-controls">
+      <button class="dr-btn" id="drPrev" disabled>← Back</button>
+      <button class="dr-btn" id="drNext">Next step →</button>
+    </div>
+
+    <div class="dr-final" id="drFinal">
+      <p style="margin:0 0 0.3em; font-weight:bold; color:#2E5C1F;">And there it is — derived, not memorised:</p>
+      <div class="dr-final-eq">x = (−b ± √(b² − 4ac)) / 2a</div>
+      <p style="margin:0.3em 0 0; font-style:italic; color:#2E5C1F;">Every quadratic you ever solve with "the formula" is reusing this single completed square.</p>
+    </div>
+
+  </div>
+
+  <p style="margin-top: 1em;"><em>Notice the expression that appears under the square root: <code>b² − 4ac</code>. Keep it in mind — in the next lesson, that single expression turns out to decide everything about how many solutions a quadratic has. It even has a name: the discriminant.</em></p>
+
+  <script>
+  (function() {
+    const steps = [
+      {
+        goal: "Start with the general quadratic equation.",
+        eq: "ax² + bx + c = 0",
+        think: "We want to solve for x in terms of a, b, and c. The plan: complete the square, exactly as in the last lesson — but keeping a, b, c as letters."
+      },
+      {
+        goal: "Divide every term by a, so the x² coefficient becomes 1.",
+        eq: "x² + (b/a)x + (c/a) = 0",
+        think: "Completing the square is easiest when the coefficient of x² is 1. Since a ≠ 0, we're allowed to divide by it. This is the same first move you'd make on a quadratic like 2x² + ... before completing the square."
+      },
+      {
+        goal: "Move the constant term to the right-hand side.",
+        eq: "x² + (b/a)x = −c/a",
+        think: "We want the x-terms alone on the left, ready to be folded into a perfect square. Subtract c/a from both sides."
+      },
+      {
+        goal: "Complete the square: add (half the x-coefficient)² to both sides.",
+        eq: "x² + (b/a)x + (b/2a)² = −c/a + (b/2a)²",
+        think: "Half the coefficient of x is b/2a. We add its square to BOTH sides (so the equation stays balanced). The left-hand side is now a perfect square — that's the whole point of the move."
+      },
+      {
+        goal: "Write the left side as a perfect square; tidy the right side over a common denominator.",
+        eq: "(x + b/2a)² = (b² − 4ac) / 4a²",
+        think: "The left side factors as (x + b/2a)². On the right: −c/a + b²/4a² = −4ac/4a² + b²/4a² = (b² − 4ac)/4a². Look closely at the numerator on the right — b² − 4ac. That expression is about to follow us all the way to the end."
+      },
+      {
+        goal: "Take the square root of both sides (remembering ±).",
+        eq: "x + b/2a = ± √(b² − 4ac) / 2a",
+        think: "Square-rooting both sides undoes the square on the left. Crucially, a square root can be positive OR negative — that's where the ± comes from, and it's why a quadratic can have two solutions. The √(4a²) on the bottom becomes 2a."
+      },
+      {
+        goal: "Subtract b/2a from both sides and combine into a single fraction.",
+        eq: "x = (−b ± √(b² − 4ac)) / 2a",
+        think: "Finally, isolate x by subtracting b/2a. Since both terms now share the denominator 2a, they combine into one fraction — and we have arrived at the quadratic formula. Completing the square, done once in general, has given us the tool for every quadratic."
+      }
+    ];
+
+    let current = 0;
+    let maxReached = 0;
+
+    const container = document.getElementById('drStepsContainer');
+    const progressEl = document.getElementById('drProgress');
+    const prevBtn = document.getElementById('drPrev');
+    const nextBtn = document.getElementById('drNext');
+    const finalEl = document.getElementById('drFinal');
+
+    function render() {
+      const s = steps[current];
+      progressEl.textContent = `Step ${current + 1} of ${steps.length}`;
+      container.innerHTML = `
+        <div class="dr-step">
+          <div class="dr-step-goal">Goal: ${s.goal}</div>
+          <div class="dr-step-eq">${s.eq}</div>
+          <div class="dr-think">
+            <button class="dr-think-btn" id="drThinkBtn">🤔 Why this step?</button>
+            <div class="dr-reveal" id="drReveal">${s.think}</div>
+          </div>
+        </div>
+      `;
+      document.getElementById('drThinkBtn').addEventListener('click', () => {
+        document.getElementById('drReveal').classList.add('shown');
+      });
+      prevBtn.disabled = (current === 0);
+      nextBtn.disabled = false;
+      nextBtn.textContent = (current === steps.length - 1) ? 'Finish' : 'Next step →';
+      // Show final box once the last step is reached
+      if (current === steps.length - 1) {
+        finalEl.classList.add('shown');
+      } else {
+        finalEl.classList.remove('shown');
+      }
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (current < steps.length - 1) {
+        current++;
+        maxReached = Math.max(maxReached, current);
+        render();
+      }
+    });
+    prevBtn.addEventListener('click', () => {
+      if (current > 0) { current--; render(); }
+    });
+
+    render();
+  })();
+  </script>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>Take a breath. There's a particular feeling that comes with deriving something you'd previously only memorised — a kind of "oh, <em>that's</em> all it is" relief, mixed sometimes with a little indignation that nobody showed you sooner. Some questions to sit with:</p>
+
+  <ul>
+    <li>Had you ever wondered where the quadratic formula came from, or had you simply accepted it as a thing to memorise? Notice your honest answer — both are completely normal.</li>
+    <li>Which step in the derivation felt least obvious? (For many people it's the moment the <code>±</code> appears, or the tidying of the right-hand side into a single fraction.) That step is worth a second visit — not because you got it wrong, but because that's where the real understanding lives.</li>
+    <li>Does knowing <em>where</em> the formula comes from change how you feel about <em>using</em> it? For some people it brings confidence; for others it makes no difference and that's fine too.</li>
+    <li>There's a difference between trusting a tool and owning it. On a scale of 1 (still feels like magic) to 5 (I could rebuild it from scratch), where are you with the quadratic formula right now — and where would you like to be?</li>
+  </ul>
+
+  <p>If you'd like a short reset before the Final Task: close your eyes for a moment and try to "replay" the derivation as a film — equation transforming into equation. Don't worry if it's blurry; the blurry parts are just showing you where to look again.</p>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <h3>The Derivation, Owned</h3>
+
+  <p>Produce a short piece of work (1–2 sides of A4, digital or handwritten) titled <em>The Derivation, Owned</em>, containing all of the following:</p>
+
+  <ol>
+    <li><strong>The full derivation, in your own hand, without copying.</strong> Start from <code>ax² + bx + c = 0</code> and reach <code>x = (−b ± √(b² − 4ac)) / 2a</code>. Annotate each step with a few words saying <em>what</em> you did and <em>why</em>.</li>
+    <li><strong>The "hard step":</strong> identify the one step you found least obvious, and write 2–3 sentences explaining it as if to a friend who got stuck there.</li>
+    <li><strong>A verification:</strong> use the formula you just derived to solve <code>2x² + 7x − 4 = 0</code>, then check your two answers by substituting them back into the original equation.</li>
+    <li><strong>A connection:</strong> circle the expression <code>b² − 4ac</code> wherever it appears in your derivation, and write one sentence predicting why this expression might be important. (You'll meet it properly as "the discriminant" in the next lesson.)</li>
+    <li><strong>A reflection</strong> (3–4 sentences): did deriving the formula change your relationship with it? What does it feel like to <em>own</em> a piece of mathematics rather than borrow it?</li>
+  </ol>
+
+  <div class="seed">
+    🌱 <strong>Seed of Change targeted:</strong> Solve quadratic equations by factorising, completing the square, and the quadratic formula — establishing the derivation of the formula by completing the square on the general quadratic. <em>(Pearson Edexcel International A-Level Pure Mathematics 1 — Algebra and Functions.)</em>
+  </div>
+
+  <h4>Assessment — Haven Maths Rubric</h4>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>The annotations and the "hard step" explanation show genuine understanding of <em>why</em> each move works — especially the appearance of the ± and the role of dividing by a.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>The derivation is algebraically correct throughout; the verification solves <code>2x² + 7x − 4 = 0</code> correctly and the check is carried out.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The derived formula is applied correctly to a concrete equation, and the answers are verified by substitution.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The derivation is genuinely reconstructed (not copied); the reflection shows honest thought about the difference between trusting and owning a result.</td></tr>
+  </table>
+
+  <p><em>Take whatever form for this work feels right — handwritten and photographed, typed and illustrated, a slide, a video walk-through. The mathematics is what's being assessed; the form is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="deriving_quadratic_formula_practice_companion.html" target="_blank" rel="noopener"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+</div>
+
+</body>
+</html>

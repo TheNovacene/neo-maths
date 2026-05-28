@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Deriving the Quadratic Formula — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 1.5em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  h2 { color: #3A5A6B; }
+  .intro { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.25em 0; font-style: italic; }
+  code { background: #FFFDF5; padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+
+  .progress-strip { display: flex; gap: 0.4em; margin: 1.5em 0; flex-wrap: wrap; align-items: center; }
+  .progress-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: bold; background: #F0E8DC; border: 2px solid #C9B89A; color: #6B5E48; transition: all 0.25s ease; }
+  .progress-dot.current { background: #E5EBF0; border-color: #3A5A6B; color: #3A5A6B; transform: scale(1.1); }
+  .progress-dot.attempted { background: #F5EFD9; border-color: #C9A227; color: #7A5A1F; }
+  .progress-dot.correct { background: #DCEFD3; border-color: #4A7A37; color: #2E5C1F; }
+  .progress-label { font-size: 0.9em; color: #6B5E48; margin-left: 0.5em; }
+
+  .q-card { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1.5em; margin: 1em 0; }
+  .q-meta { font-size: 0.85em; color: #8B6F47; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5em; font-weight: bold; }
+  .q-stem { font-size: 1.1em; margin-bottom: 1em; }
+  .q-stem .equation { font-family: 'Courier New', monospace; }
+
+  .workspace, .answer-input { width: 100%; box-sizing: border-box; padding: 0.6em 0.8em; font-family: 'Courier New', monospace; font-size: 1em; border: 1px solid #C9B89A; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .workspace { min-height: 100px; margin-bottom: 0.75em; }
+  .answer-input { font-size: 1.05em; }
+  label.field-label { display: block; font-weight: bold; color: #4A4438; margin-bottom: 0.3em; font-size: 0.95em; }
+  .field { margin: 0.75em 0; }
+
+  .palette { background: #F5EFE3; border: 1px solid #C9B89A; border-radius: 5px; padding: 0.4em; margin-bottom: 0.4em; }
+  .palette-row { display: flex; flex-wrap: wrap; gap: 0.25em; align-items: center; }
+  .palette-row-label { font-size: 0.75em; color: #8B6F47; font-style: italic; margin-right: 0.5em; min-width: 70px; }
+  .palette-btn { padding: 0.25em 0.55em; min-width: 1.8em; font-family: 'Courier New', monospace; font-size: 1em; background: #FFFDF5; border: 1px solid #C9B89A; border-radius: 4px; cursor: pointer; color: #2B2B2B; transition: background 0.15s ease; }
+  .palette-btn:hover { background: #FFF9E6; border-color: #8B6F47; }
+  .palette-btn:active { background: #F0E8DC; }
+  .palette-hint { font-size: 0.8em; color: #6B5E48; margin-top: 0.4em; font-style: italic; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1em; }
+  .btn { padding: 0.5em 1em; border-radius: 6px; border: 1px solid; background: #FFFDF5; cursor: pointer; font-family: Georgia, serif; font-size: 0.95em; transition: background 0.2s ease; }
+  .btn:hover { background: #F5EFE3; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-socratic { border-color: #6B4A6B; color: #6B4A6B; }
+  .btn-hint     { border-color: #8B6F47; color: #8B6F47; }
+  .btn-solution { border-color: #3A5A6B; color: #3A5A6B; }
+  .btn-check    { border-color: #4A7A37; color: #4A7A37; font-weight: bold; }
+  .btn-next     { border-color: #6B4A2E; color: #6B4A2E; font-weight: bold; background: #EDE3D3; }
+  .btn-next:hover { background: #E0D2BD; }
+
+  .reveal { margin-top: 0.75em; padding: 0.85em 1.1em; border-radius: 6px; border-left: 4px solid; display: none; }
+  .reveal.shown { display: block; }
+  .reveal-socratic { background: #F2E8F0; border-left-color: #6B4A6B; }
+  .reveal-hint     { background: #F5EFE3; border-left-color: #8B6F47; }
+  .reveal-solution { background: #E5EBF0; border-left-color: #3A5A6B; }
+  .reveal-feedback { background: #F5EFD9; border-left-color: #C9A227; }
+  .reveal-feedback.correct { background: #DCEFD3; border-left-color: #4A7A37; }
+  .reveal-feedback.incorrect { background: #F5D8D2; border-left-color: #B23A22; }
+  .reveal-label { font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4em; display: block; }
+  .reveal-step { margin: 0.6em 0; }
+
+  .reflection { background: #F5EFD9; border: 1px solid #C9A227; border-radius: 10px; padding: 1.5em; margin: 2em 0; }
+  .reflection h2 { margin-top: 0; }
+  .reflection textarea { width: 100%; box-sizing: border-box; min-height: 120px; padding: 0.6em 0.8em; font-family: Georgia, serif; font-size: 1em; border: 1px solid #C9A227; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .completion-banner { display: none; background: #DCEFD3; border: 2px solid #4A7A37; padding: 1.25em 1.5em; border-radius: 10px; margin: 1.5em 0; }
+  .completion-banner.shown { display: block; }
+
+  @media print {
+    .actions, .btn, .progress-strip, .completion-banner, .palette { display: none !important; }
+    .reveal { display: block !important; }
+    .q-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Deriving the Quadratic Formula — Practice Companion</h1>
+
+<div class="intro">
+  Now that you've derived the formula by completing the square, this is where you build fluency — both in <em>using</em> it and in <em>understanding why it works</em>. Take your time. Get stuck if you need to — getting stuck is part of the work. There are four kinds of help on every question: a Socratic question (which asks you something rather than telling you), a hint (which gives you a piece of the method), the answer check (which you can use as many times as you like), and a worked solution (which unlocks once you've had a genuine go).
+</div>
+
+<div class="progress-strip" id="progressStrip"></div>
+
+<div id="questionsContainer"></div>
+
+<div class="completion-banner" id="completionBanner">
+  <h2 style="margin-top:0;">Well done — you've worked through every question. 🌱</h2>
+  <p>Take a moment for the reflection below. You can also press <strong>Ctrl+P</strong> (or <strong>⌘+P</strong>) to print or save your work, including all the reveals and your written workings.</p>
+</div>
+
+<div class="reflection">
+  <h2>💛 Reflection</h2>
+  <p>Mirroring the Living Body panel of the lesson: how did that feel? There are no wrong answers — these prompts are just to notice what's happening.</p>
+  <ul>
+    <li>Which felt more secure — using the formula, or explaining why it works? What might that tell you?</li>
+    <li>Did any question change how you think about the formula you've used so many times before?</li>
+    <li>When you applied the formula, did you find yourself trusting it more now that you've derived it?</li>
+    <li>On a scale of 1 (still feels like magic) to 5 (I could rebuild it from scratch), where are you now with the quadratic formula?</li>
+  </ul>
+  <textarea placeholder="Type your reflections here..."></textarea>
+</div>
+
+<script>
+// ===================================================================
+// QUESTION BANK
+// ===================================================================
+const questions = [
+  // ---------- PROCEDURAL: applying the formula ----------
+  {
+    type: "Applying the formula",
+    stem: "Use the quadratic formula to solve <span class='equation'>x² + 5x + 6 = 0</span>. Give both roots.",
+    socratic: [
+      "What are the values of a, b, and c in this equation?",
+      "What is the discriminant b² − 4ac here, and what does its sign tell you to expect?",
+      "Substitute carefully into x = (−b ± √(b² − 4ac)) / 2a, keeping the ± until the very end."
+    ],
+    hints: [
+      "Here a = 1, b = 5, c = 6. Compute the discriminant first: b² − 4ac.",
+      "Once you have the discriminant, take its square root and apply the ± to get the two roots."
+    ],
+    solution: [
+      "Identify a = 1, b = 5, c = 6.",
+      "Discriminant: b² − 4ac = 5² − 4(1)(6) = 25 − 24 = 1.",
+      "Apply the formula: x = (−5 ± √1) / 2 = (−5 ± 1) / 2.",
+      "The two roots: x = (−5 + 1)/2 = −2, and x = (−5 − 1)/2 = −3.",
+      "So <strong>x = −2 and x = −3</strong>. (Check: this factorises as (x + 2)(x + 3) = 0, confirming the roots.)"
+    ],
+    expectedAnswer: "x = −2 and x = −3",
+    acceptedAnswers: ["-2 and -3", "-2, -3", "x=-2, x=-3", "x = -2, x = -3", "-3 and -2", "-3, -2", "x=-2 x=-3", "{-2,-3}", "-2,-3", "x=-2 and x=-3", "x=-3 and x=-2", "x=-3, x=-2", "-3,-2", "x = -3 and x = -2"],
+    correctFeedback: "Exactly right. Note this one also factorises easily as (x + 2)(x + 3) — but the formula works for every quadratic, including the ones that don't factorise neatly. That universality is exactly what the derivation guarantees.",
+    incorrectFeedback: "Revise and try again. Check your identification of a, b, and c first (mind the signs), then compute the discriminant before anything else. Keep the ± all the way through so you don't lose one of the two roots."
+  },
+
+  {
+    type: "Applying the formula — surd answer",
+    stem: "Use the quadratic formula to solve <span class='equation'>x² − 4x + 1 = 0</span>. Give your answers in exact (surd) form.",
+    socratic: [
+      "What are a, b, and c? What is the discriminant?",
+      "The discriminant won't be a perfect square here — what does that tell you about the form of the answer?",
+      "Can you simplify the surd that appears? Look for a perfect-square factor inside the root."
+    ],
+    hints: [
+      "a = 1, b = −4, c = 1. The discriminant is (−4)² − 4(1)(1) = 12.",
+      "x = (4 ± √12) / 2. Simplify √12 = 2√3, then divide through by 2."
+    ],
+    solution: [
+      "Identify a = 1, b = −4, c = 1.",
+      "Discriminant: (−4)² − 4(1)(1) = 16 − 4 = 12.",
+      "Apply the formula: x = (4 ± √12) / 2.",
+      "Simplify the surd: √12 = √(4·3) = 2√3.",
+      "So x = (4 ± 2√3) / 2 = 2 ± √3.",
+      "The roots are <strong>x = 2 + √3 and x = 2 − √3</strong>."
+    ],
+    expectedAnswer: "x = 2 ± √3",
+    acceptedAnswers: ["2 ± √3", "2±√3", "2 + √3 and 2 - √3", "2+√3, 2-√3", "x = 2 ± √3", "2 ± sqrt3", "2±sqrt(3)", "2 + sqrt3 and 2 - sqrt3", "2 - √3 and 2 + √3"],
+    correctFeedback: "Beautifully done — and this is exactly the kind of equation where the formula earns its keep. The roots 2 ± √3 are irrational, so this quadratic does NOT factorise over the rationals. Completing the square (which is what the formula encodes) handles it effortlessly.",
+    incorrectFeedback: "Two checkpoints. First, since b is negative, −b is positive — watch that sign. Second, when the discriminant isn't a perfect square, leave the root as an exact surd and simplify it (look for a perfect-square factor), then divide every term by 2a. Try again."
+  },
+
+  // ---------- CONCEPTUAL: understanding the derivation ----------
+  {
+    type: "Understanding the derivation — the ±",
+    stem: "In the derivation, the <span class='equation'>±</span> sign first appears at one specific step. At which step does it appear, and <em>why</em>? Answer in a short phrase naming the operation that introduces it.",
+    socratic: [
+      "Think about the sequence of moves in the derivation. Which single operation can produce two results from one?",
+      "When you undo a square by taking a square root, how many values could the original have had?",
+      "What is the name of the step where both sides of the equation have a square root taken?"
+    ],
+    hints: [
+      "The ± appears when you take the square root of both sides of the equation.",
+      "A positive number has two square roots — one positive, one negative — which is why both must be kept."
+    ],
+    solution: [
+      "The ± appears at the step where you <strong>take the square root of both sides</strong>.",
+      "Reason: when you take the square root to undo the completed square, the quantity could have been either positive or negative (since both square to the same value). Keeping both possibilities is what gives a quadratic its two roots.",
+      "This is the deep reason a quadratic has (at most) two solutions: the single square-root step branches into two."
+    ],
+    expectedAnswer: "taking the square root of both sides",
+    acceptedAnswers: [
+      "taking the square root of both sides", "square rooting both sides", "taking the square root",
+      "square root step", "when you take the square root", "taking square roots", "the square root step",
+      "square rooting", "taking the square root of both sides because a square root has two values"
+    ],
+    correctFeedback: "Exactly. The ± is born at the square-root step, because a positive quantity has two square roots. This single branching is the algebraic reason a quadratic has two solutions — a lovely, deep connection.",
+    incorrectFeedback: "Think about which single operation in the derivation can turn one expression into two possibilities. It's the step that 'undoes' the completed square — what do you do to both sides to get rid of a square?"
+  },
+
+  {
+    type: "Understanding the derivation — dividing by a",
+    stem: "The very first move in the derivation is to divide every term by <span class='equation'>a</span>. What would go wrong if <span class='equation'>a</span> were allowed to be <span class='equation'>0</span>? Answer in a short phrase.",
+    socratic: [
+      "What operation does the derivation perform with a right at the start?",
+      "Is that operation always allowed, for every possible number a?",
+      "And separately — if a = 0, is the original equation even a quadratic any more?"
+    ],
+    hints: [
+      "The derivation divides by a — and division by zero is undefined.",
+      "Also, if a = 0 the x² term vanishes, so the equation becomes linear (bx + c = 0), not quadratic."
+    ],
+    solution: [
+      "If a = 0, the derivation breaks immediately because its first step is to <strong>divide by a, and division by zero is undefined</strong>.",
+      "There's a deeper reason too: if a = 0 the x² term disappears entirely, so ax² + bx + c = 0 becomes the linear equation bx + c = 0 — not a quadratic at all.",
+      "This is exactly why the quadratic formula carries the condition a ≠ 0."
+    ],
+    expectedAnswer: "you would be dividing by zero (and it would no longer be a quadratic)",
+    acceptedAnswers: [
+      "dividing by zero", "division by zero", "you would divide by zero", "divide by zero is undefined",
+      "dividing by zero is undefined", "you can't divide by zero", "it would be dividing by zero",
+      "division by zero undefined", "you'd be dividing by zero"
+    ],
+    correctFeedback: "Right. Dividing by a is only valid when a ≠ 0 — and that's the whole reason the formula carries the condition a ≠ 0. (As a bonus: if a = 0 the equation isn't even quadratic any more; it collapses to a linear equation.)",
+    incorrectFeedback: "Look at the very first step of the derivation — it divides every term by a. Ask yourself: is there one value of a for which that operation isn't allowed? What is it about that value that causes a problem?"
+  },
+
+  // ---------- CONNECTING DERIVATION TO DISCRIMINANT ----------
+  {
+    type: "Connecting to the discriminant",
+    stem: "During the derivation, the right-hand side becomes <span class='equation'>(b² − 4ac) / 4a²</span> just before the square root is taken. Explain why a <em>negative</em> value of <span class='equation'>b² − 4ac</span> means the equation has no real solutions. Answer in a short phrase.",
+    socratic: [
+      "After this step, what operation is about to be applied to (b² − 4ac) / 4a²?",
+      "Can you take the (real) square root of a negative number?",
+      "Since 4a² is always positive, the sign of the whole fraction depends only on what?"
+    ],
+    hints: [
+      "The next step takes the square root of (b² − 4ac) / 4a². Since 4a² > 0, the sign depends on b² − 4ac.",
+      "You cannot take the real square root of a negative number — so if b² − 4ac < 0, there is no real solution."
+    ],
+    solution: [
+      "The next step in the derivation takes the square root of (b² − 4ac) / 4a².",
+      "The denominator 4a² is always positive, so the sign of the fraction is determined entirely by b² − 4ac.",
+      "If b² − 4ac < 0, you would be taking the <strong>square root of a negative number, which has no real value</strong> — so the equation has no real solutions.",
+      "This is precisely why b² − 4ac is called the discriminant: it 'discriminates' between the cases of two, one, or no real roots."
+    ],
+    expectedAnswer: "you would be taking the square root of a negative number, which has no real value",
+    acceptedAnswers: [
+      "square root of a negative number", "you can't square root a negative number",
+      "the square root of a negative is not real", "taking the square root of a negative number",
+      "can't take the square root of a negative", "square rooting a negative has no real value",
+      "negative under the root has no real square root", "no real square root of a negative number"
+    ],
+    correctFeedback: "Exactly. The square root of a negative number isn't real, so a negative discriminant means no real roots. You've connected the derivation directly to the discriminant — b² − 4ac sits under the root, so its sign decides everything. This is the bridge to the next lesson.",
+    incorrectFeedback: "Focus on what happens to (b² − 4ac) / 4a² in the very next step — a square root is taken. The denominator 4a² is always positive. So if the whole thing is negative, what are you being asked to take the square root of, and is that possible for a real number?"
+  },
+
+  // ---------- VERIFYING / METHOD ----------
+  {
+    type: "Verification by substitution",
+    stem: "A student uses the formula and claims that <span class='equation'>x = 3</span> is one solution of <span class='equation'>2x² − 5x − 3 = 0</span>. Verify whether they are correct by substituting, and answer 'yes' or 'no'.",
+    socratic: [
+      "How can you check whether a proposed value is a solution, without re-solving the whole equation?",
+      "Substitute x = 3 into 2x² − 5x − 3. What should the result be if x = 3 is genuinely a root?",
+      "Compute 2(3²) − 5(3) − 3 step by step."
+    ],
+    hints: [
+      "Substitute x = 3 into the left-hand side: 2(3)² − 5(3) − 3.",
+      "= 2(9) − 15 − 3 = 18 − 15 − 3. If this equals 0, then x = 3 is a root."
+    ],
+    solution: [
+      "To verify, substitute x = 3 into the left-hand side 2x² − 5x − 3.",
+      "= 2(3)² − 5(3) − 3 = 2(9) − 15 − 3 = 18 − 15 − 3 = 0.",
+      "Since the result is 0, x = 3 satisfies the equation.",
+      "So <strong>yes</strong>, the student is correct.",
+      "(Substitution is the quickest way to check a claimed root — far faster than re-solving.)"
+    ],
+    expectedAnswer: "yes",
+    acceptedAnswers: ["yes", "yes correct", "yes it is correct", "yes, correct", "y", "yes the student is correct", "yes x=3 is a root"],
+    correctFeedback: "Correct — substituting gives 18 − 15 − 3 = 0, so x = 3 genuinely is a root. Verification by substitution is a powerful habit: it catches arithmetic slips in the formula and confirms your answers independently.",
+    incorrectFeedback: "Substitute x = 3 into the left-hand side 2x² − 5x − 3 and work it out step by step. If a value is genuinely a root, substituting it should make the expression equal zero. What do you actually get?"
+  },
+
+  // ---------- DERIVATION STEP ORDER ----------
+  {
+    type: "Understanding the derivation — step order",
+    stem: "Here are three steps from the derivation, out of order:<br>(P) Take the square root of both sides.<br>(Q) Divide every term by a.<br>(R) Move the constant term to the right-hand side.<br>Write them in the correct order as they appear in the derivation (e.g. 'Q, R, P').",
+    socratic: [
+      "Which step makes the coefficient of x² equal to 1, so that completing the square is straightforward? That comes very early.",
+      "Before you can complete the square, do you want the constant term on the left with the x-terms, or moved aside?",
+      "The square root is taken near the end — after the square has been formed. So which step is last of these three?"
+    ],
+    hints: [
+      "First divide by a (Q) to make the x² coefficient 1. Then move the constant aside (R) to prepare for completing the square.",
+      "The square root (P) comes after the square has been completed — so it's the last of these three."
+    ],
+    solution: [
+      "First, divide every term by a (Q) so the leading coefficient becomes 1 — this makes completing the square straightforward.",
+      "Next, move the constant term to the right-hand side (R), leaving the x-terms ready to be folded into a square.",
+      "Finally, after completing the square, take the square root of both sides (P).",
+      "So the correct order is <strong>Q, R, P</strong>."
+    ],
+    expectedAnswer: "Q, R, P",
+    acceptedAnswers: ["q, r, p", "q r p", "qrp", "q,r,p", "q then r then p"],
+    correctFeedback: "Exactly right: divide by a, move the constant, then (after completing the square) take the square root. Knowing the order of moves is a good sign you could reconstruct the whole derivation yourself.",
+    incorrectFeedback: "Think about the purpose of each step. One of them prepares the equation by making the x² coefficient equal to 1 — that should come first. One clears space by moving the constant. And taking the square root only makes sense after the square has been formed, so it comes last. Try again."
+  },
+
+  // ---------- EXAM-STYLE / APPLICATION ----------
+  {
+    type: "Exam-style — formula in context",
+    stem: "A ball is thrown and its height (m) after <span class='equation'>t</span> seconds is <span class='equation'>h = 1 + 6t − 5t²</span>. Use the quadratic formula to find the time at which the ball hits the ground (<span class='equation'>h = 0</span>). Give your answer to 2 decimal places, taking the physically sensible (positive) root.",
+    socratic: [
+      "Set h = 0 and rearrange into the standard form at² + bt + c = 0. What are a, b, c? (Mind the signs.)",
+      "A falling-ball problem will give two roots — one positive, one negative. Which one is physically meaningful?",
+      "Apply the formula carefully, then evaluate the square root numerically and round at the end."
+    ],
+    hints: [
+      "Set 1 + 6t − 5t² = 0, i.e. −5t² + 6t + 1 = 0 (or multiply by −1: 5t² − 6t − 1 = 0). So a = 5, b = −6, c = −1.",
+      "Discriminant = (−6)² − 4(5)(−1) = 36 + 20 = 56. Then t = (6 ± √56) / 10; take the positive root."
+    ],
+    solution: [
+      "Set h = 0: 1 + 6t − 5t² = 0. Multiply by −1 for tidiness: 5t² − 6t − 1 = 0, so a = 5, b = −6, c = −1.",
+      "Discriminant: (−6)² − 4(5)(−1) = 36 + 20 = 56.",
+      "Apply the formula: t = (6 ± √56) / 10. Now √56 ≈ 7.483.",
+      "The two roots: t = (6 + 7.483)/10 ≈ 1.348, and t = (6 − 7.483)/10 ≈ −0.148.",
+      "Time can't be negative, so take the positive root: <strong>t ≈ 1.35 seconds</strong>."
+    ],
+    expectedAnswer: "t ≈ 1.35 seconds",
+    acceptedAnswers: ["1.35", "t = 1.35", "1.35 s", "1.35 seconds", "t≈1.35", "t = 1.35 s", "1.35 sec", "≈1.35"],
+    correctFeedback: "Excellent — a full modelling question using the formula in context. The key judgement was discarding the negative root: the algebra offers two solutions, but the physics keeps only the positive one. The derivation guarantees the formula works even though this equation has no nice factorisation.",
+    incorrectFeedback: "Work in stages. First set h = 0 and rearrange into standard form (multiplying through by −1 keeps things tidy and makes a positive). Identify a, b, c carefully — the signs matter. Then apply the formula, evaluate the surd as a decimal, and remember a time can't be negative, so only one root is physically sensible. Round at the very end."
+  }
+];
+
+// ===================================================================
+// STATE MANAGEMENT
+// ===================================================================
+const state = {
+  currentIndex: 0,
+  attempts: questions.map(() => ({ socraticLevel: 0, hintLevel: 0, attemptCount: 0, solutionShown: false, status: 'unattempted', userWorkings: '', userAnswer: '' }))
+};
+
+let lastActiveInput = null;
+
+// ===================================================================
+// PALETTE & AUTO-CONVERSION
+// ===================================================================
+function insertIntoActiveInput(symbol) {
+  const input = lastActiveInput || document.getElementById('workspace');
+  if (!input) return;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const before = input.value.substring(0, start);
+  const after = input.value.substring(end);
+  input.value = before + symbol + after;
+  const newPos = start + symbol.length;
+  input.focus();
+  input.setSelectionRange(newPos, newPos);
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+const AUTO_CONVERT_RULES = [
+  { from: 'Delta', to: 'Δ' },
+  { from: 'delta', to: 'Δ' },
+  { from: 'sqrt',  to: '√' },
+  { from: 'theta', to: 'θ' },
+  { from: 'phi',   to: 'φ' },
+  { from: 'therefore', to: '∴' },
+  { from: 'deg',   to: '°' },
+  { from: 'sum',   to: 'Σ' },
+  { from: 'int',   to: '∫' },
+  { from: 'inf',   to: '∞' },
+  { from: 'pi',    to: 'π' },
+  { from: '<=>', to: '⇔', immediate: true },
+  { from: '<=',  to: '≤', immediate: true },
+  { from: '>=',  to: '≥', immediate: true },
+  { from: '=>',  to: '⇒', immediate: true },
+  { from: '!=',  to: '≠', immediate: true },
+  { from: '+-',  to: '±', immediate: true },
+  { from: '^2',  to: '²', immediate: true },
+  { from: '^3',  to: '³', immediate: true },
+];
+
+function isBoundaryChar(ch) {
+  return ch !== undefined && ch !== '' && /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+function isBoundaryCharOrStart(ch) {
+  return ch === undefined || ch === '' || /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+
+function applyAutoConvert(inputEl) {
+  const value = inputEl.value;
+  const cursorPos = inputEl.selectionStart;
+  for (const rule of AUTO_CONVERT_RULES) {
+    const fromLen = rule.from.length;
+    if (cursorPos < fromLen) continue;
+    const before = value.substring(cursorPos - fromLen, cursorPos);
+    if (before !== rule.from) continue;
+    const charBefore = cursorPos - fromLen - 1 >= 0 ? value[cursorPos - fromLen - 1] : '';
+    if (!isBoundaryCharOrStart(charBefore)) continue;
+    const charAtCursor = value[cursorPos] || '';
+    if (!rule.immediate && !isBoundaryChar(charAtCursor)) continue;
+    const newValue = value.substring(0, cursorPos - fromLen) + rule.to + value.substring(cursorPos);
+    inputEl.value = newValue;
+    const newCursor = cursorPos - fromLen + rule.to.length;
+    inputEl.setSelectionRange(newCursor, newCursor);
+    return;
+  }
+}
+
+// ===================================================================
+// RENDERING
+// ===================================================================
+const container = document.getElementById('questionsContainer');
+const progressStrip = document.getElementById('progressStrip');
+const completionBanner = document.getElementById('completionBanner');
+
+function normaliseAnswer(s) {
+  // Space-insensitive AND label-insensitive matching for short maths answers.
+  // - strip part-labels like "(a)" "(b)" that learners echo from multi-part questions
+  // - strip a full stop UNLESS directly followed by a digit (so decimals like 3.5 survive)
+  // - strip ALL whitespace. Multi-part answers still match via commas / "or" keywords.
+  return s.toLowerCase()
+    .replace(/–/g, '-')
+    .replace(/—/g, '-')
+    .replace(/−/g, '-')
+    .replace(/\(([a-h])\)/g, '')   // remove part labels (a) (b) (c)...
+    .replace(/\.(?!\d)/g, '')       // remove '.' unless followed by a digit (protects decimals)
+    .replace(/\s+and\s+/g, ',')     // ' and ' -> ',' so "x=-2 and x=-3" matches "x=-2,x=-3" (safe: 'or' untouched)
+    .replace(/;/g, ',')              // ';' -> ',' (unify separators)
+    .replace(/\s+/g, '')
+    .trim();
+}
+
+function answersMatch(userAnswer, acceptedList) {
+  const u = normaliseAnswer(userAnswer);
+  if (u === '') return false;
+  return acceptedList.some(a => normaliseAnswer(a) === u);
+}
+
+function renderProgressStrip() {
+  let html = '';
+  questions.forEach((_, i) => {
+    let cls = 'progress-dot';
+    if (i === state.currentIndex) cls += ' current';
+    else if (state.attempts[i].status === 'correct') cls += ' correct';
+    else if (state.attempts[i].status !== 'unattempted') cls += ' attempted';
+    html += `<div class="${cls}" title="Question ${i + 1}">${i + 1}</div>`;
+  });
+  html += `<span class="progress-label">Question ${state.currentIndex + 1} of ${questions.length}</span>`;
+  progressStrip.innerHTML = html;
+}
+
+function renderCurrentQuestion() {
+  const i = state.currentIndex;
+  const q = questions[i];
+  const a = state.attempts[i];
+
+  const html = `
+    <div class="q-card" id="qCard">
+      <div class="q-meta">Question ${i + 1} of ${questions.length} · ${q.type}</div>
+      <div class="q-stem">${q.stem}</div>
+
+      <div class="field">
+        <label class="field-label">Symbols</label>
+        <div class="palette" id="palette">
+          <div class="palette-row">
+            <span class="palette-row-label">Core</span>
+            <button class="palette-btn" data-insert="²" title="Squared">²</button>
+            <button class="palette-btn" data-insert="³" title="Cubed">³</button>
+            <button class="palette-btn" data-insert="√" title="Square root">√</button>
+            <button class="palette-btn" data-insert="±" title="Plus or minus">±</button>
+            <button class="palette-btn" data-insert="≤" title="Less than or equal">≤</button>
+            <button class="palette-btn" data-insert="≥" title="Greater than or equal">≥</button>
+            <button class="palette-btn" data-insert="≠" title="Not equal">≠</button>
+            <button class="palette-btn" data-insert="−" title="Minus">−</button>
+            <button class="palette-btn" data-insert="·" title="Multiply (centre dot)">·</button>
+            <button class="palette-btn" data-insert="|" title="Modulus / absolute value">|</button>
+            <button class="palette-btn" data-insert="π" title="Pi">π</button>
+            <button class="palette-btn" data-insert="∞" title="Infinity">∞</button>
+            <button class="palette-btn" data-insert="Δ" title="Delta">Δ</button>
+          </div>
+        </div>
+        <div class="palette-hint">Click a symbol to insert it at your cursor in whichever box you typed in last. You can also type shortcuts: <code>^2</code> → ², <code>sqrt</code> → √, <code>&lt;=</code> → ≤, <code>pi</code> → π, <code>+-</code> → ±, <code>!=</code> → ≠, <code>&gt;=</code> → ≥.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="workspace">Your working (think on screen — this is your space)</label>
+        <textarea class="workspace" id="workspace" placeholder="Write out your steps here. The point isn't to be neat — it's to make your thinking visible to yourself.">${a.userWorkings}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="answerInput">Your final answer</label>
+        <input class="answer-input" type="text" id="answerInput" placeholder="Type your answer here..." value="${a.userAnswer.replace(/"/g, '&quot;')}">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-socratic" id="btnSocratic">🤔 I'm stuck — Socratic prompt</button>
+        <button class="btn btn-hint" id="btnHint">💡 Show me a hint</button>
+        <button class="btn btn-check" id="btnCheck">✅ Check my answer</button>
+        <button class="btn btn-solution" id="btnSolution" disabled>👀 Worked solution (try a few times first)</button>
+      </div>
+
+      <div class="reveal reveal-socratic" id="revealSocratic">
+        <span class="reveal-label">Socratic prompt</span>
+        <div id="socraticContent"></div>
+      </div>
+      <div class="reveal reveal-hint" id="revealHint">
+        <span class="reveal-label">Hint</span>
+        <div id="hintContent"></div>
+      </div>
+      <div class="reveal reveal-solution" id="revealSolution">
+        <span class="reveal-label">Worked solution</span>
+        <div id="solutionContent"></div>
+      </div>
+      <div class="reveal reveal-feedback" id="revealFeedback">
+        <span class="reveal-label">Feedback</span>
+        <div id="feedbackContent"></div>
+      </div>
+
+      <div class="actions" style="margin-top: 1.25em; justify-content: flex-end;">
+        ${i > 0 ? '<button class="btn" id="btnPrev">← Previous</button>' : ''}
+        <button class="btn btn-next" id="btnNext">${i < questions.length - 1 ? 'Next question →' : 'Finish'}</button>
+      </div>
+    </div>
+  `;
+  container.innerHTML = html;
+
+  for (let lvl = 0; lvl < a.socraticLevel; lvl++) appendSocratic(lvl);
+  for (let lvl = 0; lvl < a.hintLevel; lvl++) appendHint(lvl);
+  if (a.solutionShown) showSolution();
+  if (a.status === 'correct') showFeedback(true, q.correctFeedback);
+  else if (a.status === 'incorrect') showFeedback(false, q.incorrectFeedback);
+  updateSolutionGate();
+
+  document.getElementById('workspace').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userWorkings = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('answerInput').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userAnswer = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('workspace').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+  document.getElementById('answerInput').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+
+  document.getElementById('palette').addEventListener('click', (e) => {
+    const btn = e.target.closest('.palette-btn');
+    if (!btn) return;
+    insertIntoActiveInput(btn.getAttribute('data-insert'));
+  });
+
+  document.getElementById('btnSocratic').addEventListener('click', onSocraticClick);
+  document.getElementById('btnHint').addEventListener('click', onHintClick);
+  document.getElementById('btnSolution').addEventListener('click', onSolutionClick);
+  document.getElementById('btnCheck').addEventListener('click', onCheckClick);
+  document.getElementById('btnNext').addEventListener('click', onNextClick);
+  if (i > 0) document.getElementById('btnPrev').addEventListener('click', onPrevClick);
+}
+
+function appendSocratic(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSocratic');
+  const content = document.getElementById('socraticContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Q${level + 1}:</em> ${q.socratic[level]}`;
+  content.appendChild(p);
+}
+
+function appendHint(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealHint');
+  const content = document.getElementById('hintContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Hint ${level + 1}:</em> ${q.hints[level]}`;
+  content.appendChild(p);
+}
+
+function showSolution() {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSolution');
+  const content = document.getElementById('solutionContent');
+  reveal.classList.add('shown');
+  let html = '';
+  q.solution.forEach((step, idx) => {
+    html += `<div class="reveal-step"><strong>Step ${idx + 1}.</strong> ${step}</div>`;
+  });
+  html += `<div class="reveal-step" style="margin-top: 0.75em; font-style: italic;">Expected answer: ${q.expectedAnswer}</div>`;
+  content.innerHTML = html;
+}
+
+function showFeedback(correct, text) {
+  const reveal = document.getElementById('revealFeedback');
+  const content = document.getElementById('feedbackContent');
+  reveal.classList.remove('correct', 'incorrect');
+  reveal.classList.add(correct ? 'correct' : 'incorrect', 'shown');
+  content.textContent = text;
+}
+
+// ===================================================================
+// SOLUTION GATING
+// ===================================================================
+// Unlocks when ANY of: 3+ check attempts, OR both ladders exhausted, OR answered correctly.
+function solutionUnlocked(a, q) {
+  const laddersExhausted = (a.socraticLevel >= q.socratic.length) && (a.hintLevel >= q.hints.length);
+  return a.attemptCount >= 3 || laddersExhausted || a.status === 'correct';
+}
+
+function updateSolutionGate() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  const btn = document.getElementById('btnSolution');
+  if (!btn) return;
+  if (a.solutionShown) {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution shown';
+    return;
+  }
+  if (solutionUnlocked(a, q)) {
+    btn.disabled = false;
+    btn.textContent = '👀 Show me the worked solution';
+  } else {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution (try a few times first)';
+  }
+}
+
+// ===================================================================
+// EVENT HANDLERS
+// ===================================================================
+function onSocraticClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.socraticLevel < q.socratic.length) {
+    appendSocratic(a.socraticLevel);
+    a.socraticLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.socraticLevel >= q.socratic.length) {
+    document.getElementById('btnSocratic').disabled = true;
+    document.getElementById('btnSocratic').textContent = 'No more Socratic prompts';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onHintClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.hintLevel < q.hints.length) {
+    appendHint(a.hintLevel);
+    a.hintLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.hintLevel >= q.hints.length) {
+    document.getElementById('btnHint').disabled = true;
+    document.getElementById('btnHint').textContent = 'No more hints';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onSolutionClick() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  if (!solutionUnlocked(a, q)) return; // gated
+  if (!a.solutionShown) {
+    showSolution();
+    a.solutionShown = true;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onCheckClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  const userAnswer = document.getElementById('answerInput').value;
+  if (userAnswer.trim() === '') {
+    showFeedback(false, "You haven't written an answer yet. Have a go — even an incomplete attempt is more valuable than no attempt. If you're stuck, try a Socratic prompt first.");
+    return;
+  }
+  a.attemptCount++;
+  const isCorrect = answersMatch(userAnswer, q.acceptedAnswers);
+  if (isCorrect) {
+    a.status = 'correct';
+    showFeedback(true, q.correctFeedback);
+  } else {
+    a.status = 'incorrect';
+    showFeedback(false, q.incorrectFeedback);
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onNextClick() {
+  if (state.currentIndex < questions.length - 1) {
+    state.currentIndex++;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    completionBanner.classList.add('shown');
+    document.getElementById('btnNext').disabled = true;
+    document.getElementById('btnNext').textContent = 'Completed ✓';
+    window.scrollTo({ top: completionBanner.offsetTop - 20, behavior: 'smooth' });
+  }
+}
+
+function onPrevClick() {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+renderProgressStrip();
+renderCurrentQuestion();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quadratic Functions Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 1.5em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  h2 { color: #3A5A6B; }
+  .intro { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.25em 0; font-style: italic; }
+  code { background: #FFFDF5; padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+
+  .progress-strip { display: flex; gap: 0.4em; margin: 1.5em 0; flex-wrap: wrap; align-items: center; }
+  .progress-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: bold; background: #F0E8DC; border: 2px solid #C9B89A; color: #6B5E48; transition: all 0.25s ease; }
+  .progress-dot.current { background: #E5EBF0; border-color: #3A5A6B; color: #3A5A6B; transform: scale(1.1); }
+  .progress-dot.attempted { background: #F5EFD9; border-color: #C9A227; color: #7A5A1F; }
+  .progress-dot.correct { background: #DCEFD3; border-color: #4A7A37; color: #2E5C1F; }
+  .progress-label { font-size: 0.9em; color: #6B5E48; margin-left: 0.5em; }
+
+  .q-card { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1.5em; margin: 1em 0; }
+  .q-meta { font-size: 0.85em; color: #8B6F47; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5em; font-weight: bold; }
+  .q-stem { font-size: 1.1em; margin-bottom: 1em; }
+  .q-stem .equation { font-family: 'Courier New', monospace; }
+
+  .workspace, .answer-input { width: 100%; box-sizing: border-box; padding: 0.6em 0.8em; font-family: 'Courier New', monospace; font-size: 1em; border: 1px solid #C9B89A; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .workspace { min-height: 100px; margin-bottom: 0.75em; }
+  .answer-input { font-size: 1.05em; }
+  label.field-label { display: block; font-weight: bold; color: #4A4438; margin-bottom: 0.3em; font-size: 0.95em; }
+  .field { margin: 0.75em 0; }
+
+  .palette { background: #F5EFE3; border: 1px solid #C9B89A; border-radius: 5px; padding: 0.4em; margin-bottom: 0.4em; }
+  .palette-row { display: flex; flex-wrap: wrap; gap: 0.25em; align-items: center; }
+  .palette-row-label { font-size: 0.75em; color: #8B6F47; font-style: italic; margin-right: 0.5em; min-width: 70px; }
+  .palette-btn { padding: 0.25em 0.55em; min-width: 1.8em; font-family: 'Courier New', monospace; font-size: 1em; background: #FFFDF5; border: 1px solid #C9B89A; border-radius: 4px; cursor: pointer; color: #2B2B2B; transition: background 0.15s ease; }
+  .palette-btn:hover { background: #FFF9E6; border-color: #8B6F47; }
+  .palette-btn:active { background: #F0E8DC; }
+  .palette-hint { font-size: 0.8em; color: #6B5E48; margin-top: 0.4em; font-style: italic; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1em; }
+  .btn { padding: 0.5em 1em; border-radius: 6px; border: 1px solid; background: #FFFDF5; cursor: pointer; font-family: Georgia, serif; font-size: 0.95em; transition: background 0.2s ease; }
+  .btn:hover { background: #F5EFE3; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-socratic { border-color: #6B4A6B; color: #6B4A6B; }
+  .btn-hint     { border-color: #8B6F47; color: #8B6F47; }
+  .btn-solution { border-color: #3A5A6B; color: #3A5A6B; }
+  .btn-check    { border-color: #4A7A37; color: #4A7A37; font-weight: bold; }
+  .btn-next     { border-color: #6B4A2E; color: #6B4A2E; font-weight: bold; background: #EDE3D3; }
+  .btn-next:hover { background: #E0D2BD; }
+
+  .reveal { margin-top: 0.75em; padding: 0.85em 1.1em; border-radius: 6px; border-left: 4px solid; display: none; }
+  .reveal.shown { display: block; }
+  .reveal-socratic { background: #F2E8F0; border-left-color: #6B4A6B; }
+  .reveal-hint     { background: #F5EFE3; border-left-color: #8B6F47; }
+  .reveal-solution { background: #E5EBF0; border-left-color: #3A5A6B; }
+  .reveal-feedback { background: #F5EFD9; border-left-color: #C9A227; }
+  .reveal-feedback.correct { background: #DCEFD3; border-left-color: #4A7A37; }
+  .reveal-feedback.incorrect { background: #F5D8D2; border-left-color: #B23A22; }
+  .reveal-label { font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4em; display: block; }
+  .reveal-step { margin: 0.6em 0; }
+
+  .reflection { background: #F5EFD9; border: 1px solid #C9A227; border-radius: 10px; padding: 1.5em; margin: 2em 0; }
+  .reflection h2 { margin-top: 0; }
+  .reflection textarea { width: 100%; box-sizing: border-box; min-height: 120px; padding: 0.6em 0.8em; font-family: Georgia, serif; font-size: 1em; border: 1px solid #C9A227; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .completion-banner { display: none; background: #DCEFD3; border: 2px solid #4A7A37; padding: 1.25em 1.5em; border-radius: 10px; margin: 1.5em 0; }
+  .completion-banner.shown { display: block; }
+
+  @media print {
+    .actions, .btn, .progress-strip, .completion-banner, .palette { display: none !important; }
+    .reveal { display: block !important; }
+    .q-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Quadratic Functions Practice Companion</h1>
+
+<div class="intro">
+  Now that you've explored the shape of quadratics and the art of completing the square, this is where you build fluency. Take your time. Get stuck if you need to — getting stuck is part of the work. There are four kinds of help on every question: a Socratic question (which asks you something rather than telling you), a hint (which gives you a piece of the method), a worked solution (which shows the whole thing), and an answer check.
+</div>
+
+<div class="progress-strip" id="progressStrip"></div>
+
+<div id="questionsContainer"></div>
+
+<div class="completion-banner" id="completionBanner">
+  <h2 style="margin-top:0;">Well done — you've worked through every question. 🌱</h2>
+  <p>Take a moment for the reflection below. You can also press <strong>Ctrl+P</strong> (or <strong>⌘+P</strong>) to print or save your work, including all the reveals and your written workings.</p>
+</div>
+
+<div class="reflection">
+  <h2>💛 Reflection</h2>
+  <p>Mirroring the Living Body panel of the lesson: how did that feel? There are no wrong answers — these prompts are just to notice what's happening.</p>
+  <ul>
+    <li>Which question types felt natural? Which felt sticky?</li>
+    <li>Did completing the square feel more mechanical or more meaningful by the end? Did the "why" behind it become clearer?</li>
+    <li>When you had to find a maximum or minimum, did thinking about the vertex help, or did you reach for something else?</li>
+    <li>On a scale of 1 (no clearer) to 5 (much clearer), how does your understanding of quadratic functions feel now compared to before this practice?</li>
+  </ul>
+  <textarea placeholder="Type your reflections here..."></textarea>
+</div>
+
+<script>
+// ===================================================================
+// QUESTION BANK
+// ===================================================================
+const questions = [
+  // ---------- DIRECT APPLICATION ----------
+  {
+    type: "Direct application — completing the square",
+    stem: "Write <span class='equation'>x² + 8x + 11</span> in the completed-square form <span class='equation'>(x + p)² + q</span>.",
+    socratic: [
+      "What is half the coefficient of x? That number will be your p.",
+      "When you expand (x + p)², what extra constant does it introduce that you'll need to subtract off?",
+      "Once you have (x + p)², how do you adjust the constant to match the original +11?"
+    ],
+    hints: [
+      "Half of 8 is 4, so start with (x + 4)². But (x + 4)² = x² + 8x + 16.",
+      "(x + 4)² is 16, but we only want +11, so subtract the surplus: (x + 4)² − 16 + 11."
+    ],
+    solution: [
+      "Take half the coefficient of x: half of 8 is 4.",
+      "Write (x + 4)², which expands to x² + 8x + 16.",
+      "This is 16 too big (we need +11, not +16), so subtract 5: (x + 4)² − 16 + 11 = (x + 4)² − 5.",
+      "So <strong>x² + 8x + 11 = (x + 4)² − 5</strong>."
+    ],
+    expectedAnswer: "(x + 4)² − 5",
+    acceptedAnswers: ["(x+4)²-5", "(x + 4)² - 5", "(x+4)^2-5", "(x + 4)^2 - 5", "(x+4)²−5"],
+    correctFeedback: "Exactly right. The vertex of this parabola is therefore at (−4, −5) — completing the square hands you the turning point directly.",
+    incorrectFeedback: "Revise and try again. Two checkpoints: the number that goes inside the bracket is half the coefficient of x; and after writing the squared bracket, you'll have introduced a surplus constant that you need to adjust for. Have you accounted for that surplus?"
+  },
+
+  {
+    type: "Direct application — vertex from completed square",
+    stem: "A quadratic is written as <span class='equation'>y = (x − 3)² + 2</span>. State (a) the coordinates of the vertex, and (b) the equation of the axis of symmetry.",
+    socratic: [
+      "In the form y = (x − h)² + k, what do h and k tell you directly?",
+      "Careful with the sign: the form is (x − h)². If the bracket reads (x − 3), what is h?",
+      "The axis of symmetry is the vertical line through the vertex. What is its equation?"
+    ],
+    hints: [
+      "In vertex form y = (x − h)² + k, the vertex is at (h, k) and the axis of symmetry is x = h.",
+      "Here (x − 3)² means h = 3, and + 2 means k = 2."
+    ],
+    solution: [
+      "Compare with the general vertex form y = (x − h)² + k.",
+      "The bracket (x − 3) gives h = 3; the constant + 2 gives k = 2.",
+      "(a) The vertex is at <strong>(3, 2)</strong>.",
+      "(b) The axis of symmetry is <strong>x = 3</strong>."
+    ],
+    expectedAnswer: "vertex (3, 2); axis of symmetry x = 3",
+    acceptedAnswers: ["(3, 2), x = 3", "(3,2), x=3", "(3, 2) x = 3", "vertex (3,2) axis x=3", "(3,2) and x=3", "(3, 2); x = 3"],
+    correctFeedback: "Perfect. The beauty of vertex form is that it requires no calculation — the vertex and axis are simply read off. Note the sign flip: (x − 3) gives a vertex at x = +3.",
+    incorrectFeedback: "Watch the sign carefully. The vertex form is (x − h)², so the sign inside the bracket is the opposite of the sign of h. Re-read off h and k, and remember the axis of symmetry is the vertical line through the vertex. Try again."
+  },
+
+  // ---------- a ≠ 1 CASE ----------
+  {
+    type: "Manipulation — leading coefficient ≠ 1",
+    stem: "Write <span class='equation'>2x² − 12x + 7</span> in the form <span class='equation'>a(x + p)² + q</span>.",
+    socratic: [
+      "Before completing the square, what should you do with the leading coefficient of 2?",
+      "Factor 2 out of the first two terms only — what's left inside the bracket?",
+      "Once you've completed the square inside the bracket, remember to multiply the surplus by the 2 when you bring it back out."
+    ],
+    hints: [
+      "Factor 2 from the x-terms: 2(x² − 6x) + 7.",
+      "Complete the square inside: x² − 6x = (x − 3)² − 9. So 2[(x − 3)² − 9] + 7."
+    ],
+    solution: [
+      "Factor 2 out of the first two terms: 2x² − 12x + 7 = 2(x² − 6x) + 7.",
+      "Complete the square inside the bracket: x² − 6x = (x − 3)² − 9.",
+      "Substitute back: 2[(x − 3)² − 9] + 7.",
+      "Expand the 2 across: 2(x − 3)² − 18 + 7 = 2(x − 3)² − 11.",
+      "So <strong>2x² − 12x + 7 = 2(x − 3)² − 11</strong>."
+    ],
+    expectedAnswer: "2(x − 3)² − 11",
+    acceptedAnswers: ["2(x-3)²-11", "2(x - 3)² - 11", "2(x-3)^2-11", "2(x - 3)^2 - 11", "2(x−3)²−11"],
+    correctFeedback: "Excellent — the trickiest case handled cleanly. The crucial step that catches people out is multiplying the −9 by the factored-out 2 when bringing it back, giving −18 (not −9) before adding the 7.",
+    incorrectFeedback: "This is the trickier a ≠ 1 case. The step people miss: when you factor the leading coefficient out of the x-terms and then complete the square inside the bracket, the surplus you create is still inside that bracket — so it gets multiplied by the factored-out number when you expand back out. Have you scaled the surplus correctly? Revise and try again."
+  },
+
+  // ---------- INTERPRETATION ----------
+  {
+    type: "Interpretation — minimum value",
+    stem: "Find the minimum value of <span class='equation'>y = x² + 6x + 1</span>, and the value of <span class='equation'>x</span> at which it occurs.",
+    socratic: [
+      "How could completing the square help you find a minimum without calculus?",
+      "Once in the form (x + p)² + q, which part can never be negative, and what does that tell you about the smallest possible value of y?",
+      "The squared term is smallest when it equals zero. What value of x makes (x + p)² = 0?"
+    ],
+    hints: [
+      "Complete the square: x² + 6x + 1 = (x + 3)² − 8.",
+      "(x + 3)² is never negative; its smallest value is 0, when x = −3. So the minimum of y is −8."
+    ],
+    solution: [
+      "Complete the square: x² + 6x + 1 = (x + 3)² − 9 + 1 = (x + 3)² − 8.",
+      "The term (x + 3)² is a square, so it is never negative — its smallest possible value is 0.",
+      "(x + 3)² = 0 when x = −3.",
+      "At that point y = 0 − 8 = −8.",
+      "So the minimum value is <strong>−8</strong>, occurring at <strong>x = −3</strong>."
+    ],
+    expectedAnswer: "minimum −8 at x = −3",
+    acceptedAnswers: ["-8 at x = -3", "-8, x=-3", "min -8 x=-3", "-8 when x=-3", "minimum -8 at x=-3", "y=-8, x=-3", "-8 at x=-3"],
+    correctFeedback: "Lovely. This is one of the most useful applications of completing the square: it finds maxima and minima with no calculus at all. The squared term being 'never negative' is the whole engine of the argument.",
+    incorrectFeedback: "Complete the square first. Then think: a squared term can never be negative, so what is the smallest value the squared part can take, and what does that make the whole expression? The x-value that achieves the minimum is the one that makes the squared part zero. Try again."
+  },
+
+  // ---------- SKETCHING / STRUCTURE ----------
+  {
+    type: "Structure — reading a sketch",
+    stem: "A parabola has equation <span class='equation'>y = (x + 2)² − 9</span>. (a) Does it open upward or downward? (b) What are its roots (where it crosses the x-axis)?",
+    socratic: [
+      "What is the sign of the coefficient of x²? What does that tell you about the direction of opening?",
+      "To find the roots, set y = 0. Can you solve (x + 2)² − 9 = 0?",
+      "(x + 2)² = 9 means x + 2 = ±3. Two cases to consider."
+    ],
+    hints: [
+      "The coefficient of x² is +1 (positive), so it opens upward. For roots, set (x + 2)² − 9 = 0.",
+      "(x + 2)² = 9, so x + 2 = ±3, giving x = 1 or x = −5."
+    ],
+    solution: [
+      "(a) Expanding would give a positive x² coefficient (+1), so the parabola opens <strong>upward</strong>.",
+      "(b) Set y = 0: (x + 2)² − 9 = 0, so (x + 2)² = 9.",
+      "Take the square root of both sides: x + 2 = ±3.",
+      "So x = 3 − 2 = 1, or x = −3 − 2 = −5.",
+      "The roots are <strong>x = 1 and x = −5</strong>."
+    ],
+    expectedAnswer: "opens upward; roots x = 1 and x = −5",
+    acceptedAnswers: ["upward, x = 1 and x = -5", "up, 1 and -5", "upward x=1, x=-5", "upward, 1, -5", "up; x=1, x=-5", "upward roots 1 and -5", "upwards, x=1 and x=-5"],
+    correctFeedback: "Well done. Completing the square also makes roots accessible: (x + 2)² = 9 leads directly to x + 2 = ±3. The ± is exactly why a parabola can cross the x-axis at two points.",
+    incorrectFeedback: "Two parts here. For the direction of opening, look only at the sign of the x² coefficient. For the roots, set y = 0 and solve — and when you take the square root of both sides, remember there are two cases (positive and negative). That ± is exactly why a parabola can cross the axis twice. Try again."
+  },
+
+  // ---------- MODELLING ----------
+  {
+    type: "Modelling — optimisation",
+    stem: "A farmer has 40 m of fencing to enclose a rectangular pen against an existing wall (so only three sides need fencing). If the side perpendicular to the wall is <span class='equation'>x</span> metres, the area is <span class='equation'>A = x(40 − 2x)</span>. Find the value of <span class='equation'>x</span> that gives the maximum area, and state that maximum area.",
+    socratic: [
+      "First expand A = x(40 − 2x) into the form A = ax² + bx. What are a and b?",
+      "The coefficient of x² is negative — what does that tell you about whether the vertex is a maximum or a minimum?",
+      "Complete the square (or use the vertex) to find the x that maximises A."
+    ],
+    hints: [
+      "Expand: A = 40x − 2x². Factor out the −2: A = −2(x² − 20x) = −2[(x − 10)² − 100].",
+      "So A = −2(x − 10)² + 200. The maximum is at x = 10."
+    ],
+    solution: [
+      "Expand: A = x(40 − 2x) = 40x − 2x² = −2x² + 40x.",
+      "Factor −2 from the x-terms: A = −2(x² − 20x).",
+      "Complete the square inside: x² − 20x = (x − 10)² − 100.",
+      "So A = −2[(x − 10)² − 100] = −2(x − 10)² + 200.",
+      "Since −2(x − 10)² is never positive, A is largest when (x − 10)² = 0, i.e. <strong>x = 10</strong> m.",
+      "The maximum area is <strong>200 m²</strong>."
+    ],
+    expectedAnswer: "x = 10 m, maximum area 200 m²",
+    acceptedAnswers: ["x = 10, 200", "x=10, area=200", "10 m, 200 m²", "x = 10 m, 200 m²", "10, 200", "x=10 area 200", "10m 200m2"],
+    correctFeedback: "Beautifully done — a genuine optimisation solved without calculus. The negative leading coefficient told you the vertex would be a maximum, and completing the square located it exactly. (Note: x = 10 gives a pen 10 m deep and 20 m wide.)",
+    incorrectFeedback: "Set it up in stages. First expand the area expression into the form ax² + bx. Notice the sign of the x² coefficient — that tells you whether the vertex is a maximum or a minimum. Then complete the square (factoring out the leading coefficient first) to locate the vertex, which gives both the optimal x and the optimal area. Revise and try again."
+  },
+
+  // ---------- EXAM-STYLE ----------
+  {
+    type: "Exam-style (multi-part)",
+    stem: "(a) Express <span class='equation'>x² − 10x + 32</span> in the form <span class='equation'>(x − a)² + b</span>. [3 marks]<br>(b) Hence explain why the equation <span class='equation'>x² − 10x + 32 = 0</span> has no real roots. [2 marks]",
+    socratic: [
+      "(a) Half the coefficient of x is −5, so begin with (x − 5)². What surplus does that introduce?",
+      "(a) (x − 5)² = x² − 10x + 25; adjust the constant to reach +32.",
+      "(b) Look at your completed-square form. For the equation to equal zero, what would (x − 5)² have to equal? Is that possible?"
+    ],
+    hints: [
+      "(a) (x − 5)² = x² − 10x + 25, so x² − 10x + 32 = (x − 5)² + 7.",
+      "(b) Setting (x − 5)² + 7 = 0 requires (x − 5)² = −7. A square can't be negative."
+    ],
+    solution: [
+      "(a) Half of −10 is −5, so start with (x − 5)² = x² − 10x + 25.",
+      "We need +32, so add 7: x² − 10x + 32 = <strong>(x − 5)² + 7</strong>.",
+      "(b) Setting the expression to zero: (x − 5)² + 7 = 0, so (x − 5)² = −7.",
+      "But a square can never be negative, so there is no real value of x satisfying this.",
+      "Therefore the equation has <strong>no real roots</strong>. (The minimum value of the expression is +7, so the parabola never reaches the x-axis.)"
+    ],
+    expectedAnswer: "(a) (x − 5)² + 7; (b) no real roots because a square cannot be negative",
+    acceptedAnswers: [
+      "(x-5)²+7, no real roots", "(x - 5)² + 7; no real roots", "(x-5)^2+7 no real roots",
+      "(x-5)²+7", "(x - 5)² + 7, no real roots", "(x-5)^2 + 7; no real roots"
+    ],
+    correctFeedback: "Excellent — a clean two-part question. Part (b) is the elegant bit: once you've completed the square, the 'no real roots' conclusion is obvious, because the squared term can't be negative enough to cancel the +7. This is a foretaste of the discriminant lesson, where b² − 4ac will give the same answer faster.",
+    incorrectFeedback: "For (a), complete the square: half the coefficient of x goes inside the bracket, then adjust the constant for the surplus. For (b), look at your completed-square form and ask: for the expression to equal zero, what would the squared term have to equal? Is that possible for a real number? That's the key to the 'no real roots' argument. Revise and try again."
+  },
+
+  // ---------- SYNTHESIS ----------
+  {
+    type: "Synthesis — two forms",
+    stem: "A parabola passes through its vertex at <span class='equation'>(2, −5)</span> and has a leading coefficient of <span class='equation'>1</span>. (a) Write its equation in vertex form. (b) Expand it into standard form <span class='equation'>y = x² + bx + c</span>.",
+    socratic: [
+      "(a) If the vertex is at (h, k), what does the vertex form y = (x − h)² + k become here?",
+      "(a) Careful with signs: a vertex at x = 2 means (x − 2)², and a vertex y-value of −5 means − 5.",
+      "(b) Expand (x − 2)² − 5 carefully. What is (x − 2)²?"
+    ],
+    hints: [
+      "(a) Vertex (2, −5) with leading coefficient 1 gives y = (x − 2)² − 5.",
+      "(b) (x − 2)² = x² − 4x + 4, so y = x² − 4x + 4 − 5 = x² − 4x − 1."
+    ],
+    solution: [
+      "(a) With vertex (h, k) = (2, −5) and leading coefficient 1: y = <strong>(x − 2)² − 5</strong>.",
+      "(b) Expand (x − 2)² = x² − 4x + 4.",
+      "So y = x² − 4x + 4 − 5 = <strong>x² − 4x − 1</strong>.",
+      "(Notice: vertex form showed the turning point at a glance; standard form shows the y-intercept of −1 at a glance. Each form reveals something different.)"
+    ],
+    expectedAnswer: "(a) (x − 2)² − 5; (b) x² − 4x − 1",
+    acceptedAnswers: [
+      "(x-2)²-5, x²-4x-1", "(x - 2)² - 5; x² - 4x - 1", "(x-2)^2-5, x^2-4x-1",
+      "(a) (x-2)²-5 (b) x²-4x-1", "(x-2)^2 - 5; x^2 - 4x - 1", "(x − 2)² − 5, x² − 4x − 1"
+    ],
+    correctFeedback: "Excellent synthesis. You've moved fluently between the two forms — building vertex form from the turning point, then expanding to standard form. Each form is a different 'view' of the same parabola, and being able to switch between them at will is real mastery.",
+    incorrectFeedback: "For (a), build vertex form from the turning point — but mind the sign inside the bracket (a vertex at positive x needs a minus inside). For (b), expand your vertex form carefully: square the bracket out fully (three terms), then combine with the constant. Try again, or use a Socratic prompt for a nudge."
+  }
+];
+
+// ===================================================================
+// STATE MANAGEMENT
+// ===================================================================
+const state = {
+  currentIndex: 0,
+  attempts: questions.map(() => ({ socraticLevel: 0, hintLevel: 0, attemptCount: 0, solutionShown: false, status: 'unattempted', userWorkings: '', userAnswer: '' }))
+};
+
+let lastActiveInput = null;
+
+// ===================================================================
+// PALETTE & AUTO-CONVERSION
+// ===================================================================
+function insertIntoActiveInput(symbol) {
+  const input = lastActiveInput || document.getElementById('workspace');
+  if (!input) return;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const before = input.value.substring(0, start);
+  const after = input.value.substring(end);
+  input.value = before + symbol + after;
+  const newPos = start + symbol.length;
+  input.focus();
+  input.setSelectionRange(newPos, newPos);
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+const AUTO_CONVERT_RULES = [
+  { from: 'Delta', to: 'Δ' },
+  { from: 'delta', to: 'Δ' },
+  { from: 'sqrt',  to: '√' },
+  { from: 'theta', to: 'θ' },
+  { from: 'phi',   to: 'φ' },
+  { from: 'therefore', to: '∴' },
+  { from: 'deg',   to: '°' },
+  { from: 'sum',   to: 'Σ' },
+  { from: 'int',   to: '∫' },
+  { from: 'inf',   to: '∞' },
+  { from: 'pi',    to: 'π' },
+  { from: '<=>', to: '⇔', immediate: true },
+  { from: '<=',  to: '≤', immediate: true },
+  { from: '>=',  to: '≥', immediate: true },
+  { from: '=>',  to: '⇒', immediate: true },
+  { from: '!=',  to: '≠', immediate: true },
+  { from: '+-',  to: '±', immediate: true },
+  { from: '^2',  to: '²', immediate: true },
+  { from: '^3',  to: '³', immediate: true },
+];
+
+function isBoundaryChar(ch) {
+  return ch !== undefined && ch !== '' && /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+function isBoundaryCharOrStart(ch) {
+  return ch === undefined || ch === '' || /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+
+function applyAutoConvert(inputEl) {
+  const value = inputEl.value;
+  const cursorPos = inputEl.selectionStart;
+  for (const rule of AUTO_CONVERT_RULES) {
+    const fromLen = rule.from.length;
+    if (cursorPos < fromLen) continue;
+    const before = value.substring(cursorPos - fromLen, cursorPos);
+    if (before !== rule.from) continue;
+    const charBefore = cursorPos - fromLen - 1 >= 0 ? value[cursorPos - fromLen - 1] : '';
+    if (!isBoundaryCharOrStart(charBefore)) continue;
+    const charAtCursor = value[cursorPos] || '';
+    if (!rule.immediate && !isBoundaryChar(charAtCursor)) continue;
+    const newValue = value.substring(0, cursorPos - fromLen) + rule.to + value.substring(cursorPos);
+    inputEl.value = newValue;
+    const newCursor = cursorPos - fromLen + rule.to.length;
+    inputEl.setSelectionRange(newCursor, newCursor);
+    return;
+  }
+}
+
+// ===================================================================
+// RENDERING
+// ===================================================================
+const container = document.getElementById('questionsContainer');
+const progressStrip = document.getElementById('progressStrip');
+const completionBanner = document.getElementById('completionBanner');
+
+function normaliseAnswer(s) {
+  // Space-insensitive AND label-insensitive matching for short maths answers.
+  // - strip part-labels like "(a)" "(b)" that learners echo from multi-part questions
+  // - strip a full stop UNLESS it is directly followed by a digit (so decimals like 3.5 survive)
+  // - strip ALL whitespace (spacing in maths answers is never meaningful)
+  // Multi-part answers still match because commas / "or" keywords survive.
+  return s.toLowerCase()
+    .replace(/–/g, '-')
+    .replace(/—/g, '-')
+    .replace(/−/g, '-')
+    .replace(/\(([a-h])\)/g, '')   // remove part labels (a) (b) (c)...
+    .replace(/\.(?!\d)/g, '')       // remove '.' unless followed by a digit (protects decimals)
+    .replace(/\s+and\s+/g, ',')     // ' and ' -> ',' so "x=-2 and x=-3" matches "x=-2,x=-3" (safe: 'or' untouched)
+    .replace(/;/g, ',')              // ';' -> ',' (unify separators)
+    .replace(/\s+/g, '')
+    .trim();
+}
+
+function answersMatch(userAnswer, acceptedList) {
+  const u = normaliseAnswer(userAnswer);
+  if (u === '') return false;
+  return acceptedList.some(a => normaliseAnswer(a) === u);
+}
+
+function renderProgressStrip() {
+  let html = '';
+  questions.forEach((_, i) => {
+    let cls = 'progress-dot';
+    if (i === state.currentIndex) cls += ' current';
+    else if (state.attempts[i].status === 'correct') cls += ' correct';
+    else if (state.attempts[i].status !== 'unattempted') cls += ' attempted';
+    html += `<div class="${cls}" title="Question ${i + 1}">${i + 1}</div>`;
+  });
+  html += `<span class="progress-label">Question ${state.currentIndex + 1} of ${questions.length}</span>`;
+  progressStrip.innerHTML = html;
+}
+
+function renderCurrentQuestion() {
+  const i = state.currentIndex;
+  const q = questions[i];
+  const a = state.attempts[i];
+
+  const html = `
+    <div class="q-card" id="qCard">
+      <div class="q-meta">Question ${i + 1} of ${questions.length} · ${q.type}</div>
+      <div class="q-stem">${q.stem}</div>
+
+      <div class="field">
+        <label class="field-label">Symbols</label>
+        <div class="palette" id="palette">
+          <div class="palette-row">
+            <span class="palette-row-label">Core</span>
+            <button class="palette-btn" data-insert="²" title="Squared">²</button>
+            <button class="palette-btn" data-insert="³" title="Cubed">³</button>
+            <button class="palette-btn" data-insert="√" title="Square root">√</button>
+            <button class="palette-btn" data-insert="±" title="Plus or minus">±</button>
+            <button class="palette-btn" data-insert="≤" title="Less than or equal">≤</button>
+            <button class="palette-btn" data-insert="≥" title="Greater than or equal">≥</button>
+            <button class="palette-btn" data-insert="≠" title="Not equal">≠</button>
+            <button class="palette-btn" data-insert="−" title="Minus">−</button>
+            <button class="palette-btn" data-insert="·" title="Multiply (centre dot)">·</button>
+            <button class="palette-btn" data-insert="|" title="Modulus / absolute value">|</button>
+            <button class="palette-btn" data-insert="π" title="Pi">π</button>
+            <button class="palette-btn" data-insert="∞" title="Infinity">∞</button>
+            <button class="palette-btn" data-insert="Δ" title="Delta">Δ</button>
+          </div>
+        </div>
+        <div class="palette-hint">Click a symbol to insert it at your cursor in whichever box you typed in last. You can also type shortcuts: <code>^2</code> → ², <code>sqrt</code> → √, <code>&lt;=</code> → ≤, <code>pi</code> → π, <code>+-</code> → ±, <code>!=</code> → ≠, <code>&gt;=</code> → ≥.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="workspace">Your working (think on screen — this is your space)</label>
+        <textarea class="workspace" id="workspace" placeholder="Write out your steps here. The point isn't to be neat — it's to make your thinking visible to yourself.">${a.userWorkings}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="answerInput">Your final answer</label>
+        <input class="answer-input" type="text" id="answerInput" placeholder="Type your answer here..." value="${a.userAnswer.replace(/"/g, '&quot;')}">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-socratic" id="btnSocratic">🤔 I'm stuck — Socratic prompt</button>
+        <button class="btn btn-hint" id="btnHint">💡 Show me a hint</button>
+        <button class="btn btn-check" id="btnCheck">✅ Check my answer</button>
+        <button class="btn btn-solution" id="btnSolution" disabled>👀 Worked solution (try a few times first)</button>
+      </div>
+
+      <div class="reveal reveal-socratic" id="revealSocratic">
+        <span class="reveal-label">Socratic prompt</span>
+        <div id="socraticContent"></div>
+      </div>
+      <div class="reveal reveal-hint" id="revealHint">
+        <span class="reveal-label">Hint</span>
+        <div id="hintContent"></div>
+      </div>
+      <div class="reveal reveal-solution" id="revealSolution">
+        <span class="reveal-label">Worked solution</span>
+        <div id="solutionContent"></div>
+      </div>
+      <div class="reveal reveal-feedback" id="revealFeedback">
+        <span class="reveal-label">Feedback</span>
+        <div id="feedbackContent"></div>
+      </div>
+
+      <div class="actions" style="margin-top: 1.25em; justify-content: flex-end;">
+        ${i > 0 ? '<button class="btn" id="btnPrev">← Previous</button>' : ''}
+        <button class="btn btn-next" id="btnNext">${i < questions.length - 1 ? 'Next question →' : 'Finish'}</button>
+      </div>
+    </div>
+  `;
+  container.innerHTML = html;
+
+  for (let lvl = 0; lvl < a.socraticLevel; lvl++) appendSocratic(lvl);
+  for (let lvl = 0; lvl < a.hintLevel; lvl++) appendHint(lvl);
+  if (a.solutionShown) showSolution();
+  if (a.status === 'correct') showFeedback(true, q.correctFeedback);
+  else if (a.status === 'incorrect') showFeedback(false, q.incorrectFeedback);
+  updateSolutionGate();
+
+  document.getElementById('workspace').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userWorkings = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('answerInput').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userAnswer = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('workspace').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+  document.getElementById('answerInput').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+
+  document.getElementById('palette').addEventListener('click', (e) => {
+    const btn = e.target.closest('.palette-btn');
+    if (!btn) return;
+    insertIntoActiveInput(btn.getAttribute('data-insert'));
+  });
+
+  document.getElementById('btnSocratic').addEventListener('click', onSocraticClick);
+  document.getElementById('btnHint').addEventListener('click', onHintClick);
+  document.getElementById('btnSolution').addEventListener('click', onSolutionClick);
+  document.getElementById('btnCheck').addEventListener('click', onCheckClick);
+  document.getElementById('btnNext').addEventListener('click', onNextClick);
+  if (i > 0) document.getElementById('btnPrev').addEventListener('click', onPrevClick);
+}
+
+function appendSocratic(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSocratic');
+  const content = document.getElementById('socraticContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Q${level + 1}:</em> ${q.socratic[level]}`;
+  content.appendChild(p);
+}
+
+function appendHint(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealHint');
+  const content = document.getElementById('hintContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Hint ${level + 1}:</em> ${q.hints[level]}`;
+  content.appendChild(p);
+}
+
+function showSolution() {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSolution');
+  const content = document.getElementById('solutionContent');
+  reveal.classList.add('shown');
+  let html = '';
+  q.solution.forEach((step, idx) => {
+    html += `<div class="reveal-step"><strong>Step ${idx + 1}.</strong> ${step}</div>`;
+  });
+  html += `<div class="reveal-step" style="margin-top: 0.75em; font-style: italic;">Expected answer: ${q.expectedAnswer}</div>`;
+  content.innerHTML = html;
+}
+
+function showFeedback(correct, text) {
+  const reveal = document.getElementById('revealFeedback');
+  const content = document.getElementById('feedbackContent');
+  reveal.classList.remove('correct', 'incorrect');
+  reveal.classList.add(correct ? 'correct' : 'incorrect', 'shown');
+  content.textContent = text;
+}
+
+function onSocraticClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.socraticLevel < q.socratic.length) {
+    appendSocratic(a.socraticLevel);
+    a.socraticLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.socraticLevel >= q.socratic.length) {
+    document.getElementById('btnSocratic').disabled = true;
+    document.getElementById('btnSocratic').textContent = 'No more Socratic prompts';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onHintClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.hintLevel < q.hints.length) {
+    appendHint(a.hintLevel);
+    a.hintLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.hintLevel >= q.hints.length) {
+    document.getElementById('btnHint').disabled = true;
+    document.getElementById('btnHint').textContent = 'No more hints';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+// Decide whether the Worked Solution button should be unlocked.
+// Unlocks when ANY of: 3+ check attempts, OR both ladders exhausted, OR answered correctly.
+function solutionUnlocked(a, q) {
+  const laddersExhausted = (a.socraticLevel >= q.socratic.length) && (a.hintLevel >= q.hints.length);
+  return a.attemptCount >= 3 || laddersExhausted || a.status === 'correct';
+}
+
+function updateSolutionGate() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  const btn = document.getElementById('btnSolution');
+  if (!btn) return;
+  if (a.solutionShown) {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution shown';
+    return;
+  }
+  if (solutionUnlocked(a, q)) {
+    btn.disabled = false;
+    btn.textContent = '👀 Show me the worked solution';
+  } else {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution (try a few times first)';
+  }
+}
+
+function onSolutionClick() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  if (!solutionUnlocked(a, q)) return; // gated
+  if (!a.solutionShown) {
+    showSolution();
+    a.solutionShown = true;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onCheckClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  const userAnswer = document.getElementById('answerInput').value;
+  if (userAnswer.trim() === '') {
+    showFeedback(false, "You haven't written an answer yet. Have a go — even an incomplete attempt is more valuable than no attempt. If you're stuck, try a Socratic prompt first.");
+    return;
+  }
+  a.attemptCount++;
+  const isCorrect = answersMatch(userAnswer, q.acceptedAnswers);
+  if (isCorrect) {
+    a.status = 'correct';
+    showFeedback(true, q.correctFeedback);
+  } else {
+    a.status = 'incorrect';
+    showFeedback(false, q.incorrectFeedback);
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onNextClick() {
+  if (state.currentIndex < questions.length - 1) {
+    state.currentIndex++;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    completionBanner.classList.add('shown');
+    document.getElementById('btnNext').disabled = true;
+    document.getElementById('btnNext').textContent = 'Completed ✓';
+    window.scrollTo({ top: completionBanner.offsetTop - 20, behavior: 'smooth' });
+  }
+}
+
+function onPrevClick() {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+renderProgressStrip();
+renderCurrentQuestion();
+</script>
+
+</body>
+</html>
