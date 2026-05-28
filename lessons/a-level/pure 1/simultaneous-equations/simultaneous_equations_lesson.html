@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simultaneous Equations — Where Do Two Stories Meet?</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  .worked { background: #FBFDFA; border: 1px solid #C9D9C2; border-radius: 6px; padding: 0.75em 1em; margin: 0.75em 0; }
+  .note { background: #FFFDF5; border-left: 3px solid #C9A227; padding: 0.5em 0.85em; margin: 0.75em 0; font-size: 0.95em; }
+  table.rubric { border-collapse: collapse; width: 100%; margin: 0.75em 0; font-size: 0.92em; }
+  table.rubric th, table.rubric td { border: 1px solid #C3AE92; padding: 0.4em 0.6em; text-align: left; vertical-align: top; }
+  table.rubric th { background: #E4D6C2; }
+  code { background: #F2EEE6; padding: 0.05em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+
+  /* ---- interactive ---- */
+  .applet { background: #FBFCFD; border: 1px solid #C2D0DA; border-radius: 8px; padding: 1em 1.1em; margin: 1em 0; }
+  .applet h4 { margin: 0 0 0.5em; color: #2F4A5A; }
+  .ctrl-row { display: flex; flex-wrap: wrap; gap: 1.2em; align-items: center; margin: 0.5em 0 0.75em; }
+  .ctrl { display: flex; flex-direction: column; font-size: 0.85em; min-width: 150px; }
+  .ctrl label { margin-bottom: 0.2em; font-weight: bold; color: #2F4A5A; }
+  .ctrl .val { font-family: 'Courier New', monospace; color: #3A5A6B; }
+  input[type=range] { width: 100%; }
+  .applet svg { display: block; max-width: 100%; height: auto; background: #FFFFFF; border: 1px solid #DCE5EB; border-radius: 4px; margin: 0 auto; }
+  .algebra { font-family: 'Courier New', monospace; background: #F4F8FB; border: 1px solid #D3E0E8; border-radius: 5px; padding: 0.6em 0.85em; margin: 0.6em 0; font-size: 0.95em; white-space: pre-wrap; }
+  .verdict { font-weight: bold; padding: 0.5em 0.75em; border-radius: 5px; margin: 0.6em 0; text-align: center; }
+  .v-two   { background: #E2F0DC; color: #3C6B2E; border: 1px solid #A9CE97; }
+  .v-one   { background: #FBF0D6; color: #8A6A1E; border: 1px solid #E2C77E; }
+  .v-none  { background: #F4DEDA; color: #9A3B2E; border: 1px solid #D6A095; }
+  .prompts { background: #EEF3F6; border-radius: 6px; padding: 0.6em 1em 0.6em 1.4em; margin: 0.75em 0 0; font-size: 0.95em; }
+  .prompts li { margin: 0.35em 0; }
+  button.mini { font-family: Georgia, serif; background: #E5EBF0; border: 1px solid #3A5A6B; color: #2F4A5A; border-radius: 5px; padding: 0.35em 0.8em; cursor: pointer; font-size: 0.9em; }
+  button.mini:hover { background: #D6E1E9; }
+  .swatch { display:inline-block; width:0.8em; height:0.8em; border-radius:2px; vertical-align:middle; margin-right:0.25em; }
+</style>
+</head>
+<body>
+
+<h1>Simultaneous Equations</h1>
+<p style="font-style: italic; color: #5A5A5A; margin-top: -0.5em;">Pure Mathematics 1 · Algebra and Functions · Lesson 4</p>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Two different rules describe the same world. Where — and how often — do they agree?
+</div>
+
+<p>Every equation is a kind of promise about how two quantities relate. A line says "<em>y</em> behaves like <em>this</em>." A curve says "<em>y</em> behaves like <em>that</em>." A pair of <strong>simultaneous equations</strong> asks a sharper question: is there a place where <em>both</em> promises are kept at once? In this lesson you'll see that the answer can be "yes, in two places", "yes, in exactly one", or "nowhere at all" — and, beautifully, that an old friend from the discriminant lesson decides which.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>To <strong>solve simultaneous equations</strong> is to find the values of the unknowns that satisfy <em>every</em> equation at the same time. Graphically, each equation is a set of points; a solution is a point the graphs <strong>share</strong> — an intersection.</p>
+
+  <h3>Case 1 — Two linear equations</h3>
+  <p>Two straight lines can relate in only three ways:</p>
+  <ul>
+    <li>They <strong>cross once</strong> → exactly one solution.</li>
+    <li>They are <strong>parallel and distinct</strong> → never meet → no solution.</li>
+    <li>They are <strong>the same line</strong> → meet everywhere → infinitely many solutions.</li>
+  </ul>
+  <p>The standard method is <strong>elimination</strong> or <strong>substitution</strong>. With substitution, rearrange one equation for a single unknown and put it into the other:</p>
+  <div class="worked">
+    <strong>Example.</strong> Solve <code>2x + y = 7</code> and <code>3x − y = 8</code> at once.<br>
+    From the first, <code>y = 7 − 2x</code>. Substitute into the second:<br>
+    <code>3x − (7 − 2x) = 8 → 5x − 7 = 8 → 5x = 15 → x = 3</code>.<br>
+    Then <code>y = 7 − 2(3) = 1</code>. The lines meet at <strong>(3, 1)</strong> — one point, one solution.
+  </div>
+
+  <h3>Case 2 — One linear, one quadratic</h3>
+  <p>This is the case the specification cares about most. The reliable method is always <strong>substitution</strong>: rearrange the <em>linear</em> equation for one unknown, substitute into the quadratic, and you are left with a single quadratic in one variable to solve.</p>
+  <div class="worked">
+    <strong>Example.</strong> Solve <code>y = x + 1</code> and <code>y = x² − 1</code> simultaneously.<br>
+    Substitute the line into the curve:<br>
+    <code>x + 1 = x² − 1 → 0 = x² − x − 2 → 0 = (x − 2)(x + 1)</code>.<br>
+    So <code>x = 2</code> or <code>x = −1</code>. Using <code>y = x + 1</code>: the solutions are <strong>(2, 3)</strong> and <strong>(−1, 0)</strong> — the line cuts the parabola twice.
+  </div>
+
+  <h3>The crucial link: how many solutions?</h3>
+  <p>After substitution you reach a quadratic <code>ax² + bx + c = 0</code>. The number of solutions to the <em>pair</em> is exactly the number of roots of <em>that</em> quadratic — which the <strong>discriminant</strong> <code>b² − 4ac</code> decides:</p>
+  <ul>
+    <li><code>b² − 4ac &gt; 0</code> → two intersection points (the line is a <strong>secant</strong> — it cuts the curve).</li>
+    <li><code>b² − 4ac = 0</code> → one intersection point (the line is a <strong>tangent</strong> — it just touches).</li>
+    <li><code>b² − 4ac &lt; 0</code> → no intersection points (the line <strong>misses</strong> the curve entirely).</li>
+  </ul>
+  <p>This is the quiet triumph of the unit: the discriminant was never just an abstract number under a square root. It is a <em>geometric count</em> — how many times a line meets a curve.</p>
+
+  <div class="seed"><strong>Seed of Change:</strong> Solve simultaneous equations in two unknowns, including one linear and one quadratic equation, by substitution.</div>
+  <div class="seed"><strong>Seed of Change:</strong> Interpret the algebraic solution of equations graphically, and use the discriminant of the resulting quadratic to determine the number of points of intersection of a line and a curve.</div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>The idea of solving several conditions at once is astonishingly old. More than two thousand years ago, the Chinese text <em>The Nine Chapters on the Mathematical Art</em> set out problems with several unknowns — bundles of crops of different qualities, with known total yields — and solved them with a tabular method of elimination that is, in all but name, the technique taught in classrooms today. The mathematicians who wrote it had no symbols for the unknowns at all; they worked with counting rods laid out in columns on a board, sliding and subtracting until a single quantity stood alone.</p>
+
+  <p>That is worth pausing on. The <em>method</em> — reduce many unknowns to one by combining the conditions — was understood long before the <em>notation</em> that makes it feel easy to us. For centuries, people solved simultaneous equations as a kind of careful bookkeeping, in words and arrangements of physical tokens, because the symbolic shorthand of <code>x</code> and <code>y</code> simply hadn't been invented yet.</p>
+
+  <p>The reason simultaneous equations matter so much, then and now, is that the real world rarely hands us a single rule in isolation. A budget is one condition; a nutritional requirement is another; a deadline is a third. Each is a separate "story" about what is allowed, and the interesting question is almost always where the stories meet. Whether you are an engineer balancing forces, an economist locating where supply meets demand, or a satellite-navigation system pinpointing your position from several distance measurements, the underlying act is identical: find the point that honours every condition at once.</p>
+
+  <div class="note">A small fairness reflection: notation is power. When mathematics lived only in the heads of those who had memorised elaborate verbal procedures, it was harder to share, harder to check, and easier to gatekeep. The slow, collective invention of clear symbols — by many cultures over many centuries — is part of what turned mathematics into something anyone willing to learn the notation could pick up and use. The tidy <code>x</code> and <code>y</code> you'll rearrange today are an inheritance from a very long human effort to make hard ideas <em>writable</em>.</div>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Pick <strong>one</strong> of the following and make the idea your own. There is no single correct form — choose the one that fits how you like to think.</p>
+  <ul>
+    <li><strong>In words:</strong> Explain to someone who has never seen the topic why a line and a parabola can meet twice, once, or not at all — using a real picture in your head (a ball's flight, a hill, a bridge arch) rather than algebra.</li>
+    <li><strong>As a sketch:</strong> Draw one parabola and three lines on top of it — one that cuts it, one that just touches it, and one that misses it entirely. Label each with how many solutions the simultaneous pair would have.</li>
+    <li><strong>As a metaphor:</strong> Finish the sentence "Solving simultaneous equations is like ______" with an image that captures the idea of two conditions agreeing at a point. Then write two sentences defending why your metaphor fits.</li>
+    <li><strong>As a question:</strong> Invent a simultaneous-equations problem from your own life (two constraints that meet at one answer), and pose it — without solving it — for a classmate.</li>
+  </ul>
+  <p>The goal is to <em>say the idea in your own voice</em>. If you can explain it, you understand it.</p>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Mathematicians build a model, then <em>push on it</em> to see what it does. The two-stage explorer below lets you do exactly that. Stage 1 is gentle: two straight lines you can drag. Stage 2 is the main event: a line and a fixed parabola, with the substitution algebra and its discriminant shown live, so you can watch the line slide from cutting the curve, to just touching it, to missing it entirely.</p>
+
+  <div class="applet">
+    <h4>Stage 1 · Two lines — where do they meet?</h4>
+    <p style="font-size:0.9em; margin:0.2em 0 0.6em;">Drag the gradient and intercept of each line. Watch the intersection — and notice what happens when the gradients become equal.</p>
+    <div class="ctrl-row">
+      <div class="ctrl"><label>Line A: gradient m<sub>1</sub> = <span class="val" id="m1v">1.0</span></label><input type="range" id="m1" min="-3" max="3" step="0.1" value="1"></div>
+      <div class="ctrl"><label>Line A: intercept c<sub>1</sub> = <span class="val" id="c1v">1</span></label><input type="range" id="c1" min="-6" max="6" step="0.5" value="1"></div>
+    </div>
+    <div class="ctrl-row">
+      <div class="ctrl"><label>Line B: gradient m<sub>2</sub> = <span class="val" id="m2v">-1.0</span></label><input type="range" id="m2" min="-3" max="3" step="0.1" value="-1"></div>
+      <div class="ctrl"><label>Line B: intercept c<sub>2</sub> = <span class="val" id="c2v">3</span></label><input type="range" id="c2" min="-6" max="6" step="0.5" value="3"></div>
+    </div>
+    <svg id="svg1" viewBox="0 0 420 360" role="img" aria-label="Two straight lines on a coordinate grid with their intersection marked"></svg>
+    <div class="algebra" id="alg1"></div>
+    <div class="verdict" id="ver1"></div>
+    <p style="font-size:0.85em; margin:0.3em 0 0;"><span class="swatch" style="background:#3A5A6B;"></span>Line A &nbsp; <span class="swatch" style="background:#9A3B2E;"></span>Line B</p>
+    <ol class="prompts">
+      <li>Set both gradients equal but keep the intercepts different. What does the explorer report, and what is true of the lines?</li>
+      <li>Now also make the intercepts equal. How many solutions does it claim, and why is "infinitely many" the honest answer?</li>
+      <li>Find a setting where the lines meet at a point with a whole-number <em>x</em> and <em>y</em>. Write down the pair of equations you've created.</li>
+    </ol>
+  </div>
+
+  <div class="applet">
+    <h4>Stage 2 · A line and a parabola — two, one, or none?</h4>
+    <p style="font-size:0.9em; margin:0.2em 0 0.6em;">The parabola <code>y = x² − 2</code> is fixed. Drag the line. The panel substitutes the line into the curve, forms the quadratic, and computes its discriminant — which decides how many times they meet.</p>
+    <div class="ctrl-row">
+      <div class="ctrl"><label>Line gradient m = <span class="val" id="mLv">1.0</span></label><input type="range" id="mL" min="-4" max="4" step="0.1" value="1"></div>
+      <div class="ctrl"><label>Line intercept k = <span class="val" id="kLv">0.5</span></label><input type="range" id="kL" min="-6" max="6" step="0.01" value="0.5"></div>
+    </div>
+    <svg id="svg2" viewBox="0 0 420 360" role="img" aria-label="A line and a fixed parabola, with intersection points marked"></svg>
+    <div class="algebra" id="alg2"></div>
+    <div class="verdict" id="ver2"></div>
+    <div style="margin:0.4em 0 0.2em;">
+      <button class="mini" id="snapTan">⟳ Snap to tangent</button>
+      <span style="font-size:0.82em; color:#6A7C86; margin-left:0.5em;">Hunt for the touching value yourself with the fine slider — then snap to confirm the exact k.</span>
+    </div>
+    <p style="font-size:0.85em; margin:0.3em 0 0;"><span class="swatch" style="background:#3A5A6B;"></span>Line &nbsp; <span class="swatch" style="background:#4A6B3A;"></span>Parabola y = x² − 2</p>
+    <ol class="prompts">
+      <li>Keep <code>m = 1</code> fixed and lower <code>k</code> slowly with the fine slider. Hunt for the value of <code>k</code> where the line stops cutting the parabola and just touches it — watch the discriminant shrink toward zero. Once you think you have it, use <strong>Snap to tangent</strong> to confirm the exact value. What is the discriminant there?</li>
+      <li>At that touching value, the line is a <strong>tangent</strong>. Solve <code>x² − 2 = mx + k</code> by hand for those values and confirm the single repeated root the explorer shows.</li>
+      <li>Set <code>m = 0</code> (a horizontal line). For which values of <code>k</code> does the line miss the parabola entirely? Connect your answer to the lowest point of the curve.</li>
+      <li>Fix <code>k</code> and vary <code>m</code>. Can you always find <em>some</em> line through a given intercept that misses the parabola? Explain using the discriminant rather than the picture.</li>
+      <li><em>Productive friction:</em> the explorer rounds the intersection coordinates for display. Find a setting where the displayed points look like they have tidy values but the exact algebra gives surds. Which do you trust, and why?</li>
+    </ol>
+  </div>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+  <p>Simultaneous equations are a common place for a particular feeling to show up: the worry of holding <em>two things in mind at once</em>. That feeling is real, and it isn't a sign you can't do the maths — it's a sign your working memory is being asked to carry a load. The whole point of the substitution method is to <em>reduce</em> that load: you turn two equations into one, so that at the crucial moment you are only ever thinking about a single equation in a single unknown.</p>
+  <p>Take a breath and notice:</p>
+  <ul>
+    <li>When you rearranged the linear equation, did it feel manageable to handle one unknown at a time? That deliberate one-step-at-a-time pace is a strength, not slowness.</li>
+    <li>Which case felt clearer to you — two lines, or a line and a curve? There's no right answer; noticing your own preference tells you where to start when you're tired.</li>
+    <li>If the discriminant link landed as a satisfying "oh!", hold onto that feeling — connecting two ideas you already knew is one of the most durable kinds of understanding.</li>
+  </ul>
+  <p>If you felt stuck at any point, what specifically helped you unstick — a picture, a re-read, the explorer, a pause? That answer is worth more than any single solution, because it's a tool you can carry into the next hard thing.</p>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build a "Where They Meet" case file.</strong> Produce a short worked portfolio (handwritten, typed, or recorded — your choice) containing all of the following:</p>
+  <ol>
+    <li>A <strong>linear-linear</strong> pair you solve by elimination <em>and</em> by substitution, showing both methods reach the same point.</li>
+    <li>A <strong>linear-quadratic</strong> pair that has <strong>two</strong> solutions, solved fully by substitution, with the two points stated and a quick sketch.</li>
+    <li>A linear-quadratic pair where the line is a <strong>tangent</strong> to the curve. Show that you found it deliberately by setting the discriminant of the substituted quadratic to zero.</li>
+    <li>A short paragraph (3–4 sentences) explaining, in your own words, <em>why</em> the discriminant of the substituted quadratic counts the intersection points. Connect it explicitly to the discriminant lesson.</li>
+    <li>One <strong>modelling</strong> sentence: describe a real situation (two constraints) that would reduce to a simultaneous pair, and say what the solution would mean in that context.</li>
+  </ol>
+
+  <div class="seed"><strong>Seed of Change:</strong> Solve simultaneous equations in two unknowns, including one linear and one quadratic, by substitution.</div>
+  <div class="seed"><strong>Seed of Change:</strong> Use the discriminant of the quadratic formed by substitution to determine the number of points of intersection of a line and a curve.</div>
+
+  <p style="margin-top:1em;"><strong>How this is assessed — the Haven Maths Rubric:</strong></p>
+  <table class="rubric">
+    <tr><th>Strand</th><th>What we're looking for here</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>You can explain why a solution is a shared point, and why the discriminant counts intersections.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Substitution and elimination are carried out correctly, with accurate algebra and correctly paired (x, y) answers.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>You can construct a tangent case deliberately and translate a real situation into a simultaneous pair.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The case file is your own, and your explanation shows you connecting this lesson to earlier ideas.</td></tr>
+  </table>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="simultaneous_equations_practice_companion.html" target="_blank" rel="noopener"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+</div>
+
+<script>
+(function(){
+  // ---------- shared coordinate helper ----------
+  function makeCoord(svg, xmin, xmax, ymin, ymax, W, H, pad){
+    return {
+      px: x => pad + (x - xmin)/(xmax - xmin)*(W - 2*pad),
+      py: y => H - pad - (y - ymin)/(ymax - ymin)*(H - 2*pad),
+      xmin, xmax, ymin, ymax
+    };
+  }
+  function el(tag, attrs){
+    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for(const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function drawGrid(svg, co, W, H, pad){
+    svg.innerHTML = '';
+    for(let gx = Math.ceil(co.xmin); gx <= co.xmax; gx++){
+      const x = co.px(gx);
+      svg.appendChild(el('line', {x1:x, y1:pad, x2:x, y2:H-pad, stroke:(gx===0?'#9AA':'#E6ECEF'), 'stroke-width':(gx===0?1.4:1)}));
+    }
+    for(let gy = Math.ceil(co.ymin); gy <= co.ymax; gy++){
+      const y = co.py(gy);
+      svg.appendChild(el('line', {x1:pad, y1:y, x2:W-pad, y2:y, stroke:(gy===0?'#9AA':'#E6ECEF'), 'stroke-width':(gy===0?1.4:1)}));
+    }
+  }
+  function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+  // ================= STAGE 1: two lines =================
+  (function(){
+    const W=420,H=360,pad=28;
+    const svg=document.getElementById('svg1');
+    const co=makeCoord(svg,-6,6,-6,6,W,H,pad);
+    const ids=['m1','c1','m2','c2'];
+    const get={};
+    ids.forEach(id=>get[id]=()=>parseFloat(document.getElementById(id).value));
+
+    function clipLine(m,c){
+      // return two endpoints of y=mx+c clipped to the view box
+      const pts=[];
+      // intersect with x = xmin, xmax
+      [co.xmin,co.xmax].forEach(x=>{ const y=m*x+c; if(y>=co.ymin-1e-9&&y<=co.ymax+1e-9) pts.push([x,y]); });
+      // intersect with y = ymin, ymax
+      [co.ymin,co.ymax].forEach(y=>{ const x=(y-c)/m; if(m!==0 && x>=co.xmin-1e-9&&x<=co.xmax+1e-9) pts.push([x,y]); });
+      // dedupe
+      const uniq=[]; pts.forEach(p=>{ if(!uniq.some(q=>Math.abs(q[0]-p[0])<1e-6&&Math.abs(q[1]-p[1])<1e-6)) uniq.push(p); });
+      return uniq.slice(0,2);
+    }
+
+    function render(){
+      const m1=get.m1(),c1=get.c1(),m2=get.m2(),c2=get.c2();
+      document.getElementById('m1v').textContent=m1.toFixed(1);
+      document.getElementById('c1v').textContent=fmt(c1);
+      document.getElementById('m2v').textContent=m2.toFixed(1);
+      document.getElementById('c2v').textContent=fmt(c2);
+      drawGrid(svg,co,W,H,pad);
+
+      function plot(m,c,col){
+        const e=clipLine(m,c);
+        if(e.length===2) svg.appendChild(el('line',{x1:co.px(e[0][0]),y1:co.py(e[0][1]),x2:co.px(e[1][0]),y2:co.py(e[1][1]),stroke:col,'stroke-width':2.4}));
+      }
+      plot(m1,c1,'#3A5A6B');
+      plot(m2,c2,'#9A3B2E');
+
+      const alg=document.getElementById('alg1');
+      const ver=document.getElementById('ver1');
+      const sameGrad = Math.abs(m1-m2)<1e-9;
+      if(sameGrad && Math.abs(c1-c2)<1e-9){
+        alg.textContent='Set equal:  '+fmt(m1)+'x + '+fmt(c1)+' = '+fmt(m2)+'x + '+fmt(c2)+'\n→ 0 = 0  (always true)';
+        ver.className='verdict v-two'; ver.textContent='Same line → infinitely many solutions';
+      } else if(sameGrad){
+        alg.textContent='Set equal:  '+fmt(m1)+'x + '+fmt(c1)+' = '+fmt(m2)+'x + '+fmt(c2)+'\n→ '+fmt(c1)+' = '+fmt(c2)+'  (never true)';
+        ver.className='verdict v-none'; ver.textContent='Parallel and distinct → no solution';
+      } else {
+        const x=(c2-c1)/(m1-m2), y=m1*x+c1;
+        svg.appendChild(el('circle',{cx:co.px(x),cy:co.py(y),r:5,fill:'#C9A227',stroke:'#6B5A12','stroke-width':1.5}));
+        alg.textContent='Set equal:  '+fmt(m1)+'x + '+fmt(c1)+' = '+fmt(m2)+'x + '+fmt(c2)
+          +'\n→ x = ('+fmt(c2)+' − '+fmt(c1)+') / ('+fmt(m1)+' − '+fmt(m2)+') = '+fmt(x)
+          +'\n→ y = '+fmt(y);
+        ver.className='verdict v-one'; ver.textContent='One solution at ('+fmt(x)+', '+fmt(y)+')';
+      }
+    }
+    ids.forEach(id=>document.getElementById(id).addEventListener('input',render));
+    render();
+  })();
+
+  // ================= STAGE 2: line + parabola y = x^2 - 2 =================
+  (function(){
+    const W=420,H=360,pad=28;
+    const svg=document.getElementById('svg2');
+    const co=makeCoord(svg,-5,5,-4,8,W,H,pad);
+    const C=-2; // parabola constant: y = x^2 + C
+    const mL=()=>parseFloat(document.getElementById('mL').value);
+    const kL=()=>parseFloat(document.getElementById('kL').value);
+    let kExact=null; // when set (by Snap), render uses this precise k instead of the slider's rounded value
+
+    function render(){
+      const m=mL(), k=(kExact!==null ? kExact : kL());
+      document.getElementById('mLv').textContent=m.toFixed(1);
+      document.getElementById('kLv').textContent=fmt(k);
+      drawGrid(svg,co,W,H,pad);
+
+      // parabola y = x^2 + C, clipped to the view with proper pen-lifting
+      let d='', penDown=false;
+      for(let x=co.xmin;x<=co.xmax;x+=0.05){
+        const y=x*x+C;
+        if(y<co.ymin||y>co.ymax){ penDown=false; continue; }   // off-screen: lift the pen
+        d+=(penDown?'L':'M')+co.px(x).toFixed(2)+' '+co.py(y).toFixed(2)+' ';
+        penDown=true;                                            // pen is down once we've placed a point
+      }
+      if(d) svg.appendChild(el('path',{d:d,fill:'none',stroke:'#4A6B3A','stroke-width':2.4}));
+
+      // line clipped
+      const e=[];
+      [co.xmin,co.xmax].forEach(x=>{const y=m*x+k; if(y>=co.ymin-1e-9&&y<=co.ymax+1e-9)e.push([x,y]);});
+      [co.ymin,co.ymax].forEach(y=>{const x=(y-k)/m; if(m!==0&&x>=co.xmin-1e-9&&x<=co.xmax+1e-9)e.push([x,y]);});
+      const uq=[]; e.forEach(p=>{if(!uq.some(q=>Math.abs(q[0]-p[0])<1e-6&&Math.abs(q[1]-p[1])<1e-6))uq.push(p);});
+      if(uq.length>=2) svg.appendChild(el('line',{x1:co.px(uq[0][0]),y1:co.py(uq[0][1]),x2:co.px(uq[1][0]),y2:co.py(uq[1][1]),stroke:'#3A5A6B','stroke-width':2.4}));
+
+      // substitution: x^2 + C = m x + k  ->  x^2 - m x + (C - k) = 0
+      const A=1, B=-m, Cc=(C-k);
+      const disc=B*B-4*A*Cc;
+      const alg=document.getElementById('alg2');
+      const ver=document.getElementById('ver2');
+      let lines='Substitute line into curve:\n  x² '+(C<0?'− '+(-C):'+ '+C)+'  =  '+fmt(m)+'x + '+fmt(k)+'\n';
+      lines+='Rearrange:\n  x² '+(m>=0?'− '+fmt(m):'+ '+fmt(-m))+'x + ('+fmt(Cc)+') = 0\n';
+      lines+='Discriminant  b² − 4ac = ('+fmt(B)+')² − 4(1)('+fmt(Cc)+') = '+fmt(disc);
+      alg.textContent=lines;
+
+      if(disc>1e-6){
+        const r1=(-B-Math.sqrt(disc))/2, r2=(-B+Math.sqrt(disc))/2;
+        [r1,r2].forEach(x=>{const y=m*x+k; svg.appendChild(el('circle',{cx:co.px(x),cy:co.py(y),r:5,fill:'#C9A227',stroke:'#6B5A12','stroke-width':1.5}));});
+        ver.className='verdict v-two'; ver.textContent='Δ > 0 → two intersection points  ('+fmt(r1)+', '+fmt(m*r1+k)+') and ('+fmt(r2)+', '+fmt(m*r2+k)+')';
+      } else if(disc>-1e-6){
+        const x=-B/2; const y=m*x+k;
+        svg.appendChild(el('circle',{cx:co.px(x),cy:co.py(y),r:6,fill:'#E2A12E',stroke:'#6B5A12','stroke-width':1.6}));
+        ver.className='verdict v-one'; ver.textContent='Δ = 0 → tangent: one repeated point  ('+fmt(x)+', '+fmt(y)+')';
+      } else {
+        ver.className='verdict v-none'; ver.textContent='Δ < 0 → the line misses the parabola (no real solutions)';
+      }
+    }
+    document.getElementById('mL').addEventListener('input',function(){ kExact=null; render(); });
+    document.getElementById('kL').addEventListener('input',function(){ kExact=null; render(); });
+    document.getElementById('snapTan').addEventListener('click',function(){
+      const m=mL();
+      // Parabola y = x² + C, line y = mx + k. Substituting gives x² − mx + (C − k) = 0.
+      // Discriminant m² − 4(C − k) = 0  ⇒  k = C − m²/4 (the exact tangent intercept).
+      let kTan = C - (m*m)/4;
+      const slider=document.getElementById('kL');
+      const lo=parseFloat(slider.min), hi=parseFloat(slider.max);
+      if(kTan < lo || kTan > hi){
+        // tangent intercept is outside the slider range for this gradient — tell the learner honestly
+        kExact=null;
+        slider.value = Math.max(lo, Math.min(hi, kTan)).toFixed(2);
+        render();
+        const ver=document.getElementById('ver2');
+        ver.className='verdict v-one';
+        ver.textContent='For m = '+m.toFixed(1)+' the tangent needs k = '+fmt(kTan)+', which is beyond this slider. Lower |m| to bring it into range.';
+        return;
+      }
+      // move the slider handle as close as it can show, but drive the maths from the EXACT value
+      slider.value = kTan.toFixed(2);
+      kExact = kTan;
+      render();
+    });
+    render();
+  })();
+})();
+</script>
+
+</body>
+</html>
