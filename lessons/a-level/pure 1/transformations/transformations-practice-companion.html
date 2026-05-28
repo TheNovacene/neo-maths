@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphs and Transformations — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 820px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  .intro { background: #E5EBF0; border-left: 5px solid #3A5A6B; padding: 0.9em 1.2em; border-radius: 8px; margin: 1.2em 0; }
+  .intro strong { color: #28414f; }
+
+  /* progress strip */
+  #progress { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 1.2em 0; align-items: center; }
+  #progress .dot { width: 22px; height: 22px; border-radius: 50%; background: #D8D2C6; display: flex; align-items: center; justify-content: center; font-size: 0.72em; color: #5a5346; cursor: pointer; border: 2px solid transparent; font-family: Georgia, serif; }
+  #progress .dot.engaged { background: #E8C66B; color: #5a4a18; }
+  #progress .dot.correct { background: #8FB87A; color: #294017; }
+  #progress .dot.current { border-color: #3A5A6B; }
+
+  .card { background: #fff; border: 1px solid #D4C9B6; border-radius: 10px; padding: 1.2em 1.4em; margin: 1em 0; }
+  .qnum { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; color: #8B6F47; }
+  .qtype { font-size: 0.78em; color: #a08a6a; font-style: italic; }
+  .stem { font-size: 1.08em; margin: 0.4em 0 0.8em; }
+  .stem code, .work code, code { font-family: 'Courier New', monospace; background: #F6F2EA; padding: 0.05em 0.3em; border-radius: 3px; }
+
+  /* palette */
+  .palette { margin: 0.6em 0; }
+  .palette .row { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.3em; }
+  .palette button { font-family: 'Courier New', monospace; font-size: 0.95em; padding: 0.25em 0.55em; border: 1px solid #BCA98a; background: #FBF8F2; border-radius: 5px; cursor: pointer; min-width: 2em; }
+  .palette button:hover { background: #F0E8DC; }
+  .palette .divider { border-top: 1px dashed #C9B596; margin: 0.25em 0; width: 100%; }
+
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; font-family: 'Courier New', monospace; font-size: 1em; padding: 0.5em; border: 1px solid #C3B49a; border-radius: 6px; background: #FFFEFB; }
+  textarea { min-height: 4.5em; resize: vertical; }
+  label.fieldlabel { font-size: 0.85em; color: #6B5A42; display: block; margin: 0.6em 0 0.2em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 0.9em; }
+  .actions button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.45em 0.9em; border-radius: 6px; cursor: pointer; border: 1px solid; }
+  .btn-soc { background: #F2E8F0; border-color: #6B4A6B; color: #5a3a5a; }
+  .btn-hint { background: #F5EFD9; border-color: #8B7A3A; color: #6a5d23; }
+  .btn-check { background: #E8F0E5; border-color: #4A6B3A; color: #355026; }
+  .btn-sol { background: #ECE4D8; border-color: #8a7355; color: #6a563c; }
+  .actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .reveal { margin-top: 0.8em; padding: 0.7em 1em; border-radius: 6px; display: none; }
+  .reveal.show { display: block; }
+  .reveal.soc { background: #F7F0F6; border-left: 4px solid #6B4A6B; }
+  .reveal.hint { background: #FAF6E6; border-left: 4px solid #8B7A3A; }
+  .reveal.sol { background: #F4EFE7; border-left: 4px solid #8a7355; }
+  .reveal.feedback { background: #EAF1E7; border-left: 4px solid #4A6B3A; }
+  .reveal.feedback.wrong { background: #F7ECE6; border-left-color: #B5683A; }
+  .reveal .step { margin: 0.35em 0; }
+  .ladder-item { margin: 0.3em 0; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 1em; }
+  .nav button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.45em 1.1em; border: 1px solid #6E8597; background: #fff; border-radius: 6px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .reflection { background: #F5EFD9; border-left: 5px solid #8B7A3A; padding: 1em 1.3em; border-radius: 8px; margin: 1.5em 0; }
+
+  @media print {
+    .actions, .nav, .palette, #progress { display: none !important; }
+    .card { display: block !important; page-break-inside: avoid; border: 1px solid #999; }
+    .reveal { display: block !important; }
+    textarea, input { border: 1px solid #999; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<p style="margin-bottom:0.3em;"><a href="transformations-lesson.html" rel="noopener" style="font-family: Georgia, serif; font-size: 0.9em; color: #6B4A2E; text-decoration: none;">← Back to the lesson</a></p>
+
+<h1>Graphs and Transformations — Practice Companion<br><span style="font-size:0.55em; color:#6B6B6B;">Pure 1, Algebra and Functions · Lesson 6</span></h1>
+
+<div class="intro">
+  <p>Eight exam-style questions on the four transformations. Whenever you're stuck, you have <strong>four kinds of help</strong>, in this order:</p>
+  <p>🤔 <strong>Socratic prompt</strong> — a question to get you thinking (tap again for a more specific one). &nbsp; 💡 <strong>Hint</strong> — a piece of method. &nbsp; ✅ <strong>Check my answer</strong> — try as many times as you like; you'll get diagnostic feedback. &nbsp; 👀 <strong>Worked solution</strong> — the full method, unlocked once you've genuinely tried.</p>
+  <p style="margin-bottom:0;"><em>The aim isn't speed — it's understanding. Use the working box to think on the page.</em></p>
+</div>
+
+<div id="progress"></div>
+
+<div id="card-mount"></div>
+
+<div class="nav">
+  <button id="prevBtn">← Previous</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="reflection">
+  <h3 style="margin-top:0;">💛 Reflection</h3>
+  <p>Before you close this, take a moment:</p>
+  <ul>
+    <li>Which of the four transformations are you now most confident with? Which still needs another look?</li>
+    <li>Did the "inside the bracket goes the opposite way" rule catch you out anywhere? What helped you spot it?</li>
+    <li>If you had to teach one of these questions to a friend, which would you choose — and why that one?</li>
+  </ul>
+  <p style="margin-bottom:0;"><em>You can print or save this page (including any solutions you opened) using your browser's print function.</em></p>
+</div>
+
+<script>
+// ---------------- Question bank ----------------
+const questions = [
+  {
+    type: 'Direct application',
+    stem: 'The graph of <code>y = f(x)</code> has a maximum point at <code>(2, 5)</code>. State the coordinates of the maximum point on the graph of <code>y = f(x) + 3</code>.',
+    accepted: ['(2,8)','2,8','x=2,y=8','(2, 8)'],
+    socratic: [
+      'Does adding 3 outside the function change the x-coordinate, the y-coordinate, or both?',
+      '<code>+3</code> is outside the bracket — so it shifts the graph in which direction, and by how much?',
+      'The x-coordinate of the maximum is unchanged. What happens to the y-coordinate of 5 when the whole graph moves up 3?'
+    ],
+    hints: [
+      '<code>f(x) + 3</code> translates the graph vertically (up) by 3. Horizontal position is untouched.',
+      'Keep x = 2; add 3 to the y-value: 5 + 3.'
+    ],
+    solution: [
+      'Step 1. <code>y = f(x) + 3</code> is a change OUTSIDE the function, so it acts vertically — a translation up by 3.',
+      'Step 2. Vertical translations leave the x-coordinate unchanged, so x stays at 2.',
+      'Step 3. The y-coordinate increases by 3: 5 + 3 = 8.',
+      'Answer: the maximum is at <strong>(2, 8)</strong>.'
+    ]
+  },
+  {
+    type: 'Direct application (trickier)',
+    stem: 'The graph of <code>y = f(x)</code> passes through the point <code>(4, −2)</code>. Find the coordinates of the corresponding point on the graph of <code>y = f(x − 1)</code>.',
+    accepted: ['(5,-2)','5,-2','(5, -2)','x=5,y=-2'],
+    socratic: [
+      'Is the change <code>(x − 1)</code> inside or outside the function? What does that tell you about the direction of the effect?',
+      'A change inside the bracket acts horizontally — and the "wrong" way. Which way does <code>f(x − 1)</code> move the graph?',
+      'To get the value f gave at input 4, you now need <code>x − 1 = 4</code>. Solve for x. The y-value comes along unchanged.'
+    ],
+    hints: [
+      '<code>f(x − 1)</code> is a horizontal translation. Inside the bracket reverses the intuition: <code>−1</code> moves it RIGHT by 1.',
+      'Set the new input equal to the old: x − 1 = 4, so x = 5. The y-value (−2) is unchanged.'
+    ],
+    solution: [
+      'Step 1. <code>x − 1</code> is inside the function, so the effect is horizontal — and counter-intuitive.',
+      'Step 2. <code>f(x − 1)</code> with a minus sign moves the graph to the RIGHT by 1.',
+      'Step 3. The point that was at x = 4 now appears where x − 1 = 4, i.e. x = 5; the y-coordinate is unchanged at −2.',
+      'Answer: <strong>(5, −2)</strong>.'
+    ]
+  },
+  {
+    type: 'Inverse problem',
+    stem: 'A curve <code>y = f(x)</code> is transformed to <code>y = f(x) − 4</code>. After the transformation, the curve crosses the y-axis at <code>(0, −1)</code>. What was the y-intercept of the original curve <code>y = f(x)</code>?',
+    accepted: ['(0,3)','0,3','3','y=3','(0, 3)'],
+    socratic: [
+      'The transformation moved every point down by 4. You are told where a point ended up — how do you find where it started?',
+      'If "after" is the original minus 4, how do you reverse it to recover the original?',
+      'Original y-value = final y-value + 4. The final y-intercept is −1.'
+    ],
+    hints: [
+      '<code>− 4</code> is a vertical translation DOWN by 4. To undo it, go back UP by 4.',
+      'Original intercept y = (−1) + 4.'
+    ],
+    solution: [
+      'Step 1. <code>f(x) − 4</code> translates the whole graph DOWN by 4.',
+      'Step 2. To recover the original from the transformed curve, translate UP by 4 (reverse the move).',
+      'Step 3. The transformed y-intercept is −1, so the original was −1 + 4 = 3.',
+      'Answer: the original y-intercept was <strong>(0, 3)</strong>.'
+    ]
+  },
+  {
+    type: 'Inverse problem',
+    stem: 'The graph of <code>y = sin(x)</code> is stretched to give <code>y = sin(kx)</code>, where <code>k > 0</code>. The transformed graph completes exactly 3 full cycles between <code>x = 0</code> and <code>x = 2π</code>. Find the value of <code>k</code>.',
+    accepted: ['k=3','3','k = 3'],
+    socratic: [
+      'How many full cycles does the ordinary graph <code>y = sin(x)</code> complete between 0 and 2π?',
+      'A horizontal stretch <code>f(kx)</code> changes how many cycles fit in a fixed width. Does increasing k fit MORE cycles or fewer?',
+      '<code>y = sin(x)</code> does 1 cycle in 2π. <code>y = sin(kx)</code> does k cycles in the same interval. You need 3.'
+    ],
+    hints: [
+      '<code>sin(kx)</code> has period <code>2π/k</code> and fits exactly k cycles in an interval of length 2π.',
+      'Set the number of cycles equal to 3: k = 3.'
+    ],
+    solution: [
+      'Step 1. <code>y = sin(x)</code> completes one full cycle over an interval of length 2π.',
+      'Step 2. <code>y = sin(kx)</code> is a horizontal stretch with scale factor 1/k; it completes k cycles in the same 2π interval (period 2π/k).',
+      'Step 3. We need 3 cycles in [0, 2π], so k = 3.',
+      'Answer: <strong>k = 3</strong>.'
+    ]
+  },
+  {
+    type: 'Interpretation',
+    stem: 'The curve <code>y = 1/x</code> has asymptotes along the x-axis and the y-axis. The transformation <code>y = 1/(x + 2)</code> is applied. State the equation of the new vertical asymptote.',
+    accepted: ['x=-2','x = -2','x+2=0'],
+    socratic: [
+      'A vertical asymptote of <code>1/x</code> happens where the denominator is zero. Where is that for <code>1/x</code>?',
+      'For <code>1/(x + 2)</code>, where does the denominator become zero now?',
+      'The transformation <code>f(x + 2)</code> shifts the whole curve — asymptotes included. Which way, and by how much, does the vertical asymptote at x = 0 move?'
+    ],
+    hints: [
+      '<code>1/(x + 2)</code> is the horizontal translation <code>f(x + 2)</code>: inside the bracket, so it shifts LEFT by 2 — taking the asymptote with it.',
+      'The asymptote at x = 0 moves left by 2.'
+    ],
+    solution: [
+      'Step 1. The vertical asymptote of <code>1/x</code> is where the denominator is 0, i.e. x = 0.',
+      'Step 2. <code>1/(x + 2) = f(x + 2)</code> is a horizontal translation; inside the bracket with +2 means a shift LEFT by 2.',
+      'Step 3. Equivalently, the denominator <code>x + 2</code> is zero at x = −2 — the curve is undefined there, so that is the new vertical asymptote.',
+      'Answer: <strong>x = −2</strong>.'
+    ]
+  },
+  {
+    type: 'Modelling',
+    stem: 'A sound engineer models a pure tone as <code>y = f(t)</code>, where t is time. To play the tone <strong>twice as fast</strong> (so it lasts half as long but keeps the same shape), they need a horizontal transformation. Which of <code>y = f(2t)</code>, <code>y = f(t/2)</code>, <code>y = 2f(t)</code> or <code>y = f(t) + 2</code> achieves this, and why?',
+    accepted: ['f(2t)','y=f(2t)','y = f(2t)'],
+    socratic: [
+      'Playing "twice as fast" squashes the graph horizontally toward t = 0. Which kind of change acts horizontally — inside or outside the bracket?',
+      'Rule out the two that act vertically (they change loudness, not speed). Of the remaining two, which one SQUASHES horizontally?',
+      '<code>f(at)</code> stretches horizontally by 1/a. For a squash (faster), do you need a > 1 or a < 1?'
+    ],
+    hints: [
+      'Vertical changes (<code>2f(t)</code>, <code>f(t)+2</code>) alter amplitude/level, not duration — eliminate them.',
+      '<code>f(2t)</code> has scale factor 1/2 horizontally: it squashes the graph to half the width = twice as fast.'
+    ],
+    solution: [
+      'Step 1. "Twice as fast" is a horizontal effect, so it must be a change inside the bracket: <code>f(2t)</code> or <code>f(t/2)</code>. The other two act vertically and change the sound\'s level, not its speed.',
+      'Step 2. <code>f(at)</code> is a horizontal stretch with scale factor 1/a. We want the duration halved (a squash to half-width), so 1/a = 1/2, giving a = 2.',
+      'Step 3. Therefore <code>y = f(2t)</code> plays the tone in half the time — twice as fast. (<code>f(t/2)</code> would do the opposite: slow it down.)',
+      'Answer: <strong>y = f(2t)</strong>, because the factor 2 inside the bracket squashes the graph horizontally to half its width.'
+    ]
+  },
+  {
+    type: 'Exam-style (multi-part)',
+    stem: 'The diagram shows <code>y = f(x)</code> with a single maximum at <code>(−1, 4)</code> and crossing the x-axis at <code>(−3, 0)</code> and <code>(1, 0)</code>.<br><strong>(a)</strong> Find the coordinates of the maximum of <code>y = 2f(x)</code>.<br><strong>(b)</strong> Hence, or otherwise, find the coordinates of the maximum of <code>y = 2f(x) − 1</code>.',
+    accepted: [
+      '(a)(-1,8)(b)(-1,7)','(-1,8),(-1,7)','(-1, 8), (-1, 7)','a(-1,8)b(-1,7)',
+      '(-1,8) (-1,7)','(-1,8);(-1,7)'
+    ],
+    socratic: [
+      'For (a): <code>2f(x)</code> is a change outside the function. Does it move points left/right, or stretch them up/down?',
+      'A vertical stretch scale factor 2 multiplies every y-coordinate by 2 but leaves x alone. What does the maximum at (−1, 4) become?',
+      'For (b): <code>2f(x) − 1</code> takes your answer to (a) and shifts it. Which direction, by how much, and does x change?'
+    ],
+    hints: [
+      '(a) Vertical stretch ×2: x unchanged, y doubled. (−1, 4) → (−1, 8).',
+      '(b) Then <code>− 1</code> translates down by 1: (−1, 8) → (−1, 7).'
+    ],
+    solution: [
+      'Step 1 (a). <code>y = 2f(x)</code> is a vertical stretch, scale factor 2 — outside the function, acts on y only.',
+      'Step 2 (a). Multiply the y-coordinate of the maximum by 2; x is unchanged: (−1, 4) → <strong>(−1, 8)</strong>.',
+      'Step 3 (b). <code>y = 2f(x) − 1</code> takes the stretched graph and translates it DOWN by 1.',
+      'Step 4 (b). x is unchanged; subtract 1 from the y-coordinate: (−1, 8) → <strong>(−1, 7)</strong>.',
+      'Answers: (a) (−1, 8); (b) (−1, 7).'
+    ]
+  },
+  {
+    type: 'Synthesis',
+    stem: 'Starting from <code>y = x²</code>, describe a sequence of transformations that produces <code>y = (x − 3)² + 2</code>, and state the coordinates of the vertex of the final curve.',
+    accepted: [
+      'right 3 up 2, (3,2)','translation right 3 and up 2 (3,2)','(3,2)','vertex (3,2)',
+      'right 3, up 2; (3,2)','translate right 3 up 2 vertex (3,2)','(3, 2)'
+    ],
+    socratic: [
+      'Compare <code>(x − 3)²</code> with <code>x²</code>: the change is inside the bracket. Horizontal, and which way for a minus sign?',
+      'Then the <code>+ 2</code> is outside — what does that do, and in which direction?',
+      'The vertex of <code>y = x²</code> is at (0, 0). Apply your two moves to it in turn to find the new vertex.'
+    ],
+    hints: [
+      '<code>(x − 3)²</code> = f(x − 3): horizontal translation RIGHT by 3 (inside the bracket, opposite to the sign). Then <code>+ 2</code> = up 2.',
+      'Vertex (0,0) → right 3 → (3, 0) → up 2 → (3, 2).'
+    ],
+    solution: [
+      'Step 1. <code>(x − 3)²</code> is <code>f(x − 3)</code> applied to <code>f(x) = x²</code>: a horizontal translation. Inside the bracket with −3 means a shift RIGHT by 3.',
+      'Step 2. The <code>+ 2</code> is outside the function: a vertical translation UP by 2.',
+      'Step 3. So: translate <code>y = x²</code> right 3, then up 2 (order does not matter here, as one is horizontal and one vertical).',
+      'Step 4. The vertex (0, 0) moves to (3, 0) then to (3, 2).',
+      'Answer: translation 3 right and 2 up; vertex at <strong>(3, 2)</strong>.'
+    ]
+  }
+];
+
+// ---------------- Palette config (P1 Algebra & Functions: core + function notation) ----------------
+const paletteCore = ['²','³','√','±','≤','≥','≠','−','·','π','f(x)','(',')'];
+const paletteTopic = ['f(x)+a','f(x+a)','af(x)','f(ax)','→'];
+const shortcuts = [
+  ['^2','²'],['^3','³'],['sqrt','√'],['<=','≤'],['>=','≥'],['!=','≠'],['pi','π'],['+-','±']
+];
+
+// ---------------- State ----------------
+const state = questions.map(() => ({ socIdx: 0, hintIdx: 0, attempts: 0, correct: false, engaged: false, solUnlocked: false }));
+let current = 0;
+
+// ---------------- Answer normalisation (per skill spec) ----------------
+function normalise(s) {
+  return s.toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/\(([a-h])\)/g, '')
+    .replace(/\.(?!\d)/g, '')
+    .replace(/\s+and\s+/g, ',')
+    .replace(/;/g, ',')
+    .replace(/[–—−]/g, '-');
+}
+function checkAnswer(input, accepted) {
+  const n = normalise(input);
+  return accepted.some(a => normalise(a) === n);
+}
+
+// ---------------- Rendering ----------------
+const mount = document.getElementById('card-mount');
+
+function buildPalette(qIndex) {
+  const wrap = document.createElement('div');
+  wrap.className = 'palette';
+  const rowCore = document.createElement('div'); rowCore.className = 'row';
+  paletteCore.forEach(sym => rowCore.appendChild(palBtn(sym, qIndex)));
+  const div = document.createElement('div'); div.className = 'divider';
+  const rowTopic = document.createElement('div'); rowTopic.className = 'row';
+  paletteTopic.forEach(sym => rowTopic.appendChild(palBtn(sym, qIndex)));
+  wrap.appendChild(rowCore); wrap.appendChild(div); wrap.appendChild(rowTopic);
+  return wrap;
+}
+function palBtn(sym, qIndex) {
+  const b = document.createElement('button');
+  b.textContent = sym; b.type = 'button';
+  b.addEventListener('click', () => {
+    const ans = document.getElementById('ans-' + qIndex);
+    const tgt = (document.activeElement && document.activeElement.id === 'work-' + qIndex)
+      ? document.getElementById('work-' + qIndex) : ans;
+    insertAtCursor(tgt, sym);
+    tgt.focus();
+  });
+  return b;
+}
+function insertAtCursor(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  const pos = start + text.length;
+  field.selectionStart = field.selectionEnd = pos;
+}
+function applyShortcuts(field) {
+  let v = field.value;
+  // longest-first already arranged; punctuation rules fire immediately
+  shortcuts.forEach(([from, to]) => {
+    v = v.split(from).join(to);
+  });
+  if (v !== field.value) {
+    const delta = field.value.length - v.length;
+    const pos = (field.selectionStart ?? v.length) - delta;
+    field.value = v;
+    field.selectionStart = field.selectionEnd = Math.max(0, pos);
+  }
+}
+
+function renderCard() {
+  const q = questions[current];
+  const st = state[current];
+  mount.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML =
+    '<div class="qnum">Question ' + (current + 1) + ' of ' + questions.length +
+    ' &nbsp;·&nbsp; <span style="color:#a08a6a; font-style:italic;">' + q.type + '</span></div>' +
+    '<div class="stem">' + q.stem + '</div>';
+
+  card.appendChild(buildPalette(current));
+
+  const workLabel = document.createElement('label'); workLabel.className = 'fieldlabel'; workLabel.textContent = 'Your working (think on the page):';
+  const work = document.createElement('textarea'); work.id = 'work-' + current; work.value = st.work || '';
+  work.addEventListener('input', () => { st.work = work.value; applyShortcuts(work); st.work = work.value; });
+
+  const ansLabel = document.createElement('label'); ansLabel.className = 'fieldlabel'; ansLabel.textContent = 'Your final answer:';
+  const ans = document.createElement('input'); ans.type = 'text'; ans.id = 'ans-' + current; ans.value = st.ans || '';
+  ans.addEventListener('input', () => { st.ans = ans.value; applyShortcuts(ans); st.ans = ans.value; });
+
+  card.appendChild(workLabel); card.appendChild(work);
+  card.appendChild(ansLabel); card.appendChild(ans);
+
+  // action buttons
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const socBtn = mkBtn('🤔 Socratic prompt', 'btn-soc');
+  const hintBtn = mkBtn('💡 Hint', 'btn-hint');
+  const checkBtn = mkBtn('✅ Check my answer', 'btn-check');
+  const solBtn = mkBtn('👀 Worked solution', 'btn-sol');
+  actions.appendChild(socBtn); actions.appendChild(hintBtn); actions.appendChild(checkBtn); actions.appendChild(solBtn);
+  card.appendChild(actions);
+
+  // reveal areas
+  const socRev = mkReveal('soc'); const hintRev = mkReveal('hint');
+  const fbRev = mkReveal('feedback'); const solRev = mkReveal('sol');
+  card.appendChild(socRev); card.appendChild(hintRev); card.appendChild(fbRev); card.appendChild(solRev);
+
+  mount.appendChild(card);
+
+  // ---- behaviour ----
+  function markEngaged() { st.engaged = true; renderProgress(); }
+
+  socBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.socIdx < q.socratic.length) {
+      const item = document.createElement('div'); item.className = 'ladder-item';
+      item.innerHTML = '<strong>Think:</strong> ' + q.socratic[st.socIdx];
+      socRev.appendChild(item); st.socIdx++;
+    }
+    if (st.socIdx >= q.socratic.length) socBtn.disabled = true;
+    socRev.classList.add('show');
+    updateSolGate();
+  });
+
+  hintBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.hintIdx < q.hints.length) {
+      const item = document.createElement('div'); item.className = 'ladder-item';
+      item.innerHTML = '<strong>Hint ' + (st.hintIdx + 1) + ':</strong> ' + q.hints[st.hintIdx];
+      hintRev.appendChild(item); st.hintIdx++;
+    }
+    if (st.hintIdx >= q.hints.length) hintBtn.disabled = true;
+    hintRev.classList.add('show');
+    updateSolGate();
+  });
+
+  checkBtn.addEventListener('click', () => {
+    markEngaged();
+    st.attempts++;
+    const val = ans.value.trim();
+    fbRev.className = 'reveal feedback show';
+    if (val === '') {
+      fbRev.classList.add('wrong');
+      fbRev.innerHTML = 'Type your final answer in the answer box first, then check.';
+    } else if (checkAnswer(val, q.accepted)) {
+      st.correct = true;
+      fbRev.innerHTML = '✅ <strong>Correct!</strong> Well reasoned. If you used help to get here, try re-reading the worked solution to lock in the method.';
+    } else {
+      fbRev.classList.add('wrong');
+      fbRev.innerHTML = '❌ Not yet — but keep going. ' + diagnostic(current) +
+        ' &nbsp;<em>You can revise your answer and check again.</em>';
+    }
+    renderProgress();
+    updateSolGate();
+  });
+
+  solBtn.addEventListener('click', () => {
+    if (solBtn.disabled) return;
+    solRev.classList.add('show');
+    solRev.innerHTML = '<strong>Worked solution</strong>' +
+      q.solution.map(s => '<div class="step">' + s + '</div>').join('');
+  });
+
+  function updateSolGate() {
+    st.solUnlocked = st.attempts >= 3 ||
+      (st.socIdx >= q.socratic.length && st.hintIdx >= q.hints.length) ||
+      st.correct;
+    if (st.solUnlocked) { solBtn.disabled = false; solBtn.textContent = '👀 Worked solution'; }
+    else { solBtn.disabled = true; solBtn.textContent = '👀 Worked solution (try a few times first)'; }
+  }
+  updateSolGate();
+
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === questions.length - 1);
+}
+
+// answer-free, diagnostic feedback per question
+function diagnostic(i) {
+  const map = [
+    'Check whether the change is inside or outside the function — that decides vertical vs horizontal. Is the x-coordinate meant to change here?',
+    'Remember that a change inside the bracket moves the graph the counter-intuitive way. Re-read the sign carefully.',
+    'You\'re told the result and asked for the start — make sure you REVERSE the translation rather than applying it again.',
+    'Connect the value to the number of cycles in 2π. Does a bigger value give more cycles or fewer?',
+    'A vertical asymptote sits where the denominator is zero. Where does the new denominator vanish?',
+    'Two of the four options act vertically (level) and two horizontally (speed). Make sure you\'ve picked a horizontal one — and the right direction.',
+    'Treat the two parts in order: deal with the vertical stretch first, then the translation. Does x change under either?',
+    'Watch the order and direction: inside-bracket change is horizontal (and reversed); outside change is vertical.'
+  ];
+  return map[i] || 'Re-check whether your change acts vertically or horizontally, and in which direction.';
+}
+
+function mkBtn(label, cls) { const b = document.createElement('button'); b.textContent = label; b.className = cls; b.type = 'button'; return b; }
+function mkReveal(cls) { const d = document.createElement('div'); d.className = 'reveal ' + cls; return d; }
+
+// ---------------- Progress strip ----------------
+const progress = document.getElementById('progress');
+function renderProgress() {
+  progress.innerHTML = '<span style="font-size:0.85em; color:#6B5A42; margin-right:0.4em;">Progress:</span>';
+  questions.forEach((q, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    if (state[i].correct) dot.classList.add('correct');
+    else if (state[i].engaged) dot.classList.add('engaged');
+    if (i === current) dot.classList.add('current');
+    dot.textContent = state[i].correct ? '✓' : (i + 1);
+    dot.title = 'Question ' + (i + 1);
+    dot.addEventListener('click', () => { current = i; renderCard(); renderProgress(); });
+    progress.appendChild(dot);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) { current--; renderCard(); renderProgress(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { if (current < questions.length - 1) { current++; renderCard(); renderProgress(); } });
+
+renderCard();
+renderProgress();
+</script>
+
+</body>
+</html>
