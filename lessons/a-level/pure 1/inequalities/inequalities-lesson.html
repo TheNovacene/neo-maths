@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inequalities — When "Equal" Isn't the Question</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  .worked { background: #FBFDFA; border: 1px solid #C9D9C2; border-radius: 6px; padding: 0.75em 1em; margin: 0.75em 0; }
+  .note { background: #FFFDF5; border-left: 3px solid #C9A227; padding: 0.5em 0.85em; margin: 0.75em 0; font-size: 0.95em; }
+  table.rubric { border-collapse: collapse; width: 100%; margin: 0.75em 0; font-size: 0.92em; }
+  table.rubric th, table.rubric td { border: 1px solid #C3AE92; padding: 0.4em 0.6em; text-align: left; vertical-align: top; }
+  table.rubric th { background: #E4D6C2; }
+  code { background: #F2EEE6; padding: 0.05em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+
+  /* ---- interactive ---- */
+  .applet { background: #FBFCFD; border: 1px solid #C2D0DA; border-radius: 8px; padding: 1em 1.1em; margin: 1em 0; }
+  .applet h4 { margin: 0 0 0.5em; color: #2F4A5A; }
+  .ctrl-row { display: flex; flex-wrap: wrap; gap: 1.2em; align-items: center; margin: 0.5em 0 0.75em; }
+  .ctrl { display: flex; flex-direction: column; font-size: 0.85em; min-width: 150px; }
+  .ctrl label { margin-bottom: 0.2em; font-weight: bold; color: #2F4A5A; }
+  .ctrl .val { font-family: 'Courier New', monospace; color: #3A5A6B; }
+  input[type=range] { width: 100%; }
+  .applet svg { display: block; max-width: 100%; height: auto; background: #FFFFFF; border: 1px solid #DCE5EB; border-radius: 4px; margin: 0 auto; }
+  .algebra { font-family: 'Courier New', monospace; background: #F4F8FB; border: 1px solid #D3E0E8; border-radius: 5px; padding: 0.6em 0.85em; margin: 0.6em 0; font-size: 0.95em; white-space: pre-wrap; }
+  .verdict { font-weight: bold; padding: 0.5em 0.75em; border-radius: 5px; margin: 0.6em 0; text-align: center; }
+  .v-two   { background: #E2F0DC; color: #3C6B2E; border: 1px solid #A9CE97; }
+  .v-one   { background: #FBF0D6; color: #8A6A1E; border: 1px solid #E2C77E; }
+  .v-none  { background: #F4DEDA; color: #9A3B2E; border: 1px solid #D6A095; }
+  .prompts { background: #EEF3F6; border-radius: 6px; padding: 0.6em 1em 0.6em 1.4em; margin: 0.75em 0 0; font-size: 0.95em; }
+  .prompts li { margin: 0.35em 0; }
+  button.mini { font-family: Georgia, serif; background: #E5EBF0; border: 1px solid #3A5A6B; color: #2F4A5A; border-radius: 5px; padding: 0.35em 0.8em; cursor: pointer; font-size: 0.9em; }
+  button.mini:hover { background: #D6E1E9; }
+  button.mini.on { background: #3A5A6B; color: #fff; }
+  .seg { display:inline-flex; border:1px solid #3A5A6B; border-radius:5px; overflow:hidden; }
+  .seg button { font-family: Georgia, serif; background:#fff; border:none; border-right:1px solid #C2D0DA; color:#2F4A5A; padding:0.35em 0.7em; cursor:pointer; font-size:0.9em; }
+  .seg button:last-child { border-right:none; }
+  .seg button.on { background:#3A5A6B; color:#fff; }
+  .swatch { display:inline-block; width:0.8em; height:0.8em; border-radius:2px; vertical-align:middle; margin-right:0.25em; }
+</style>
+</head>
+<body>
+
+<h1>Inequalities</h1>
+<p style="font-style: italic; color: #5A5A5A; margin-top: -0.5em;">Pure Mathematics 1 · Algebra and Functions · Lesson 5</p>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Most of life isn't "exactly equal" — it's "at least", "no more than", "somewhere between". How do we solve a question whose answer is a <em>range</em> rather than a point?
+</div>
+
+<p>An equation asks "<em>where</em> are two things equal?" and usually answers with a handful of exact points. An <strong>inequality</strong> asks a softer, more realistic question: "<em>where</em> is one thing bigger than another?" Its answer is rarely a single value — it's a whole <strong>region</strong> of the number line. This lesson is about finding those regions, drawing them honestly, and — for quadratics — seeing <em>why</em> the answer is sometimes an interval and sometimes two pieces flying apart.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <h3>Linear inequalities</h3>
+  <p>You solve a linear inequality almost exactly as you would an equation — add, subtract, multiply, divide to isolate the variable. There is just <strong>one rule that bites</strong>:</p>
+  <div class="note"><strong>Flip the sign when you multiply or divide both sides by a negative number.</strong> If <code>−2x &lt; 6</code>, dividing by <code>−2</code> gives <code>x &gt; −3</code> — the <code>&lt;</code> becomes <code>&gt;</code>. (Why? Multiplying by a negative reflects every number through zero, which reverses their order.)</div>
+  <div class="worked">
+    <strong>Example.</strong> Solve <code>3x − 5 &le; 7</code>.<br>
+    Add 5: <code>3x &le; 12</code>. Divide by 3 (positive, so no flip): <code>x &le; 4</code>.<br>
+    Solution set: all <code>x</code> with <code>x &le; 4</code>.
+  </div>
+  <p>On a number line we mark the boundary with an <strong>open circle</strong> for <code>&lt;</code> or <code>&gt;</code> (the boundary is <em>not</em> included) and a <strong>closed circle</strong> for <code>&le;</code> or <code>&ge;</code> (it <em>is</em> included), then shade the region that satisfies the inequality.</p>
+
+  <h3>Quadratic inequalities</h3>
+  <p>Here is the key idea, and it is worth saying slowly: to solve a quadratic inequality, <strong>first find where the quadratic equals zero</strong> (its roots), then decide <strong>which side(s)</strong> of those roots make the inequality true. The roots are the only places the expression can change sign, so they cut the number line into regions — and within each region the sign never changes.</p>
+  <div class="worked">
+    <strong>Example.</strong> Solve <code>x² − x − 6 &gt; 0</code>.<br>
+    Factorise: <code>(x − 3)(x + 2) = 0</code> at <code>x = 3</code> and <code>x = −2</code>.<br>
+    The parabola opens upwards, so it is <em>above</em> the x-axis (positive) <strong>outside</strong> the roots.<br>
+    Solution: <code>x &lt; −2</code> <strong>or</strong> <code>x &gt; 3</code>. (Two separate regions.)
+  </div>
+  <div class="worked">
+    <strong>Same quadratic, flipped.</strong> Solve <code>x² − x − 6 &lt; 0</code>.<br>
+    Same roots, but now we want where the parabola is <em>below</em> the axis (negative) — <strong>between</strong> the roots.<br>
+    Solution: <code>−2 &lt; x &lt; 3</code>. (One interval.)
+  </div>
+  <div class="note">A sketch beats a memorised rule every time. Draw the parabola, mark the roots, see whether you want the part <em>above</em> or <em>below</em> the axis, and read the region straight off the picture. "Above the axis → outside the roots; below the axis → between the roots" is something you can <em>see</em>, not just recall — provided the <code>x²</code> coefficient is positive (if it's negative, the parabola opens downward and the regions swap).</div>
+
+  <div class="seed"><strong>Seed of Change:</strong> Solve linear and quadratic inequalities, including representing the solution set on a number line.</div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>The symbols <code>&lt;</code> and <code>&gt;</code> are surprisingly modern. They were introduced by the English mathematician Thomas Harriot, whose work was published in 1631 — long after the equals sign, which Robert Recorde had devised back in 1557. For a remarkably long stretch of mathematical history, then, people could write "these two things are equal" with a tidy symbol but had no quick way to write "this one is larger". The idea of ordering — of <em>more</em> and <em>less</em> — had to wait for its own notation.</p>
+
+  <p>That gap is telling, because ordering is arguably the more primitive idea. Long before anyone could solve an equation, people compared: which harvest was bigger, which portion was fairer, which path was shorter. Inequalities are the mathematics of comparison, and comparison is one of the oldest things human beings do.</p>
+
+  <p>They are also the mathematics of the real world in a way exact equations often are not. A bridge must carry <em>at least</em> a certain load. A medicine must keep a concentration <em>between</em> a floor (too little does nothing) and a ceiling (too much is dangerous). A budget must come in <em>at or under</em> a limit. Engineers, doctors, and economists spend far more of their time with inequalities than with equations, because the questions that actually matter are usually about safe ranges and acceptable limits rather than single perfect values.</p>
+
+  <div class="note">A fairness reflection: an enormous amount of justice is, at its heart, about inequalities — thresholds of need, floors below which no one should fall, ceilings on what may be taken. The mathematics of "at least" and "no more than" is quietly the mathematics of how a society decides what is enough.</div>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Choose <strong>one</strong> and make the idea your own:</p>
+  <ul>
+    <li><strong>In words:</strong> Explain to someone why solving <code>x² − x − 6 &gt; 0</code> gives <em>two</em> separate regions, while changing the <code>&gt;</code> to a <code>&lt;</code> gives one region in the middle. Use a picture of the parabola, not a rule.</li>
+    <li><strong>As a sketch:</strong> Draw one upward parabola crossing the x-axis at two points. Shade, in one colour, the x-values where it's above the axis; in another, where it's below. Label each with the inequality it solves.</li>
+    <li><strong>As a story:</strong> Describe a real situation governed by "between two limits" — a thermostat, a safe dosage, a comfortable speed — and write the inequality that captures it.</li>
+    <li><strong>Spot the trap:</strong> Write a short note to a future student warning them about the single most common inequality mistake (forgetting to flip the sign when dividing by a negative). Make it memorable.</li>
+  </ul>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Two explorers below. Stage 1 lets you build a linear inequality and see its solution set drawn honestly on a number line, open or closed circle and all. Stage 2 is the heart of the topic: drag the parabola and choose the inequality, and watch the satisfying region of the x-axis light up — so you can <em>see</em> why "above the axis" means "outside the roots" and "below" means "between" them.</p>
+
+  <div class="applet">
+    <h4>Stage 1 · Linear inequality on a number line</h4>
+    <p style="font-size:0.9em; margin:0.2em 0 0.6em;">Build <code>ax + b</code> <em>(relation)</em> <code>0</code>, then read its solution set off the number line. Watch the circle switch between open and closed, and watch the sign flip when <code>a</code> is negative.</p>
+    <div class="ctrl-row">
+      <div class="ctrl"><label>Coefficient a = <span class="val" id="aL">2</span></label><input type="range" id="a" min="-4" max="4" step="1" value="2"></div>
+      <div class="ctrl"><label>Constant b = <span class="val" id="bL">-6</span></label><input type="range" id="b" min="-8" max="8" step="1" value="-6"></div>
+      <div class="ctrl"><label>Relation:</label>
+        <span class="seg" id="rel1">
+          <button data-r="lt">&lt;</button><button data-r="le" class="on">&le;</button><button data-r="ge">&ge;</button><button data-r="gt">&gt;</button>
+        </span>
+      </div>
+    </div>
+    <svg id="svg1" viewBox="0 0 640 130" role="img" aria-label="A number line showing the solution set of a linear inequality"></svg>
+    <div class="algebra" id="alg1"></div>
+    <div class="verdict" id="ver1"></div>
+    <ol class="prompts">
+      <li>Set <code>a = 2</code>, <code>b = −6</code>, relation <code>&le;</code>. Read the solution. Now switch <code>a</code> to <code>−2</code> without changing anything else. What happens to the inequality sign, and why?</li>
+      <li>Find a setting where the solution is <code>x &gt; 0</code> exactly. What does the open circle at zero mean — is <code>x = 0</code> part of the solution?</li>
+      <li>Set <code>a = 0</code>. The "inequality" no longer depends on <code>x</code>. When is it true for <em>all</em> <code>x</code>, and when for <em>none</em>? Explain what the explorer shows.</li>
+    </ol>
+  </div>
+
+  <div class="applet">
+    <h4>Stage 2 · Quadratic inequality — see the region</h4>
+    <p style="font-size:0.9em; margin:0.2em 0 0.6em;">The parabola is <code>y = x² + px + q</code>. Drag <code>p</code> and <code>q</code> to move its roots, choose the inequality, and the x-values that satisfy it are highlighted on the axis. Notice when the solution is one interval, when it's two outer regions, and when it's empty or everything.</p>
+    <div class="ctrl-row">
+      <div class="ctrl"><label>p = <span class="val" id="pL">-1</span></label><input type="range" id="p" min="-6" max="6" step="0.1" value="-1"></div>
+      <div class="ctrl"><label>q = <span class="val" id="qL">-6</span></label><input type="range" id="q" min="-9" max="9" step="0.1" value="-6"></div>
+      <div class="ctrl"><label>Inequality:</label>
+        <span class="seg" id="rel2">
+          <button data-r="lt">y &lt; 0</button><button data-r="le">y &le; 0</button><button data-r="ge">y &ge; 0</button><button data-r="gt" class="on">y &gt; 0</button>
+        </span>
+      </div>
+    </div>
+    <div style="margin:0.2em 0 0.4em;"><button class="mini" id="snapRoots">⟳ Snap to whole-number roots</button>
+      <span style="font-size:0.82em; color:#6A7C86; margin-left:0.4em;">Try dragging to find nice roots yourself first, then snap to tidy them.</span></div>
+    <svg id="svg2" viewBox="0 0 420 380" role="img" aria-label="A parabola with the solution region of a quadratic inequality highlighted on the x-axis"></svg>
+    <div class="algebra" id="alg2"></div>
+    <div class="verdict" id="ver2"></div>
+    <p style="font-size:0.85em; margin:0.3em 0 0;"><span class="swatch" style="background:#4A6B3A;"></span>Parabola &nbsp; <span class="swatch" style="background:#C9A227;"></span>Roots &nbsp; <span class="swatch" style="background:#3A5A6B;"></span>Solution region on the x-axis</p>
+    <ol class="prompts">
+      <li>Set the inequality to <code>y &gt; 0</code> and find roots at <code>x = −2</code> and <code>x = 3</code> (use snap). Read the solution. Now switch to <code>y &lt; 0</code> without moving anything. How does the region change — and why is one "outside" and the other "between"?</li>
+      <li>Drag <code>q</code> upward until the parabola just touches the axis (one repeated root). What is the solution set of <code>y &gt; 0</code> there? And of <code>y &ge; 0</code>? (The difference between <code>&gt;</code> and <code>&ge;</code> matters most exactly here.)</li>
+      <li>Drag <code>q</code> higher still, so the parabola sits entirely above the axis. What is the solution of <code>y &gt; 0</code> now? Of <code>y &lt; 0</code>? Connect your answer to the discriminant.</li>
+      <li><em>Productive friction:</em> the explorer always draws an <em>upward</em> parabola (the <code>x²</code> coefficient is +1). Sketch by hand what would change if it opened downward. Which regions would swap, and why?</li>
+    </ol>
+  </div>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+  <p>Inequalities trip up a lot of capable people, and almost always at the same two spots: forgetting to flip the sign when dividing by a negative, and muddling "between the roots" with "outside the roots". If either of those has caught you, you are in very normal company — these aren't signs of weakness, they're signs that the topic has two genuine pinch-points worth slowing down for.</p>
+  <p>Notice, gently:</p>
+  <ul>
+    <li>When you divided by a negative, did you catch the sign flip in the moment, or only on checking? Building the habit of <em>pausing at every negative divide</em> is worth more than speed.</li>
+    <li>For the quadratic case, did the picture help? If "draw the parabola, see the region" felt more secure than any rule, trust that — a method you can see is a method you can rebuild when you're tired or anxious.</li>
+    <li>Which felt steadier: the number line, or the parabola? There's no right answer. Knowing your stronger entry point is a tool for the next time the topic appears.</li>
+  </ul>
+  <p>If you noticed frustration at any point, what helped it settle — a sketch, a pause, the explorer, re-reading slowly? That's a strategy worth keeping.</p>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build an "Inequality Field Guide."</strong> Produce a short illustrated reference (handwritten, typed, or recorded) containing all of the following:</p>
+  <ol>
+    <li>A <strong>linear inequality</strong> requiring a sign flip, solved fully, with its solution set drawn correctly on a number line (open/closed circle shown deliberately).</li>
+    <li>A <strong>quadratic inequality of the "&gt; 0" type</strong>, solved with a sketch, giving a <em>two-region</em> ("or") answer.</li>
+    <li>A <strong>quadratic inequality of the "&lt; 0" type</strong> using the same quadratic, giving a <em>single-interval</em> answer — placed next to the first so the contrast is visible.</li>
+    <li>A short paragraph (3–4 sentences) explaining, in your own words and using a sketch, <em>why</em> "above the axis" means outside the roots and "below" means between them — and what changes if the parabola opens downward.</li>
+    <li>One <strong>modelling</strong> sentence: a real situation governed by a "between two limits" condition, written as an inequality, with a note on what the solution range means in context.</li>
+  </ol>
+
+  <div class="seed"><strong>Seed of Change:</strong> Solve linear and quadratic inequalities, including representing the solution set on a number line.</div>
+
+  <p style="margin-top:1em;"><strong>How this is assessed — the Haven Maths Rubric:</strong></p>
+  <table class="rubric">
+    <tr><th>Strand</th><th>What we're looking for here</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>You can explain why a quadratic inequality's solution is sometimes an interval and sometimes two regions, using the graph.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Linear and quadratic inequalities are solved correctly, including the sign flip and accurate open/closed boundaries.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>You can translate a real "within limits" situation into an inequality and interpret the solution range.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The field guide is your own, and your explanation shows you reasoning from the picture rather than a memorised rule.</td></tr>
+  </table>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="inequalities_practice_companion.html" target="_blank" rel="noopener"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+</div>
+
+<script>
+(function(){
+  function el(tag, attrs){
+    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for(const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function fmt(n){ return (Math.round(n*100)/100).toString(); }
+
+  // ================= STAGE 1: linear inequality on a number line =================
+  (function(){
+    const W=640,H=130,pad=40, axisY=70;
+    const svg=document.getElementById('svg1');
+    const xmin=-10, xmax=10;
+    const px = x => pad + (x - xmin)/(xmax - xmin)*(W - 2*pad);
+    let rel='le';
+    const getA=()=>parseFloat(document.getElementById('a').value);
+    const getB=()=>parseFloat(document.getElementById('b').value);
+
+    document.querySelectorAll('#rel1 button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('#rel1 button').forEach(b=>b.classList.remove('on'));
+        btn.classList.add('on'); rel=btn.dataset.r; render();
+      });
+    });
+
+    const relSym={lt:'<',le:'≤',ge:'≥',gt:'>'};
+    function flip(r){ return {lt:'gt',gt:'lt',le:'ge',ge:'le'}[r]; }
+
+    function render(){
+      const a=getA(), b=getB();
+      document.getElementById('aL').textContent=a;
+      document.getElementById('bL').textContent=b;
+      svg.innerHTML='';
+      // number line
+      svg.appendChild(el('line',{x1:pad,y1:axisY,x2:W-pad,y2:axisY,stroke:'#555','stroke-width':2}));
+      for(let t=xmin;t<=xmax;t++){
+        const X=px(t);
+        svg.appendChild(el('line',{x1:X,y1:axisY-5,x2:X,y2:axisY+5,stroke:'#999','stroke-width':1}));
+        if(t%5===0){
+          svg.appendChild(el('line',{x1:X,y1:axisY-8,x2:X,y2:axisY+8,stroke:'#555','stroke-width':1.5}));
+          const tx=el('text',{x:X,y:axisY+26,'text-anchor':'middle','font-size':'13','font-family':'Courier New','fill':'#444'}); tx.textContent=t; svg.appendChild(tx);
+        }
+      }
+      // arrowheads
+      svg.appendChild(el('path',{d:`M${W-pad} ${axisY} l-9 -5 l0 10 z`,fill:'#555'}));
+      svg.appendChild(el('path',{d:`M${pad} ${axisY} l9 -5 l0 10 z`,fill:'#555'}));
+
+      const alg=document.getElementById('alg1');
+      const ver=document.getElementById('ver1');
+
+      if(a===0){
+        // b (rel) 0 — independent of x
+        const truth = ({lt:b<0,le:b<=0,ge:b>=0,gt:b>0})[rel];
+        alg.textContent='With a = 0 the statement is just:  '+b+' '+relSym[rel]+' 0';
+        if(truth){
+          svg.appendChild(el('rect',{x:pad,y:axisY-4,width:W-2*pad,height:8,fill:'#3A5A6B',opacity:0.35}));
+          ver.className='verdict v-two'; ver.textContent='True for every x — the whole number line is the solution.';
+        } else {
+          ver.className='verdict v-none'; ver.textContent='False for every x — there is no solution.';
+        }
+        return;
+      }
+
+      // solve a x + b (rel) 0  ->  x (rel') -b/a, flipping if a<0
+      const root=-b/a;
+      let r2=rel;
+      if(a<0) r2=flip(rel);
+      const closed = (r2==='le'||r2==='ge');
+      const greater = (r2==='ge'||r2==='gt');
+
+      alg.textContent =
+        a+'x '+(b>=0?'+ '+b:'- '+(-b))+' '+relSym[rel]+' 0\n'+
+        '→ '+a+'x '+relSym[rel]+' '+(-b)+'\n'+
+        (a<0 ? '→ divide by '+a+' (negative ⇒ FLIP):  x '+relSym[r2]+' '+fmt(root)
+             : '→ divide by '+a+':  x '+relSym[r2]+' '+fmt(root));
+
+      const X=px(root);
+      // shaded ray
+      if(greater){
+        svg.appendChild(el('rect',{x:X,y:axisY-4,width:(W-pad)-X,height:8,fill:'#3A5A6B',opacity:0.45}));
+      } else {
+        svg.appendChild(el('rect',{x:pad,y:axisY-4,width:X-pad,height:8,fill:'#3A5A6B',opacity:0.45}));
+      }
+      // boundary circle
+      svg.appendChild(el('circle',{cx:X,cy:axisY,r:7,fill:closed?'#C9A227':'#fff',stroke:'#8A6A1E','stroke-width':2.2}));
+
+      ver.className='verdict v-one';
+      ver.textContent='Solution:  x '+relSym[r2]+' '+fmt(root)+'   ('+(closed?'closed':'open')+' circle — boundary '+(closed?'included':'excluded')+')';
+    }
+    document.getElementById('a').addEventListener('input',render);
+    document.getElementById('b').addEventListener('input',render);
+    render();
+  })();
+
+  // ================= STAGE 2: quadratic inequality y = x^2 + p x + q =================
+  (function(){
+    const W=420,H=380,pad=30, axisRowY=H-46;
+    const svg=document.getElementById('svg2');
+    const xmin=-7,xmax=7,ymin=-12,ymax=12;
+    const px = x => pad + (x - xmin)/(xmax - xmin)*(W - 2*pad);
+    const py = y => (H-60) - pad - (y - ymin)/(ymax - ymin)*((H-60) - 2*pad);
+    let rel='gt';
+    const getP=()=>parseFloat(document.getElementById('p').value);
+    const getQ=()=>parseFloat(document.getElementById('q').value);
+
+    document.querySelectorAll('#rel2 button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('#rel2 button').forEach(b=>b.classList.remove('on'));
+        btn.classList.add('on'); rel=btn.dataset.r; render();
+      });
+    });
+    const relSym={lt:'< 0',le:'≤ 0',ge:'≥ 0',gt:'> 0'};
+
+    document.getElementById('snapRoots').addEventListener('click',()=>{
+      // round current roots to nearest integers, then rebuild p,q from them
+      const p=getP(), q=getQ(), disc=p*p-4*q;
+      if(disc<0){ return; } // no real roots to snap to
+      let r1=Math.round((-p-Math.sqrt(disc))/2), r2=Math.round((-p+Math.sqrt(disc))/2);
+      // p = -(r1+r2), q = r1*r2
+      const np=-(r1+r2), nq=r1*r2;
+      document.getElementById('p').value=Math.max(-6,Math.min(6,np));
+      document.getElementById('q').value=Math.max(-9,Math.min(9,nq));
+      render();
+    });
+
+    function render(){
+      const p=getP(), q=getQ();
+      document.getElementById('pL').textContent=fmt(p);
+      document.getElementById('qL').textContent=fmt(q);
+      svg.innerHTML='';
+
+      // grid
+      for(let gx=Math.ceil(xmin);gx<=xmax;gx++) svg.appendChild(el('line',{x1:px(gx),y1:pad,x2:px(gx),y2:H-60-pad,stroke:(gx===0?'#9AA':'#EEF1F3'),'stroke-width':(gx===0?1.3:1)}));
+      for(let gy=Math.ceil(ymin);gy<=ymax;gy+=2) svg.appendChild(el('line',{x1:pad,y1:py(gy),x2:W-pad,y2:py(gy),stroke:(gy===0?'#9AA':'#EEF1F3'),'stroke-width':(gy===0?1.3:1)}));
+
+      // parabola y = x^2 + p x + q, pen-lifting clip
+      let d='', penDown=false;
+      for(let x=xmin;x<=xmax;x+=0.04){
+        const y=x*x+p*x+q;
+        if(y<ymin||y>ymax){ penDown=false; continue; }
+        d+=(penDown?'L':'M')+px(x).toFixed(2)+' '+py(y).toFixed(2)+' ';
+        penDown=true;
+      }
+      if(d) svg.appendChild(el('path',{d:d,fill:'none',stroke:'#4A6B3A','stroke-width':2.6}));
+
+      // roots
+      const disc=p*p-4*q;
+      let roots=[];
+      if(disc>1e-9){ roots=[(-p-Math.sqrt(disc))/2,(-p+Math.sqrt(disc))/2]; }
+      else if(disc>-1e-9){ roots=[-p/2]; }
+
+      // ---- solution region on the x-axis (drawn as a thick band just below the grid) ----
+      const bandY=H-60-pad+10;
+      // determine solution set as list of intervals over [xmin,xmax] for x^2+px+q (rel) 0
+      const a=1;
+      function satisfies(xval){
+        const y=xval*xval+p*xval+q;
+        return ({lt:y<0,le:y<=0,ge:y>=0,gt:y>0})[rel];
+      }
+      // sample to build shaded segments (robust + simple)
+      let segStart=null;
+      const step=(xmax-xmin)/600;
+      for(let x=xmin;x<=xmax+1e-9;x+=step){
+        const ok=satisfies(x);
+        if(ok && segStart===null) segStart=x;
+        if((!ok||x>=xmax) && segStart!==null){
+          const segEnd = ok? x : x-step;
+          svg.appendChild(el('line',{x1:px(segStart),y1:bandY,x2:px(segEnd),y2:bandY,stroke:'#3A5A6B','stroke-width':7,'stroke-linecap':'round',opacity:0.8}));
+          segStart=null;
+        }
+      }
+      // root markers + open/closed endpoint dots on the band
+      const closed=(rel==='le'||rel==='ge');
+      roots.forEach(r=>{
+        if(r>=xmin&&r<=xmax){
+          svg.appendChild(el('circle',{cx:px(r),cy:py(0),r:4.5,fill:'#C9A227',stroke:'#8A6A1E','stroke-width':1.5}));
+          svg.appendChild(el('circle',{cx:px(r),cy:bandY,r:6,fill:closed?'#3A5A6B':'#fff',stroke:'#2F4A5A','stroke-width':2}));
+        }
+      });
+
+      // ---- algebra + verdict ----
+      const alg=document.getElementById('alg2');
+      const ver=document.getElementById('ver2');
+      let froot;
+      if(disc>1e-9){
+        const r1=fmt(roots[0]), r2=fmt(roots[1]);
+        froot='Roots at x = '+r1+' and x = '+r2+'  (Δ = '+fmt(disc)+' > 0)';
+      } else if(disc>-1e-9){
+        froot='One repeated root at x = '+fmt(-p/2)+'  (Δ = 0)';
+      } else {
+        froot='No real roots  (Δ = '+fmt(disc)+' < 0) — the parabola stays entirely above the axis';
+      }
+      alg.textContent='y = x² '+(p>=0?'+ '+fmt(p):'− '+fmt(-p))+'x '+(q>=0?'+ '+fmt(q):'− '+fmt(-q))+'\nSolve:  x² '+(p>=0?'+ '+fmt(p):'− '+fmt(-p))+'x '+(q>=0?'+ '+fmt(q):'− '+fmt(-q))+' '+relSym[rel]+'\n'+froot;
+
+      // verdict text describing the solution set
+      ver.className='verdict';
+      const wantsPositive=(rel==='gt'||rel==='ge');
+      const orEqual=(rel==='ge'||rel==='le');
+      if(disc>1e-9){
+        const r1=fmt(roots[0]), r2=fmt(roots[1]);
+        if(wantsPositive){
+          ver.classList.add('v-two');
+          ver.textContent='Solution: x '+(orEqual?'≤':'<')+' '+r1+'  or  x '+(orEqual?'≥':'>')+' '+r2+'   (two regions — outside the roots)';
+        } else {
+          ver.classList.add('v-one');
+          ver.textContent='Solution: '+r1+' '+(orEqual?'≤':'<')+' x '+(orEqual?'≤':'<')+' '+r2+'   (one interval — between the roots)';
+        }
+      } else if(disc>-1e-9){
+        const r=fmt(-p/2);
+        if(rel==='ge'){ ver.classList.add('v-two'); ver.textContent='Solution: all real x  (the parabola is ≥ 0 everywhere; equals 0 at x = '+r+')'; }
+        else if(rel==='gt'){ ver.classList.add('v-one'); ver.textContent='Solution: all x except x = '+r+'   (x > 0 everywhere except the touching point)'; }
+        else if(rel==='le'){ ver.classList.add('v-one'); ver.textContent='Solution: x = '+r+' only   (the only place y ≤ 0 is the touching point)'; }
+        else { ver.classList.add('v-none'); ver.textContent='No solution   (the parabola is never strictly below the axis)'; }
+      } else {
+        if(wantsPositive){ ver.classList.add('v-two'); ver.textContent='Solution: all real x   (the parabola is above the axis everywhere)'; }
+        else { ver.classList.add('v-none'); ver.textContent='No solution   (the parabola is never below the axis)'; }
+      }
+    }
+    document.getElementById('p').addEventListener('input',render);
+    document.getElementById('q').addEventListener('input',render);
+    render();
+  })();
+})();
+</script>
+
+</body>
+</html>
