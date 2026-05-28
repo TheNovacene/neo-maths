@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Indices and Surds Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 1.5em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  h2 { color: #3A5A6B; }
+  .intro { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.25em 0; font-style: italic; }
+  code { background: #FFFDF5; padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+
+  /* Progress strip */
+  .progress-strip { display: flex; gap: 0.4em; margin: 1.5em 0; flex-wrap: wrap; align-items: center; }
+  .progress-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: bold; background: #F0E8DC; border: 2px solid #C9B89A; color: #6B5E48; transition: all 0.25s ease; }
+  .progress-dot.current { background: #E5EBF0; border-color: #3A5A6B; color: #3A5A6B; transform: scale(1.1); }
+  .progress-dot.attempted { background: #F5EFD9; border-color: #C9A227; color: #7A5A1F; }
+  .progress-dot.correct { background: #DCEFD3; border-color: #4A7A37; color: #2E5C1F; }
+  .progress-label { font-size: 0.9em; color: #6B5E48; margin-left: 0.5em; }
+
+  /* Question card */
+  .q-card { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1.5em; margin: 1em 0; }
+  .q-meta { font-size: 0.85em; color: #8B6F47; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5em; font-weight: bold; }
+  .q-stem { font-size: 1.1em; margin-bottom: 1em; }
+  .q-stem .equation { font-family: 'Courier New', monospace; }
+
+  /* Inputs */
+  .workspace, .answer-input { width: 100%; box-sizing: border-box; padding: 0.6em 0.8em; font-family: 'Courier New', monospace; font-size: 1em; border: 1px solid #C9B89A; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .workspace { min-height: 100px; margin-bottom: 0.75em; }
+  .answer-input { font-size: 1.05em; }
+  label.field-label { display: block; font-weight: bold; color: #4A4438; margin-bottom: 0.3em; font-size: 0.95em; }
+  .field { margin: 0.75em 0; }
+
+  /* Symbol palette */
+  .palette { background: #F5EFE3; border: 1px solid #C9B89A; border-radius: 5px; padding: 0.4em; margin-bottom: 0.4em; }
+  .palette-row { display: flex; flex-wrap: wrap; gap: 0.25em; align-items: center; }
+  .palette-row + .palette-row { margin-top: 0.3em; padding-top: 0.3em; border-top: 1px dashed #D8CFB8; }
+  .palette-row-label { font-size: 0.75em; color: #8B6F47; font-style: italic; margin-right: 0.5em; min-width: 70px; }
+  .palette-btn { padding: 0.25em 0.55em; min-width: 1.8em; font-family: 'Courier New', monospace; font-size: 1em; background: #FFFDF5; border: 1px solid #C9B89A; border-radius: 4px; cursor: pointer; color: #2B2B2B; transition: background 0.15s ease; }
+  .palette-btn:hover { background: #FFF9E6; border-color: #8B6F47; }
+  .palette-btn:active { background: #F0E8DC; }
+  .palette-hint { font-size: 0.8em; color: #6B5E48; margin-top: 0.4em; font-style: italic; }
+
+  /* Action buttons */
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1em; }
+  .btn { padding: 0.5em 1em; border-radius: 6px; border: 1px solid; background: #FFFDF5; cursor: pointer; font-family: Georgia, serif; font-size: 0.95em; transition: background 0.2s ease; }
+  .btn:hover { background: #F5EFE3; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-socratic { border-color: #6B4A6B; color: #6B4A6B; }
+  .btn-hint     { border-color: #8B6F47; color: #8B6F47; }
+  .btn-solution { border-color: #3A5A6B; color: #3A5A6B; }
+  .btn-check    { border-color: #4A7A37; color: #4A7A37; font-weight: bold; }
+  .btn-next     { border-color: #6B4A2E; color: #6B4A2E; font-weight: bold; background: #EDE3D3; }
+  .btn-next:hover { background: #E0D2BD; }
+
+  /* Reveal areas */
+  .reveal { margin-top: 0.75em; padding: 0.85em 1.1em; border-radius: 6px; border-left: 4px solid; display: none; }
+  .reveal.shown { display: block; }
+  .reveal-socratic { background: #F2E8F0; border-left-color: #6B4A6B; }
+  .reveal-hint     { background: #F5EFE3; border-left-color: #8B6F47; }
+  .reveal-solution { background: #E5EBF0; border-left-color: #3A5A6B; }
+  .reveal-feedback { background: #F5EFD9; border-left-color: #C9A227; }
+  .reveal-feedback.correct { background: #DCEFD3; border-left-color: #4A7A37; }
+  .reveal-feedback.incorrect { background: #F5D8D2; border-left-color: #B23A22; }
+  .reveal-label { font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4em; display: block; }
+  .reveal-step { margin: 0.6em 0; }
+
+  /* Reflection panel */
+  .reflection { background: #F5EFD9; border: 1px solid #C9A227; border-radius: 10px; padding: 1.5em; margin: 2em 0; }
+  .reflection h2 { margin-top: 0; }
+  .reflection textarea { width: 100%; box-sizing: border-box; min-height: 120px; padding: 0.6em 0.8em; font-family: Georgia, serif; font-size: 1em; border: 1px solid #C9A227; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .completion-banner { display: none; background: #DCEFD3; border: 2px solid #4A7A37; padding: 1.25em 1.5em; border-radius: 10px; margin: 1.5em 0; }
+  .completion-banner.shown { display: block; }
+
+  @media print {
+    .actions, .btn, .progress-strip, .completion-banner, .palette { display: none !important; }
+    .reveal { display: block !important; }
+    .q-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Indices and Surds Practice Companion</h1>
+
+<div class="intro">
+  Now that you've explored <em>why</em> we need numbers like <code>√2</code> and what the laws of indices are <em>doing</em>, this is where you build fluency with them. Take your time. Get stuck if you need to — getting stuck is part of the work. There are four kinds of help on every question: a Socratic question (which asks you something rather than telling you), a hint (which gives you a piece of the method), a worked solution (which shows the whole thing), and an answer check.
+</div>
+
+<div class="progress-strip" id="progressStrip"></div>
+
+<div id="questionsContainer"></div>
+
+<div class="completion-banner" id="completionBanner">
+  <h2 style="margin-top:0;">Well done — you've worked through every question. 🌱</h2>
+  <p>Take a moment for the reflection below. You can also press <strong>Ctrl+P</strong> (or <strong>⌘+P</strong>) to print or save your work, including all the reveals and your written workings.</p>
+</div>
+
+<div class="reflection">
+  <h2>💛 Reflection</h2>
+  <p>Mirroring the Living Body panel of the lesson: how did that feel? There are no wrong answers — these prompts are just to notice what's happening.</p>
+  <ul>
+    <li>Which question types felt natural? Which felt sticky?</li>
+    <li>Were the laws of indices easier or harder than the surd manipulations? What does that tell you about your numerical instincts?</li>
+    <li>When you rationalised a denominator with a conjugate, did the trick feel mysterious or sensible? What helped (or what might have helped) it feel sensible?</li>
+    <li>On a scale of 1 (no clearer) to 5 (much clearer), how does your understanding of indices and surds feel now compared to before this practice?</li>
+  </ul>
+  <textarea placeholder="Type your reflections here..."></textarea>
+</div>
+
+<script>
+// ===================================================================
+// QUESTION BANK
+// ===================================================================
+const questions = [
+  // ---------- DIRECT APPLICATION ----------
+  {
+    type: "Direct application — laws of indices",
+    stem: "Simplify <span class='equation'>2³ · 2⁴</span>. Give your answer in the form <span class='equation'>2ⁿ</span>.",
+    socratic: [
+      "Which law of indices applies when you multiply two powers of the same base?",
+      "If the bases are the same, what do you do with the exponents?",
+      "Can you say in words what the multiplication law of indices is doing?"
+    ],
+    hints: [
+      "The multiplication law: aᵐ · aⁿ = aᵐ⁺ⁿ.",
+      "So 2³ · 2⁴ = 2^(3+4)."
+    ],
+    solution: [
+      "Apply the multiplication law of indices: aᵐ · aⁿ = aᵐ⁺ⁿ.",
+      "2³ · 2⁴ = 2^(3+4) = <strong>2⁷</strong>.",
+      "(As a check: 2⁷ = 128, and 2³ · 2⁴ = 8 · 16 = 128. ✓)"
+    ],
+    expectedAnswer: "2⁷",
+    acceptedAnswers: ["2⁷", "2^7", "27", "2 7", "two to the seven", "2 to the 7", "2 to the power 7"],
+    correctFeedback: "Exactly right. The multiplication law of indices reduces this kind of problem to simple addition. The trick is recognising that both terms must have the same base before you can add the exponents.",
+    incorrectFeedback: "When multiplying powers of the same base, you add the exponents (not multiply them). 2³ · 2⁴ = 2^(3+4), not 2^(3×4)."
+  },
+
+  {
+    type: "Direct application — surd simplification",
+    stem: "Simplify <span class='equation'>√72</span> as fully as possible.",
+    socratic: [
+      "Can you write 72 as a product of two numbers, one of which is a perfect square?",
+      "What is the largest perfect square that divides 72?",
+      "What does √(a · b) equal when written as a product of square roots?"
+    ],
+    hints: [
+      "72 = 36 · 2, and 36 is a perfect square.",
+      "√72 = √(36 · 2) = √36 · √2."
+    ],
+    solution: [
+      "Look for the largest perfect-square factor of 72. The largest is 36, since 72 = 36 · 2.",
+      "√72 = √(36 · 2) = √36 · √2 = <strong>6√2</strong>."
+    ],
+    expectedAnswer: "6√2",
+    acceptedAnswers: ["6√2", "6 sqrt 2", "6sqrt2", "6 root 2", "6√(2)", "6*sqrt(2)", "6·√2"],
+    correctFeedback: "Lovely. The skill in simplifying surds is spotting the largest perfect-square factor. Smaller perfect squares (like 4 or 9) would also have worked, but the result wouldn't be in its simplest form — you'd need to keep going.",
+    incorrectFeedback: "Common slips: (i) using a smaller perfect-square factor (e.g. 4 · 18, giving 2√18, which then needs further simplification); (ii) leaving the expression unsimplified. Find the largest perfect-square factor of 72 first."
+  },
+
+  // ---------- INVERSE / MANIPULATION ----------
+  {
+    type: "Manipulation — fractional exponent",
+    stem: "Evaluate <span class='equation'>8<sup>2/3</sup></span> without a calculator.",
+    socratic: [
+      "What does a fractional exponent like 1/n mean in terms of roots?",
+      "Can you split a^(m/n) into two simpler operations?",
+      "Which is easier to compute first — take the cube root, or take the square?"
+    ],
+    hints: [
+      "Recall that a^(m/n) = (a^(1/n))^m = (ⁿ√a)^m. So 8^(2/3) = (³√8)².",
+      "³√8 = 2 (since 2³ = 8). Now square it."
+    ],
+    solution: [
+      "Use the fractional-exponent rule: a^(m/n) = (ⁿ√a)^m.",
+      "8^(2/3) = (³√8)² = 2² = <strong>4</strong>.",
+      "(Alternatively, you could compute 8² = 64 first and then take the cube root: ³√64 = 4. Same answer either way — that's the power-of-a-power law guaranteeing consistency.)"
+    ],
+    expectedAnswer: "4",
+    acceptedAnswers: ["4", "four"],
+    correctFeedback: "Excellent. And did you notice the elegance? Taking the root first (when possible) gives smaller intermediate numbers — that's nearly always the more efficient route.",
+    incorrectFeedback: "A fractional exponent m/n combines a root and a power — it's neither a division (8 ÷ ⅔) nor a fraction of the base. Think about which number is the root and which is the power, and try taking the root first to keep the numbers small. Revise and try again, or use a Socratic prompt."
+  },
+
+  {
+    type: "Manipulation — negative exponent",
+    stem: "Write <span class='equation'>5⁻²</span> as a fraction in its simplest form.",
+    socratic: [
+      "What does a negative exponent mean?",
+      "What is the reciprocal of 5²?",
+      "Can you express the answer as a single fraction with integers on top and bottom?"
+    ],
+    hints: [
+      "a⁻ⁿ = 1/aⁿ.",
+      "So 5⁻² = 1/5² = 1/25."
+    ],
+    solution: [
+      "Apply the negative-exponent rule: a⁻ⁿ = 1 / aⁿ.",
+      "5⁻² = 1/5² = <strong>1/25</strong>."
+    ],
+    expectedAnswer: "1/25",
+    acceptedAnswers: ["1/25", "1 / 25", "0.04", "1÷25", "one over twenty-five"],
+    correctFeedback: "Right. A negative exponent flips the base into the denominator — it does NOT make the answer negative. 5⁻² = 1/25, not −25 or −1/25.",
+    incorrectFeedback: "Watch what the negative sign in the exponent does — it doesn't make the answer negative. A negative exponent flips the base into a reciprocal. So think about what positive power of 5 you'd take, then flip it. Revise and try again."
+  },
+
+  // ---------- RATIONALISING ----------
+  {
+    type: "Rationalising the denominator",
+    stem: "Rationalise the denominator of <span class='equation'>3/√5</span>. Give your answer in its simplest form.",
+    socratic: [
+      "What do you multiply √5 by to make it a rational number?",
+      "If you multiply the bottom of a fraction by something, what do you have to do to the top to keep the fraction's value unchanged?",
+      "What does √5 · √5 equal?"
+    ],
+    hints: [
+      "Multiply both top and bottom by √5.",
+      "Then 3/√5 = (3 · √5) / (√5 · √5) = 3√5 / 5."
+    ],
+    solution: [
+      "Multiply numerator and denominator by √5 (this is multiplying by 1 in disguise — √5/√5 = 1).",
+      "3/√5 = (3 · √5) / (√5 · √5)",
+      "Use √5 · √5 = 5 in the denominator.",
+      "= <strong>3√5 / 5</strong>."
+    ],
+    expectedAnswer: "3√5/5",
+    acceptedAnswers: ["3√5/5", "3 sqrt 5 / 5", "3sqrt5/5", "(3√5)/5", "3√5÷5", "(3·√5)/5"],
+    correctFeedback: "Lovely. Rationalising is the act of multiplying by a clever form of 1 — it doesn't change the value, just makes the expression more manageable for further calculation.",
+    incorrectFeedback: "The key idea: multiply top AND bottom by √5. That way the value of the fraction doesn't change, but the denominator becomes rational. Don't forget to apply the multiplication to the numerator too."
+  },
+
+  {
+    type: "Rationalising with a conjugate",
+    stem: "Rationalise the denominator of <span class='equation'>1/(2 + √3)</span>. Give your answer in its simplest form.",
+    socratic: [
+      "What is the conjugate of (2 + √3)? (Think about which sign you'd flip.)",
+      "What happens when you multiply (a + b)(a − b)? Does the surd disappear?",
+      "Once the denominator is rational, what does the numerator become?"
+    ],
+    hints: [
+      "The conjugate of (2 + √3) is (2 − √3). Multiply top and bottom by it.",
+      "Use the difference-of-squares identity: (a + b)(a − b) = a² − b². So (2 + √3)(2 − √3) = 4 − 3 = 1."
+    ],
+    solution: [
+      "Multiply top and bottom by the conjugate (2 − √3).",
+      "1/(2 + √3) = (1)(2 − √3) / [(2 + √3)(2 − √3)]",
+      "Compute the denominator using difference of squares: (2 + √3)(2 − √3) = 2² − (√3)² = 4 − 3 = 1.",
+      "So the expression simplifies to (2 − √3) / 1 = <strong>2 − √3</strong>.",
+      "(A pleasing simplification: the denominator vanished entirely.)"
+    ],
+    expectedAnswer: "2 − √3",
+    acceptedAnswers: ["2 - √3", "2-√3", "2 − √3", "2-sqrt3", "2 - sqrt 3", "2 - sqrt(3)"],
+    correctFeedback: "Beautifully done. The conjugate trick relies on the difference-of-squares identity: (a+b)(a−b) = a²−b². The surd cross-terms vanish, leaving a rational denominator.",
+    incorrectFeedback: "Two common slips: (i) forgetting to multiply the numerator by the conjugate as well; (ii) using (2 + √3) again on the bottom rather than (2 − √3) — that wouldn't rationalise it. Try the conjugate, and use difference of squares to expand."
+  },
+
+  // ---------- INTERPRETATION / SYNTHESIS ----------
+  {
+    type: "Synthesis — mixed laws",
+    stem: "Simplify <span class='equation'>(8x⁶)<sup>1/3</sup></span>. Show your final answer in the form <span class='equation'>ax^n</span>.",
+    socratic: [
+      "What does it mean to raise a product to a power? Can you split it?",
+      "What is 8^(1/3)? What about (x⁶)^(1/3)?",
+      "Which law of indices applies to (x⁶)^(1/3)?"
+    ],
+    hints: [
+      "(ab)^n = a^n · b^n, so (8x⁶)^(1/3) = 8^(1/3) · (x⁶)^(1/3).",
+      "8^(1/3) = 2 (cube root of 8). For (x⁶)^(1/3), use the power-of-a-power law: multiply the exponents."
+    ],
+    solution: [
+      "Split the product using (ab)^n = a^n · b^n:",
+      "(8x⁶)^(1/3) = 8^(1/3) · (x⁶)^(1/3)",
+      "Compute 8^(1/3) = ³√8 = 2.",
+      "Use the power-of-a-power law: (x⁶)^(1/3) = x^(6 · 1/3) = x².",
+      "So the answer is <strong>2x²</strong>."
+    ],
+    expectedAnswer: "2x²",
+    acceptedAnswers: ["2x²", "2x^2", "2*x²", "2*x^2", "2 x²", "2 x^2"],
+    correctFeedback: "Excellent — this question pulls together three different laws of indices in one expression. The key skill is splitting the expression into manageable pieces before working on each.",
+    incorrectFeedback: "This problem combines two laws: (i) (ab)^n = a^n · b^n, to split the 8 from the x⁶; and (ii) (x^m)^n = x^(mn), to simplify (x⁶)^(1/3). Try splitting first, then attacking each piece."
+  },
+
+  // ---------- EXAM-STYLE MULTI-PART ----------
+  {
+    type: "Exam-style (multi-part)",
+    stem: "(a) Simplify <span class='equation'>√50 + √8</span>. Give your answer in the form <span class='equation'>k√2</span> for some integer k. [3 marks]<br>(b) Hence, or otherwise, simplify <span class='equation'>(√50 + √8)(√50 − √8)</span>. [3 marks]",
+    socratic: [
+      "(a) Can you simplify √50 and √8 separately first? What perfect-square factor does each have?",
+      "(a) Once simplified, both should be multiples of √2. Then it's straightforward addition.",
+      "(b) Look at the structure of part (b). What identity does (a+b)(a−b) match?",
+      "(b) You could expand directly, or you could simplify each surd first as in part (a). Both work — which feels easier?"
+    ],
+    hints: [
+      "(a) √50 = √(25·2) = 5√2, and √8 = √(4·2) = 2√2. So √50 + √8 = 5√2 + 2√2.",
+      "(b) Use the difference-of-squares identity directly on the original: (√50)² − (√8)² = 50 − 8 = 42."
+    ],
+    solution: [
+      "(a) Simplify each surd: √50 = √(25 · 2) = 5√2, and √8 = √(4 · 2) = 2√2.",
+      "Add: √50 + √8 = 5√2 + 2√2 = <strong>7√2</strong>.",
+      "(b) Use difference of squares: (√50 + √8)(√50 − √8) = (√50)² − (√8)² = 50 − 8 = <strong>42</strong>.",
+      "(Alternative for (b): use part (a) and observe that the second factor, √50 − √8, equals 5√2 − 2√2 = 3√2. Then (7√2)(3√2) = 21 · 2 = 42. Both routes give the same answer — pleasing.)"
+    ],
+    expectedAnswer: "(a) 7√2; (b) 42",
+    acceptedAnswers: [
+      "7√2, 42", "7sqrt2, 42", "7 sqrt 2 42", "7√2 and 42",
+      "(a) 7√2 (b) 42", "(a) 7sqrt2 (b) 42",
+      "7√2; 42", "7sqrt2; 42"
+    ],
+    correctFeedback: "A clean two-part exam-style question handled well. Notice the elegance: part (a) tames the two surds into a single multiple of √2, and part (b) either uses that result directly OR sidesteps it entirely via difference of squares. Two routes, same destination — that's mathematics being kind.",
+    incorrectFeedback: "Take it step by step. For (a), simplify each surd separately first (find their largest perfect-square factors), then add them like ordinary algebraic terms (since they're now both multiples of √2). For (b), the difference-of-squares identity (a+b)(a−b) = a²−b² applies — and it simplifies the whole thing in one move."
+  }
+];
+
+// ===================================================================
+// STATE MANAGEMENT
+// ===================================================================
+const state = {
+  currentIndex: 0,
+  attempts: questions.map(() => ({ socraticLevel: 0, hintLevel: 0, attemptCount: 0, solutionShown: false, status: 'unattempted', userWorkings: '', userAnswer: '' }))
+};
+
+let lastActiveInput = null;
+
+// ===================================================================
+// PALETTE & AUTO-CONVERSION
+// ===================================================================
+function insertIntoActiveInput(symbol) {
+  const input = lastActiveInput || document.getElementById('workspace');
+  if (!input) return;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const before = input.value.substring(0, start);
+  const after = input.value.substring(end);
+  input.value = before + symbol + after;
+  const newPos = start + symbol.length;
+  input.focus();
+  input.setSelectionRange(newPos, newPos);
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+const AUTO_CONVERT_RULES = [
+  { from: 'Delta', to: 'Δ' },
+  { from: 'delta', to: 'Δ' },
+  { from: 'sqrt',  to: '√' },
+  { from: 'theta', to: 'θ' },
+  { from: 'phi',   to: 'φ' },
+  { from: 'therefore', to: '∴' },
+  { from: 'deg',   to: '°' },
+  { from: 'sum',   to: 'Σ' },
+  { from: 'int',   to: '∫' },
+  { from: 'inf',   to: '∞' },
+  { from: 'pi',    to: 'π' },
+  { from: '<=>', to: '⇔', immediate: true },
+  { from: '<=',  to: '≤', immediate: true },
+  { from: '>=',  to: '≥', immediate: true },
+  { from: '=>',  to: '⇒', immediate: true },
+  { from: '!=',  to: '≠', immediate: true },
+  { from: '+-',  to: '±', immediate: true },
+  { from: '^2',  to: '²', immediate: true },
+  { from: '^3',  to: '³', immediate: true },
+];
+
+function isBoundaryChar(ch) {
+  return ch !== undefined && ch !== '' && /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+function isBoundaryCharOrStart(ch) {
+  return ch === undefined || ch === '' || /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+
+function applyAutoConvert(inputEl) {
+  const value = inputEl.value;
+  const cursorPos = inputEl.selectionStart;
+  for (const rule of AUTO_CONVERT_RULES) {
+    const fromLen = rule.from.length;
+    if (cursorPos < fromLen) continue;
+    const before = value.substring(cursorPos - fromLen, cursorPos);
+    if (before !== rule.from) continue;
+    const charBefore = cursorPos - fromLen - 1 >= 0 ? value[cursorPos - fromLen - 1] : '';
+    if (!isBoundaryCharOrStart(charBefore)) continue;
+    const charAtCursor = value[cursorPos] || '';
+    if (!rule.immediate && !isBoundaryChar(charAtCursor)) continue;
+    const newValue = value.substring(0, cursorPos - fromLen) + rule.to + value.substring(cursorPos);
+    inputEl.value = newValue;
+    const newCursor = cursorPos - fromLen + rule.to.length;
+    inputEl.setSelectionRange(newCursor, newCursor);
+    return;
+  }
+}
+
+// ===================================================================
+// RENDERING
+// ===================================================================
+const container = document.getElementById('questionsContainer');
+const progressStrip = document.getElementById('progressStrip');
+const completionBanner = document.getElementById('completionBanner');
+
+function normaliseAnswer(s) {
+  // Space-insensitive AND label-insensitive matching for short maths answers.
+  // - strip part-labels like "(a)" "(b)" that learners echo from multi-part questions
+  // - strip a full stop UNLESS directly followed by a digit (so decimals like 3.5 survive)
+  // - strip ALL whitespace. Multi-part answers still match via commas / "or" keywords.
+  return s.toLowerCase()
+    .replace(/–/g, '-')
+    .replace(/—/g, '-')
+    .replace(/−/g, '-')
+    .replace(/\(([a-h])\)/g, '')   // remove part labels (a) (b) (c)...
+    .replace(/\.(?!\d)/g, '')       // remove '.' unless followed by a digit (protects decimals)
+    .replace(/\s+and\s+/g, ',')     // ' and ' -> ',' so "x=-2 and x=-3" matches "x=-2,x=-3" (safe: 'or' untouched)
+    .replace(/;/g, ',')              // ';' -> ',' (unify separators)
+    .replace(/\s+/g, '')
+    .trim();
+}
+
+function answersMatch(userAnswer, acceptedList) {
+  const u = normaliseAnswer(userAnswer);
+  if (u === '') return false;
+  return acceptedList.some(a => normaliseAnswer(a) === u);
+}
+
+function renderProgressStrip() {
+  let html = '';
+  questions.forEach((_, i) => {
+    let cls = 'progress-dot';
+    if (i === state.currentIndex) cls += ' current';
+    else if (state.attempts[i].status === 'correct') cls += ' correct';
+    else if (state.attempts[i].status !== 'unattempted') cls += ' attempted';
+    html += `<div class="${cls}" title="Question ${i + 1}">${i + 1}</div>`;
+  });
+  html += `<span class="progress-label">Question ${state.currentIndex + 1} of ${questions.length}</span>`;
+  progressStrip.innerHTML = html;
+}
+
+function renderCurrentQuestion() {
+  const i = state.currentIndex;
+  const q = questions[i];
+  const a = state.attempts[i];
+
+  const html = `
+    <div class="q-card" id="qCard">
+      <div class="q-meta">Question ${i + 1} of ${questions.length} · ${q.type}</div>
+      <div class="q-stem">${q.stem}</div>
+
+      <div class="field">
+        <label class="field-label">Symbols</label>
+        <div class="palette" id="palette">
+          <div class="palette-row">
+            <span class="palette-row-label">Core</span>
+            <button class="palette-btn" data-insert="²" title="Squared">²</button>
+            <button class="palette-btn" data-insert="³" title="Cubed">³</button>
+            <button class="palette-btn" data-insert="√" title="Square root">√</button>
+            <button class="palette-btn" data-insert="±" title="Plus or minus">±</button>
+            <button class="palette-btn" data-insert="≤" title="Less than or equal">≤</button>
+            <button class="palette-btn" data-insert="≥" title="Greater than or equal">≥</button>
+            <button class="palette-btn" data-insert="≠" title="Not equal">≠</button>
+            <button class="palette-btn" data-insert="−" title="Minus">−</button>
+            <button class="palette-btn" data-insert="·" title="Multiply (centre dot)">·</button>
+            <button class="palette-btn" data-insert="|" title="Modulus / absolute value">|</button>
+            <button class="palette-btn" data-insert="π" title="Pi">π</button>
+            <button class="palette-btn" data-insert="∞" title="Infinity">∞</button>
+            <button class="palette-btn" data-insert="Δ" title="Delta">Δ</button>
+          </div>
+        </div>
+        <div class="palette-hint">Click a symbol to insert it at your cursor in whichever box you typed in last. You can also type shortcuts: <code>^2</code> → ², <code>sqrt</code> → √, <code>&lt;=</code> → ≤, <code>pi</code> → π, <code>+-</code> → ±, <code>!=</code> → ≠, <code>&gt;=</code> → ≥.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="workspace">Your working (think on screen — this is your space)</label>
+        <textarea class="workspace" id="workspace" placeholder="Write out your steps here. The point isn't to be neat — it's to make your thinking visible to yourself.">${a.userWorkings}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="answerInput">Your final answer</label>
+        <input class="answer-input" type="text" id="answerInput" placeholder="Type your answer here..." value="${a.userAnswer.replace(/"/g, '&quot;')}">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-socratic" id="btnSocratic">🤔 I'm stuck — Socratic prompt</button>
+        <button class="btn btn-hint" id="btnHint">💡 Show me a hint</button>
+        <button class="btn btn-check" id="btnCheck">✅ Check my answer</button>
+        <button class="btn btn-solution" id="btnSolution" disabled>👀 Worked solution (try a few times first)</button>
+      </div>
+
+      <div class="reveal reveal-socratic" id="revealSocratic">
+        <span class="reveal-label">Socratic prompt</span>
+        <div id="socraticContent"></div>
+      </div>
+      <div class="reveal reveal-hint" id="revealHint">
+        <span class="reveal-label">Hint</span>
+        <div id="hintContent"></div>
+      </div>
+      <div class="reveal reveal-solution" id="revealSolution">
+        <span class="reveal-label">Worked solution</span>
+        <div id="solutionContent"></div>
+      </div>
+      <div class="reveal reveal-feedback" id="revealFeedback">
+        <span class="reveal-label">Feedback</span>
+        <div id="feedbackContent"></div>
+      </div>
+
+      <div class="actions" style="margin-top: 1.25em; justify-content: flex-end;">
+        ${i > 0 ? '<button class="btn" id="btnPrev">← Previous</button>' : ''}
+        <button class="btn btn-next" id="btnNext">${i < questions.length - 1 ? 'Next question →' : 'Finish'}</button>
+      </div>
+    </div>
+  `;
+  container.innerHTML = html;
+
+  // Restore any previously revealed content
+  for (let lvl = 0; lvl < a.socraticLevel; lvl++) appendSocratic(lvl);
+  for (let lvl = 0; lvl < a.hintLevel; lvl++) appendHint(lvl);
+  if (a.solutionShown) showSolution();
+  if (a.status === 'correct') showFeedback(true, q.correctFeedback);
+  else if (a.status === 'incorrect') showFeedback(false, q.incorrectFeedback);
+  updateSolutionGate();
+
+  // Wire up handlers
+  document.getElementById('workspace').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userWorkings = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('answerInput').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userAnswer = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('workspace').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+  document.getElementById('answerInput').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+
+  document.getElementById('palette').addEventListener('click', (e) => {
+    const btn = e.target.closest('.palette-btn');
+    if (!btn) return;
+    const symbol = btn.getAttribute('data-insert');
+    insertIntoActiveInput(symbol);
+  });
+
+  document.getElementById('btnSocratic').addEventListener('click', onSocraticClick);
+  document.getElementById('btnHint').addEventListener('click', onHintClick);
+  document.getElementById('btnSolution').addEventListener('click', onSolutionClick);
+  document.getElementById('btnCheck').addEventListener('click', onCheckClick);
+  document.getElementById('btnNext').addEventListener('click', onNextClick);
+  if (i > 0) document.getElementById('btnPrev').addEventListener('click', onPrevClick);
+}
+
+function appendSocratic(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSocratic');
+  const content = document.getElementById('socraticContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Q${level + 1}:</em> ${q.socratic[level]}`;
+  content.appendChild(p);
+}
+
+function appendHint(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealHint');
+  const content = document.getElementById('hintContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Hint ${level + 1}:</em> ${q.hints[level]}`;
+  content.appendChild(p);
+}
+
+function showSolution() {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSolution');
+  const content = document.getElementById('solutionContent');
+  reveal.classList.add('shown');
+  let html = '';
+  q.solution.forEach((step, idx) => {
+    html += `<div class="reveal-step"><strong>Step ${idx + 1}.</strong> ${step}</div>`;
+  });
+  html += `<div class="reveal-step" style="margin-top: 0.75em; font-style: italic;">Expected answer: ${q.expectedAnswer}</div>`;
+  content.innerHTML = html;
+}
+
+function showFeedback(correct, text) {
+  const reveal = document.getElementById('revealFeedback');
+  const content = document.getElementById('feedbackContent');
+  reveal.classList.remove('correct', 'incorrect');
+  reveal.classList.add(correct ? 'correct' : 'incorrect', 'shown');
+  content.textContent = text;
+}
+
+// ===================================================================
+// EVENT HANDLERS
+// ===================================================================
+function onSocraticClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.socraticLevel < q.socratic.length) {
+    appendSocratic(a.socraticLevel);
+    a.socraticLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.socraticLevel >= q.socratic.length) {
+    document.getElementById('btnSocratic').disabled = true;
+    document.getElementById('btnSocratic').textContent = 'No more Socratic prompts';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onHintClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.hintLevel < q.hints.length) {
+    appendHint(a.hintLevel);
+    a.hintLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.hintLevel >= q.hints.length) {
+    document.getElementById('btnHint').disabled = true;
+    document.getElementById('btnHint').textContent = 'No more hints';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+// Decide whether the Worked Solution button should be unlocked.
+// Unlocks when ANY of: 3+ check attempts, OR both ladders exhausted, OR answered correctly.
+function solutionUnlocked(a, q) {
+  const laddersExhausted = (a.socraticLevel >= q.socratic.length) && (a.hintLevel >= q.hints.length);
+  return a.attemptCount >= 3 || laddersExhausted || a.status === 'correct';
+}
+
+function updateSolutionGate() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  const btn = document.getElementById('btnSolution');
+  if (!btn) return;
+  if (a.solutionShown) {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution shown';
+    return;
+  }
+  if (solutionUnlocked(a, q)) {
+    btn.disabled = false;
+    btn.textContent = '👀 Show me the worked solution';
+  } else {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution (try a few times first)';
+  }
+}
+
+function onSolutionClick() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  if (!solutionUnlocked(a, q)) return; // gated
+  if (!a.solutionShown) {
+    showSolution();
+    a.solutionShown = true;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onCheckClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  const userAnswer = document.getElementById('answerInput').value;
+  if (userAnswer.trim() === '') {
+    showFeedback(false, "You haven't written an answer yet. Have a go — even an incomplete attempt is more valuable than no attempt. If you're stuck, try a Socratic prompt first.");
+    return;
+  }
+  a.attemptCount++;
+  const isCorrect = answersMatch(userAnswer, q.acceptedAnswers);
+  if (isCorrect) {
+    a.status = 'correct';
+    showFeedback(true, q.correctFeedback);
+  } else {
+    a.status = 'incorrect';
+    showFeedback(false, q.incorrectFeedback);
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onNextClick() {
+  if (state.currentIndex < questions.length - 1) {
+    state.currentIndex++;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    completionBanner.classList.add('shown');
+    document.getElementById('btnNext').disabled = true;
+    document.getElementById('btnNext').textContent = 'Completed ✓';
+    window.scrollTo({ top: completionBanner.offsetTop - 20, behavior: 'smooth' });
+  }
+}
+
+function onPrevClick() {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+renderProgressStrip();
+renderCurrentQuestion();
+</script>
+
+</body>
+</html>
