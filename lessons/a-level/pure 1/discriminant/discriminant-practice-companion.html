@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Discriminant Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 1.5em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  h2 { color: #3A5A6B; }
+  .intro { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.25em 0; font-style: italic; }
+  code { background: #FFFDF5; padding: 0.1em 0.35em; border-radius: 3px; font-family: 'Courier New', monospace; }
+
+  /* Progress strip */
+  .progress-strip { display: flex; gap: 0.4em; margin: 1.5em 0; flex-wrap: wrap; align-items: center; }
+  .progress-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: bold; background: #F0E8DC; border: 2px solid #C9B89A; color: #6B5E48; transition: all 0.25s ease; }
+  .progress-dot.current { background: #E5EBF0; border-color: #3A5A6B; color: #3A5A6B; transform: scale(1.1); }
+  .progress-dot.attempted { background: #F5EFD9; border-color: #C9A227; color: #7A5A1F; }
+  .progress-dot.correct { background: #DCEFD3; border-color: #4A7A37; color: #2E5C1F; }
+  .progress-label { font-size: 0.9em; color: #6B5E48; margin-left: 0.5em; }
+
+  /* Question card */
+  .q-card { background: #FDFBF6; border: 1px solid #D8CFB8; border-radius: 10px; padding: 1.5em; margin: 1em 0; }
+  .q-meta { font-size: 0.85em; color: #8B6F47; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5em; font-weight: bold; }
+  .q-stem { font-size: 1.1em; margin-bottom: 1em; }
+  .q-stem .equation { font-family: 'Courier New', monospace; }
+
+  /* Inputs */
+  .workspace, .answer-input { width: 100%; box-sizing: border-box; padding: 0.6em 0.8em; font-family: 'Courier New', monospace; font-size: 1em; border: 1px solid #C9B89A; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .workspace { min-height: 100px; margin-bottom: 0.75em; }
+  .answer-input { font-size: 1.05em; }
+  label.field-label { display: block; font-weight: bold; color: #4A4438; margin-bottom: 0.3em; font-size: 0.95em; }
+  .field { margin: 0.75em 0; }
+
+  /* Symbol palette */
+  .palette { background: #F5EFE3; border: 1px solid #C9B89A; border-radius: 5px; padding: 0.4em; margin-bottom: 0.4em; }
+  .palette-row { display: flex; flex-wrap: wrap; gap: 0.25em; align-items: center; }
+  .palette-row + .palette-row { margin-top: 0.3em; padding-top: 0.3em; border-top: 1px dashed #D8CFB8; }
+  .palette-row-label { font-size: 0.75em; color: #8B6F47; font-style: italic; margin-right: 0.5em; min-width: 70px; }
+  .palette-btn { padding: 0.25em 0.55em; min-width: 1.8em; font-family: 'Courier New', monospace; font-size: 1em; background: #FFFDF5; border: 1px solid #C9B89A; border-radius: 4px; cursor: pointer; color: #2B2B2B; transition: background 0.15s ease; }
+  .palette-btn:hover { background: #FFF9E6; border-color: #8B6F47; }
+  .palette-btn:active { background: #F0E8DC; }
+  .palette-hint { font-size: 0.8em; color: #6B5E48; margin-top: 0.4em; font-style: italic; }
+
+  /* Action buttons */
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 1em; }
+  .btn { padding: 0.5em 1em; border-radius: 6px; border: 1px solid; background: #FFFDF5; cursor: pointer; font-family: Georgia, serif; font-size: 0.95em; transition: background 0.2s ease; }
+  .btn:hover { background: #F5EFE3; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-socratic { border-color: #6B4A6B; color: #6B4A6B; }
+  .btn-hint     { border-color: #8B6F47; color: #8B6F47; }
+  .btn-solution { border-color: #3A5A6B; color: #3A5A6B; }
+  .btn-check    { border-color: #4A7A37; color: #4A7A37; font-weight: bold; }
+  .btn-next     { border-color: #6B4A2E; color: #6B4A2E; font-weight: bold; background: #EDE3D3; }
+  .btn-next:hover { background: #E0D2BD; }
+
+  /* Reveal areas */
+  .reveal { margin-top: 0.75em; padding: 0.85em 1.1em; border-radius: 6px; border-left: 4px solid; display: none; }
+  .reveal.shown { display: block; }
+  .reveal-socratic { background: #F2E8F0; border-left-color: #6B4A6B; }
+  .reveal-hint     { background: #F5EFE3; border-left-color: #8B6F47; }
+  .reveal-solution { background: #E5EBF0; border-left-color: #3A5A6B; }
+  .reveal-feedback { background: #F5EFD9; border-left-color: #C9A227; }
+  .reveal-feedback.correct { background: #DCEFD3; border-left-color: #4A7A37; }
+  .reveal-feedback.incorrect { background: #F5D8D2; border-left-color: #B23A22; }
+  .reveal-label { font-weight: bold; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4em; display: block; }
+  .reveal-step { margin: 0.6em 0; }
+
+  /* Reflection panel at the end */
+  .reflection { background: #F5EFD9; border: 1px solid #C9A227; border-radius: 10px; padding: 1.5em; margin: 2em 0; }
+  .reflection h2 { margin-top: 0; }
+  .reflection textarea { width: 100%; box-sizing: border-box; min-height: 120px; padding: 0.6em 0.8em; font-family: Georgia, serif; font-size: 1em; border: 1px solid #C9A227; border-radius: 5px; background: #FFFDF5; resize: vertical; }
+  .completion-banner { display: none; background: #DCEFD3; border: 2px solid #4A7A37; padding: 1.25em 1.5em; border-radius: 10px; margin: 1.5em 0; }
+  .completion-banner.shown { display: block; }
+
+  @media print {
+    .actions, .btn, .progress-strip, .completion-banner { display: none !important; }
+    .reveal { display: block !important; }
+    .q-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Discriminant Practice Companion</h1>
+
+<div class="intro">
+  Now that you've explored <em>what</em> the discriminant is and <em>why</em> it matters, this is where you build fluency. Take your time. Get stuck if you need to — getting stuck is part of the work. There are four kinds of help available on every question: a Socratic question (which asks you something rather than telling you), a hint (which gives you a piece of the method), a worked solution (which shows the whole thing), and an answer check.
+</div>
+
+<div class="progress-strip" id="progressStrip"></div>
+
+<div id="questionsContainer"></div>
+
+<div class="completion-banner" id="completionBanner">
+  <h2 style="margin-top:0;">Well done — you've worked through every question. 🌱</h2>
+  <p>Take a moment for the reflection below. You can also press <strong>Ctrl+P</strong> (or <strong>⌘+P</strong>) to print or save your work, including all the reveals and your written workings.</p>
+</div>
+
+<div class="reflection">
+  <h2>💛 Reflection</h2>
+  <p>Mirroring the Living Body panel of the lesson: how did that feel? There are no wrong answers — these prompts are just to notice what's happening.</p>
+  <ul>
+    <li>Which question types felt natural? Which felt sticky?</li>
+    <li>When you got stuck, did you find the Socratic prompts more useful, or the hints? Why do you think that was?</li>
+    <li>Is there a particular kind of mistake you noticed yourself making more than once? What might it tell you about how to study this topic next?</li>
+    <li>On a scale of 1 (no clearer) to 5 (much clearer), how does your understanding of the discriminant feel now compared to before this practice?</li>
+  </ul>
+  <textarea placeholder="Type your reflections here..."></textarea>
+</div>
+
+<script>
+// ===================================================================
+// QUESTION BANK
+// ===================================================================
+const questions = [
+  // ---------- DIRECT APPLICATION ----------
+  {
+    type: "Direct application",
+    stem: "Find the discriminant of the quadratic equation <span class='equation'>2x² − 5x + 3 = 0</span> and use it to state the nature of the roots.",
+    socratic: [
+      "What are the values of a, b, and c in this equation? Be careful with signs.",
+      "What is the formula for the discriminant Δ? What does each of Δ > 0, Δ = 0, and Δ < 0 tell you?",
+      "Compute b² − 4ac step by step. What sign does your answer have?"
+    ],
+    hints: [
+      "Here a = 2, b = −5, c = 3. The discriminant is Δ = b² − 4ac.",
+      "Δ = (−5)² − 4(2)(3) = 25 − 24."
+    ],
+    solution: [
+      "Identify a = 2, b = −5, c = 3.",
+      "Apply Δ = b² − 4ac: Δ = (−5)² − 4(2)(3) = 25 − 24 = 1.",
+      "Since Δ = 1 > 0, the equation has <strong>two distinct real roots</strong>."
+    ],
+    expectedAnswer: "Δ = 1, two distinct real roots",
+    acceptedAnswers: ["1", "delta = 1", "δ = 1", "1, two distinct real roots", "1 two distinct real roots", "1 two real roots", "1 two distinct roots"],
+    correctFeedback: "Excellent. Δ = 1 is positive, so the equation has two distinct real roots — the parabola crosses the x-axis at two separate points.",
+    incorrectFeedback: "Not quite — revise and try again. Two things are worth double-checking: the sign when you square a negative b (squaring always gives a positive), and the arithmetic of the 4ac term. Walk through it once more, or use a Socratic prompt if you'd like a nudge."
+  },
+
+  {
+    type: "Direct application",
+    stem: "For each of the following, find the discriminant and state the nature of the roots:<br>(a) <span class='equation'>x² + 6x + 9 = 0</span><br>(b) <span class='equation'>3x² + 2x + 5 = 0</span>",
+    socratic: [
+      "For each equation, what are a, b, and c?",
+      "What does Δ < 0 tell you about whether the parabola crosses the x-axis?",
+      "Is there anything special about case (a) — a pattern in the numbers you recognise?"
+    ],
+    hints: [
+      "(a) a = 1, b = 6, c = 9. Compute b² − 4ac.",
+      "(b) a = 3, b = 2, c = 5. Compute b² − 4ac. Will it be positive or negative?"
+    ],
+    solution: [
+      "(a) Δ = 6² − 4(1)(9) = 36 − 36 = 0. Since Δ = 0, the equation has <strong>one repeated real root</strong>. (Notice that x² + 6x + 9 = (x + 3)², so the repeated root is x = −3.)",
+      "(b) Δ = 2² − 4(3)(5) = 4 − 60 = −56. Since Δ < 0, the equation has <strong>no real roots</strong>."
+    ],
+    expectedAnswer: "(a) Δ = 0, one repeated root; (b) Δ = −56, no real roots",
+    acceptedAnswers: [
+      "0, -56", "0,-56", "Δ = 0, Δ = −56", "0 and -56", "(a) 0 (b) -56",
+      "0 repeated, -56 no real", "0 one repeated root -56 no real roots"
+    ],
+    correctFeedback: "Lovely work. (a) is a perfect square — Δ = 0 confirms the repeated root. (b) shows what happens when the parabola sits entirely above the x-axis.",
+    incorrectFeedback: "Check your arithmetic for each part separately, and pay close attention to the sign of each discriminant. Remember: a positive Δ, a zero Δ, and a negative Δ each correspond to a different number of real roots. Which sign does each of your two calculations give?"
+  },
+
+  // ---------- INVERSE ----------
+  {
+    type: "Inverse problem",
+    stem: "Find the values of <span class='equation'>k</span> for which the equation <span class='equation'>x² + (k + 2)x + 2k = 0</span> has equal roots.",
+    socratic: [
+      "What condition on the discriminant tells you that a quadratic has equal roots?",
+      "Can you identify a, b, and c in this equation? Be careful — b contains k.",
+      "What does Δ = 0 give you as an equation in k? What kind of equation is it?"
+    ],
+    hints: [
+      "Equal roots means Δ = 0. Here a = 1, b = (k + 2), c = 2k.",
+      "Set (k + 2)² − 4(1)(2k) = 0 and expand."
+    ],
+    solution: [
+      "For equal roots: Δ = 0. Identify a = 1, b = (k + 2), c = 2k.",
+      "Δ = (k + 2)² − 4(1)(2k) = 0.",
+      "Expand: k² + 4k + 4 − 8k = 0, which simplifies to k² − 4k + 4 = 0.",
+      "Factorise: (k − 2)² = 0, giving <strong>k = 2</strong> (a repeated value of k).",
+      "Notice the lovely structure: the condition for equal roots in x itself led to a quadratic in k with equal roots."
+    ],
+    expectedAnswer: "k = 2",
+    acceptedAnswers: ["2", "k=2", "k = 2", "{2}"],
+    correctFeedback: "Excellent. And did you notice the elegance? The condition for x to have a repeated root turned out to be itself a condition with a repeated solution for k. Mathematics often nests like this.",
+    incorrectFeedback: "Equal roots is the key phrase — what condition on the discriminant does that require? Once you set that condition up, be very careful expanding the squared bracket (it has three terms, not two). That should give you an equation in k to solve. Try again, or climb the Socratic ladder for a nudge."
+  },
+
+  {
+    type: "Inverse problem",
+    stem: "The equation <span class='equation'>2x² + 4x + k = 0</span> has two distinct real roots. Find the range of values of <span class='equation'>k</span>.",
+    socratic: [
+      "What condition on the discriminant means 'two distinct real roots'?",
+      "What is the discriminant of this equation, expressed in terms of k?",
+      "You'll need to solve an inequality in k, not an equation. What changes?"
+    ],
+    hints: [
+      "Two distinct real roots requires Δ > 0. Here a = 2, b = 4, c = k.",
+      "Set 4² − 4(2)(k) > 0 and solve for k."
+    ],
+    solution: [
+      "For two distinct real roots: Δ > 0. Identify a = 2, b = 4, c = k.",
+      "Δ = 4² − 4(2)(k) > 0",
+      "16 − 8k > 0",
+      "16 > 8k",
+      "<strong>k < 2</strong>"
+    ],
+    expectedAnswer: "k < 2",
+    acceptedAnswers: ["k<2", "k < 2", "<2", "k less than 2"],
+    correctFeedback: "Perfectly done. Note that the inequality direction matters: dividing both sides by 8 (a positive number) preserves the inequality, so we get k < 2, not k > 2.",
+    incorrectFeedback: "Two common slips here: (i) forgetting the inequality is strict (>, not ≥) because the roots are distinct; (ii) flipping the inequality at the wrong step. Try walking through it line by line."
+  },
+
+  // ---------- INTERPRETATION ----------
+  {
+    type: "Interpretation",
+    stem: "A quadratic function <span class='equation'>y = ax² + bx + c</span> (with <span class='equation'>a > 0</span>) has discriminant <span class='equation'>Δ = 0</span>. Describe in words what this tells you about the graph of the function. Then write your answer using the words <em>tangent</em> and <em>x-axis</em>.",
+    socratic: [
+      "If Δ = 0, how many real solutions does y = 0 have? What does each solution represent on the graph?",
+      "If a curve meets a line at exactly one point without crossing it, what is the geometric word for that line?",
+      "Draw a quick sketch in your head (or on paper): an upward parabola that just touches the x-axis. Where is its vertex?"
+    ],
+    hints: [
+      "Δ = 0 means y = 0 has exactly one solution, so the curve meets the x-axis at exactly one point.",
+      "The vertex of the parabola lies on the x-axis."
+    ],
+    solution: [
+      "When Δ = 0, the equation ax² + bx + c = 0 has one repeated real root.",
+      "Geometrically, the parabola y = ax² + bx + c meets the x-axis at exactly one point — it touches the x-axis but does not cross it.",
+      "Because a > 0, the parabola opens upward, and its vertex sits exactly on the x-axis.",
+      "In other words: <strong>the x-axis is a tangent to the parabola</strong>."
+    ],
+    expectedAnswer: "the x-axis is a tangent to the parabola",
+    acceptedAnswers: [
+      "the x-axis is tangent to the parabola", "x-axis is a tangent to the parabola",
+      "x-axis is tangent to the parabola", "the parabola is tangent to the x-axis",
+      "the parabola touches the x-axis", "tangent to the x-axis",
+      "the x axis is a tangent to the parabola", "the x axis is tangent to the parabola"
+    ],
+    correctFeedback: "Excellent. The geometric interpretation matters — Δ = 0 doesn't just mean 'one repeated root algebraically'; it means a specific geometric relationship between the curve and the x-axis.",
+    incorrectFeedback: "Try once more. Δ = 0 means the parabola meets the x-axis at exactly one point — what's the geometric word for a line that meets a curve at exactly one point without crossing it?"
+  },
+
+  // ---------- MODELLING ----------
+  {
+    type: "Modelling",
+    stem: "A small ball is thrown upward from ground level. Its height in metres after <span class='equation'>t</span> seconds is modelled by <span class='equation'>h = 12t − 5t²</span>. A horizontal wire is stretched across the path of the ball at height <span class='equation'>H</span> metres. For what range of values of <span class='equation'>H</span> does the ball <em>cross</em> the wire (i.e., the wire intersects the ball's path at two distinct moments)?",
+    socratic: [
+      "If the ball is at height H at time t, what equation relates t and H?",
+      "Rearrange that equation into the form at² + bt + c = 0 (with t as the variable, and H as a constant).",
+      "What condition on the discriminant of this quadratic-in-t corresponds to two distinct times when the ball is at height H?"
+    ],
+    hints: [
+      "Set 12t − 5t² = H. Rearrange to 5t² − 12t + H = 0 (a quadratic in t).",
+      "For two distinct real times: Δ > 0. Compute b² − 4ac in terms of H."
+    ],
+    solution: [
+      "The ball is at height H when 12t − 5t² = H, i.e., 5t² − 12t + H = 0.",
+      "For this quadratic in t to have two distinct positive real solutions (the ball crosses the wire going up and coming down), we need Δ > 0.",
+      "Δ = (−12)² − 4(5)(H) = 144 − 20H > 0.",
+      "Solve: 144 > 20H, so <strong>H < 7.2</strong> metres.",
+      "Also H ≥ 0 (the wire must be above the ground for the ball to cross it). So the answer is 0 ≤ H < 7.2 metres.",
+      "Notice what happens at H = 7.2: Δ = 0, meaning the ball just barely reaches the wire — this is the maximum height of the ball, and the wire is a tangent to the ball's trajectory at that instant."
+    ],
+    expectedAnswer: "0 ≤ H < 7.2",
+    acceptedAnswers: [
+      "0 ≤ H < 7.2", "0 <= H < 7.2", "0<=H<7.2", "0 ≤ H < 7.2 m",
+      "H < 7.2", "h<7.2", "h < 7.2", "0 ≤ H < 7.2 metres",
+      "H<7.2", "0<=h<7.2"
+    ],
+    correctFeedback: "Beautifully done. This is the discriminant doing real physical work: it tells you whether a horizontal wire intersects a parabolic trajectory in two places, one place, or not at all. The 'one place' case (Δ = 0) is the ball's maximum height — exactly 7.2 m here.",
+    incorrectFeedback: "The setup is the trickiest part. You're solving 5t² − 12t + H = 0 treating H as a constant, and asking when this has two distinct real solutions for t. That gives a condition on H."
+  },
+
+  // ---------- EXAM-STYLE ----------
+  {
+    type: "Exam-style (multi-part)",
+    stem: "The equation <span class='equation'>x² + (p + 1)x + (p + 4) = 0</span>, where <span class='equation'>p</span> is a constant, has two distinct real roots.<br><br>(a) Show that <span class='equation'>p</span> satisfies <span class='equation'>p² − 2p − 15 > 0</span>. [4 marks]<br>(b) Hence find the range of values of <span class='equation'>p</span>. [3 marks]",
+    socratic: [
+      "(a) What is the condition on Δ for two distinct real roots? Apply it.",
+      "(a) What are a, b, c in this equation? Substitute carefully into b² − 4ac > 0 and expand.",
+      "(b) The quadratic p² − 2p − 15 factorises. Can you find the values of p where it equals zero?",
+      "(b) Sketch the graph of y = p² − 2p − 15 — an upward parabola. Where is it above the p-axis?"
+    ],
+    hints: [
+      "(a) a = 1, b = (p + 1), c = (p + 4). Δ > 0 gives (p + 1)² − 4(p + 4) > 0. Expand and simplify.",
+      "(b) Factorise p² − 2p − 15 = (p − 5)(p + 3). The expression is positive outside the roots."
+    ],
+    solution: [
+      "(a) For two distinct real roots, Δ > 0.",
+      "Identify a = 1, b = (p + 1), c = (p + 4).",
+      "Δ = (p + 1)² − 4(1)(p + 4) > 0",
+      "Expand: p² + 2p + 1 − 4p − 16 > 0",
+      "Simplify: p² − 2p − 15 > 0 ✓ (which is what we needed to show)",
+      "(b) Factorise: p² − 2p − 15 = (p − 5)(p + 3).",
+      "The roots are p = 5 and p = −3.",
+      "Since the coefficient of p² is positive, the parabola opens upward, so (p − 5)(p + 3) > 0 when p is outside the roots.",
+      "Answer: <strong>p < −3 or p > 5</strong>."
+    ],
+    expectedAnswer: "p < −3 or p > 5",
+    acceptedAnswers: [
+      "p < -3 or p > 5", "p<-3 or p>5", "p < −3 or p > 5",
+      "p<-3,p>5", "p < -3, p > 5", "p<−3 or p>5",
+      "p > 5 or p < -3", "p > 5 or p < −3", "p>5 or p<-3"
+    ],
+    correctFeedback: "Excellent — a full exam-style question handled cleanly. Notice the structure: part (a) sets up the inequality (a 'show that' question, worth 4 marks because the algebra has to be visible step by step); part (b) solves it (worth 3 marks because once you know how to factorise, the sketch tells you the answer).",
+    incorrectFeedback: "This is a multi-step question — be methodical. For (a), apply the 'two distinct real roots' condition to the discriminant and expand carefully to reach the required inequality. For (b), factorise the quadratic in p, then think about where an upward parabola is positive — is it between its roots, or outside them? A quick sketch makes the direction clear. Revise and try again."
+  },
+
+  // ---------- SYNTHESIS ----------
+  {
+    type: "Synthesis",
+    stem: "Without solving, classify the roots of each equation as 'two distinct real', 'one repeated real', or 'no real':<br>(a) <span class='equation'>4x² − 12x + 9 = 0</span><br>(b) <span class='equation'>x² + x + 1 = 0</span><br>(c) <span class='equation'>3x² − 7x + 2 = 0</span>",
+    socratic: [
+      "For each one, what do you need to compute, and what are you looking at — sign, or value?",
+      "Are any of these a perfect square in disguise?",
+      "Which of (a), (b), (c) do you expect to have which kind of roots? Make a guess from the structure before computing."
+    ],
+    hints: [
+      "(a) Δ = 144 − 144. (b) Δ = 1 − 4. (c) Δ = 49 − 24.",
+      "Just look at the sign of each Δ."
+    ],
+    solution: [
+      "(a) Δ = (−12)² − 4(4)(9) = 144 − 144 = 0 → <strong>one repeated real root</strong>. (Notice that 4x² − 12x + 9 = (2x − 3)², a perfect square.)",
+      "(b) Δ = 1² − 4(1)(1) = 1 − 4 = −3 < 0 → <strong>no real roots</strong>.",
+      "(c) Δ = (−7)² − 4(3)(2) = 49 − 24 = 25 > 0 → <strong>two distinct real roots</strong>."
+    ],
+    expectedAnswer: "(a) one repeated, (b) no real, (c) two distinct real",
+    acceptedAnswers: [
+      "repeated, no real, two distinct", "repeated no real two distinct",
+      "one repeated, no real, two distinct real",
+      "(a) repeated (b) no real (c) two distinct",
+      "0, negative, positive", "0 -3 25",
+      "a repeated b no real c two distinct"
+    ],
+    correctFeedback: "Lovely synthesis question — done well. The point of this question is not really the discriminant computation, which is routine; it's that you can now classify the roots of any quadratic without having to solve it. That's a powerful skill in itself.",
+    incorrectFeedback: "Take them one at a time. For each, compute Δ = b² − 4ac and look at the sign. Don't worry about the actual root values — the sign of Δ alone tells you the nature."
+  }
+];
+
+// ===================================================================
+// STATE MANAGEMENT
+// ===================================================================
+const state = {
+  currentIndex: 0,
+  attempts: questions.map(() => ({ socraticLevel: 0, hintLevel: 0, attemptCount: 0, solutionShown: false, status: 'unattempted', userWorkings: '', userAnswer: '' }))
+};
+
+// Tracks which input (workspace or answer) the learner most recently interacted with,
+// so palette button clicks know where to insert the symbol.
+let lastActiveInput = null;
+
+// ===================================================================
+// PALETTE & AUTO-CONVERSION
+// ===================================================================
+function insertIntoActiveInput(symbol) {
+  const input = lastActiveInput || document.getElementById('workspace');
+  if (!input) return;
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const before = input.value.substring(0, start);
+  const after = input.value.substring(end);
+  input.value = before + symbol + after;
+  // Place cursor right after the inserted symbol
+  const newPos = start + symbol.length;
+  input.focus();
+  input.setSelectionRange(newPos, newPos);
+  // Manually fire an 'input' event so state and auto-convert run
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+// Auto-conversion rules — ordered by length descending so longer tokens (e.g. 'Delta')
+// are matched before shorter prefixes (e.g. 'delta'). Case-sensitive where it matters.
+// The `immediate` flag means the rule fires at end-of-string without waiting for a boundary char
+// (used for punctuation-only tokens that can't be the prefix of a longer word).
+const AUTO_CONVERT_RULES = [
+  { from: 'Delta', to: 'Δ' },
+  { from: 'delta', to: 'Δ' },
+  { from: 'sqrt',  to: '√' },
+  { from: 'theta', to: 'θ' },
+  { from: 'phi',   to: 'φ' },
+  { from: 'therefore', to: '∴' },
+  { from: 'deg',   to: '°' },
+  { from: 'sum',   to: 'Σ' },
+  { from: 'int',   to: '∫' },
+  { from: 'inf',   to: '∞' },
+  { from: 'pi',    to: 'π' },
+  { from: '<=>', to: '⇔', immediate: true },
+  { from: '<=',  to: '≤', immediate: true },
+  { from: '>=',  to: '≥', immediate: true },
+  { from: '=>',  to: '⇒', immediate: true },
+  { from: '!=',  to: '≠', immediate: true },
+  { from: '+-',  to: '±', immediate: true },
+  { from: '^2',  to: '²', immediate: true },
+  { from: '^3',  to: '³', immediate: true },
+];
+
+// Only convert a token when it's followed by a real "boundary" character that the learner
+// has just typed (space, punctuation, etc.). We deliberately do NOT fire at end-of-string —
+// the learner needs to type one boundary character to "commit" the token, which prevents
+// false positives like 'pi' inside 'piecewise' or 'pie' before the learner has finished.
+function isBoundaryChar(ch) {
+  return ch !== undefined && ch !== '' && /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+// Special case: the character BEFORE the token may be either a real boundary or
+// the start of the input (i.e. empty). Both should allow the conversion.
+function isBoundaryCharOrStart(ch) {
+  return ch === undefined || ch === '' || /[\s,;:.()\[\]{}+\-*/=<>!?'"`~]/.test(ch);
+}
+
+function applyAutoConvert(inputEl) {
+  const value = inputEl.value;
+  const cursorPos = inputEl.selectionStart;
+  // Try each rule; if the text just before the cursor matches a rule and the cursor
+  // (i.e. the character immediately after) is a boundary, perform the swap.
+  for (const rule of AUTO_CONVERT_RULES) {
+    const fromLen = rule.from.length;
+    if (cursorPos < fromLen) continue;
+    const before = value.substring(cursorPos - fromLen, cursorPos);
+    if (before !== rule.from) continue;
+    // Check the character just before 'from' is a boundary or the start of input
+    // (so we don't convert inside a word — e.g. don't convert 'pi' inside 'spi').
+    const charBefore = cursorPos - fromLen - 1 >= 0 ? value[cursorPos - fromLen - 1] : '';
+    if (!isBoundaryCharOrStart(charBefore)) continue;
+    // For word-shaped rules ('pi', 'sqrt', ...) we require a real boundary char
+    // to follow, so the learner can type 'piecewise' without 'pi' converting prematurely.
+    // For punctuation-only rules ('<=', '^2', ...) we convert immediately because they
+    // can't be the prefix of a longer word.
+    const charAtCursor = value[cursorPos] || '';
+    if (!rule.immediate && !isBoundaryChar(charAtCursor)) continue;
+    // Perform the swap
+    const newValue = value.substring(0, cursorPos - fromLen) + rule.to + value.substring(cursorPos);
+    inputEl.value = newValue;
+    const newCursor = cursorPos - fromLen + rule.to.length;
+    inputEl.setSelectionRange(newCursor, newCursor);
+    return; // only one conversion per input event
+  }
+}
+
+// ===================================================================
+// RENDERING
+// ===================================================================
+const container = document.getElementById('questionsContainer');
+const progressStrip = document.getElementById('progressStrip');
+const completionBanner = document.getElementById('completionBanner');
+
+function normaliseAnswer(s) {
+  // Space-insensitive AND label-insensitive matching for short maths answers.
+  // - strip part-labels like "(a)" "(b)" that learners echo from multi-part questions
+  // - strip a full stop UNLESS directly followed by a digit (so decimals like 3.5 survive)
+  // - strip ALL whitespace. Multi-part answers still match via commas / "or" keywords.
+  return s.toLowerCase()
+    .replace(/–/g, '-')  // en-dash to hyphen
+    .replace(/—/g, '-')  // em-dash to hyphen
+    .replace(/−/g, '-')  // unicode minus to hyphen
+    .replace(/\(([a-h])\)/g, '')   // remove part labels (a) (b) (c)...
+    .replace(/\.(?!\d)/g, '')       // remove '.' unless followed by a digit (protects decimals)
+    .replace(/\s+and\s+/g, ',')     // ' and ' -> ',' so "x=-2 and x=-3" matches "x=-2,x=-3" (safe: 'or' untouched)
+    .replace(/;/g, ',')              // ';' -> ',' (unify separators)
+    .replace(/\s+/g, '')
+    .trim();
+}
+
+function answersMatch(userAnswer, acceptedList) {
+  const u = normaliseAnswer(userAnswer);
+  if (u === '') return false;
+  return acceptedList.some(a => normaliseAnswer(a) === u);
+}
+
+function renderProgressStrip() {
+  let html = '';
+  questions.forEach((_, i) => {
+    let cls = 'progress-dot';
+    if (i === state.currentIndex) cls += ' current';
+    else if (state.attempts[i].status === 'correct') cls += ' correct';
+    else if (state.attempts[i].status !== 'unattempted') cls += ' attempted';
+    html += `<div class="${cls}" title="Question ${i + 1}">${i + 1}</div>`;
+  });
+  html += `<span class="progress-label">Question ${state.currentIndex + 1} of ${questions.length}</span>`;
+  progressStrip.innerHTML = html;
+}
+
+function renderCurrentQuestion() {
+  const i = state.currentIndex;
+  const q = questions[i];
+  const a = state.attempts[i];
+
+  const html = `
+    <div class="q-card" id="qCard">
+      <div class="q-meta">Question ${i + 1} of ${questions.length} · ${q.type}</div>
+      <div class="q-stem">${q.stem}</div>
+
+      <div class="field">
+        <label class="field-label">Symbols</label>
+        <div class="palette" id="palette">
+          <div class="palette-row">
+            <span class="palette-row-label">Core</span>
+            <button class="palette-btn" data-insert="²" title="Squared">²</button>
+            <button class="palette-btn" data-insert="³" title="Cubed">³</button>
+            <button class="palette-btn" data-insert="√" title="Square root">√</button>
+            <button class="palette-btn" data-insert="±" title="Plus or minus">±</button>
+            <button class="palette-btn" data-insert="≤" title="Less than or equal">≤</button>
+            <button class="palette-btn" data-insert="≥" title="Greater than or equal">≥</button>
+            <button class="palette-btn" data-insert="≠" title="Not equal">≠</button>
+            <button class="palette-btn" data-insert="−" title="Minus">−</button>
+            <button class="palette-btn" data-insert="·" title="Multiply (centre dot)">·</button>
+            <button class="palette-btn" data-insert="|" title="Modulus / absolute value">|</button>
+            <button class="palette-btn" data-insert="π" title="Pi">π</button>
+            <button class="palette-btn" data-insert="∞" title="Infinity">∞</button>
+            <button class="palette-btn" data-insert="Δ" title="Delta (discriminant)">Δ</button>
+          </div>
+        </div>
+        <div class="palette-hint">Click a symbol to insert it at your cursor in whichever box you typed in last. You can also type shortcuts: <code>^2</code> → ², <code>sqrt</code> → √, <code>&lt;=</code> → ≤, <code>pi</code> → π, <code>delta</code> → Δ, <code>+-</code> → ±, <code>!=</code> → ≠, <code>&gt;=</code> → ≥, <code>inf</code> → ∞.</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="workspace">Your working (think on screen — this is your space)</label>
+        <textarea class="workspace" id="workspace" placeholder="Write out your steps here. The point isn't to be neat — it's to make your thinking visible to yourself.">${a.userWorkings}</textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="answerInput">Your final answer</label>
+        <input class="answer-input" type="text" id="answerInput" placeholder="Type your answer here..." value="${a.userAnswer.replace(/"/g, '&quot;')}">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-socratic" id="btnSocratic">🤔 I'm stuck — Socratic prompt</button>
+        <button class="btn btn-hint" id="btnHint">💡 Show me a hint</button>
+        <button class="btn btn-check" id="btnCheck">✅ Check my answer</button>
+        <button class="btn btn-solution" id="btnSolution" disabled>👀 Worked solution (try a few times first)</button>
+      </div>
+
+      <div class="reveal reveal-socratic" id="revealSocratic">
+        <span class="reveal-label">Socratic prompt</span>
+        <div id="socraticContent"></div>
+      </div>
+      <div class="reveal reveal-hint" id="revealHint">
+        <span class="reveal-label">Hint</span>
+        <div id="hintContent"></div>
+      </div>
+      <div class="reveal reveal-solution" id="revealSolution">
+        <span class="reveal-label">Worked solution</span>
+        <div id="solutionContent"></div>
+      </div>
+      <div class="reveal reveal-feedback" id="revealFeedback">
+        <span class="reveal-label">Feedback</span>
+        <div id="feedbackContent"></div>
+      </div>
+
+      <div class="actions" style="margin-top: 1.25em; justify-content: flex-end;">
+        ${i > 0 ? '<button class="btn" id="btnPrev">← Previous</button>' : ''}
+        <button class="btn btn-next" id="btnNext">${i < questions.length - 1 ? 'Next question →' : 'Finish'}</button>
+      </div>
+    </div>
+  `;
+  container.innerHTML = html;
+
+  // Restore any previously revealed content
+  for (let lvl = 0; lvl < a.socraticLevel; lvl++) appendSocratic(lvl);
+  for (let lvl = 0; lvl < a.hintLevel; lvl++) appendHint(lvl);
+  if (a.solutionShown) showSolution();
+  if (a.status === 'correct') showFeedback(true, q.correctFeedback);
+  else if (a.status === 'incorrect') showFeedback(false, q.incorrectFeedback);
+  updateSolutionGate();
+
+  // Wire up handlers
+  document.getElementById('workspace').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userWorkings = e.target.value;
+    lastActiveInput = e.target;
+  });
+  document.getElementById('answerInput').addEventListener('input', (e) => {
+    applyAutoConvert(e.target);
+    a.userAnswer = e.target.value;
+    lastActiveInput = e.target;
+  });
+  // Track focus too, so the palette knows where to insert even before typing
+  document.getElementById('workspace').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+  document.getElementById('answerInput').addEventListener('focus', (e) => { lastActiveInput = e.target; });
+
+  // Palette button clicks (event delegation)
+  document.getElementById('palette').addEventListener('click', (e) => {
+    const btn = e.target.closest('.palette-btn');
+    if (!btn) return;
+    const symbol = btn.getAttribute('data-insert');
+    insertIntoActiveInput(symbol);
+  });
+
+  document.getElementById('btnSocratic').addEventListener('click', onSocraticClick);
+  document.getElementById('btnHint').addEventListener('click', onHintClick);
+  document.getElementById('btnSolution').addEventListener('click', onSolutionClick);
+  document.getElementById('btnCheck').addEventListener('click', onCheckClick);
+  document.getElementById('btnNext').addEventListener('click', onNextClick);
+  if (i > 0) document.getElementById('btnPrev').addEventListener('click', onPrevClick);
+}
+
+function appendSocratic(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSocratic');
+  const content = document.getElementById('socraticContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Q${level + 1}:</em> ${q.socratic[level]}`;
+  content.appendChild(p);
+}
+
+function appendHint(level) {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealHint');
+  const content = document.getElementById('hintContent');
+  reveal.classList.add('shown');
+  const p = document.createElement('div');
+  p.className = 'reveal-step';
+  p.innerHTML = `<em>Hint ${level + 1}:</em> ${q.hints[level]}`;
+  content.appendChild(p);
+}
+
+function showSolution() {
+  const q = questions[state.currentIndex];
+  const reveal = document.getElementById('revealSolution');
+  const content = document.getElementById('solutionContent');
+  reveal.classList.add('shown');
+  let html = '';
+  q.solution.forEach((step, idx) => {
+    html += `<div class="reveal-step"><strong>Step ${idx + 1}.</strong> ${step}</div>`;
+  });
+  html += `<div class="reveal-step" style="margin-top: 0.75em; font-style: italic;">Expected answer: ${q.expectedAnswer}</div>`;
+  content.innerHTML = html;
+}
+
+function showFeedback(correct, text) {
+  const reveal = document.getElementById('revealFeedback');
+  const content = document.getElementById('feedbackContent');
+  reveal.classList.remove('correct', 'incorrect');
+  reveal.classList.add(correct ? 'correct' : 'incorrect', 'shown');
+  content.textContent = text;
+}
+
+// ===================================================================
+// EVENT HANDLERS
+// ===================================================================
+function onSocraticClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.socraticLevel < q.socratic.length) {
+    appendSocratic(a.socraticLevel);
+    a.socraticLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.socraticLevel >= q.socratic.length) {
+    document.getElementById('btnSocratic').disabled = true;
+    document.getElementById('btnSocratic').textContent = 'No more Socratic prompts';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onHintClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  if (a.hintLevel < q.hints.length) {
+    appendHint(a.hintLevel);
+    a.hintLevel++;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  if (a.hintLevel >= q.hints.length) {
+    document.getElementById('btnHint').disabled = true;
+    document.getElementById('btnHint').textContent = 'No more hints';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+// Decide whether the Worked Solution button should be unlocked.
+// Unlocks when ANY of: 3+ check attempts, OR both ladders exhausted, OR answered correctly.
+function solutionUnlocked(a, q) {
+  const laddersExhausted = (a.socraticLevel >= q.socratic.length) && (a.hintLevel >= q.hints.length);
+  return a.attemptCount >= 3 || laddersExhausted || a.status === 'correct';
+}
+
+function updateSolutionGate() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  const btn = document.getElementById('btnSolution');
+  if (!btn) return;
+  if (a.solutionShown) {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution shown';
+    return;
+  }
+  if (solutionUnlocked(a, q)) {
+    btn.disabled = false;
+    btn.textContent = '👀 Show me the worked solution';
+  } else {
+    btn.disabled = true;
+    btn.textContent = '👀 Worked solution (try a few times first)';
+  }
+}
+
+function onSolutionClick() {
+  const a = state.attempts[state.currentIndex];
+  const q = questions[state.currentIndex];
+  if (!solutionUnlocked(a, q)) return; // gated
+  if (!a.solutionShown) {
+    showSolution();
+    a.solutionShown = true;
+    if (a.status === 'unattempted') a.status = 'engaged';
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onCheckClick() {
+  const i = state.currentIndex;
+  const a = state.attempts[i];
+  const q = questions[i];
+  const userAnswer = document.getElementById('answerInput').value;
+  if (userAnswer.trim() === '') {
+    showFeedback(false, "You haven't written an answer yet. Have a go — even an incomplete attempt is more valuable than no attempt. If you're stuck, try a Socratic prompt first.");
+    return;
+  }
+  a.attemptCount++;
+  const isCorrect = answersMatch(userAnswer, q.acceptedAnswers);
+  if (isCorrect) {
+    a.status = 'correct';
+    showFeedback(true, q.correctFeedback);
+  } else {
+    a.status = 'incorrect';
+    showFeedback(false, q.incorrectFeedback);
+  }
+  updateSolutionGate();
+  renderProgressStrip();
+}
+
+function onNextClick() {
+  if (state.currentIndex < questions.length - 1) {
+    state.currentIndex++;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    // Finish
+    completionBanner.classList.add('shown');
+    document.getElementById('btnNext').disabled = true;
+    document.getElementById('btnNext').textContent = 'Completed ✓';
+    window.scrollTo({ top: completionBanner.offsetTop - 20, behavior: 'smooth' });
+  }
+}
+
+function onPrevClick() {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderProgressStrip();
+    renderCurrentQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// ===================================================================
+// INITIAL RENDER
+// ===================================================================
+renderProgressStrip();
+renderCurrentQuestion();
+</script>
+
+</body>
+</html>
