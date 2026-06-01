@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sine Rule and Area of a Triangle — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 820px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  .intro { background: #E5EBF0; border-left: 5px solid #3A5A6B; padding: 0.9em 1.2em; border-radius: 8px; margin: 1.2em 0; }
+  .intro strong { color: #28414f; }
+
+  #progress { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 1.2em 0; align-items: center; }
+  #progress .dot { width: 22px; height: 22px; border-radius: 50%; background: #D8D2C6; display: flex; align-items: center; justify-content: center; font-size: 0.72em; color: #5a5346; cursor: pointer; border: 2px solid transparent; font-family: Georgia, serif; }
+  #progress .dot.engaged { background: #E8C66B; color: #5a4a18; }
+  #progress .dot.correct { background: #8FB87A; color: #294017; }
+  #progress .dot.current { border-color: #3A5A6B; }
+
+  .card { background: #fff; border: 1px solid #D4C9B6; border-radius: 10px; padding: 1.2em 1.4em; margin: 1em 0; }
+  .qnum { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; color: #8B6F47; }
+  .stem { font-size: 1.08em; margin: 0.4em 0 0.8em; }
+  .stem code, .work code, code { font-family: 'Courier New', monospace; background: #F6F2EA; padding: 0.05em 0.3em; border-radius: 3px; }
+
+  .palette { margin: 0.6em 0; }
+  .palette .row { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.3em; }
+  .palette button { font-family: 'Courier New', monospace; font-size: 0.95em; padding: 0.25em 0.55em; border: 1px solid #BCA98a; background: #FBF8F2; border-radius: 5px; cursor: pointer; min-width: 2em; }
+  .palette button:hover { background: #F0E8DC; }
+  .palette .divider { border-top: 1px dashed #C9B596; margin: 0.25em 0; width: 100%; }
+
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; font-family: 'Courier New', monospace; font-size: 1em; padding: 0.5em; border: 1px solid #C3B49a; border-radius: 6px; background: #FFFEFB; }
+  textarea { min-height: 4.5em; resize: vertical; }
+  label.fieldlabel { font-size: 0.85em; color: #6B5A42; display: block; margin: 0.6em 0 0.2em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 0.9em; }
+  .actions button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.45em 0.9em; border-radius: 6px; cursor: pointer; border: 1px solid; }
+  .btn-soc { background: #F2E8F0; border-color: #6B4A6B; color: #5a3a5a; }
+  .btn-hint { background: #F5EFD9; border-color: #8B7A3A; color: #6a5d23; }
+  .btn-check { background: #E8F0E5; border-color: #4A6B3A; color: #355026; }
+  .btn-sol { background: #ECE4D8; border-color: #8a7355; color: #6a563c; }
+  .actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .reveal { margin-top: 0.8em; padding: 0.7em 1em; border-radius: 6px; display: none; }
+  .reveal.show { display: block; }
+  .reveal.soc { background: #F7F0F6; border-left: 4px solid #6B4A6B; }
+  .reveal.hint { background: #FAF6E6; border-left: 4px solid #8B7A3A; }
+  .reveal.sol { background: #F4EFE7; border-left: 4px solid #8a7355; }
+  .reveal.feedback { background: #EAF1E7; border-left: 4px solid #4A6B3A; }
+  .reveal.feedback.wrong { background: #F7ECE6; border-left-color: #B5683A; }
+  .reveal .step { margin: 0.35em 0; }
+  .ladder-item { margin: 0.3em 0; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 1em; }
+  .nav button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.45em 1.1em; border: 1px solid #6E8597; background: #fff; border-radius: 6px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .reflection { background: #F5EFD9; border-left: 5px solid #8B7A3A; padding: 1em 1.3em; border-radius: 8px; margin: 1.5em 0; }
+
+  @media print {
+    .actions, .nav, .palette, #progress { display: none !important; }
+    .card { display: block !important; page-break-inside: avoid; border: 1px solid #999; }
+    .reveal { display: block !important; }
+    textarea, input { border: 1px solid #999; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<p style="margin-bottom:0.3em;"><a href="sine-rule-and-area-of-a-triangle-lesson.html" rel="noopener" style="font-family: Georgia, serif; font-size: 0.9em; color: #6B4A2E; text-decoration: none;">← Back to the lesson</a></p>
+
+<h1>The Sine Rule and Area of a Triangle — Practice Companion<br><span style="font-size:0.55em; color:#6B6B6B;">Pure 1, Trigonometry · Lesson 1</span></h1>
+
+<div class="intro">
+  <p>Eight exam-style questions on the sine rule (including the ambiguous case) and the area formula <code>½ ab sin C</code>. Whenever you're stuck, you have <strong>four kinds of help</strong>, in this order:</p>
+  <p>🤔 <strong>Socratic prompt</strong> — a question to get you thinking. &nbsp; 💡 <strong>Hint</strong> — a piece of method. &nbsp; ✅ <strong>Check my answer</strong> — try as many times as you like. &nbsp; 👀 <strong>Worked solution</strong> — the full method, unlocked once you've genuinely tried.</p>
+  <p style="margin-bottom:0;"><em>Give angles in degrees to 1 decimal place and lengths/areas to 2 decimal places unless the question says otherwise. The aim isn't speed — it's understanding.</em></p>
+</div>
+
+<div id="progress"></div>
+<div id="card-mount"></div>
+
+<div class="nav">
+  <button id="prevBtn">← Previous</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="reflection">
+  <h3 style="margin-top:0;">💛 Reflection</h3>
+  <p>Before you close this, take a moment:</p>
+  <ul>
+    <li>Did the sine rule's "side ↔ opposite angle" pairing become automatic, or did you still need to double-check which letter went with which?</li>
+    <li>When you met the ambiguous case, did you spot it from the data, or only after computing? Either is fine — knowing your habit tells you what to watch for.</li>
+    <li>If you had to teach one of these questions to a friend, which would you choose, and why?</li>
+  </ul>
+  <p style="margin-bottom:0;"><em>You can print or save this page (including any solutions you opened) using your browser's print function.</em></p>
+</div>
+
+<script>
+const questions = [
+  {
+    type: 'Direct application — find a side',
+    stem: 'In triangle <code>ABC</code>, <code>A = 35°</code>, <code>B = 80°</code>, and <code>a = 7 cm</code>. Find the length of side <code>b</code>, to 2 decimal places.',
+    accepted: ['12.02','b=12.02','b = 12.02','12.02cm','12.02 cm','b=12.02cm','b=12.02 cm'],
+    socratic: [
+      'You know one side-and-opposite-angle pair (a and A) and one angle (B). Which rule connects all of these?',
+      'Set up the sine rule with the two pairs you care about: b / sin B = a / sin A. Then rearrange to make b the subject.',
+      'b = a × sin B / sin A. Compute 7 × sin 80° / sin 35°.'
+    ],
+    hints: [
+      'Use a / sin A = b / sin B. Cross-multiply: b sin A = a sin B, so b = a sin B / sin A.',
+      'b = 7 × sin 80° / sin 35° ≈ 7 × 0.9848 / 0.5736 ≈ 12.02.'
+    ],
+    solution: [
+      'Step 1. Identify what you have: a side (a = 7) and its opposite angle (A = 35°), plus another angle (B = 80°). This is the AAS case — the sine rule applies cleanly.',
+      'Step 2. Set up the sine rule using the two relevant pairs: a / sin A = b / sin B.',
+      'Step 3. Rearrange for b: b = a sin B / sin A.',
+      'Step 4. Substitute: b = 7 × sin 80° / sin 35° = 7 × 0.98481 / 0.57358 ≈ 12.02 cm.',
+      'Answer: b ≈ 12.02 cm.'
+    ]
+  },
+  {
+    type: 'Direct application — find an angle',
+    stem: 'In triangle <code>PQR</code>, <code>p = 9</code>, <code>q = 6</code>, and <code>P = 70°</code>. Given that the triangle is uniquely determined here (you may verify this), find angle <code>Q</code> to 1 decimal place.',
+    accepted: ['38.7','38.7°','Q=38.7','Q = 38.7','q=38.7'],
+    socratic: [
+      'You have side p with its opposite angle P, and another side q. The sine rule lets you find the opposite angle of q.',
+      'sin Q / q = sin P / p, so sin Q = q sin P / p. Compute this, then take the inverse sine.',
+      'Why uniquely determined? Because p > q (the side opposite the given angle is longer), the obtuse partner of Q is ruled out — exactly one triangle exists.'
+    ],
+    hints: [
+      'sin Q = q sin P / p = 6 × sin 70° / 9.',
+      'sin Q ≈ 6 × 0.9397 / 9 ≈ 0.6265, so Q = arcsin(0.6265) ≈ 38.8° (1 d.p. ≈ 38.7° depending on rounding).'
+    ],
+    solution: [
+      'Step 1. Apply the sine rule using the side-with-opposite-angle pair (p, P) and the side q: sin Q / q = sin P / p.',
+      'Step 2. Rearrange: sin Q = q sin P / p = 6 × sin 70° / 9.',
+      'Step 3. Compute: sin Q ≈ 6 × 0.93969 / 9 ≈ 0.62646.',
+      'Step 4. Take inverse sine: Q ≈ arcsin(0.62646) ≈ 38.78°, which rounds to 38.8° (or 38.7° depending on intermediate rounding — both accepted).',
+      'Step 5. Check uniqueness: since p > q, only the acute value of Q is valid (the obtuse partner would make P + Q > 180°).',
+      'Answer: Q ≈ 38.7°.'
+    ]
+  },
+  {
+    type: 'Inverse problem',
+    stem: 'In triangle <code>ABC</code>, <code>A = 28°</code>, <code>a = 4.5</code>, and <code>b = 7.2</code>. Find the <em>two</em> possible values of angle <code>B</code>, each to 1 decimal place.',
+    accepted: ['48.6,131.4','48.6 and 131.4','48.6°,131.4°','B=48.6,131.4','131.4,48.6','b=48.6 and b=131.4'],
+    socratic: [
+      'Compute sin B from the sine rule. Then ask: which two angles in 0°–180° share that sine value?',
+      'sin B = b sin A / a. The principal value arcsin gives the acute answer; its obtuse partner is 180° minus that.',
+      'Check both candidates are valid by verifying A + B < 180° for each.'
+    ],
+    hints: [
+      'sin B = 7.2 × sin 28° / 4.5 ≈ 0.7510. arcsin gives ≈ 48.65°.',
+      'The obtuse partner is 180° − 48.65° ≈ 131.35°. Both give A + B < 180°, so both are valid.'
+    ],
+    solution: [
+      'Step 1. Apply the sine rule: sin B / b = sin A / a, so sin B = b sin A / a.',
+      'Step 2. Compute: sin B = 7.2 × sin 28° / 4.5 ≈ 7.2 × 0.46947 / 4.5 ≈ 0.75115.',
+      'Step 3. Principal value: B₁ = arcsin(0.75115) ≈ 48.65° ≈ 48.6° (to 1 d.p.).',
+      'Step 4. Obtuse partner: B₂ = 180° − 48.65° ≈ 131.35° ≈ 131.4°.',
+      'Step 5. Validity check: with B₁ ≈ 48.6°, C = 180 − 28 − 48.6 = 103.4° > 0 ✓. With B₂ ≈ 131.4°, C = 180 − 28 − 131.4 = 20.6° > 0 ✓. Both triangles exist.',
+      'Step 6. Notice that b > a (7.2 > 4.5), which is exactly the condition for the ambiguous case.',
+      'Answer: B ≈ 48.6° or B ≈ 131.4°.'
+    ]
+  },
+  {
+    type: 'Ambiguous case detection',
+    stem: 'For each of the following SSA data sets, state how many triangles exist:<br><strong>(a)</strong> <code>A = 40°</code>, <code>a = 6</code>, <code>b = 5</code>;<br><strong>(b)</strong> <code>A = 40°</code>, <code>a = 5</code>, <code>b = 6</code>;<br><strong>(c)</strong> <code>A = 40°</code>, <code>a = 3</code>, <code>b = 6</code>.<br>You do <em>not</em> need to find the triangles — just state the number (0, 1, or 2) for each.',
+    accepted: ['(a)1(b)2(c)0','1,2,0','a)1 b)2 c)0','1;2;0','(a) 1 (b) 2 (c) 0'],
+    socratic: [
+      'When can SSA give two triangles? Look at the relationship between a (opposite the given angle) and b (the other given side).',
+      'If a ≥ b, the obtuse partner of B is rejected, so there is only one triangle. If a < b, the obtuse partner may be valid — IF a triangle exists at all. The minimum length for a to "reach" is b sin A.',
+      'So: if a ≥ b → 1 triangle. If b sin A < a < b → 2 triangles. If a = b sin A → 1 triangle (right angle). If a < b sin A → 0 triangles.'
+    ],
+    hints: [
+      '(a) a = 6 ≥ b = 5 → one triangle.',
+      '(b) a = 5, b = 6, b sin A = 6 × sin 40° ≈ 3.857, so b sin A < a < b → two triangles.',
+      '(c) a = 3, b sin A ≈ 3.857, so a < b sin A → no triangle.'
+    ],
+    solution: [
+      'Step 1. The ambiguous case (SSA) has three possible outcomes. The decision depends on comparing a with b and with b sin A.',
+      'Step 2 (a). a = 6, b = 5. Since a ≥ b, only one triangle exists (the obtuse partner of B would force the angles to exceed 180°).',
+      'Step 3 (b). a = 5, b = 6. Compute b sin A = 6 × sin 40° ≈ 3.857. Since 3.857 < 5 < 6, we have b sin A < a < b, so two triangles exist.',
+      'Step 4 (c). a = 3, b = 6, b sin A ≈ 3.857. Since 3 < 3.857, side a is too short to reach the line of the opposite vertex — no triangle exists.',
+      'Answer: (a) 1 triangle; (b) 2 triangles; (c) 0 triangles.'
+    ]
+  },
+  {
+    type: 'Area of a triangle',
+    stem: 'In triangle <code>XYZ</code>, <code>x = 9 cm</code>, <code>y = 12 cm</code>, and <code>Z = 65°</code>. Find the area of the triangle, to 2 decimal places.',
+    accepted: ['48.94','48.94cm²','48.94 cm²','area=48.94','area = 48.94 cm²'],
+    socratic: [
+      'The area formula needs two sides and their INCLUDED angle. Which angle is between sides x and y?',
+      'Side x is opposite vertex X. Side y is opposite vertex Y. So sides x and y meet at vertex Z — and Z = 65° is exactly the angle between them.',
+      'Area = ½ × x × y × sin Z = ½ × 9 × 12 × sin 65°.'
+    ],
+    hints: [
+      'Area = ½ × 9 × 12 × sin 65°.',
+      '½ × 9 × 12 = 54. sin 65° ≈ 0.9063. Area ≈ 54 × 0.9063 ≈ 48.94 cm².'
+    ],
+    solution: [
+      'Step 1. Identify the included angle: side x and side y meet at vertex Z (the side opposite a vertex is named after that vertex). So Z = 65° is the angle between x and y — exactly the included angle we need.',
+      'Step 2. Apply the area formula: Area = ½ × x × y × sin Z = ½ × 9 × 12 × sin 65°.',
+      'Step 3. Compute: ½ × 9 × 12 = 54. sin 65° ≈ 0.90631.',
+      'Step 4. Area ≈ 54 × 0.90631 ≈ 48.94 cm².',
+      'Answer: Area ≈ 48.94 cm².'
+    ]
+  },
+  {
+    type: 'Modelling — surveying',
+    stem: 'A surveyor sights a distant tower from two stations <code>A</code> and <code>B</code>, which are 80 m apart on level ground. From <code>A</code>, the angle to the base of the tower is 67° (measured from the line <code>AB</code>). From <code>B</code>, the angle is 54° (also measured from <code>AB</code>, on the same side). Find the distance from station <code>A</code> to the base of the tower, to the nearest metre.',
+    accepted: ['76','76m','76 m','AT=76','approximately 76 m','distance ≈ 76 m','75.51','75.5'],
+    socratic: [
+      'Sketch the triangle ABT, where T is the tower base. You know AB = 80, the angle at A, and the angle at B. What\'s the third angle?',
+      'Angles in a triangle sum to 180°. With A = 67° and B = 54°, the angle at T is 59°. Side AB is opposite T — and you want side AT, which is opposite B.',
+      'Sine rule: AT / sin B = AB / sin T, so AT = 80 sin 54° / sin 59°.'
+    ],
+    hints: [
+      'In triangle ABT: angle A = 67°, angle B = 54°, angle T = 180° − 67° − 54° = 59°. AB = 80 is opposite T; AT (what you want) is opposite B.',
+      'AT = AB × sin B / sin T = 80 × sin 54° / sin 59° ≈ 80 × 0.8090 / 0.8572 ≈ 75.51 m, which rounds to 76 m.'
+    ],
+    solution: [
+      'Step 1. Sketch triangle ABT where T is the base of the tower. Given: angle at A = 67°, angle at B = 54°, side AB = 80 m. Side AB is opposite vertex T.',
+      'Step 2. Third angle: T = 180° − 67° − 54° = 59°.',
+      'Step 3. The side AT (from A to the tower) is opposite angle B. The given side AB is opposite angle T.',
+      'Step 4. Sine rule: AT / sin B = AB / sin T, so AT = AB × sin B / sin T = 80 × sin 54° / sin 59°.',
+      'Step 5. Compute: sin 54° ≈ 0.80902, sin 59° ≈ 0.85717. AT ≈ 80 × 0.80902 / 0.85717 ≈ 75.51 m.',
+      'Answer: AT ≈ 76 m (to the nearest metre).'
+    ]
+  },
+  {
+    type: 'Exam-style — multi-part',
+    stem: 'In triangle <code>ABC</code>, <code>A = 42°</code>, <code>B = 73°</code>, and <code>a = 10 cm</code>.<br><strong>(a)</strong> Find angle <code>C</code>.<br><strong>(b)</strong> Find side <code>c</code>, to 2 decimal places.<br><strong>(c)</strong> Hence find the area of the triangle, to 2 decimal places.',
+    accepted: [
+      '(a)65(b)13.55(c)64.76',
+      '65,13.55,64.76',
+      '(a) 65° (b) 13.55 cm (c) 64.76 cm²',
+      '65°,13.55,64.76',
+      'C=65,c=13.55,area=64.76'
+    ],
+    socratic: [
+      'For (a), use the fact that angles in a triangle sum to 180°.',
+      'For (b), use the sine rule with the side-and-opposite-angle pair (a, A) and the angle C just found.',
+      'For (c), use the area formula with two sides and their included angle. You have a and c now — the angle between them is B.'
+    ],
+    hints: [
+      '(a) C = 180° − 42° − 73° = 65°.',
+      '(b) c = a sin C / sin A = 10 × sin 65° / sin 42° ≈ 10 × 0.9063 / 0.6691 ≈ 13.55 cm.',
+      '(c) The angle between sides a and c is B = 73°. Area = ½ × a × c × sin B = ½ × 10 × 13.55 × sin 73° ≈ 64.76 cm².'
+    ],
+    solution: [
+      'Step 1 (a). Angles sum to 180°: C = 180° − 42° − 73° = 65°.',
+      'Step 2 (b). Sine rule: c / sin C = a / sin A, so c = a sin C / sin A = 10 × sin 65° / sin 42°.',
+      'Step 3 (b). Compute: sin 65° ≈ 0.90631, sin 42° ≈ 0.66913. c ≈ 10 × 0.90631 / 0.66913 ≈ 13.5446, so c ≈ 13.55 cm.',
+      'Step 4 (c). For the area, use two sides and their included angle. Sides a and c meet at vertex B, so B = 73° is the included angle: Area = ½ × a × c × sin B.',
+      'Step 5 (c). Substitute: Area = ½ × 10 × 13.5446 × sin 73° ≈ ½ × 10 × 13.5446 × 0.95630 ≈ 64.76 cm².',
+      'Answers: (a) C = 65°; (b) c ≈ 13.55 cm; (c) Area ≈ 64.76 cm².'
+    ]
+  },
+  {
+    type: 'Synthesis',
+    stem: 'A triangle has two sides of length <code>5</code> and <code>8</code>, and the angle between them is <code>θ</code>. The area of the triangle is exactly <code>10</code>. Find the <em>two</em> possible values of <code>θ</code>, each to 1 decimal place.',
+    accepted: [
+      '30,150','30 and 150','30°,150°','θ=30,150','30.0,150.0','(a)30(b)150','30°and150°'
+    ],
+    socratic: [
+      'Set up the area formula with the data you have. What does it say about sin θ?',
+      'Area = ½ × 5 × 8 × sin θ = 20 sin θ = 10, so sin θ = 1/2.',
+      'Which angles in 0°–180° have sine equal to 1/2? Both are valid because both make a real triangle.'
+    ],
+    hints: [
+      'Area = ½ × 5 × 8 × sin θ = 20 sin θ. Set this equal to 10: sin θ = 1/2.',
+      'sin θ = 1/2 gives θ = 30° (acute) or θ = 150° (obtuse). Both are valid included angles for a real triangle.'
+    ],
+    solution: [
+      'Step 1. Apply the area formula with the two known sides and the included angle: Area = ½ × 5 × 8 × sin θ = 20 sin θ.',
+      'Step 2. Set the area equal to 10: 20 sin θ = 10, so sin θ = 1/2.',
+      'Step 3. The equation sin θ = 1/2 has TWO solutions in the range 0° < θ < 180° (the valid range for a triangle\'s angle):',
+      '   θ₁ = 30° (the acute solution, arcsin(1/2))',
+      '   θ₂ = 180° − 30° = 150° (the obtuse partner).',
+      'Step 4. Both are geometrically valid: a triangle with two sides of length 5 and 8 and an angle of 30° between them is a long thin triangle; with an angle of 150° between them, it is a wide flat triangle. Both have area exactly 10.',
+      'Answer: θ = 30° or θ = 150°.'
+    ]
+  }
+];
+
+const paletteCore = ['²','³','√','±','≤','≥','≠','−','·','π','°','θ','α','β','sin','cos','tan'];
+const shortcuts = [
+  ['Delta','Δ'],['delta','Δ'],['sqrt','√'],['pi','π'],['theta','θ'],['alpha','α'],['beta','β'],['deg','°'],
+  ['^2','²'],['^3','³'],['<=','≤'],['>=','≥'],['!=','≠'],['+-','±']
+];
+
+const state = questions.map(() => ({ socIdx: 0, hintIdx: 0, attempts: 0, correct: false, engaged: false, solUnlocked: false, work: '', ans: '' }));
+let current = 0;
+
+function normalise(s) {
+  return s.toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/\(([a-h])\)/g, '')
+    .replace(/\.(?!\d)/g, '')
+    .replace(/\s+and\s+/g, ',')
+    .replace(/;/g, ',')
+    .replace(/[–—−]/g, '-');
+}
+function checkAnswer(input, accepted) {
+  const n = normalise(input);
+  return accepted.some(a => normalise(a) === n);
+}
+
+const mount = document.getElementById('card-mount');
+
+function buildPalette(qIndex) {
+  const wrap = document.createElement('div'); wrap.className = 'palette';
+  const row = document.createElement('div'); row.className = 'row';
+  paletteCore.forEach(sym => row.appendChild(palBtn(sym, qIndex)));
+  wrap.appendChild(row);
+  return wrap;
+}
+function palBtn(sym, qIndex) {
+  const b = document.createElement('button'); b.textContent = sym; b.type = 'button';
+  b.addEventListener('click', () => {
+    const ans = document.getElementById('ans-' + qIndex);
+    const tgt = (document.activeElement && document.activeElement.id === 'work-' + qIndex) ? document.getElementById('work-' + qIndex) : ans;
+    insertAtCursor(tgt, sym); tgt.focus();
+  });
+  return b;
+}
+function insertAtCursor(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  const pos = start + text.length;
+  field.selectionStart = field.selectionEnd = pos;
+}
+function applyShortcuts(field) {
+  let v = field.value;
+  shortcuts.forEach(([from, to]) => { v = v.split(from).join(to); });
+  if (v !== field.value) {
+    const delta = field.value.length - v.length;
+    const pos = (field.selectionStart ?? v.length) - delta;
+    field.value = v;
+    field.selectionStart = field.selectionEnd = Math.max(0, pos);
+  }
+}
+
+function renderCard() {
+  const q = questions[current]; const st = state[current];
+  mount.innerHTML = '';
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = '<div class="qnum">Question ' + (current + 1) + ' of ' + questions.length + ' &nbsp;·&nbsp; <span style="color:#a08a6a; font-style:italic;">' + q.type + '</span></div><div class="stem">' + q.stem + '</div>';
+  card.appendChild(buildPalette(current));
+
+  const workLabel = document.createElement('label'); workLabel.className = 'fieldlabel'; workLabel.textContent = 'Your working (think on the page):';
+  const work = document.createElement('textarea'); work.id = 'work-' + current; work.value = st.work || '';
+  work.addEventListener('input', () => { applyShortcuts(work); st.work = work.value; });
+  const ansLabel = document.createElement('label'); ansLabel.className = 'fieldlabel'; ansLabel.textContent = 'Your final answer:';
+  const ans = document.createElement('input'); ans.type = 'text'; ans.id = 'ans-' + current; ans.value = st.ans || '';
+  ans.addEventListener('input', () => { applyShortcuts(ans); st.ans = ans.value; });
+  card.appendChild(workLabel); card.appendChild(work); card.appendChild(ansLabel); card.appendChild(ans);
+
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const socBtn = mkBtn('🤔 Socratic prompt', 'btn-soc');
+  const hintBtn = mkBtn('💡 Hint', 'btn-hint');
+  const checkBtn = mkBtn('✅ Check my answer', 'btn-check');
+  const solBtn = mkBtn('👀 Worked solution', 'btn-sol');
+  actions.appendChild(socBtn); actions.appendChild(hintBtn); actions.appendChild(checkBtn); actions.appendChild(solBtn);
+  card.appendChild(actions);
+
+  const socRev = mkReveal('soc'), hintRev = mkReveal('hint'), fbRev = mkReveal('feedback'), solRev = mkReveal('sol');
+  card.appendChild(socRev); card.appendChild(hintRev); card.appendChild(fbRev); card.appendChild(solRev);
+  mount.appendChild(card);
+
+  function markEngaged() { st.engaged = true; renderProgress(); }
+
+  socBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.socIdx < q.socratic.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Think:</strong> ' + q.socratic[st.socIdx]; socRev.appendChild(item); st.socIdx++; }
+    if (st.socIdx >= q.socratic.length) socBtn.disabled = true;
+    socRev.classList.add('show'); updateSolGate();
+  });
+  hintBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.hintIdx < q.hints.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Hint ' + (st.hintIdx + 1) + ':</strong> ' + q.hints[st.hintIdx]; hintRev.appendChild(item); st.hintIdx++; }
+    if (st.hintIdx >= q.hints.length) hintBtn.disabled = true;
+    hintRev.classList.add('show'); updateSolGate();
+  });
+  checkBtn.addEventListener('click', () => {
+    markEngaged(); st.attempts++;
+    const val = ans.value.trim();
+    fbRev.className = 'reveal feedback show';
+    if (val === '') { fbRev.classList.add('wrong'); fbRev.innerHTML = 'Type your final answer in the answer box first, then check.'; }
+    else if (checkAnswer(val, q.accepted)) { st.correct = true; fbRev.innerHTML = '✅ <strong>Correct!</strong> Well reasoned. If you used help to get here, re-read the worked solution to lock in the method.'; }
+    else { fbRev.classList.add('wrong'); fbRev.innerHTML = '❌ Not yet — but keep going. ' + diagnostic(current) + ' &nbsp;<em>You can revise and check again.</em>'; }
+    renderProgress(); updateSolGate();
+  });
+  solBtn.addEventListener('click', () => {
+    if (solBtn.disabled) return;
+    solRev.classList.add('show');
+    solRev.innerHTML = '<strong>Worked solution</strong>' + q.solution.map(s => '<div class="step">' + s + '</div>').join('');
+  });
+
+  function updateSolGate() {
+    st.solUnlocked = st.attempts >= 3 || (st.socIdx >= q.socratic.length && st.hintIdx >= q.hints.length) || st.correct;
+    if (st.solUnlocked) { solBtn.disabled = false; solBtn.textContent = '👀 Worked solution'; }
+    else { solBtn.disabled = true; solBtn.textContent = '👀 Worked solution (try a few times first)'; }
+  }
+  updateSolGate();
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === questions.length - 1);
+}
+
+function diagnostic(i) {
+  const map = [
+    'Set up the sine rule with the two side-and-opposite-angle pairs you care about, then rearrange to make the unknown the subject.',
+    'sin Q = q sin P / p. Take the inverse sine — and check whether the obtuse partner is ruled out by a > b.',
+    'You\'re looking for TWO answers: the acute arcsin value and its obtuse partner (180° minus the acute). Both should be in the answer.',
+    'Three rules: a ≥ b ⇒ 1 triangle. b sin A < a < b ⇒ 2 triangles. a = b sin A ⇒ 1 (right angle). a < b sin A ⇒ 0.',
+    'The two sides in the formula must meet at the included angle. Sides x and y meet at vertex Z, so the included angle is Z.',
+    'Set up the triangle ABT correctly, find the third angle, then apply the sine rule with the right side-angle pair.',
+    'Do (a) first (angles sum to 180°), then (b) with the sine rule, then (c) with the area formula using two sides and their included angle.',
+    'Set up the area formula, solve for sin θ, then take BOTH the acute and obtuse solutions — both are valid for a triangle.'
+  ];
+  return map[i] || 'Re-check the labelling of sides and angles — opposite, not adjacent.';
+}
+
+function mkBtn(label, cls) { const b = document.createElement('button'); b.textContent = label; b.className = cls; b.type = 'button'; return b; }
+function mkReveal(cls) { const d = document.createElement('div'); d.className = 'reveal ' + cls; return d; }
+
+const progress = document.getElementById('progress');
+function renderProgress() {
+  progress.innerHTML = '<span style="font-size:0.85em; color:#6B5A42; margin-right:0.4em;">Progress:</span>';
+  questions.forEach((q, i) => {
+    const dot = document.createElement('div'); dot.className = 'dot';
+    if (state[i].correct) dot.classList.add('correct');
+    else if (state[i].engaged) dot.classList.add('engaged');
+    if (i === current) dot.classList.add('current');
+    dot.textContent = state[i].correct ? '✓' : (i + 1);
+    dot.title = 'Question ' + (i + 1);
+    dot.addEventListener('click', () => { current = i; renderCard(); renderProgress(); });
+    progress.appendChild(dot);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) { current--; renderCard(); renderProgress(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { if (current < questions.length - 1) { current++; renderCard(); renderProgress(); } });
+
+renderCard();
+renderProgress();
+</script>
+
+</body>
+</html>
