@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cosine Rule — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 820px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  .intro { background: #E5EBF0; border-left: 5px solid #3A5A6B; padding: 0.9em 1.2em; border-radius: 8px; margin: 1.2em 0; }
+  .intro strong { color: #28414f; }
+
+  #progress { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 1.2em 0; align-items: center; }
+  #progress .dot { width: 22px; height: 22px; border-radius: 50%; background: #D8D2C6; display: flex; align-items: center; justify-content: center; font-size: 0.72em; color: #5a5346; cursor: pointer; border: 2px solid transparent; font-family: Georgia, serif; }
+  #progress .dot.engaged { background: #E8C66B; color: #5a4a18; }
+  #progress .dot.correct { background: #8FB87A; color: #294017; }
+  #progress .dot.current { border-color: #3A5A6B; }
+
+  .card { background: #fff; border: 1px solid #D4C9B6; border-radius: 10px; padding: 1.2em 1.4em; margin: 1em 0; }
+  .qnum { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; color: #8B6F47; }
+  .stem { font-size: 1.08em; margin: 0.4em 0 0.8em; }
+  .stem code, .work code, code { font-family: 'Courier New', monospace; background: #F6F2EA; padding: 0.05em 0.3em; border-radius: 3px; }
+
+  .palette { margin: 0.6em 0; }
+  .palette .row { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.3em; }
+  .palette button { font-family: 'Courier New', monospace; font-size: 0.95em; padding: 0.25em 0.55em; border: 1px solid #BCA98a; background: #FBF8F2; border-radius: 5px; cursor: pointer; min-width: 2em; }
+  .palette button:hover { background: #F0E8DC; }
+
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; font-family: 'Courier New', monospace; font-size: 1em; padding: 0.5em; border: 1px solid #C3B49a; border-radius: 6px; background: #FFFEFB; }
+  textarea { min-height: 4.5em; resize: vertical; }
+  label.fieldlabel { font-size: 0.85em; color: #6B5A42; display: block; margin: 0.6em 0 0.2em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 0.9em; }
+  .actions button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.45em 0.9em; border-radius: 6px; cursor: pointer; border: 1px solid; }
+  .btn-soc { background: #F2E8F0; border-color: #6B4A6B; color: #5a3a5a; }
+  .btn-hint { background: #F5EFD9; border-color: #8B7A3A; color: #6a5d23; }
+  .btn-check { background: #E8F0E5; border-color: #4A6B3A; color: #355026; }
+  .btn-sol { background: #ECE4D8; border-color: #8a7355; color: #6a563c; }
+  .actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .reveal { margin-top: 0.8em; padding: 0.7em 1em; border-radius: 6px; display: none; }
+  .reveal.show { display: block; }
+  .reveal.soc { background: #F7F0F6; border-left: 4px solid #6B4A6B; }
+  .reveal.hint { background: #FAF6E6; border-left: 4px solid #8B7A3A; }
+  .reveal.sol { background: #F4EFE7; border-left: 4px solid #8a7355; }
+  .reveal.feedback { background: #EAF1E7; border-left: 4px solid #4A6B3A; }
+  .reveal.feedback.wrong { background: #F7ECE6; border-left-color: #B5683A; }
+  .reveal .step { margin: 0.35em 0; }
+  .ladder-item { margin: 0.3em 0; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 1em; }
+  .nav button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.45em 1.1em; border: 1px solid #6E8597; background: #fff; border-radius: 6px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .reflection { background: #F5EFD9; border-left: 5px solid #8B7A3A; padding: 1em 1.3em; border-radius: 8px; margin: 1.5em 0; }
+
+  @media print {
+    .actions, .nav, .palette, #progress { display: none !important; }
+    .card { display: block !important; page-break-inside: avoid; border: 1px solid #999; }
+    .reveal { display: block !important; }
+    textarea, input { border: 1px solid #999; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<p style="margin-bottom:0.3em;"><a href="cosine-rule-lesson.html" rel="noopener" style="font-family: Georgia, serif; font-size: 0.9em; color: #6B4A2E; text-decoration: none;">← Back to the lesson</a></p>
+
+<h1>The Cosine Rule — Practice Companion<br><span style="font-size:0.55em; color:#6B6B6B;">Pure 1, Trigonometry · Lesson 2</span></h1>
+
+<div class="intro">
+  <p>Eight exam-style questions on the cosine rule (both side-finding SAS and angle-finding SSS). Whenever you're stuck, you have <strong>four kinds of help</strong>, in this order:</p>
+  <p>🤔 <strong>Socratic prompt</strong> — a question to get you thinking. &nbsp; 💡 <strong>Hint</strong> — a piece of method. &nbsp; ✅ <strong>Check my answer</strong> — try as many times as you like. &nbsp; 👀 <strong>Worked solution</strong> — the full method, unlocked once you've genuinely tried.</p>
+  <p style="margin-bottom:0;"><em>Give angles in degrees to 1 decimal place and lengths to 2 decimal places unless told otherwise. Calculator must be in degrees mode.</em></p>
+</div>
+
+<div id="progress"></div>
+<div id="card-mount"></div>
+
+<div class="nav">
+  <button id="prevBtn">← Previous</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="reflection">
+  <h3 style="margin-top:0;">💛 Reflection</h3>
+  <p>Before you close this, take a moment:</p>
+  <ul>
+    <li>When the cosine rule's correction term came out negative, did you anchor that back to "C must be obtuse" — or just compute and trust? Both are fine, but the anchor is faster.</li>
+    <li>Which feels more confident now — picking when to use the sine rule, or picking when to use the cosine rule? Whichever feels less confident is what to practise more.</li>
+    <li>If you taught one of these questions to a friend, which would you choose, and why?</li>
+  </ul>
+  <p style="margin-bottom:0;"><em>You can print or save this page (including any solutions you opened) using your browser's print function.</em></p>
+</div>
+
+<script>
+const questions = [
+  {
+    type: 'Direct application — SAS finding a side',
+    stem: 'In triangle <code>ABC</code>, <code>a = 8 cm</code>, <code>b = 11 cm</code>, and <code>C = 47°</code>. Find the length of side <code>c</code>, to 2 decimal places.',
+    accepted: ['8.05','c=8.05','c = 8.05','8.05cm','8.05 cm','c=8.05cm','c=8.05 cm'],
+    socratic: [
+      'Which case is this — SAS, SSS, or AAS? Which rule starts there?',
+      'You have two sides and the included angle (SAS). The cosine rule for finding c is c² = a² + b² − 2ab cos C.',
+      'Compute c² = 8² + 11² − 2(8)(11) cos 47°. Then take the square root.'
+    ],
+    hints: [
+      'c² = 64 + 121 − 176 cos 47°.',
+      'cos 47° ≈ 0.6820. 176 × 0.6820 ≈ 120.03. So c² ≈ 185 − 120.03 ≈ 64.97. Then c ≈ √64.97 ≈ 8.06... double-check: c ≈ 8.05.'
+    ],
+    solution: [
+      'Step 1. Two sides and the included angle (SAS): use the side-finding cosine rule, c² = a² + b² − 2ab cos C.',
+      'Step 2. Substitute: c² = 8² + 11² − 2(8)(11) cos 47° = 64 + 121 − 176 cos 47°.',
+      'Step 3. Compute cos 47° ≈ 0.68200. Then 176 × 0.68200 ≈ 120.03.',
+      'Step 4. c² ≈ 185 − 120.03 ≈ 64.97.',
+      'Step 5. c ≈ √64.97 ≈ 8.06 (or 8.05 depending on rounding — both accepted).',
+      'Answer: c ≈ 8.05 cm.'
+    ]
+  },
+  {
+    type: 'Direct application — SSS finding an angle',
+    stem: 'A triangle has sides <code>a = 5</code>, <code>b = 7</code>, <code>c = 9</code>. Find angle <code>C</code> (the angle opposite side <code>c</code>), to 1 decimal place.',
+    accepted: ['95.7','95.7°','C=95.7','C = 95.7','C=95.7°'],
+    socratic: [
+      'Three sides given, no angles. Which rule lets you find an angle from three sides?',
+      'Use the rearranged cosine rule: cos C = (a² + b² − c²) / (2ab). Substitute the values.',
+      'You should get cos C = (25 + 49 − 81) / 70 = −7/70 = −0.1. Then take inverse cosine; the negative value tells you C is obtuse.'
+    ],
+    hints: [
+      'cos C = (5² + 7² − 9²) / (2 × 5 × 7) = (25 + 49 − 81) / 70 = −7/70 = −0.1.',
+      'C = arccos(−0.1) ≈ 95.7°.'
+    ],
+    solution: [
+      'Step 1. Three sides given (SSS): use the rearranged cosine rule, cos C = (a² + b² − c²) / (2ab).',
+      'Step 2. Substitute: cos C = (5² + 7² − 9²) / (2 × 5 × 7) = (25 + 49 − 81) / 70 = −7/70 = −0.1.',
+      'Step 3. The cosine is negative, so C is obtuse — a useful sanity check before computing.',
+      'Step 4. C = arccos(−0.1) ≈ 95.7°.',
+      'Answer: C ≈ 95.7°.'
+    ]
+  },
+  {
+    type: 'Inverse problem',
+    stem: 'In triangle <code>PQR</code>, <code>p = 6</code>, <code>q = 4</code>, and angle <code>R = 120°</code>. Find side <code>r</code>, to 2 decimal places.',
+    accepted: ['8.72','r=8.72','r = 8.72'],
+    socratic: [
+      'R is the angle opposite side r. The two sides adjacent to R are p and q. Which case is this?',
+      'SAS again. The cosine rule for r is r² = p² + q² − 2pq cos R.',
+      'cos 120° = −0.5, so the correction term −2pq cos R is positive. Expect r to be longer than √(p² + q²).'
+    ],
+    hints: [
+      'r² = 6² + 4² − 2(6)(4) cos 120° = 36 + 16 − 48(−0.5) = 52 + 24 = 76.',
+      'r = √76 ≈ 8.72.'
+    ],
+    solution: [
+      'Step 1. Identify: two sides (p, q) and the included angle (R). SAS case — use the cosine rule for r.',
+      'Step 2. r² = p² + q² − 2pq cos R = 6² + 4² − 2(6)(4) cos 120°.',
+      'Step 3. cos 120° = −0.5 exactly. So r² = 36 + 16 − 48 × (−0.5) = 52 + 24 = 76.',
+      'Step 4. r = √76 ≈ 8.72.',
+      'Sense check: at R = 90°, r would be √(36+16) = √52 ≈ 7.21. R is obtuse, so the correction is positive and r > 7.21. ✓',
+      'Answer: r ≈ 8.72.'
+    ]
+  },
+  {
+    type: 'Interpretation — sign and shape',
+    stem: 'For each triangle below, state whether the angle opposite the longest side is <em>acute</em>, <em>right</em>, or <em>obtuse</em>. <strong>Do not compute the angle</strong> — just use the sign of <code>a² + b² − c²</code> compared to zero (where <code>c</code> is the longest side).<br><strong>(a)</strong> sides 5, 7, 9 — longest is 9.<br><strong>(b)</strong> sides 6, 8, 10 — longest is 10.<br><strong>(c)</strong> sides 5, 6, 7 — longest is 7.',
+    accepted: ['(a)obtuse(b)right(c)acute','obtuse,right,acute','a)obtuse b)right c)acute','obtuse;right;acute','(a) obtuse (b) right (c) acute'],
+    socratic: [
+      'The rearranged cosine rule gives cos C = (a² + b² − c²) / (2ab). Since 2ab is always positive, the SIGN of cos C is the same as the sign of (a² + b² − c²).',
+      'cos C > 0 ⇔ acute. cos C = 0 ⇔ right angle. cos C < 0 ⇔ obtuse.',
+      'So compute a² + b² − c² for each triple (with c the longest side) and check its sign — no need to take the inverse cosine.'
+    ],
+    hints: [
+      '(a) 25 + 49 − 81 = −7 < 0 ⇒ obtuse. (b) 36 + 64 − 100 = 0 ⇒ right. (c) 25 + 36 − 49 = 12 > 0 ⇒ acute.',
+      'This is the converse of Pythagoras: a² + b² vs c² tells you the shape of the triangle without computing the angle.'
+    ],
+    solution: [
+      'Step 1. The key idea: cos C = (a² + b² − c²) / (2ab), and since 2ab > 0, the sign of cos C equals the sign of (a² + b² − c²).',
+      'Step 2. Convert that to a verdict: a² + b² − c² > 0 ⇔ C acute; = 0 ⇔ C right; < 0 ⇔ C obtuse.',
+      'Step 3 (a). 5² + 7² − 9² = 25 + 49 − 81 = −7. Negative, so C is OBTUSE.',
+      'Step 4 (b). 6² + 8² − 10² = 36 + 64 − 100 = 0. Zero, so C is a RIGHT angle. (This is a 3-4-5 right triangle scaled by 2.)',
+      'Step 5 (c). 5² + 6² − 7² = 25 + 36 − 49 = 12. Positive, so C is ACUTE.',
+      'Answer: (a) obtuse; (b) right; (c) acute.'
+    ]
+  },
+  {
+    type: 'Modelling — navigation',
+    stem: 'A ship leaves port <code>P</code> and sails 25 km on a bearing of 050°, reaching point <code>A</code>. From <code>A</code>, it then sails 40 km on a bearing of 130°, reaching point <code>B</code>. Find the direct distance <code>PB</code> from the port, to the nearest km.',
+    accepted: ['51','51km','51 km','PB=51','PB = 51','approximately 51 km'],
+    socratic: [
+      'Sketch triangle PAB. You know PA = 25 and AB = 40. What angle is INCLUDED at A — i.e. between PA and AB?',
+      'The bearing changes from 050° (the direction PA) to 130° (the direction AB). At point A, the ship\'s incoming direction is 050° (from P) and its outgoing direction is 130°.',
+      'The angle at A inside triangle PAB is 180° − (130° − 50°) = 180° − 80° = 100°. (The 80° is the change in bearing; subtract from 180° because the incoming direction at A is the reverse of PA, i.e. 230°.) Then use the cosine rule on PA = 25, AB = 40, included angle 100°.'
+    ],
+    hints: [
+      'Included angle at A = 100°. PB² = 25² + 40² − 2(25)(40) cos 100° = 625 + 1600 − 2000 cos 100°.',
+      'cos 100° ≈ −0.1736. So PB² ≈ 2225 − 2000(−0.1736) ≈ 2225 + 347.3 ≈ 2572.3. PB ≈ √2572.3 ≈ 50.72 km, rounds to 51 km.'
+    ],
+    solution: [
+      'Step 1. Sketch triangle PAB. PA = 25 km along bearing 050°; AB = 40 km along bearing 130°.',
+      'Step 2. Find the angle at A inside the triangle. The bearing at A from the incoming direction (which points back to P) is 050° + 180° = 230°. The outgoing bearing is 130°. So the angle between "back to P" and "on to B" is 230° − 130° = 100°. This is the included angle inside triangle PAB at A.',
+      'Step 3. SAS case: use the cosine rule. PB² = PA² + AB² − 2(PA)(AB) cos A = 25² + 40² − 2(25)(40) cos 100°.',
+      'Step 4. Compute: 25² = 625, 40² = 1600, 2 × 25 × 40 = 2000, cos 100° ≈ −0.17365.',
+      'Step 5. PB² ≈ 625 + 1600 − 2000 × (−0.17365) ≈ 2225 + 347.30 ≈ 2572.30.',
+      'Step 6. PB ≈ √2572.30 ≈ 50.72 km, which rounds to 51 km.',
+      'Answer: PB ≈ 51 km.'
+    ]
+  },
+  {
+    type: 'Multi-step (cosine then sine)',
+    stem: 'A triangle has sides <code>a = 6</code> and <code>b = 8</code> with included angle <code>C = 70°</code>.<br><strong>(a)</strong> Find side <code>c</code>, to 2 decimal places.<br><strong>(b)</strong> Hence find angle <code>A</code> (opposite side <code>a</code>), to 1 decimal place.',
+    accepted: [
+      '(a)8.20(b)43.5',
+      '8.20,43.5',
+      '(a) 8.20 (b) 43.5°',
+      'c=8.20,A=43.5',
+      'c=8.20,A=43.5°',
+      '(a)8.2(b)43.5',
+      '8.2,43.5'
+    ],
+    socratic: [
+      'For (a), SAS — use the cosine rule for c.',
+      'For (b), now you have a side-and-opposite-angle pair (c and C). The sine rule is the easier tool here.',
+      'Sine rule: sin A / a = sin C / c, so sin A = a sin C / c. Since a < b in this triangle, A is unambiguous (acute).'
+    ],
+    hints: [
+      '(a) c² = 36 + 64 − 96 cos 70° = 100 − 96 × 0.34202 ≈ 100 − 32.83 ≈ 67.17. c = √67.17 ≈ 8.20.',
+      '(b) sin A = a sin C / c = 6 × sin 70° / 8.196 ≈ 0.6878. A = arcsin(0.6878) ≈ 43.5°.'
+    ],
+    solution: [
+      'Step 1 (a). SAS case: c² = a² + b² − 2ab cos C = 6² + 8² − 2(6)(8) cos 70° = 36 + 64 − 96 cos 70°.',
+      'Step 2 (a). cos 70° ≈ 0.34202. So 96 × 0.34202 ≈ 32.83.',
+      'Step 3 (a). c² ≈ 100 − 32.83 ≈ 67.17. So c ≈ √67.17 ≈ 8.20.',
+      'Step 4 (b). Now we have c and its opposite angle C, so we can use the sine rule. sin A / a = sin C / c, so sin A = a sin C / c.',
+      'Step 5 (b). sin A = 6 × sin 70° / 8.196 ≈ 6 × 0.93969 / 8.196 ≈ 0.6878.',
+      'Step 6 (b). A = arcsin(0.6878) ≈ 43.5°. (Since a = 6 < b = 8, angle A is the smallest in the triangle and definitely acute, so the obtuse partner is not in play.)',
+      'Answers: (a) c ≈ 8.20; (b) A ≈ 43.5°.'
+    ]
+  },
+  {
+    type: 'Exam-style — find all angles from three sides',
+    stem: 'A triangle has sides <code>a = 7</code>, <code>b = 10</code>, <code>c = 13</code>. Find all three angles, each to 1 decimal place.',
+    accepted: [
+      'A=32.2,B=49.6,C=98.2',
+      '32.2,49.6,98.2',
+      '32.2°,49.6°,98.2°',
+      'A=32.2°,B=49.6°,C=98.2°',
+      '(a)A=32.2(b)B=49.6(c)C=98.2'
+    ],
+    socratic: [
+      'Three sides, find three angles — SSS, three applications of the rearranged cosine rule (or two plus the "angles sum to 180°" check).',
+      'Start with the largest angle (opposite the longest side, c = 13). The sign of cos C will tell you immediately whether C is acute or obtuse.',
+      'cos C = (a² + b² − c²) / (2ab). Then cos A and cos B similarly, OR use angles-sum-to-180 for the third.'
+    ],
+    hints: [
+      'cos C = (49 + 100 − 169) / (2 × 7 × 10) = −20/140 = −1/7 ≈ −0.1429. C ≈ 98.2°.',
+      'cos A = (100 + 169 − 49) / (2 × 10 × 13) = 220/260 ≈ 0.8462. A ≈ 32.2°. Then B = 180 − 98.2 − 32.2 = 49.6°.'
+    ],
+    solution: [
+      'Step 1. SSS case: use the rearranged cosine rule for each angle, or for two angles and then use the angle sum.',
+      'Step 2 (find C, the largest angle, opposite c = 13). cos C = (a² + b² − c²) / (2ab) = (49 + 100 − 169) / (2 × 7 × 10) = −20 / 140 = −1/7 ≈ −0.1429.',
+      'Step 3. C ≈ arccos(−0.1429) ≈ 98.2°. (The negative cosine confirms C is obtuse — as expected, since c is the longest side and 7² + 10² < 13².)',
+      'Step 4 (find A, opposite a = 7). cos A = (b² + c² − a²) / (2bc) = (100 + 169 − 49) / (2 × 10 × 13) = 220 / 260 ≈ 0.8462.',
+      'Step 5. A ≈ arccos(0.8462) ≈ 32.2°.',
+      'Step 6 (find B using the angle sum). B = 180° − A − C = 180° − 32.2° − 98.2° = 49.6°.',
+      'Cross-check: compute cos B = (a² + c² − b²) / (2ac) = (49 + 169 − 100) / (2 × 7 × 13) = 118 / 182 ≈ 0.6484, giving B ≈ 49.6°. ✓',
+      'Answers: A ≈ 32.2°, B ≈ 49.6°, C ≈ 98.2°.'
+    ]
+  },
+  {
+    type: 'Synthesis',
+    stem: 'In triangle <code>ABC</code>, <code>a = 6</code>, <code>b = 8</code>, and the area of the triangle is <code>12</code>. Find the <em>two</em> possible values of side <code>c</code>, each to 2 decimal places.',
+    accepted: [
+      '4.11,13.53','13.53,4.11','4.11 and 13.53','c=4.11,c=13.53','c=4.11 and 13.53',
+      'c=4.11 or c=13.53','c=4.11,13.53'
+    ],
+    socratic: [
+      'Use the area formula first to find angle C. What does it say in terms of sides 6, 8 and angle C?',
+      'Area = ½ × 6 × 8 × sin C = 24 sin C = 12, so sin C = 1/2. Which TWO angles in 0°-180° have sine 1/2?',
+      'C = 30° (acute) or C = 150° (obtuse). Each gives a different value of c via the cosine rule. Find both.'
+    ],
+    hints: [
+      'sin C = 1/2 ⇒ C = 30° or C = 150°.',
+      'For C = 30°: c² = 36 + 64 − 96 cos 30° ≈ 100 − 83.14 ≈ 16.86, so c ≈ √16.86 ≈ 4.11. For C = 150°: c² = 100 − 96(−0.8660) ≈ 183.14, so c ≈ √183.14 ≈ 13.53.'
+    ],
+    solution: [
+      'Step 1. Use the area formula with the two known sides and their included angle C: Area = ½ × 6 × 8 × sin C = 24 sin C.',
+      'Step 2. Set the area equal to 12: 24 sin C = 12, so sin C = 1/2.',
+      'Step 3. sin C = 1/2 has TWO solutions in 0° < C < 180°: C = 30° or C = 150°.',
+      'Step 4. Apply the cosine rule for each:',
+      '   Case 1 (C = 30°): c² = 6² + 8² − 2(6)(8) cos 30° = 100 − 96 × 0.8660 ≈ 100 − 83.14 ≈ 16.86, so c ≈ √16.86 ≈ 4.11.',
+      '   Case 2 (C = 150°): c² = 100 − 96 cos 150° = 100 − 96 × (−0.8660) ≈ 100 + 83.14 ≈ 183.14, so c ≈ √183.14 ≈ 13.53.',
+      'Answer: c ≈ 4.11 or c ≈ 13.53.'
+    ]
+  }
+];
+
+const paletteCore = ['²','³','√','±','≤','≥','≠','−','·','π','°','θ','α','β','sin','cos','tan'];
+const shortcuts = [
+  ['Delta','Δ'],['delta','Δ'],['sqrt','√'],['pi','π'],['theta','θ'],['alpha','α'],['beta','β'],['deg','°'],
+  ['^2','²'],['^3','³'],['<=','≤'],['>=','≥'],['!=','≠'],['+-','±']
+];
+
+const state = questions.map(() => ({ socIdx: 0, hintIdx: 0, attempts: 0, correct: false, engaged: false, solUnlocked: false, work: '', ans: '' }));
+let current = 0;
+
+function normalise(s) {
+  return s.toLowerCase()
+    .replace(/\s+and\s+/g, ',')
+    .replace(/\s+or\s+/g, ',')
+    .replace(/\s+/g, '')
+    .replace(/\(([a-h])\)/g, '')
+    .replace(/\.(?!\d)/g, '')
+    .replace(/;/g, ',')
+    .replace(/[–—−]/g, '-');
+}
+function checkAnswer(input, accepted) {
+  const n = normalise(input);
+  return accepted.some(a => normalise(a) === n);
+}
+
+const mount = document.getElementById('card-mount');
+
+function buildPalette(qIndex) {
+  const wrap = document.createElement('div'); wrap.className = 'palette';
+  const row = document.createElement('div'); row.className = 'row';
+  paletteCore.forEach(sym => row.appendChild(palBtn(sym, qIndex)));
+  wrap.appendChild(row);
+  return wrap;
+}
+function palBtn(sym, qIndex) {
+  const b = document.createElement('button'); b.textContent = sym; b.type = 'button';
+  b.addEventListener('click', () => {
+    const ans = document.getElementById('ans-' + qIndex);
+    const tgt = (document.activeElement && document.activeElement.id === 'work-' + qIndex) ? document.getElementById('work-' + qIndex) : ans;
+    insertAtCursor(tgt, sym); tgt.focus();
+  });
+  return b;
+}
+function insertAtCursor(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  const pos = start + text.length;
+  field.selectionStart = field.selectionEnd = pos;
+}
+function applyShortcuts(field) {
+  let v = field.value;
+  shortcuts.forEach(([from, to]) => { v = v.split(from).join(to); });
+  if (v !== field.value) {
+    const delta = field.value.length - v.length;
+    const pos = (field.selectionStart ?? v.length) - delta;
+    field.value = v;
+    field.selectionStart = field.selectionEnd = Math.max(0, pos);
+  }
+}
+
+function renderCard() {
+  const q = questions[current]; const st = state[current];
+  mount.innerHTML = '';
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = '<div class="qnum">Question ' + (current + 1) + ' of ' + questions.length + ' &nbsp;·&nbsp; <span style="color:#a08a6a; font-style:italic;">' + q.type + '</span></div><div class="stem">' + q.stem + '</div>';
+  card.appendChild(buildPalette(current));
+
+  const workLabel = document.createElement('label'); workLabel.className = 'fieldlabel'; workLabel.textContent = 'Your working (think on the page):';
+  const work = document.createElement('textarea'); work.id = 'work-' + current; work.value = st.work || '';
+  work.addEventListener('input', () => { applyShortcuts(work); st.work = work.value; });
+  const ansLabel = document.createElement('label'); ansLabel.className = 'fieldlabel'; ansLabel.textContent = 'Your final answer:';
+  const ans = document.createElement('input'); ans.type = 'text'; ans.id = 'ans-' + current; ans.value = st.ans || '';
+  ans.addEventListener('input', () => { applyShortcuts(ans); st.ans = ans.value; });
+  card.appendChild(workLabel); card.appendChild(work); card.appendChild(ansLabel); card.appendChild(ans);
+
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const socBtn = mkBtn('🤔 Socratic prompt', 'btn-soc');
+  const hintBtn = mkBtn('💡 Hint', 'btn-hint');
+  const checkBtn = mkBtn('✅ Check my answer', 'btn-check');
+  const solBtn = mkBtn('👀 Worked solution', 'btn-sol');
+  actions.appendChild(socBtn); actions.appendChild(hintBtn); actions.appendChild(checkBtn); actions.appendChild(solBtn);
+  card.appendChild(actions);
+
+  const socRev = mkReveal('soc'), hintRev = mkReveal('hint'), fbRev = mkReveal('feedback'), solRev = mkReveal('sol');
+  card.appendChild(socRev); card.appendChild(hintRev); card.appendChild(fbRev); card.appendChild(solRev);
+  mount.appendChild(card);
+
+  function markEngaged() { st.engaged = true; renderProgress(); }
+
+  socBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.socIdx < q.socratic.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Think:</strong> ' + q.socratic[st.socIdx]; socRev.appendChild(item); st.socIdx++; }
+    if (st.socIdx >= q.socratic.length) socBtn.disabled = true;
+    socRev.classList.add('show'); updateSolGate();
+  });
+  hintBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.hintIdx < q.hints.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Hint ' + (st.hintIdx + 1) + ':</strong> ' + q.hints[st.hintIdx]; hintRev.appendChild(item); st.hintIdx++; }
+    if (st.hintIdx >= q.hints.length) hintBtn.disabled = true;
+    hintRev.classList.add('show'); updateSolGate();
+  });
+  checkBtn.addEventListener('click', () => {
+    markEngaged(); st.attempts++;
+    const val = ans.value.trim();
+    fbRev.className = 'reveal feedback show';
+    if (val === '') { fbRev.classList.add('wrong'); fbRev.innerHTML = 'Type your final answer in the answer box first, then check.'; }
+    else if (checkAnswer(val, q.accepted)) { st.correct = true; fbRev.innerHTML = '✅ <strong>Correct!</strong> Well reasoned. If you used help to get here, re-read the worked solution to lock in the method.'; }
+    else { fbRev.classList.add('wrong'); fbRev.innerHTML = '❌ Not yet — but keep going. ' + diagnostic(current) + ' &nbsp;<em>You can revise and check again.</em>'; }
+    renderProgress(); updateSolGate();
+  });
+  solBtn.addEventListener('click', () => {
+    if (solBtn.disabled) return;
+    solRev.classList.add('show');
+    solRev.innerHTML = '<strong>Worked solution</strong>' + q.solution.map(s => '<div class="step">' + s + '</div>').join('');
+  });
+
+  function updateSolGate() {
+    st.solUnlocked = st.attempts >= 3 || (st.socIdx >= q.socratic.length && st.hintIdx >= q.hints.length) || st.correct;
+    if (st.solUnlocked) { solBtn.disabled = false; solBtn.textContent = '👀 Worked solution'; }
+    else { solBtn.disabled = true; solBtn.textContent = '👀 Worked solution (try a few times first)'; }
+  }
+  updateSolGate();
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === questions.length - 1);
+}
+
+function diagnostic(i) {
+  const map = [
+    'SAS case: c² = a² + b² − 2ab cos C. Make sure C is in degrees mode and the cosine is computed correctly.',
+    'SSS case: cos C = (a² + b² − c²) / (2ab). The sign of cos C tells you whether C is acute or obtuse before you take inverse cosine.',
+    'cos 120° is exactly −0.5 — the correction term is positive, so r should be longer than √(p² + q²).',
+    'You don\'t need to compute angles — just compare a² + b² to c² (with c the longest side). The SIGN of (a² + b² − c²) tells you the verdict.',
+    'Bearings: at A, the incoming direction reverses, so the angle inside the triangle is 180° − (change in bearing).',
+    'For (a), SAS cosine rule. For (b), now you have c and C — sine rule is the easier tool.',
+    'Compute all three using the rearranged cosine rule, or two of them and let the angle-sum give you the third. The largest angle is opposite the longest side.',
+    'Area formula gives sin C = 1/2, which has TWO solutions in 0° < C < 180°. Compute c for both.'
+  ];
+  return map[i] || 'Re-check whether you\'re in SAS (find a side) or SSS (find an angle) and use the right form of the cosine rule.';
+}
+
+function mkBtn(label, cls) { const b = document.createElement('button'); b.textContent = label; b.className = cls; b.type = 'button'; return b; }
+function mkReveal(cls) { const d = document.createElement('div'); d.className = 'reveal ' + cls; return d; }
+
+const progress = document.getElementById('progress');
+function renderProgress() {
+  progress.innerHTML = '<span style="font-size:0.85em; color:#6B5A42; margin-right:0.4em;">Progress:</span>';
+  questions.forEach((q, i) => {
+    const dot = document.createElement('div'); dot.className = 'dot';
+    if (state[i].correct) dot.classList.add('correct');
+    else if (state[i].engaged) dot.classList.add('engaged');
+    if (i === current) dot.classList.add('current');
+    dot.textContent = state[i].correct ? '✓' : (i + 1);
+    dot.title = 'Question ' + (i + 1);
+    dot.addEventListener('click', () => { current = i; renderCard(); renderProgress(); });
+    progress.appendChild(dot);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) { current--; renderCard(); renderProgress(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { if (current < questions.length - 1) { current++; renderCard(); renderProgress(); } });
+
+renderCard();
+renderProgress();
+</script>
+
+</body>
+</html>

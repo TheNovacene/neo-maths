@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cosine Rule — When Pythagoras Needs a Correction</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.95em; }
+  th, td { border: 1px solid #C9BBA6; padding: 0.5em 0.7em; text-align: left; vertical-align: top; }
+  th { background: #E3D9C6; }
+  code, .math { font-family: 'Courier New', monospace; background: #FBF8F2; padding: 0.05em 0.3em; border-radius: 3px; }
+  .choice { background: #FFFDF5; border: 1px dashed #8B6F47; padding: 0.6em 0.9em; margin: 0.6em 0; border-radius: 6px; }
+
+  /* ---- Designed World interactive ---- */
+  .ex { background: #F4F7FA; border: 1px solid #BCCBD6; border-radius: 10px; padding: 1em 1.2em; margin: 1.2em 0; }
+  .ex .modepick { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.7em; }
+  .ex .modepick button { font-family: Georgia, serif; font-size: 0.86em; padding: 0.3em 0.65em; border: 1px solid #6E8597; background: #fff; color: #28414f; border-radius: 5px; cursor: pointer; }
+  .ex .modepick button.active { background: #3A5A6B; color: #fff; border-color: #3A5A6B; }
+  .ex .controls { display: flex; flex-wrap: wrap; gap: 1em; margin-bottom: 0.8em; }
+  .ex .control-group { flex: 1 1 200px; }
+  .ex label { font-family: Georgia, serif; font-size: 0.9em; display: block; margin-bottom: 0.2em; }
+  .ex input[type=range] { width: 100%; }
+  .ex svg { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; }
+  .ex .readout { font-family: 'Courier New', monospace; font-size: 0.96em; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; padding: 0.6em 0.8em; margin-top: 0.7em; }
+  .ex .readout .row { margin: 0.18em 0; }
+  .ex .readout .lab { color: #5a6b76; font-family: Georgia, serif; font-size: 0.88em; display: inline-block; min-width: 9em; }
+  .ex .readout .formula { font-family: 'Courier New', monospace; }
+  .ex .verdict { margin-top: 0.5em; padding: 0.5em 0.8em; border-radius: 6px; font-weight: bold; text-align: center; }
+  .v-ok { background: #E6F2E4; color: #355026; border: 1px solid #A4C79A; }
+  .v-warn { background: #FAF6E6; color: #6a5d23; border: 1px solid #C5B17A; }
+  .v-pyth { background: #FFE8D6; color: #8a4a17; border: 1px solid #D9A777; }
+  .investigate { background: #EAF1E7; border-left: 4px solid #4A6B3A; padding: 0.6em 1em; margin-top: 1em; border-radius: 6px; }
+  .investigate ol { margin: 0.4em 0 0.2em 1.1em; padding: 0; }
+  .investigate li { margin: 0.35em 0; }
+
+  /* ---- Type 1: Static labelled diagram ---- */
+  .diagram { background: #FBFBF8; border: 1px solid #E0DACA; border-radius: 8px; padding: 0.7em; margin: 0.8em 0; text-align: center; }
+  .diagram svg { display: inline-block; max-width: 100%; height: auto; }
+  .diagram .caption { font-family: Georgia, serif; font-size: 0.86em; color: #6B5A42; font-style: italic; margin-top: 0.5em; }
+
+  /* ---- Type 2: Build-the-proof animation ---- */
+  .proof-builder { background: #F7F4EE; border: 1px solid #D8CCB0; border-radius: 8px; padding: 0.9em 1em; margin: 1em 0; }
+  .proof-builder .pb-stage { display: grid; grid-template-columns: 1fr; gap: 0.8em; align-items: start; }
+  @media (min-width: 720px) { .proof-builder .pb-stage { grid-template-columns: 1.1fr 0.9fr; } }
+  .proof-builder svg { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #E0DACA; border-radius: 6px; }
+  .proof-builder .pb-algebra { font-family: 'Courier New', monospace; font-size: 0.95em; background: #fff; border: 1px solid #E0DACA; border-radius: 6px; padding: 0.7em 0.85em; min-height: 6em; }
+  .proof-builder .pb-algebra .line { margin: 0.25em 0; opacity: 0; transition: opacity 0.35s ease; }
+  .proof-builder .pb-algebra .line.shown { opacity: 1; }
+  .proof-builder .pb-algebra .line.current { background: #FAF0D8; padding: 0.2em 0.4em; border-radius: 4px; }
+  .proof-builder .pb-narration { background: #fff; border-left: 3px solid #8B6F47; padding: 0.55em 0.85em; margin-top: 0.7em; font-family: Georgia, serif; font-size: 0.95em; min-height: 2.6em; }
+  .proof-builder .pb-controls { display: flex; flex-wrap: wrap; gap: 0.5em; align-items: center; margin-top: 0.7em; }
+  .proof-builder .pb-controls button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.4em 0.85em; border: 1px solid #8a7355; background: #fff; color: #6a563c; border-radius: 5px; cursor: pointer; }
+  .proof-builder .pb-controls button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .proof-builder .pb-controls button.next { background: #ECE4D8; }
+  .proof-builder .pb-progress { font-family: Georgia, serif; font-size: 0.85em; color: #6B5A42; margin-left: auto; }
+
+  @media print {
+    .proof-builder .pb-algebra .line { opacity: 1 !important; }
+    .proof-builder .pb-controls { display: none !important; }
+    .proof-builder .pb-print-all { display: block !important; }
+    .proof-builder .pb-stage { grid-template-columns: 1fr !important; }
+  }
+  .proof-builder .pb-print-all { display: none; }
+</style>
+</head>
+<body>
+
+<h1>The Cosine Rule<br><span style="font-size:0.6em; color:#6B6B6B;">When Pythagoras needs a correction — Pure 1, Trigonometry (Lesson 2)</span></h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Pythagoras's theorem works perfectly — for right-angled triangles. But what about all the other triangles? If the angle isn't 90°, by how much does <code>a² + b²</code> miss <code>c²</code> — and can we measure that miss with a single correction term?
+</div>
+
+<p>In Lesson 1 you met the sine rule: a beautiful proportion that handles triangles when you have a side and its opposite angle. But the sine rule has a blind spot — it needs that side-and-opposite-angle pair to start. What if you have <em>two sides and the angle between them</em>? Or <em>all three sides and no angles</em>? The sine rule can't get going. For these cases, we need a different rule — and it turns out to be one of the most elegant generalisations in mathematics: Pythagoras's theorem with a correction term that vanishes precisely when the angle is 90°. Open the panels in any order, and watch the proof animation in the Knowing World — it's a beautiful payoff for a single perpendicular dropped from a single vertex.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <h3>The convention</h3>
+  <p>The same labelling convention from Lesson 1: in triangle <code>ABC</code>, vertices are <code>A</code>, <code>B</code>, <code>C</code>, and each side is named after the angle <em>opposite</em> it — so side <code>a</code> is opposite vertex <code>A</code>, and so on.</p>
+
+  <div class="diagram" aria-label="Labelled triangle ABC: angles A, B, C at the vertices and sides a, b, c at the opposite sides.">
+    <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" width="400" height="260">
+      <polygon points="60,210 340,210 200,40" fill="rgba(74,107,58,0.08)" stroke="#4A6B3A" stroke-width="2.2"/>
+      <text x="50"  y="226" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#28414f">A</text>
+      <text x="346" y="226" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#28414f">B</text>
+      <text x="193" y="32"  font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#28414f">C</text>
+      <text x="276" y="125" font-family="Georgia, serif" font-size="17" font-style="italic" fill="#6B4A2E">a</text>
+      <text x="110" y="125" font-family="Georgia, serif" font-size="17" font-style="italic" fill="#6B4A2E">b</text>
+      <text x="195" y="232" font-family="Georgia, serif" font-size="17" font-style="italic" fill="#6B4A2E">c</text>
+      <line x1="78"  y1="208" x2="265" y2="135" stroke="#A89878" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.55"/>
+      <line x1="320" y1="208" x2="135" y2="135" stroke="#A89878" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.55"/>
+      <line x1="200" y1="58"  x2="200" y2="200" stroke="#A89878" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.55"/>
+    </svg>
+    <div class="caption">The same convention: each side carries the lowercase letter of the angle opposite to it.</div>
+  </div>
+
+  <h3>The cosine rule</h3>
+  <p>For any triangle <code>ABC</code>:</p>
+  <p style="text-align:center; font-size:1.15em;"><code>c² = a² + b² − 2ab cos C</code></p>
+  <p>By symmetry, there are three versions — one for each side, with the <em>included</em> angle (the angle between the two sides on the right) at the end:</p>
+  <p style="text-align:center; font-size:1.0em;"><code>a² = b² + c² − 2bc cos A</code> &nbsp; &nbsp; <code>b² = a² + c² − 2ac cos B</code> &nbsp; &nbsp; <code>c² = a² + b² − 2ab cos C</code></p>
+
+  <h3>The beautiful insight: it's Pythagoras with a correction</h3>
+  <p>Look at the formula <code>c² = a² + b² − 2ab cos C</code> and try the special case <code>C = 90°</code>. Since <code>cos 90° = 0</code>, the correction term <code>−2ab cos C</code> vanishes, and we're left with:</p>
+  <p style="text-align:center; font-size:1.05em;"><code>c² = a² + b²</code></p>
+  <p>...which is just Pythagoras's theorem. So the cosine rule <em>is</em> Pythagoras — extended to triangles that aren't quite right-angled, with a correction term that measures exactly how far off from a right angle we are.</p>
+  <ul>
+    <li>When <code>C < 90°</code> (acute), <code>cos C > 0</code>, so the correction <code>−2ab cos C</code> is <em>negative</em>, making <code>c²</code> <em>smaller</em> than <code>a² + b²</code>. The opposite side is shorter than Pythagoras would predict — because the two sides are leaning towards each other.</li>
+    <li>When <code>C > 90°</code> (obtuse), <code>cos C < 0</code>, so the correction is <em>positive</em>, making <code>c²</code> <em>larger</em> than <code>a² + b²</code>. The opposite side is longer — because the two sides are splayed apart.</li>
+    <li>And when <code>C = 90°</code>, the correction is exactly zero. Pythagoras lives at this single special angle.</li>
+  </ul>
+  <p>This is one of those moments in mathematics where a formula stops being a thing to memorise and starts feeling like a thing that <em>had to be true</em>.</p>
+
+  <h3>Why does it work?</h3>
+  <p>The proof is structurally similar to the sine rule's — drop a perpendicular and use what you know — but this time the tool is <strong>Pythagoras</strong> rather than basic trig ratios. Click <strong>Next step</strong> to build the proof.</p>
+
+  <div class="proof-builder" id="pb1">
+    <div class="pb-stage">
+      <svg id="pb1-svg" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" aria-label="Animated construction of the cosine rule proof"></svg>
+      <div class="pb-algebra" id="pb1-algebra" aria-live="polite"></div>
+    </div>
+    <div class="pb-narration" id="pb1-narr">Click <strong>Next step</strong> to begin. We'll drop a perpendicular, then apply Pythagoras to one of the right-triangles — and the cosine rule will fall out.</div>
+    <div class="pb-controls">
+      <button class="prev" id="pb1-prev" disabled>← Back</button>
+      <button class="next" id="pb1-next">Next step →</button>
+      <button class="reset" id="pb1-reset">↺ Reset</button>
+      <span class="pb-progress" id="pb1-prog">Step 0 of 6</span>
+    </div>
+    <div class="pb-print-all">
+      <p><strong>The cosine rule proof (printable summary).</strong> In triangle ABC, drop a perpendicular from B to side AC; call its foot D, its length h, and let AD = x. Then DC = b − x. In the LEFT right-triangle ABD: cos A = x/c (so x = c cos A) and h = c sin A. In the RIGHT right-triangle BDC: by Pythagoras, a² = h² + (b − x)². Substituting h = c sin A and x = c cos A: a² = (c sin A)² + (b − c cos A)² = c² sin²A + b² − 2bc cos A + c² cos²A = c²(sin²A + cos²A) + b² − 2bc cos A = c² + b² − 2bc cos A. By relabelling, every version follows.</p>
+    </div>
+  </div>
+
+  <p style="font-size:0.92em; color:#5a5346; margin-top:0.4em;"><em>The proof above uses an acute triangle so the perpendicular falls inside; the result also holds for obtuse triangles, with a slightly different diagram but the same algebra after sign-handling.</em></p>
+
+  <h3>When to reach for it</h3>
+  <p>The cosine rule is the right tool for exactly the cases the sine rule can't start with:</p>
+  <ul>
+    <li><strong>SAS</strong> (two sides and the <em>included</em> angle): use <code>c² = a² + b² − 2ab cos C</code> directly to find the third side.</li>
+    <li><strong>SSS</strong> (three sides, no angles): rearrange to find any angle. Rearranging <code>c² = a² + b² − 2ab cos C</code> for <code>cos C</code>:</li>
+  </ul>
+  <p style="text-align:center; font-size:1.1em;"><code>cos C = (a² + b² − c²) / (2ab)</code></p>
+  <p>And similarly for <code>cos A</code> and <code>cos B</code>. Once you have <code>cos C</code>, take the inverse cosine to get <code>C</code>.</p>
+
+  <div class="choice">
+    <strong>Worked example (SAS).</strong> A triangle has sides <code>a = 7</code> and <code>b = 9</code>, with angle <code>C = 50°</code> between them. Find <code>c</code>.
+    <br>• <em>Apply the cosine rule:</em> <code>c² = 7² + 9² − 2(7)(9) cos 50° = 49 + 81 − 126 cos 50°</code>.
+    <br>• <em>Compute:</em> <code>c² ≈ 130 − 126 × 0.6428 ≈ 130 − 80.99 ≈ 49.01</code>.
+    <br>• <em>Take the square root:</em> <code>c ≈ 7.00</code>.
+  </div>
+
+  <div class="choice">
+    <strong>Worked example (SSS).</strong> A triangle has sides <code>a = 6</code>, <code>b = 8</code>, <code>c = 11</code>. Find angle <code>C</code>.
+    <br>• <em>Rearranged cosine rule:</em> <code>cos C = (6² + 8² − 11²) / (2 × 6 × 8) = (36 + 64 − 121) / 96 = −21 / 96 ≈ −0.21875</code>.
+    <br>• <em>Inverse cosine:</em> <code>C ≈ 102.6°</code>. (The negative value of <code>cos C</code> immediately tells us <code>C</code> is obtuse — useful sanity check.)
+  </div>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change (Pearson Edexcel IAL Pure Mathematics 1, section 3.1):</strong> Use the cosine rule, in the forms <code>a² = b² + c² − 2bc cos A</code> (etc.) and the rearranged form <code>cos A = (b² + c² − a²) / (2bc)</code>, to find missing sides and angles.
+  </div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>The cosine rule has a long pre-modern history — and a particularly elegant one, because it was discovered in stages by people who didn't yet have algebra in the modern sense.</p>
+
+  <ul>
+    <li><strong>Euclid had it, geometrically, around 300 BCE.</strong> In <em>The Elements</em>, Book II, Propositions 12 and 13, Euclid proves two results that — when you translate them into modern notation — are exactly the cosine rule for obtuse and acute triangles respectively. He doesn't use cosines (the concept didn't exist yet); he speaks of squares on sides, and rectangles of certain lengths. But the relationship is there, two thousand three hundred years old.</li>
+    <li><strong>Al-Kashi gave it the modern shape in 1427.</strong> The Persian mathematician <strong>Jamshid al-Kashi</strong>, working in Samarkand, wrote down what is essentially the cosine rule in its modern algebraic form, using a trigonometric function instead of geometric squares. In France, the cosine rule is sometimes still called <em>le théorème d'Al-Kashi</em>.</li>
+    <li><strong>It was renamed for cosines in the 17th century</strong>, when European mathematicians began using the cosine function explicitly. By then the result had been independently known to so many people that no one needed credit — it was just a useful fact.</li>
+  </ul>
+
+  <p>The thinking point worth holding onto here: the cosine rule existed in <em>three different forms</em> in three different mathematical cultures, separated by centuries. Euclid's was geometric, al-Kashi's was algebraic-trigonometric, and the modern version is the algebraic shorthand we use now. Same truth, three languages. This is genuinely common in mathematics — the same idea found independently because it answers a real question that any culture doing geometry will eventually ask. The mathematics is, in a sense, waiting to be found.</p>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea your own — pick whichever appeals. You only need to do one.</p>
+
+  <div class="choice"><strong>Prove it yourself.</strong> Sketch any triangle, drop a perpendicular from one vertex, and reconstruct the cosine rule proof in your own hand. The action of drawing the perpendicular yourself — and watching the algebra fall out — locks in the result far better than reading.</div>
+
+  <div class="choice"><strong>The correction story.</strong> In your own words (a paragraph, or a drawing with annotations), explain what the <code>−2ab cos C</code> term <em>does</em>. Pick three angles — say 30°, 90°, and 150° — and describe how the correction changes between them. You've understood it when you can explain why the formula reaches Pythagoras at exactly one angle.</div>
+
+  <div class="choice"><strong>Build an obtuse-triangle problem.</strong> Make up a triangle with sides 7, 9, and some unknown side <code>c</code>, and an angle between the 7 and 9 that's <em>obtuse</em> — say 110°. Compute <code>c</code> using the cosine rule. Then change the angle to <code>70°</code> (the supplementary angle) and compute <code>c</code> again. The two answers should bracket what you'd get at exactly 90°. Sketch all three triangles.</div>
+
+  <div class="choice"><strong>From the answer backwards.</strong> Take a triangle with sides 5, 7, 8. Without computing first, predict whether each angle is acute or obtuse, and why. Then use the rearranged cosine rule to check. Were your predictions right? What helped you guess well?</div>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Two interactives here. The first <strong>verifies the cosine rule</strong> on a triangle you control — watch <code>c²</code> agree with <code>a² + b² − 2ab cos C</code> as you change the shape. The second is a <strong>Pythagoras Comparator</strong>: fix two sides, then sweep angle <code>C</code> from 0° to 180° and watch the correction term breathe — vanishing at 90°, becoming negative below it, positive above it.</p>
+
+  <div class="ex" id="cr-ex">
+    <div class="modepick" id="cr-mode">
+      <button data-mode="verify" class="active">1. Cosine Rule Verifier</button>
+      <button data-mode="compare">2. Pythagoras Comparator</button>
+    </div>
+
+    <div id="cr-controls" class="controls">
+      <div class="control-group">
+        <label>Side a: <strong><span id="cr-aval">7</span></strong></label>
+        <input type="range" id="cr-a" min="2" max="10" step="0.1" value="7">
+      </div>
+      <div class="control-group">
+        <label>Side b: <strong><span id="cr-bval">9</span></strong></label>
+        <input type="range" id="cr-b" min="2" max="10" step="0.1" value="9">
+      </div>
+      <div class="control-group">
+        <label>Angle C (between a and b): <strong><span id="cr-Cval">50</span>°</strong></label>
+        <input type="range" id="cr-C" min="10" max="170" step="1" value="50">
+      </div>
+    </div>
+
+    <svg id="cr-svg" viewBox="0 0 560 380" xmlns="http://www.w3.org/2000/svg" aria-label="A triangle whose two sides and included angle you can vary"></svg>
+
+    <div class="readout" id="cr-readout"></div>
+    <div class="verdict" id="cr-verdict"></div>
+  </div>
+
+  <div class="investigate">
+    <strong>Investigate with the Verifier (mode 1):</strong>
+    <ol>
+      <li>Set <code>a = 7</code>, <code>b = 9</code>, <code>C = 50°</code> (the default). Read off <code>c²</code> from the formula. Check by hand: <code>49 + 81 − 126 cos 50°</code>. Do you get the same value the readout shows?</li>
+      <li>Now set <code>C = 90°</code>. What's the value of <code>cos C</code>? What does the correction term <code>−2ab cos C</code> become? What does <code>c²</code> equal?</li>
+      <li>Set <code>C = 60°</code> with <code>a = b = 6</code>. Predict <code>c</code> before reading the answer. (Hint: this is an equilateral situation.)</li>
+    </ol>
+    <strong>Investigate with the Pythagoras Comparator (mode 2):</strong>
+    <ol start="4">
+      <li>Fix <code>a = 5</code>, <code>b = 7</code> and slowly drag <code>C</code> from 10° to 170°. Watch the correction term. At what angle does it cross zero? What's special about that moment?</li>
+      <li>At <code>C = 90°</code>, what does <code>c</code> equal? Verify that <code>c² = 25 + 49 = 74</code>, so <code>c = √74 ≈ 8.60</code>.</li>
+      <li>Now set <code>C = 30°</code> and then <code>C = 150°</code> (the supplementary angle). How do the two values of <code>c</code> compare? Why does that make geometric sense?</li>
+      <li><strong>Predict before checking:</strong> if <code>C = 175°</code>, what's <code>c</code> approximately equal to? (Hint: think about the triangle nearly flattening out.)</li>
+    </ol>
+  </div>
+
+  <p style="font-size:0.9em; color:#4a5a64; margin-top:0.8em;"><em>The deep insight that makes the cosine rule so beautiful:</em> Pythagoras's theorem isn't a special case <em>added on top</em> of the cosine rule — Pythagoras is what the cosine rule <em>becomes</em> at one particular angle. The right-angled triangle is no longer a privileged shape that needs its own theorem. It's just the special case where the correction term happens to vanish.</p>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>The cosine rule formula looks heavier than the sine rule on the page — three terms with squares and a cosine — and that visual weight can trigger a small panic before you've even started. A few things that help:</p>
+
+  <ul>
+    <li><strong>Anchor it to Pythagoras.</strong> Whenever you write the formula down, mentally check: "if C were 90°, this would just be Pythagoras." That anchor turns an alien-looking formula into a familiar one with a twist.</li>
+    <li><strong>The included angle.</strong> The formula <code>c² = a² + b² − 2ab cos C</code> uses the angle <em>between</em> the two sides on the right (here, <code>C</code> is between <code>a</code> and <code>b</code> because <code>a</code> sits opposite <code>A</code>, <code>b</code> sits opposite <code>B</code>, and they meet at <code>C</code>). Getting the wrong angle is the most common source of marks lost — pause and identify which angle goes between which two sides every time.</li>
+    <li><strong>The sign tells the story.</strong> When you find <code>cos C</code> via the rearranged formula, the sign tells you immediately whether the angle is acute or obtuse — negative cosine ⇔ obtuse angle. Use this as a sanity check before taking the inverse cosine.</li>
+  </ul>
+
+  <p>And a small note on tools: scientific calculators reach the right answer only if they're in <em>degrees</em> mode (or radians mode, if your problem is in radians — but we'll meet radians properly in Lesson 4). Setting calculator mode is not optional. If your answer is wildly off from your sanity check, the calculator mode is the first thing to check.</p>
+
+  <p>Two reflections to sit with:</p>
+  <ul>
+    <li>When you look at the formula <code>c² = a² + b² − 2ab cos C</code>, do you see "Pythagoras with a correction," or do you see "three squares and a cosine"? Either is fine — but the first reading is the one that makes the formula make <em>sense</em>.</li>
+    <li>Which felt cleaner to you, the sine rule or the cosine rule? The "right" answer is probably whichever you encountered first — but knowing your preference tells you which rule to default to when both could work.</li>
+  </ul>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build a "Cosine Rule Field Guide."</strong> Create a one- or two-page guide (handwritten and photographed, typed, or a slide) that teaches the cosine rule to a learner who has just finished Lesson 1 (the sine rule). It must contain:</p>
+
+  <ol>
+    <li><strong>The labelling convention</strong> (a labelled diagram) and a one-sentence reminder of why labelling correctly matters.</li>
+    <li><strong>The cosine rule</strong> in its three side-finding forms <em>and</em> the rearranged angle-finding form, clearly stated.</li>
+    <li><strong>An explanation of "Pythagoras with a correction"</strong> — in your own words (a paragraph, or annotated formula). Make it convincing.</li>
+    <li><strong>A worked SAS problem</strong> — pick two sides and an included angle, find the third side. Show every step.</li>
+    <li><strong>A worked SSS problem</strong> — pick three sides, find one of the angles using the rearranged formula. Show every step.</li>
+    <li><strong>A side-by-side "sine rule vs cosine rule"</strong> — a small table or paragraph explaining when to reach for each. The decision criterion is essentially "do I have a side-and-opposite-angle pair?"</li>
+    <li><strong>A short reflection</strong> (2–3 sentences): which part of this lesson felt most satisfying — the proof, the connection to Pythagoras, or the "when to use which" decision — and why.</li>
+  </ol>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change assessed here (Pearson Edexcel IAL Pure Mathematics 1, section 3.1):</strong>
+    <ul style="margin:0.4em 0 0 0;">
+      <li>Use the cosine rule in its side-finding form to find a missing side in a triangle (SAS case).</li>
+      <li>Use the rearranged cosine rule to find a missing angle (SSS case).</li>
+    </ul>
+  </div>
+
+  <h3>How this is assessed — Haven Maths Rubric</h3>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for in this task</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>The "Pythagoras with a correction" insight is explained genuinely, not just stated. The included-angle convention is correct. The decision between sine rule and cosine rule is defensible.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Calculations are correct end-to-end (including the right calculator mode), squares and square roots handled cleanly, angles in the right units.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The worked SAS and SSS problems are the learner's own and are carried through to a clean final answer.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The Field Guide is clear and self-made, the comparison with the sine rule is honest, and the reflection names a specific moment of insight.</td></tr>
+  </table>
+
+  <p><em>Choose whatever form suits you — the mathematics is what's assessed; the presentation is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="cosine-rule-practice-companion.html" rel="noopener"
+     onclick="var w=window.open(this.href,'_blank'); if(w){w.opener=null;return false;} return true;"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+  <p style="font-size: 0.82em; color: #8A8270; margin-top: 0.6em;">Opens the practice companion. Keep both files in the same folder. (If your browser blocks a new tab, it will open in this one — use Back to return.)</p>
+</div>
+
+<script>
+// ============================================================
+// PROOF BUILDER — the cosine rule, six-step animated construction
+// ============================================================
+(function () {
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('pb1-svg');
+  const algEl = document.getElementById('pb1-algebra');
+  const narrEl = document.getElementById('pb1-narr');
+  const prevBtn = document.getElementById('pb1-prev');
+  const nextBtn = document.getElementById('pb1-next');
+  const resetBtn = document.getElementById('pb1-reset');
+  const progEl = document.getElementById('pb1-prog');
+
+  function el(name, attrs, text) {
+    const e = document.createElementNS(SVGNS, name);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  // Triangle ABC. To make the proof read cleanly with "AD = x, DC = b − x",
+  // we drop the perpendicular from B to side AC. Place A at left, C at right, B above.
+  // Use an acute triangle so D falls inside AC.
+  // SVG coords (400 wide, 260 tall):
+  //   A(60, 220), C(340, 220), B(160, 50)
+  // Foot D of perpendicular from B to AC: AC is horizontal at y = 220, so D = (160, 220).
+  // AD = 160 - 60 = 100 px; DC = 340 - 160 = 180 px; h = 220 - 50 = 170 px.
+  const A = {x: 60,  y: 220}, C = {x: 340, y: 220}, B = {x: 160, y: 50}, D = {x: 160, y: 220};
+
+  const steps = [
+    // Step 0: bare triangle ABC with sides labelled
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides'],
+      algLines: [],
+      narration: 'Click <strong>Next step</strong> to begin. We\'ll drop a perpendicular from B to side AC, split AC into two pieces, then apply Pythagoras to one of the right-triangles.'
+    },
+    // Step 1: drop perpendicular from B to AC, label h, mark right angle at D
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides', 'perp', 'foot-D', 'label-h', 'right-angle-mark'],
+      algLines: ['Drop a perpendicular from B to side AC.', 'Call its foot D and its length h.'],
+      narration: 'Drop a perpendicular from vertex B straight down to side AC, meeting it at D. Call the perpendicular\'s length h. Two right-triangles have appeared inside our original.'
+    },
+    // Step 2: label AD = x, DC = b − x
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides', 'perp', 'foot-D', 'label-h', 'right-angle-mark', 'label-x', 'label-bx'],
+      algLines: ['Drop a perpendicular from B to side AC.', 'Call its foot D and its length h.', 'Let AD = x. Then DC = b − x.'],
+      narration: 'Side AC has length b. Let the left piece AD have length x. Then the right piece DC has length b − x. We now know everything we need about both right-triangles.'
+    },
+    // Step 3: in the LEFT right-triangle ABD, write x = c cos A and h = c sin A
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides', 'perp', 'foot-D', 'label-h', 'right-angle-mark', 'label-x', 'label-bx', 'hi-left'],
+      algLines: [
+        'In triangle ABD (the LEFT right-triangle):',
+        '  cos A = x / c   ⇒   x = c cos A',
+        '  sin A = h / c   ⇒   h = c sin A'
+      ],
+      narration: 'In the LEFT right-triangle ABD, the hypotenuse is c (the side of our original triangle). The angle at A is just our original angle A. So cos A gives us x, and sin A gives us h.'
+    },
+    // Step 4: in the RIGHT right-triangle BDC, apply Pythagoras
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides', 'perp', 'foot-D', 'label-h', 'right-angle-mark', 'label-x', 'label-bx', 'hi-right'],
+      algLines: [
+        'From left triangle: x = c cos A, h = c sin A',
+        'In triangle BDC (the RIGHT right-triangle):',
+        'Pythagoras:  a² = h² + (b − x)²'
+      ],
+      narration: 'Now look at the RIGHT right-triangle BDC. Its hypotenuse is a (the side of our original triangle opposite A). The two legs are h and (b − x). Pythagoras\'s theorem gives us a² = h² + (b − x)².'
+    },
+    // Step 5: substitute h and x in
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides', 'perp', 'foot-D', 'label-h', 'right-angle-mark', 'label-x', 'label-bx'],
+      algLines: [
+        'a² = h² + (b − x)²',
+        'Substitute h = c sin A and x = c cos A:',
+        'a² = (c sin A)² + (b − c cos A)²',
+        '   = c² sin²A + b² − 2bc cos A + c² cos²A'
+      ],
+      narration: 'Now substitute our two expressions in: h = c sin A, x = c cos A. Expand (b − c cos A)² carefully — it gives us b² − 2bc cos A + c² cos²A.'
+    },
+    // Step 6: collapse sin² + cos² = 1
+    {
+      diagram: ['triangle', 'labels-vertices', 'labels-sides', 'perp', 'foot-D', 'label-h', 'right-angle-mark', 'label-x', 'label-bx'],
+      algLines: [
+        'a² = c² sin²A + b² − 2bc cos A + c² cos²A',
+        '   = c² (sin²A + cos²A) + b² − 2bc cos A',
+        '   = c² (1) + b² − 2bc cos A',
+        '⇒   a² = b² + c² − 2bc cos A    ✓'
+      ],
+      narration: 'Group the two c² terms together — and use the identity sin²A + cos²A = 1. The whole c² (sin²A + cos²A) collapses to just c². And we\'re left with a² = b² + c² − 2bc cos A. That is the cosine rule.'
+    }
+  ];
+
+  let stepIdx = 0;
+
+  function render() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    const parts = new Set(steps[stepIdx].diagram);
+
+    // Highlight backgrounds (drawn first)
+    if (parts.has('hi-left')) {
+      svg.appendChild(el('polygon', {
+        points: `${A.x},${A.y} ${D.x},${D.y} ${B.x},${B.y}`,
+        fill: 'rgba(58,90,107,0.18)', stroke: 'none'
+      }));
+    }
+    if (parts.has('hi-right')) {
+      svg.appendChild(el('polygon', {
+        points: `${D.x},${D.y} ${C.x},${C.y} ${B.x},${B.y}`,
+        fill: 'rgba(107,74,107,0.18)', stroke: 'none'
+      }));
+    }
+
+    // Triangle outline
+    if (parts.has('triangle')) {
+      svg.appendChild(el('polygon', {
+        points: `${A.x},${A.y} ${C.x},${C.y} ${B.x},${B.y}`,
+        fill: 'rgba(74,107,58,0.04)', stroke: '#4A6B3A', 'stroke-width': '2.2'
+      }));
+    }
+
+    // Perpendicular from B to D
+    if (parts.has('perp')) {
+      svg.appendChild(el('line', {
+        x1: B.x, y1: B.y, x2: D.x, y2: D.y,
+        stroke: '#B5683A', 'stroke-width': '2.4', 'stroke-dasharray': '6 4'
+      }));
+    }
+
+    // Right-angle mark at D (small square pointing into the LEFT right-triangle)
+    if (parts.has('right-angle-mark')) {
+      svg.appendChild(el('polyline', {
+        points: `${D.x-10},${D.y} ${D.x-10},${D.y-10} ${D.x},${D.y-10}`,
+        fill: 'none', stroke: '#B5683A', 'stroke-width': '1.5'
+      }));
+    }
+
+    // Vertex labels
+    if (parts.has('labels-vertices')) {
+      svg.appendChild(el('text', { x: 48,  y: 236, 'font-family': 'Georgia, serif', 'font-size': '18', 'font-weight': 'bold', fill: '#28414f' }, 'A'));
+      svg.appendChild(el('text', { x: 346, y: 236, 'font-family': 'Georgia, serif', 'font-size': '18', 'font-weight': 'bold', fill: '#28414f' }, 'C'));
+      svg.appendChild(el('text', { x: 153, y: 42,  'font-family': 'Georgia, serif', 'font-size': '18', 'font-weight': 'bold', fill: '#28414f' }, 'B'));
+    }
+
+    // Side labels: a (opp A, = BC), b (opp B, = AC), c (opp C, = AB)
+    if (parts.has('labels-sides')) {
+      // a = BC: midpoint of B(160,50)-C(340,220) ≈ (250, 135), offset to the right
+      svg.appendChild(el('text', { x: 263, y: 130, 'font-family': 'Georgia, serif', 'font-size': '17', 'font-style': 'italic', fill: '#6B4A2E' }, 'a'));
+      // b = AC: midpoint (200, 220), put below
+      svg.appendChild(el('text', { x: 195, y: 242, 'font-family': 'Georgia, serif', 'font-size': '17', 'font-style': 'italic', fill: '#6B4A2E' }, 'b'));
+      // c = AB: midpoint of A(60,220)-B(160,50) ≈ (110, 135), offset to the left
+      svg.appendChild(el('text', { x: 88, y: 130, 'font-family': 'Georgia, serif', 'font-size': '17', 'font-style': 'italic', fill: '#6B4A2E' }, 'c'));
+    }
+
+    // Foot D label
+    if (parts.has('foot-D')) {
+      svg.appendChild(el('circle', { cx: D.x, cy: D.y, r: 3.5, fill: '#B5683A' }));
+      svg.appendChild(el('text', { x: D.x - 5, y: D.y + 16, 'font-family': 'Georgia, serif', 'font-size': '14', 'font-weight': 'bold', fill: '#B5683A' }, 'D'));
+    }
+
+    // Height label h (alongside the perpendicular, on the right side so it doesn't clash with c)
+    if (parts.has('label-h')) {
+      svg.appendChild(el('text', { x: D.x + 6, y: (B.y + D.y) / 2 + 4, 'font-family': 'Georgia, serif', 'font-size': '17', 'font-style': 'italic', fill: '#B5683A' }, 'h'));
+    }
+
+    // x label (along AD): midpoint of AD is at ((60+160)/2, 220) = (110, 220), below the side
+    if (parts.has('label-x')) {
+      svg.appendChild(el('text', { x: 105, y: 256, 'font-family': 'Georgia, serif', 'font-size': '15', 'font-style': 'italic', fill: '#355026' }, 'x'));
+    }
+
+    // (b - x) label along DC: midpoint of DC is ((160+340)/2, 220) = (250, 220)
+    if (parts.has('label-bx')) {
+      svg.appendChild(el('text', { x: 232, y: 256, 'font-family': 'Georgia, serif', 'font-size': '15', 'font-style': 'italic', fill: '#5a3a5a' }, 'b − x'));
+    }
+
+    // ----- Algebra panel -----
+    const lines = steps[stepIdx].algLines;
+    algEl.innerHTML = '';
+    if (lines.length === 0) {
+      algEl.innerHTML = '<span style="color:#A89878; font-style:italic; font-family: Georgia, serif;">The algebra will appear here as we build the proof.</span>';
+    } else {
+      lines.forEach((ln, i) => {
+        const d = document.createElement('div');
+        d.className = 'line shown' + (i === lines.length - 1 ? ' current' : '');
+        d.textContent = ln;
+        algEl.appendChild(d);
+      });
+    }
+
+    // ----- Narration -----
+    narrEl.innerHTML = steps[stepIdx].narration;
+
+    // ----- Controls -----
+    prevBtn.disabled = (stepIdx === 0);
+    nextBtn.disabled = (stepIdx === steps.length - 1);
+    progEl.textContent = `Step ${stepIdx} of ${steps.length - 1}`;
+  }
+
+  nextBtn.addEventListener('click', () => { if (stepIdx < steps.length - 1) { stepIdx++; render(); } });
+  prevBtn.addEventListener('click', () => { if (stepIdx > 0) { stepIdx--; render(); } });
+  resetBtn.addEventListener('click', () => { stepIdx = 0; render(); });
+
+  render();
+})();
+</script>
+
+<script>
+// ============================================================
+// DESIGNED-WORLD INTERACTIVE — Cosine Rule Verifier + Pythagoras Comparator
+// ============================================================
+(function () {
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('cr-svg');
+  function el(name, attrs, text) {
+    const e = document.createElementNS(SVGNS, name);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  const rad = (d) => d * Math.PI / 180;
+
+  let mode = 'verify';
+  let a = 7, b = 9, Cdeg = 50;
+
+  // SVG coordinate space: 560 x 380 with origin "math" at lower-left of a drawing area.
+  // We auto-fit a triangle with A at origin and C along the x-axis, B somewhere above.
+  // A = (0, 0), C = (b, 0), B = (a cos C, a sin C) in math coords (with C at vertex C, so the angle at C is the angle between sides a and b — wait, careful).
+  //
+  // Convention: angle C is at vertex C, between sides a (= BC) and b (= AC).
+  // Place C at origin in math coords for simplicity. Then:
+  //   side b = AC, so A is at distance b from C, along the positive x-direction: A = (b, 0).
+  //   side a = BC, at angle C above the x-axis: B = (a cos C, a sin C).
+  // Side c = AB connects A and B.
+  function buildTriangle(a, b, Cdeg) {
+    const Crad = rad(Cdeg);
+    const Cpt = {x: 0, y: 0};
+    const Apt = {x: b, y: 0};
+    const Bpt = {x: a * Math.cos(Crad), y: a * Math.sin(Crad)};
+    // Side c by cosine rule:
+    const c = Math.sqrt(a*a + b*b - 2*a*b*Math.cos(Crad));
+    return {Cpt, Apt, Bpt, a, b, c, Cdeg};
+  }
+
+  function transformFor(tris) {
+    const allPts = tris.flatMap(t => [t.Apt, t.Bpt, t.Cpt]);
+    const xs = allPts.map(p => p.x), ys = allPts.map(p => p.y);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const margin = 50;
+    const W = 560, H = 380;
+    const scaleX = (W - 2*margin) / Math.max(maxX - minX, 0.001);
+    const scaleY = (H - 2*margin) / Math.max(maxY - minY, 0.001);
+    const s = Math.min(scaleX, scaleY);
+    const ox = margin - minX * s;
+    const oy = H - margin + minY * s;  // y up
+    return (p) => ({ x: ox + p.x * s, y: oy - p.y * s });
+  }
+
+  function drawTriangle(t, T, opts) {
+    opts = opts || {};
+    const A = T(t.Apt), B = T(t.Bpt), C = T(t.Cpt);
+    svg.appendChild(el('polygon', {
+      points: `${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`,
+      fill: opts.fill || 'rgba(60, 90, 107, 0.08)',
+      stroke: opts.stroke || '#3A5A6B',
+      'stroke-width': '2.2'
+    }));
+    svg.appendChild(el('text', { x: A.x + 8,  y: A.y + 16, 'font-family': 'Georgia, serif', 'font-size': '15', 'font-weight': 'bold', fill: '#28414f' }, 'A'));
+    svg.appendChild(el('text', { x: C.x - 14, y: C.y + 16, 'font-family': 'Georgia, serif', 'font-size': '15', 'font-weight': 'bold', fill: '#28414f' }, 'C'));
+    svg.appendChild(el('text', { x: B.x - 6,  y: B.y - 8,  'font-family': 'Georgia, serif', 'font-size': '15', 'font-weight': 'bold', fill: '#28414f' }, 'B'));
+    // Side labels
+    const midAC = {x: (A.x+C.x)/2, y: (A.y+C.y)/2};
+    const midBC = {x: (B.x+C.x)/2, y: (B.y+C.y)/2};
+    const midAB = {x: (A.x+B.x)/2, y: (A.y+B.y)/2};
+    svg.appendChild(el('text', { x: midAC.x, y: midAC.y + 18, 'font-family': 'Georgia, serif', 'font-size': '13', 'font-style': 'italic', fill: '#6B4A2E', 'text-anchor': 'middle' }, `b = ${t.b.toFixed(2)}`));
+    svg.appendChild(el('text', { x: midBC.x - 22, y: midBC.y - 4, 'font-family': 'Georgia, serif', 'font-size': '13', 'font-style': 'italic', fill: '#6B4A2E' }, `a = ${t.a.toFixed(2)}`));
+    svg.appendChild(el('text', { x: midAB.x + 6, y: midAB.y, 'font-family': 'Georgia, serif', 'font-size': '13', 'font-style': 'italic', fill: '#B5683A', 'font-weight': 'bold' }, `c = ${t.c.toFixed(3)}`));
+    // Mark the angle C with a small arc and label
+    const Crad = rad(t.Cdeg);
+    const arcR = 26;
+    // Arc from positive x-axis (direction to A in math coords, which appears to the right of C in SVG) to direction to B.
+    // In SVG screen coords, the angle goes from C towards A (which is "to the right and same height") then sweeps to B (which is "above and to the right"). Since SVG y goes down, the rendered angle still opens upward visually.
+    const arcStart = {x: C.x + arcR, y: C.y};
+    const arcEnd = {x: C.x + arcR * Math.cos(-Crad), y: C.y + arcR * Math.sin(-Crad)};
+    const largeArc = (Crad > Math.PI) ? 1 : 0;
+    svg.appendChild(el('path', {
+      d: `M ${arcStart.x} ${arcStart.y} A ${arcR} ${arcR} 0 ${largeArc} 0 ${arcEnd.x} ${arcEnd.y}`,
+      fill: 'none', stroke: '#4A6B3A', 'stroke-width': '1.5'
+    }));
+    const labelAngle = Crad / 2;
+    svg.appendChild(el('text', {
+      x: C.x + (arcR + 14) * Math.cos(-labelAngle),
+      y: C.y + (arcR + 14) * Math.sin(-labelAngle) + 4,
+      'font-family': 'Georgia, serif', 'font-size': '13', fill: '#355026', 'text-anchor': 'middle'
+    }, `${t.Cdeg}°`));
+  }
+
+  function renderVerifier() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    const t = buildTriangle(a, b, Cdeg);
+    const T = transformFor([t]);
+    drawTriangle(t, T, {});
+    // Readout: show the rule
+    const cosC = Math.cos(rad(Cdeg));
+    const correction = -2 * a * b * cosC;
+    const pyth = a*a + b*b;
+    const cSq = pyth + correction;
+    const ro = document.getElementById('cr-readout');
+    ro.innerHTML =
+      `<div class="row"><span class="lab">Cosine rule:</span> <span class="formula">c² = a² + b² − 2ab cos C</span></div>` +
+      `<div class="row"><span class="lab">a² + b²:</span> ${a.toFixed(2)}² + ${b.toFixed(2)}² = ${pyth.toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">−2ab cos C:</span> −2 × ${a.toFixed(2)} × ${b.toFixed(2)} × cos ${Cdeg}° = ${correction.toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">c² (predicted):</span> ${pyth.toFixed(3)} + (${correction.toFixed(3)}) = ${cSq.toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">c (predicted):</span> √${cSq.toFixed(3)} = ${Math.sqrt(cSq).toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">c (measured from triangle):</span> ${t.c.toFixed(3)}</div>`;
+    const vd = document.getElementById('cr-verdict');
+    vd.className = 'verdict v-ok';
+    vd.textContent = `✓ Predicted c = ${Math.sqrt(cSq).toFixed(3)}, measured c = ${t.c.toFixed(3)} — they agree. The cosine rule holds.`;
+  }
+
+  function renderComparator() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    const t = buildTriangle(a, b, Cdeg);
+    const T = transformFor([t]);
+    drawTriangle(t, T, {});
+    const cosC = Math.cos(rad(Cdeg));
+    const correction = -2 * a * b * cosC;
+    const pyth = a*a + b*b;
+    const cSq = pyth + correction;
+    const cPyth = Math.sqrt(pyth);  // what c would be if C were 90°
+    const ro = document.getElementById('cr-readout');
+    ro.innerHTML =
+      `<div class="row"><span class="lab">If C = 90° (Pythagoras):</span> c would be √(${a.toFixed(2)}² + ${b.toFixed(2)}²) = ${cPyth.toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">Correction term:</span> −2ab cos C = ${correction.toFixed(3)} ${correction > 0.001 ? '(positive — c is LONGER than Pythagoras would predict)' : (correction < -0.001 ? '(negative — c is SHORTER than Pythagoras would predict)' : '(≈ 0 — Pythagoras applies)')}</div>` +
+      `<div class="row"><span class="lab">Actual c (cosine rule):</span> ${t.c.toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">Difference from Pythagoras:</span> ${(t.c - cPyth).toFixed(3)}</div>`;
+    const vd = document.getElementById('cr-verdict');
+    if (Math.abs(Cdeg - 90) < 0.5) {
+      vd.className = 'verdict v-pyth';
+      vd.textContent = '⚡ C = 90°: correction vanishes — this is the Pythagoras case exactly.';
+    } else if (Cdeg < 90) {
+      vd.className = 'verdict v-ok';
+      vd.textContent = `C is acute (${Cdeg}° < 90°): the two sides lean towards each other, so c is shorter than Pythagoras predicts.`;
+    } else {
+      vd.className = 'verdict v-warn';
+      vd.textContent = `C is obtuse (${Cdeg}° > 90°): the two sides splay apart, so c is longer than Pythagoras predicts.`;
+    }
+  }
+
+  function render() {
+    document.getElementById('cr-aval').textContent = a.toFixed(1);
+    document.getElementById('cr-bval').textContent = b.toFixed(1);
+    document.getElementById('cr-Cval').textContent = Cdeg;
+    if (mode === 'verify') renderVerifier(); else renderComparator();
+  }
+
+  document.querySelectorAll('#cr-mode button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#cr-mode button').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      mode = btn.dataset.mode;
+      render();
+    });
+  });
+  document.getElementById('cr-a').addEventListener('input', e => { a = parseFloat(e.target.value); render(); });
+  document.getElementById('cr-b').addEventListener('input', e => { b = parseFloat(e.target.value); render(); });
+  document.getElementById('cr-C').addEventListener('input', e => { Cdeg = parseInt(e.target.value); render(); });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
