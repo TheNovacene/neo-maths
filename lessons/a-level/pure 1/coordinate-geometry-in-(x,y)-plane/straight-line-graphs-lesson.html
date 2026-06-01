@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Straight Line Graphs — One Line, Many Names</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.95em; }
+  th, td { border: 1px solid #C9BBA6; padding: 0.5em 0.7em; text-align: left; vertical-align: top; }
+  th { background: #E3D9C6; }
+  code, .math { font-family: 'Courier New', monospace; background: #FBF8F2; padding: 0.05em 0.3em; border-radius: 3px; }
+  .choice { background: #FFFDF5; border: 1px dashed #8B6F47; padding: 0.6em 0.9em; margin: 0.6em 0; border-radius: 6px; }
+
+  /* ---- Interactive: Line Explorer ---- */
+  #ln-explorer { background: #F4F7FA; border: 1px solid #BCCBD6; border-radius: 10px; padding: 1em 1.2em; margin: 1.2em 0; }
+  #ln-explorer .controls { display: flex; flex-wrap: wrap; gap: 1.2em; align-items: flex-start; margin-bottom: 0.8em; }
+  #ln-explorer .control-group { flex: 1 1 220px; }
+  #ln-explorer label { font-family: Georgia, serif; font-size: 0.92em; display: block; margin-bottom: 0.2em; }
+  #ln-explorer input[type=range] { width: 100%; }
+  #ln-explorer .modepick { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.6em; }
+  #ln-explorer .modepick button { font-family: Georgia, serif; font-size: 0.86em; padding: 0.3em 0.6em; border: 1px solid #6E8597; background: #fff; color: #28414f; border-radius: 5px; cursor: pointer; }
+  #ln-explorer .modepick button.active { background: #3A5A6B; color: #fff; border-color: #3A5A6B; }
+  #ln-explorer svg { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; touch-action: none; }
+  #ln-forms { font-family: 'Courier New', monospace; font-size: 1.0em; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; padding: 0.7em 0.9em; margin-top: 0.8em; }
+  #ln-forms .formrow { margin: 0.3em 0; display: flex; flex-wrap: wrap; gap: 0.4em; align-items: baseline; }
+  #ln-forms .formlabel { color: #5a6b76; font-family: Georgia, serif; font-size: 0.85em; min-width: 12em; }
+  #ln-forms .formval { color: #28414f; font-weight: bold; }
+  #ln-readout { margin-top: 0.6em; font-size: 0.95em; }
+  .investigate { background: #EAF1E7; border-left: 4px solid #4A6B3A; padding: 0.6em 1em; margin-top: 1em; border-radius: 6px; }
+  .investigate ol { margin: 0.4em 0 0.2em 1.1em; padding: 0; }
+  .investigate li { margin: 0.35em 0; }
+  .keyline { font-weight: bold; color: #3A5A6B; }
+</style>
+</head>
+<body>
+
+<h1>Straight Line Graphs<br><span style="font-size:0.6em; color:#6B6B6B;">One line, many names — Pure 1, Coordinate Geometry (Lesson 1)</span></h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> A straight line is the simplest shape in mathematics — so why does it have so many different equations, and how do we know they all describe the <em>same</em> line?
+</div>
+
+<p>Welcome to Coordinate Geometry. This first lesson is about the humble straight line — and the surprising fact that one line can be written several different ways, each useful in a different situation. By the end you'll be able to move fluently between those forms and find the equation of a line from almost any starting information. Open the panels in whatever order suits you, and spend real time in the explorer in The Designed World — dragging the line is where the forms stop being symbols and start making sense.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>Every non-vertical straight line can be pinned down by two numbers: its <strong>gradient</strong> (how steep it is) and where it sits on the plane. The gradient <code>m</code> between two points <code>(x₁, y₁)</code> and <code>(x₂, y₂)</code> is the change in <code>y</code> divided by the change in <code>x</code>:</p>
+
+  <p style="text-align:center;"><code>m = (y₂ − y₁) / (x₂ − x₁)</code> &nbsp; — "rise over run".</p>
+
+  <h3>Three forms of the same line</h3>
+  <p>The specification asks you to work with these forms. They are not three different lines — they are three <em>costumes</em> for the same line, each handy in a different moment.</p>
+
+  <table>
+    <tr><th>Form</th><th>Looks like</th><th>Best when…</th></tr>
+    <tr><td><strong>Gradient–intercept</strong></td><td><code>y = mx + c</code></td><td>You know the gradient and where it crosses the y-axis. Easiest to picture and to sketch.</td></tr>
+    <tr><td><strong>Point–gradient</strong></td><td><code>y − y₁ = m(x − x₁)</code></td><td>You know the gradient and <em>one point</em> on the line (which need not be the y-intercept). The natural first step in most problems.</td></tr>
+    <tr><td><strong>General (standard)</strong></td><td><code>ax + by + c = 0</code></td><td>You want a tidy form with integer coefficients and no fractions — the form exam mark schemes often want the final answer in.</td></tr>
+  </table>
+
+  <p>The key skill is <strong>moving between them</strong>. Start from point–gradient (because you almost always know a point and a gradient), then rearrange into whichever form the question wants.</p>
+
+  <div class="choice">
+    <strong>Worked example.</strong> Find the equation of the line through <code>(2, 3)</code> with gradient <code>m = 4</code>, giving your answer in the form <code>ax + by + c = 0</code> with integer coefficients.
+    <br>• <em>Point–gradient:</em> <code>y − 3 = 4(x − 2)</code>
+    <br>• <em>Expand:</em> <code>y − 3 = 4x − 8</code>
+    <br>• <em>Rearrange to general form:</em> <code>4x − y − 5 = 0</code>
+    <br>That's the same line, now in the form the question asked for.
+  </div>
+
+  <h3>Finding the line through two points</h3>
+  <p>If you're given two points instead of a gradient, do one extra step first: compute the gradient with the formula above, then proceed exactly as before using <em>either</em> point. (Both points give the same final equation — a useful check.)</p>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change (Pearson Edexcel IAL Pure Mathematics 1, section 2.1):</strong> Find the equation of a straight line, including the forms <code>y − y₁ = m(x − x₁)</code> and <code>ax + by + c = 0</code> — the line through two given points, and the line parallel or perpendicular to a given line through a given point. <em>(Parallel and perpendicular conditions are the focus of Lesson 2; here we secure the forms themselves.)</em>
+  </div>
+
+  <p style="font-size:0.9em; color:#46603a;"><strong>One edge case worth meeting now:</strong> a <em>vertical</em> line (like <code>x = 3</code>) has no gradient — the "run" is zero, so "rise over run" divides by zero. Vertical lines can't be written as <code>y = mx + c</code> at all, which is one reason the general form <code>ax + by + c = 0</code> is valuable: it can describe <em>every</em> line, vertical ones included (e.g. <code>x − 3 = 0</code>).</p>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>For most of mathematical history, geometry and algebra were separate worlds. Geometry was about shapes you could draw; algebra was about equations you could solve. The bridge between them — the idea that a line on a page could <em>be</em> an equation, and vice versa — is only about four centuries old.</p>
+
+  <p>It's usually credited to <strong>René Descartes</strong>, the French philosopher and mathematician, whose work in the 1630s gave us the "Cartesian" plane (named after him). The story goes — possibly embellished over the centuries — that he conceived the idea of coordinates while lying in bed watching a fly move across the ceiling, realising its position could be captured by its distance from two walls. Whether or not the fly is real, the idea changed everything: suddenly every geometric question could be turned into algebra and solved by calculation. His contemporary <strong>Pierre de Fermat</strong> developed very similar ideas independently and around the same time — a reminder that big ideas often arrive in more than one mind at once.</p>
+
+  <p>Why does this matter beyond the classroom? Because the straight-line equation is quietly everywhere:</p>
+  <ul>
+    <li><strong>Economics and data.</strong> A "line of best fit" through scattered data is exactly <code>y = mx + c</code>; the gradient tells you the rate of change (cost per unit, say) and the intercept the fixed starting value.</li>
+    <li><strong>Navigation and graphics.</strong> Every straight edge a computer draws — the side of a building in a game, a route on a map — is computed from a linear equation.</li>
+    <li><strong>Fairness and interpretation.</strong> Whenever a trend line is drawn through data about people — wages, health, opportunity — the choice of what to plot and how to read the gradient carries real weight. The same line can be used to illuminate an injustice or to disguise one. Reading gradients critically is a civic skill, not just a mathematical one.</li>
+  </ul>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea your own — pick whichever one appeals. You only need to do one.</p>
+
+  <div class="choice"><strong>The "same line, three outfits" explainer.</strong> Take one specific line and write it in all three forms, then explain in your own words which "outfit" you'd reach for in which situation. Teaching the <em>choice</em> shows you understand more than the algebra.</div>
+
+  <div class="choice"><strong>Gradient in the wild.</strong> Photograph or sketch three real straight lines around you — a roof, a ramp, a staircase, a hill. Estimate the gradient of each ("about 1 in 5"). Which feels steep? Connect the number to the feeling.</div>
+
+  <div class="choice"><strong>Spot the impostor.</strong> Write three equations that look different but are secretly the same line, and one that looks similar but is a <em>different</em> line. Swap with a friend (or future-you) and see if the impostor can be caught. Designing the trap is the learning.</div>
+
+  <div class="choice"><strong>Narrate a rearrangement.</strong> Take <code>y − 3 = 4(x − 2)</code> and write a sentence for each step as you turn it into <code>4x − y − 5 = 0</code>, as if narrating to someone who can't see the page. Naming each move makes the method stick.</div>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Here is a <strong>Line Explorer</strong>. You can set the line in two ways — by <em>gradient and intercept</em>, or by <em>two points</em> — using the buttons. Drag the round handles directly on the graph, or use the sliders. Whatever you do, the panel underneath shows the <em>same line</em> written in all three forms at once, with the numbers filled in. Watch how the forms change together.</p>
+
+  <div id="ln-explorer">
+    <div class="modepick" id="ln-mode">
+      <button data-mode="mc" class="active">Set by gradient &amp; intercept</button>
+      <button data-mode="pts">Set by two points</button>
+    </div>
+
+    <div class="controls" id="ln-controls-mc">
+      <div class="control-group">
+        <label>Gradient <code>m</code>: <strong><span id="ln-mval">1.0</span></strong></label>
+        <input type="range" id="ln-m" min="-5" max="5" step="0.1" value="1">
+      </div>
+      <div class="control-group">
+        <label>y-intercept <code>c</code>: <strong><span id="ln-cval">0.0</span></strong></label>
+        <input type="range" id="ln-c" min="-6" max="6" step="0.1" value="0">
+      </div>
+    </div>
+
+    <div class="controls" id="ln-controls-pts" style="display:none;">
+      <div class="control-group" style="flex-basis:100%;">
+        <label style="color:#5a6b76;">Drag the two blue handles on the graph to set the points. Their coordinates snap to the nearest 0.5.</label>
+      </div>
+    </div>
+
+    <svg id="ln-svg" viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" aria-label="A draggable straight line on coordinate axes"></svg>
+
+    <div id="ln-forms">
+      <div class="formrow"><span class="formlabel">Gradient–intercept:</span> <span class="formval" id="ln-f-mc"></span></div>
+      <div class="formrow"><span class="formlabel">Point–gradient (through P₁):</span> <span class="formval" id="ln-f-pg"></span></div>
+      <div class="formrow"><span class="formlabel">General form:</span> <span class="formval" id="ln-f-gen"></span></div>
+    </div>
+    <div id="ln-readout"></div>
+  </div>
+
+  <div class="investigate">
+    <strong>Investigate with the explorer:</strong>
+    <ol>
+      <li>Set the gradient to <code>m = 2</code> and the intercept to <code>c = −1</code>. Read off the general form. Now switch to "two points" mode — can you place two points that give the <em>same</em> line? How many different pairs of points would work?</li>
+      <li>In gradient–intercept mode, slide <code>c</code> while keeping <code>m</code> fixed. Which numbers in the general form change, and which stay put? What does that tell you about the role of <code>c</code>?</li>
+      <li>Make the line as steep as you can, then almost flat. What happens to <code>m</code> in each case? Now try to make a <em>vertical</em> line by dragging — what goes wrong, and why does the readout warn you?</li>
+      <li>In two-point mode, place your points so the line passes through <code>(0, 0)</code>. What is <code>c</code>? Write a rule: "a line through the origin always has…"</li>
+      <li><strong>Generalise.</strong> Put the two points at <code>(1, 2)</code> and <code>(3, 8)</code>. Predict the gradient <em>before</em> you read it off, using <code>(y₂ − y₁)/(x₂ − x₁)</code>. Then check. Were you right?</li>
+    </ol>
+  </div>
+
+  <p style="font-size:0.9em; color:#4a5a64; margin-top:0.8em;"><em>A deliberate wrinkle:</em> try dragging the two points until they sit almost directly above each other. The gradient shoots up toward huge values and the general form is the only one that still behaves — a hands-on encounter with why "vertical lines have no gradient" matters, and why the form <code>ax + by + c = 0</code> earns its keep.</p>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>Straight lines feel like they <em>should</em> be easy — and that can make this topic quietly stressful. If you've met <code>y = mx + c</code> before and it didn't fully land, the arrival of two more forms can bring a flicker of "I should already know this." You don't have to. Meeting the same idea again, more deeply, is how mathematics is supposed to work — not a sign you missed something the first time.</p>
+
+  <p>A few things that help here specifically:</p>
+  <ul>
+    <li><strong>Anchor on one form.</strong> You don't have to hold all three in your head at once. Point–gradient is the workhorse — get comfortable starting there, and treat the others as places you rearrange <em>to</em>. One reliable starting point beats three half-remembered ones.</li>
+    <li><strong>Let the explorer carry the load.</strong> If the relationship between the forms feels slippery, drag the line and watch all three update together a dozen times. Your eyes will build the intuition your memory is still reaching for.</li>
+    <li><strong>Sign-slips are normal.</strong> Almost everyone drops a minus sign rearranging into general form at first. It's a mechanical habit that builds with practice, not a measure of your ability. Catching your own sign-slip is a skill worth celebrating.</li>
+  </ul>
+
+  <p>Two reflections to sit with:</p>
+  <ul>
+    <li>When you picture a "gradient", do you see it, feel it, or compute it? There's no right answer — knowing your own way in is useful.</li>
+    <li>Which of the three forms feels most comfortable to you, and which most foreign? Noticing that tells you where to point your practice.</li>
+  </ul>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build a "One Line, Three Forms" reference card.</strong> Create a one-page guide (handwritten and photographed, typed, or a slide) that you could hand to a learner meeting straight-line equations for the first time. It must contain:</p>
+
+  <ol>
+    <li><strong>A clear statement of all three forms</strong>, with a one-line note on when each is most useful.</li>
+    <li><strong>A fully worked example: line through two given points.</strong> Choose two points of your own (not from this lesson), find the gradient, then give the equation in <em>both</em> point–gradient form and general form <code>ax + by + c = 0</code> with integer coefficients. Show every step.</li>
+    <li><strong>A second worked example: a point and a gradient.</strong> Start from point–gradient and rearrange into <code>y = mx + c</code>. Show the rearrangement steps explicitly.</li>
+    <li><strong>The vertical-line edge case</strong> — explain in a sentence or two why a vertical line has no gradient and cannot be written as <code>y = mx + c</code>, and give its equation in a form that <em>does</em> work.</li>
+    <li><strong>One real-world connection</strong> — a sentence linking gradient or intercept to something outside maths (a rate, a trend, a slope you can see).</li>
+    <li><strong>A short reflection</strong> (2–3 sentences): which form you find most natural, and one sign-slip or error you've learned to watch for.</li>
+  </ol>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change assessed here (Pearson Edexcel IAL Pure Mathematics 1, section 2.1):</strong>
+    <ul style="margin:0.4em 0 0 0;">
+      <li>Find the equation of a straight line through two given points.</li>
+      <li>Work fluently with the forms <code>y − y₁ = m(x − x₁)</code> and <code>ax + by + c = 0</code>, converting between them and <code>y = mx + c</code>.</li>
+    </ul>
+  </div>
+
+  <h3>How this is assessed — Haven Maths Rubric</h3>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for in this task</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>The three forms are understood as one line in different costumes; the note on "when to use each" is sensible; the vertical-line case is explained with a genuine reason.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Gradients and rearrangements are correct, signs handled carefully, and the general form has integer coefficients.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The two worked examples are the learner's own, set up correctly from the given information, and carried through to the requested form.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The card is clear and self-made, the real-world link is genuine, and the reflection honestly names a personal sticking point.</td></tr>
+  </table>
+
+  <p><em>Choose whatever form suits you — the mathematics is what's assessed; the presentation is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="straight-line-graphs-practice-companion.html" rel="noopener"
+     onclick="var w=window.open(this.href,'_blank'); if(w){w.opener=null;return false;} return true;"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+  <p style="font-size: 0.82em; color: #8A8270; margin-top: 0.6em;">Opens the practice companion. Keep both files in the same folder. (If your browser blocks a new tab, it will open in this one — use Back to return.)</p>
+</div>
+
+<script>
+(function () {
+  const svg = document.getElementById('ln-svg');
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const co = {
+    xmin: -8, xmax: 8, ymin: -8, ymax: 8, W: 560, H: 400,
+    px(x) { return (x - this.xmin) / (this.xmax - this.xmin) * this.W; },
+    py(y) { return this.H - (y - this.ymin) / (this.ymax - this.ymin) * this.H; },
+    ux(px) { return this.xmin + px / this.W * (this.xmax - this.xmin); },
+    uy(py) { return this.ymin + (this.H - py) / this.H * (this.ymax - this.ymin); }
+  };
+  function el(name, attrs) { const e = document.createElementNS(SVGNS, name); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+  let mode = 'mc';
+  let m = 1, c = 0;                 // gradient-intercept state
+  let P1 = { x: -2, y: -1 }, P2 = { x: 3, y: 4 }; // two-point state
+  let dragging = null;
+
+  const fmt = (v) => { const r = Math.round(v * 100) / 100; return (Math.abs(r) < 1e-9 ? 0 : r).toString(); };
+  const fmt1 = (v) => (Math.round(v * 10) / 10).toFixed(1);
+
+  // derive current gradient & intercept depending on mode; returns {vertical, m, c, x1, y1}
+  function lineParams() {
+    if (mode === 'mc') {
+      return { vertical: false, m: m, c: c, x1: 0, y1: c };
+    } else {
+      const dx = P2.x - P1.x;
+      if (Math.abs(dx) < 1e-9) return { vertical: true, x: P1.x, x1: P1.x, y1: P1.y };
+      const gm = (P2.y - P1.y) / dx;
+      const gc = P1.y - gm * P1.x;
+      return { vertical: false, m: gm, c: gc, x1: P1.x, y1: P1.y };
+    }
+  }
+
+  // integer general form ax+by+c=0 from m,c  (or vertical x=k)
+  function generalForm(p) {
+    if (p.vertical) { return 'x ' + (p.x === 0 ? '= 0' : (p.x > 0 ? '− ' + fmt(p.x) + ' = 0' : '+ ' + fmt(-p.x) + ' = 0')); }
+    // y = mx + c  ->  mx - y + c = 0 ; clear fractions to integers
+    let a = p.m, b = -1, cc = p.c;
+    // find a denominator to clear (search small denominators)
+    function denom(x) { for (let d = 1; d <= 100; d++) { if (Math.abs(x * d - Math.round(x * d)) < 1e-6) return d; } return 1; }
+    const L = lcm(lcm(denom(a), denom(b)), denom(cc));
+    a = Math.round(a * L); b = Math.round(b * L); cc = Math.round(cc * L);
+    let g = gcd(gcd(Math.abs(a), Math.abs(b)), Math.abs(cc)) || 1;
+    a /= g; b /= g; cc /= g;
+    if (a < 0 || (a === 0 && b < 0)) { a = -a; b = -b; cc = -cc; } // leading coeff positive
+    return termStr(a, 'x', true) + termStr(b, 'y', false) + termStr(cc, '', false) + ' = 0';
+  }
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; }
+  function lcm(a, b) { return a && b ? Math.abs(a * b) / gcd(a, b) : (a || b); }
+  function termStr(coef, varname, first) {
+    if (coef === 0) return first ? '' : '';
+    const sign = coef < 0 ? '− ' : (first ? '' : '+ ');
+    const mag = Math.abs(coef);
+    const num = (varname && mag === 1) ? '' : fmt(mag);
+    return (first ? sign : ' ' + sign) + num + varname;
+  }
+
+  function render() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    // grid
+    for (let gx = co.xmin; gx <= co.xmax; gx++) svg.appendChild(el('line', { x1: co.px(gx), y1: 0, x2: co.px(gx), y2: co.H, stroke: '#EDF2F5', 'stroke-width': 1 }));
+    for (let gy = co.ymin; gy <= co.ymax; gy++) svg.appendChild(el('line', { x1: 0, y1: co.py(gy), x2: co.W, y2: co.py(gy), stroke: '#EDF2F5', 'stroke-width': 1 }));
+    // axes
+    svg.appendChild(el('line', { x1: 0, y1: co.py(0), x2: co.W, y2: co.py(0), stroke: '#9AA9B3', 'stroke-width': 1.4 }));
+    svg.appendChild(el('line', { x1: co.px(0), y1: 0, x2: co.px(0), y2: co.H, stroke: '#9AA9B3', 'stroke-width': 1.4 }));
+    [-6, -4, -2, 2, 4, 6].forEach(n => {
+      const tx = el('text', { x: co.px(n), y: co.py(0) + 13, 'font-size': 9, fill: '#7A8A94', 'text-anchor': 'middle', 'font-family': 'Georgia, serif' }); tx.textContent = n; svg.appendChild(tx);
+      const ty = el('text', { x: co.px(0) - 6, y: co.py(n) + 3, 'font-size': 9, fill: '#7A8A94', 'text-anchor': 'end', 'font-family': 'Georgia, serif' }); ty.textContent = n; svg.appendChild(ty);
+    });
+
+    const p = lineParams();
+    // draw the line
+    if (p.vertical) {
+      svg.appendChild(el('line', { x1: co.px(p.x), y1: 0, x2: co.px(p.x), y2: co.H, stroke: '#3A5A6B', 'stroke-width': 2.6 }));
+    } else {
+      const yL = p.m * co.xmin + p.c, yR = p.m * co.xmax + p.c;
+      svg.appendChild(el('line', { x1: co.px(co.xmin), y1: co.py(yL), x2: co.px(co.xmax), y2: co.py(yR), stroke: '#3A5A6B', 'stroke-width': 2.6 }));
+    }
+
+    // handles in two-point mode
+    if (mode === 'pts') {
+      [P1, P2].forEach((P, i) => {
+        svg.appendChild(el('circle', { cx: co.px(P.x), cy: co.py(P.y), r: 8, fill: i === 0 ? '#4A6B3A' : '#6B4A6B', stroke: '#fff', 'stroke-width': 2, style: 'cursor:grab', 'data-handle': i }));
+        const t = el('text', { x: co.px(P.x) + 11, y: co.py(P.y) - 8, 'font-size': 11, fill: '#28414f', 'font-family': 'Georgia, serif' });
+        t.textContent = 'P' + (i + 1) + ' (' + fmt(P.x) + ', ' + fmt(P.y) + ')'; svg.appendChild(t);
+      });
+    } else {
+      // show the intercept point as a marker
+      svg.appendChild(el('circle', { cx: co.px(0), cy: co.py(c), r: 5, fill: '#3A5A6B', stroke: '#fff', 'stroke-width': 1.5 }));
+    }
+
+    // ---- update forms panel ----
+    const fMC = document.getElementById('ln-f-mc'), fPG = document.getElementById('ln-f-pg'), fGEN = document.getElementById('ln-f-gen'), ro = document.getElementById('ln-readout');
+    if (p.vertical) {
+      fMC.textContent = '— (a vertical line has no gradient, so y = mx + c cannot be used)';
+      fPG.textContent = '— (undefined gradient)';
+      fGEN.textContent = generalForm(p);
+      ro.innerHTML = '<span style="color:#B5683A;">⚠ Vertical line: the two points share an x-value, so the gradient (y₂−y₁)/(x₂−x₁) divides by zero. Only the general form can describe this line.</span>';
+    } else {
+      fMC.textContent = 'y = ' + fmt(p.m) + 'x ' + (p.c >= 0 ? '+ ' + fmt(p.c) : '− ' + fmt(-p.c));
+      // point-gradient through (x1,y1)
+      const x1 = p.x1, y1 = p.y1;
+      fPG.textContent = 'y ' + (y1 >= 0 ? '− ' + fmt(y1) : '+ ' + fmt(-y1)) + ' = ' + fmt(p.m) + '(x ' + (x1 >= 0 ? '− ' + fmt(x1) : '+ ' + fmt(-x1)) + ')';
+      fGEN.textContent = generalForm(p);
+      if (mode === 'pts') {
+        ro.innerHTML = 'Gradient from the two points: m = (' + fmt(P2.y) + ' − ' + fmt(P1.y) + ') / (' + fmt(P2.x) + ' − ' + fmt(P1.x) + ') = <strong>' + fmt(p.m) + '</strong>.';
+      } else {
+        ro.innerHTML = 'Drag <code>m</code> and <code>c</code>, and watch all three forms describe the one line.';
+      }
+    }
+
+    document.getElementById('ln-mval').textContent = fmt1(m);
+    document.getElementById('ln-cval').textContent = fmt1(c);
+  }
+
+  // ---- pointer dragging for handles ----
+  function svgPoint(evt) {
+    const rect = svg.getBoundingClientRect();
+    const sx = (evt.touches ? evt.touches[0].clientX : evt.clientX) - rect.left;
+    const sy = (evt.touches ? evt.touches[0].clientY : evt.clientY) - rect.top;
+    return { px: sx / rect.width * co.W, py: sy / rect.height * co.H };
+  }
+  function snap(v) { return Math.round(v * 2) / 2; } // nearest 0.5
+  function startDrag(evt) {
+    if (mode !== 'pts') return;
+    const t = evt.target;
+    if (t.getAttribute && t.getAttribute('data-handle') !== null && t.getAttribute('data-handle') !== undefined) {
+      dragging = parseInt(t.getAttribute('data-handle'));
+      evt.preventDefault();
+    }
+  }
+  function moveDrag(evt) {
+    if (dragging === null) return;
+    const pt = svgPoint(evt);
+    let ux = snap(co.ux(pt.px)), uy = snap(co.uy(pt.py));
+    ux = Math.max(co.xmin, Math.min(co.xmax, ux)); uy = Math.max(co.ymin, Math.min(co.ymax, uy));
+    const target = dragging === 0 ? P1 : P2;
+    target.x = ux; target.y = uy;
+    render(); evt.preventDefault();
+  }
+  function endDrag() { dragging = null; }
+
+  svg.addEventListener('mousedown', startDrag); svg.addEventListener('touchstart', startDrag, { passive: false });
+  window.addEventListener('mousemove', moveDrag); window.addEventListener('touchmove', moveDrag, { passive: false });
+  window.addEventListener('mouseup', endDrag); window.addEventListener('touchend', endDrag);
+
+  // ---- controls ----
+  document.getElementById('ln-m').addEventListener('input', e => { m = parseFloat(e.target.value); render(); });
+  document.getElementById('ln-c').addEventListener('input', e => { c = parseFloat(e.target.value); render(); });
+  document.querySelectorAll('#ln-mode button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#ln-mode button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      mode = b.dataset.mode;
+      document.getElementById('ln-controls-mc').style.display = (mode === 'mc') ? 'flex' : 'none';
+      document.getElementById('ln-controls-pts').style.display = (mode === 'pts') ? 'flex' : 'none';
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

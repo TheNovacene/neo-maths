@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parallel and Perpendicular Lines — The Secret Handshake of Gradients</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.95em; }
+  th, td { border: 1px solid #C9BBA6; padding: 0.5em 0.7em; text-align: left; vertical-align: top; }
+  th { background: #E3D9C6; }
+  code, .math { font-family: 'Courier New', monospace; background: #FBF8F2; padding: 0.05em 0.3em; border-radius: 3px; }
+  .choice { background: #FFFDF5; border: 1px dashed #8B6F47; padding: 0.6em 0.9em; margin: 0.6em 0; border-radius: 6px; }
+
+  /* ---- Interactive: Parallel/Perpendicular Explorer ---- */
+  #pp-explorer { background: #F4F7FA; border: 1px solid #BCCBD6; border-radius: 10px; padding: 1em 1.2em; margin: 1.2em 0; }
+  #pp-explorer .controls { display: flex; flex-wrap: wrap; gap: 1.2em; align-items: flex-start; margin-bottom: 0.8em; }
+  #pp-explorer .control-group { flex: 1 1 220px; }
+  #pp-explorer label { font-family: Georgia, serif; font-size: 0.92em; display: block; margin-bottom: 0.2em; }
+  #pp-explorer input[type=range] { width: 100%; }
+  #pp-explorer svg { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; }
+  #pp-explorer .btnrow { margin-top: 0.6em; display: flex; flex-wrap: wrap; gap: 0.4em; }
+  #pp-explorer .btnrow button { font-family: Georgia, serif; font-size: 0.86em; padding: 0.35em 0.7em; border: 1px solid #6E8597; background: #fff; color: #28414f; border-radius: 5px; cursor: pointer; }
+  #pp-explorer .btnrow button:hover { background: #eef3f7; }
+  #pp-algebra { font-family: 'Courier New', monospace; font-size: 1.0em; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; padding: 0.7em 0.9em; margin-top: 0.8em; }
+  #pp-algebra .eqline { margin: 0.18em 0; }
+  #pp-verdict { margin-top: 0.7em; padding: 0.6em 0.9em; border-radius: 6px; font-weight: bold; text-align: center; font-size: 1.05em; }
+  .v-par { background: #E3EEFb; color: #2B5B8A; border: 1px solid #9DBCE0; }
+  .v-perp { background: #E6F2E4; color: #355026; border: 1px solid #A4C79A; }
+  .v-neither { background: #F4ECE3; color: #6a563c; border: 1px solid #CDB79c; }
+  .investigate { background: #EAF1E7; border-left: 4px solid #4A6B3A; padding: 0.6em 1em; margin-top: 1em; border-radius: 6px; }
+  .investigate ol { margin: 0.4em 0 0.2em 1.1em; padding: 0; }
+  .investigate li { margin: 0.35em 0; }
+  .keyline { font-weight: bold; color: #3A5A6B; }
+</style>
+</head>
+<body>
+
+<h1>Parallel and Perpendicular Lines<br><span style="font-size:0.6em; color:#6B6B6B;">The secret handshake of gradients — Pure 1, Coordinate Geometry (Lesson 2)</span></h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Two lines never have to meet — or they can cross at a perfect right angle. How can a single number, the gradient, tell you which it will be <em>before you draw anything?</em>
+</div>
+
+<p>In Lesson 1 you learned to write the equation of any straight line. This lesson is about the <em>relationship between two lines</em> — when they run forever side by side (parallel), and when they meet at a perfect right angle (perpendicular). The remarkable thing is that both relationships are hiding in the gradients alone. Open the panels in any order, and spend time in the explorer in The Designed World — rotating a line until it "clicks" into a right angle is where <code>m₁m₂ = −1</code> stops being a rule to memorise and becomes something you can feel.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>Everything here rests on the gradient <code>m</code> from Lesson 1. Two lines, with gradients <code>m₁</code> and <code>m₂</code>, relate in one of two special ways:</p>
+
+  <table>
+    <tr><th>Relationship</th><th>Condition on gradients</th><th>In words</th></tr>
+    <tr><td><strong>Parallel</strong></td><td><code>m₁ = m₂</code></td><td>Same steepness, so they never meet. (They are different lines only if their intercepts differ.)</td></tr>
+    <tr><td><strong>Perpendicular</strong></td><td><code>m₁ · m₂ = −1</code></td><td>They cross at a right angle. Equivalently, each gradient is the <em>negative reciprocal</em> of the other: <code>m₂ = −1/m₁</code>.</td></tr>
+  </table>
+
+  <h3>The "negative reciprocal" — the heart of the lesson</h3>
+  <p>For perpendicular lines, the rule <code>m₁m₂ = −1</code> can be reorganised into a recipe you'll use constantly: to get a gradient perpendicular to a given one, <strong>flip it and change its sign</strong>.</p>
+
+  <div class="choice">
+    <strong>Negative-reciprocal examples:</strong>
+    <br>• perpendicular to gradient <code>2</code> → <code>−1/2</code>
+    <br>• perpendicular to gradient <code>−3/4</code> → <code>+4/3</code> (flip <code>3/4</code> to <code>4/3</code>, change the sign)
+    <br>• perpendicular to gradient <code>−5</code> → <code>+1/5</code>
+    <br>Notice the pattern: a gentle slope becomes a steep one, and an uphill line becomes a downhill one.
+  </div>
+
+  <h3>Putting it to work</h3>
+  <p>Most exam questions combine this with Lesson 1's skill of writing a line through a point. The method is always the same three steps:</p>
+  <ol>
+    <li>Find the gradient of the given line (rearrange to <code>y = mx + c</code> if needed to read off <code>m</code>).</li>
+    <li>Decide the new gradient: <em>same</em> for parallel, <em>negative reciprocal</em> for perpendicular.</li>
+    <li>Use point–gradient form <code>y − y₁ = m(x − x₁)</code> with the given point, then rearrange to the form the question wants.</li>
+  </ol>
+
+  <div class="choice">
+    <strong>Worked example (the spec's own).</strong> Find the line perpendicular to <code>3x + 4y = 18</code> passing through <code>(2, 3)</code>.
+    <br>• <em>Gradient of the given line:</em> rearrange to <code>y = −¾x + 4.5</code>, so its gradient is <code>−3/4</code>.
+    <br>• <em>Perpendicular gradient:</em> negative reciprocal of <code>−3/4</code> is <code>+4/3</code>.
+    <br>• <em>Through (2, 3):</em> <code>y − 3 = 4/3 (x − 2)</code>.
+    <br>That last line is exactly the answer the specification gives for this example.
+  </div>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change (Pearson Edexcel IAL Pure Mathematics 1, sections 2.1–2.2):</strong> Use the conditions for two straight lines to be parallel (<code>m₁ = m₂</code>) or perpendicular (<code>m₁m₂ = −1</code>); find the equation of a line parallel or perpendicular to a given line through a given point.
+  </div>
+
+  <p style="font-size:0.9em; color:#46603a;"><strong>Two edge cases worth meeting:</strong> a <em>horizontal</em> line (gradient 0) is perpendicular to a <em>vertical</em> line (no gradient) — but you can't check this with <code>m₁m₂ = −1</code>, because a vertical line has no gradient to multiply. The product rule quietly assumes neither line is vertical. It's a good reminder that a formula always carries hidden conditions.</p>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>The right angle may be the single most important shape in human civilisation. Long before anyone wrote <code>m₁m₂ = −1</code>, people needed perpendicular lines to build — and they found ingenious ways to get them without any algebra at all.</p>
+
+  <ul>
+    <li><strong>The rope-stretchers of ancient Egypt.</strong> To re-mark field boundaries after the Nile's annual flood, surveyors called <em>harpedonaptae</em> ("rope-stretchers") used a loop of rope knotted into 12 equal sections. Pulled taut into a 3–4–5 triangle, it produces a guaranteed right angle — a physical version of Pythagoras's theorem, used in practice perhaps a thousand years before Pythagoras was born.</li>
+    <li><strong>Master builders everywhere.</strong> The same need echoes across cultures: the Roman <em>groma</em> for laying out perpendicular streets, the mason's set square, the carpenter's try square. Getting a true right angle reliably is one of the oldest engineering problems there is.</li>
+    <li><strong>Cities you can read.</strong> The grid plan — perpendicular streets crossing at right angles — appears independently in ancient Mohenjo-daro, in Roman colonial towns, and in modern Manhattan. A grid is, quite literally, a field of parallel and perpendicular lines, and it shapes how millions of people navigate every day.</li>
+  </ul>
+
+  <p>There's a thinking point worth holding onto here. For most of history, "perpendicular" was a <em>physical</em> achievement — stretch this rope, square this corner. Descartes' coordinate idea (Lesson 1) let us capture it as a <em>number relationship</em> instead: two gradients whose product is −1. The same truth, moved from the hands into algebra. That move — turning a practical craft into a portable rule anyone can apply — is one of the quiet superpowers of mathematics.</p>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea your own — pick whichever appeals. You only need to do one.</p>
+
+  <div class="choice"><strong>Explain the flip.</strong> In your own words (written, spoken, or recorded), explain <em>why</em> "flip and change sign" produces a perpendicular gradient. You've understood it when you can convince someone who only knows what a gradient is.</div>
+
+  <div class="choice"><strong>Perpendicular hunt.</strong> Photograph or sketch five real right angles around you — a window frame, a road junction, a tiled floor. For one of them, estimate the two gradients (relative to some "horizontal") and check whether your estimates multiply to roughly −1.</div>
+
+  <div class="choice"><strong>Design a grid.</strong> Sketch a small street map of an imaginary town using only parallel and perpendicular roads. Label two roads with equations that are genuinely parallel, and two that are genuinely perpendicular. Designing it correctly is the mathematics.</div>
+
+  <div class="choice"><strong>Make a memory hook.</strong> "Flip and change sign" is easy to half-remember and get wrong (people flip but forget the sign, or vice versa). Invent a phrase, image, or tiny story that locks <em>both</em> halves together for you.</div>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Here is a <strong>Two-Line Explorer</strong>. A fixed reference line (grey) has a gradient you can set. A second line (blue) passes through a point you choose, and you rotate it by changing <em>its</em> gradient. The panel shows both gradients, their <strong>product</strong>, and a colour-coded verdict: <span style="color:#2B5B8A; font-weight:bold;">parallel</span>, <span style="color:#355026; font-weight:bold;">perpendicular</span>, or neither. Use the buttons to snap the blue line to exactly parallel or exactly perpendicular and confirm what the product does.</p>
+
+  <div id="pp-explorer">
+    <div class="controls">
+      <div class="control-group">
+        <label>Reference line gradient <code>m₁</code>: <strong><span id="pp-m1val">0.5</span></strong></label>
+        <input type="range" id="pp-m1" min="-4" max="4" step="0.05" value="0.5">
+      </div>
+      <div class="control-group">
+        <label>Blue line gradient <code>m₂</code>: <strong><span id="pp-m2val">-2.0</span></strong></label>
+        <input type="range" id="pp-m2" min="-6" max="6" step="0.01" value="-2">
+      </div>
+    </div>
+
+    <div class="btnrow">
+      <button id="pp-snap-par">Snap blue to parallel</button>
+      <button id="pp-snap-perp">Snap blue to perpendicular</button>
+    </div>
+
+    <svg id="pp-svg" viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" aria-label="Two lines on coordinate axes, one fixed and one rotatable"></svg>
+
+    <div id="pp-algebra">
+      <div class="eqline">Reference line: <span id="pp-eq1" style="color:#7a8a94; font-weight:bold;"></span></div>
+      <div class="eqline">Blue line (through the marked point): <span id="pp-eq2" style="color:#2B5B8A; font-weight:bold;"></span></div>
+      <div class="eqline" style="margin-top:0.4em;">Product of gradients: <span id="pp-prod" style="font-weight:bold;"></span></div>
+    </div>
+    <div id="pp-verdict" class="v-neither">—</div>
+  </div>
+
+  <div class="investigate">
+    <strong>Investigate with the explorer:</strong>
+    <ol>
+      <li>Set the reference gradient to <code>m₁ = 2</code>. Drag the blue gradient until the verdict says "parallel". What is <code>m₂</code>? Now nudge it slightly — how sensitive is "parallel" to small changes?</li>
+      <li>Keep <code>m₁ = 2</code> and now hunt for "perpendicular". What value of <code>m₂</code> does it click at? Check: does <code>2 × m₂</code> equal <code>−1</code>?</li>
+      <li>Try <code>m₁ = −3/4</code> (set it to <code>−0.75</code>) and use the "Snap to perpendicular" button. Read off <code>m₂</code>. Does it match the negative reciprocal <code>+4/3 ≈ 1.33</code>?</li>
+      <li>Make the reference line nearly flat (<code>m₁</code> close to 0). What happens to the perpendicular gradient <code>m₂</code>? Why does it run away to huge values, and what shape is the perpendicular line approaching?</li>
+      <li><strong>Generalise.</strong> Without the explorer, predict the perpendicular gradient for <code>m₁ = 5</code>, then for <code>m₁ = −1/3</code>. Use the buttons to check. Write the rule in your own words.</li>
+    </ol>
+  </div>
+
+  <p style="font-size:0.9em; color:#4a5a64; margin-top:0.8em;"><em>A deliberate wrinkle:</em> push the reference gradient all the way to a very steep value and try to make the blue line perpendicular. As <code>m₁</code> grows, the perpendicular <code>m₂</code> shrinks toward 0 — and if you imagine <code>m₁</code> becoming <em>vertical</em> (infinite), its perpendicular is perfectly <em>horizontal</em> (gradient 0). But notice the product rule can't express that case: a vertical line has no gradient to put in <code>m₁m₂ = −1</code>. The picture handles it; the formula politely declines. That gap is worth noticing.</p>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>The perpendicular rule is a classic spot for a particular small frustration: you remember there's "a flip and a minus sign somewhere," but under pressure you can't recall whether you flip first, or where the sign goes, or whether it was <code>−1</code> or <code>+1</code>. That fuzzy half-memory feeling is incredibly common and is <em>not</em> a sign you don't understand it — it's a sign the rule hasn't been anchored to a picture yet.</p>
+
+  <p>A few things that genuinely help here:</p>
+  <ul>
+    <li><strong>Anchor the rule to the explorer.</strong> If you've watched the lines click into a right angle as the product hits −1 a dozen times, your memory has something to hold onto that isn't just symbols. The picture is the backup your recall reaches for.</li>
+    <li><strong>Sense-check with steepness.</strong> Perpendicular lines always trade "gentle for steep" and "uphill for downhill." If you compute a perpendicular gradient and it <em>doesn't</em> flip the steepness and the direction, you've slipped — a quick, calming self-check that needs no formula.</li>
+    <li><strong>Two small steps, not one big rule.</strong> "Flip" then "change the sign" — naming them as two separate moves makes each one easy to check, instead of trying to do both at once and dropping half.</li>
+  </ul>
+
+  <p>Two reflections to sit with:</p>
+  <ul>
+    <li>When you think "perpendicular," do you picture the right angle, or reach for the formula first? Either is fine — knowing your instinct tells you which to lean on.</li>
+    <li>Was there a moment in the explorer where the rule suddenly made sense? What caused it? That's worth remembering about how <em>you</em> learn.</li>
+  </ul>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build a "Parallel &amp; Perpendicular Toolkit."</strong> Create a one- or two-page guide (handwritten and photographed, typed, or a slide) that teaches both relationships to a learner who has just finished Lesson 1. It must contain:</p>
+
+  <ol>
+    <li><strong>The two conditions clearly stated</strong> (<code>m₁ = m₂</code> and <code>m₁m₂ = −1</code>), each with a one-line plain-English explanation.</li>
+    <li><strong>The negative-reciprocal recipe</strong> ("flip and change sign"), with three of your own examples — including at least one negative gradient and one fractional gradient.</li>
+    <li><strong>A worked "parallel" problem:</strong> find the line parallel to a line of your choosing, through a point of your choosing, giving the answer in the form <code>ax + by + c = 0</code>. Show every step.</li>
+    <li><strong>A worked "perpendicular" problem:</strong> the same, but perpendicular, and giving the answer in <code>y = mx + c</code> form. Show every step.</li>
+    <li><strong>The vertical/horizontal edge case</strong> — explain in a sentence or two why a horizontal and a vertical line are perpendicular even though the product rule <code>m₁m₂ = −1</code> can't be used to prove it.</li>
+    <li><strong>One real-world connection</strong> — a sentence linking right angles or parallels to something outside maths (building, navigation, design, or your own example from The Human Story).</li>
+    <li><strong>A short reflection</strong> (2–3 sentences): the part of the negative-reciprocal rule you find easiest to slip on, and how you'll catch it.</li>
+  </ol>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change assessed here (Pearson Edexcel IAL Pure Mathematics 1, sections 2.1–2.2):</strong>
+    <ul style="margin:0.4em 0 0 0;">
+      <li>Use the conditions for two straight lines to be parallel or perpendicular.</li>
+      <li>Find the equation of a line parallel or perpendicular to a given line, through a given point, expressed in the forms <code>y − y₁ = m(x − x₁)</code> and <code>ax + by + c = 0</code>.</li>
+    </ul>
+  </div>
+
+  <h3>How this is assessed — Haven Maths Rubric</h3>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for in this task</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>Both conditions are explained with genuine meaning; the negative reciprocal is understood as "flip and change sign"; the vertical/horizontal edge case is handled honestly.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Gradients are found correctly (including rearranging to read off <code>m</code>), the reciprocal and sign are both handled, and final equations are in the requested form with integer coefficients where asked.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The two worked problems are the learner's own, set up correctly from the given information, and carried through to the requested form.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The toolkit is clear and self-made, the real-world link is genuine, and the reflection names a specific personal sticking point.</td></tr>
+  </table>
+
+  <p><em>Choose whatever form suits you — the mathematics is what's assessed; the presentation is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="parallel-and-perpendicular-lines-practice-companion.html" rel="noopener"
+     onclick="var w=window.open(this.href,'_blank'); if(w){w.opener=null;return false;} return true;"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+  <p style="font-size: 0.82em; color: #8A8270; margin-top: 0.6em;">Opens the practice companion. Keep both files in the same folder. (If your browser blocks a new tab, it will open in this one — use Back to return.)</p>
+</div>
+
+<script>
+(function () {
+  const svg = document.getElementById('pp-svg');
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const co = {
+    xmin: -8, xmax: 8, ymin: -8, ymax: 8, W: 560, H: 400,
+    px(x) { return (x - this.xmin) / (this.xmax - this.xmin) * this.W; },
+    py(y) { return this.H - (y - this.ymin) / (this.ymax - this.ymin) * this.H; }
+  };
+  function el(name, attrs) { const e = document.createElementNS(SVGNS, name); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+  let m1 = 0.5, m2 = -2;
+  const P = { x: 1, y: -1 };            // the point the blue line passes through
+  let m2Exact = null;                    // exact override for snap precision
+
+  const fmt = (v) => { const r = Math.round(v * 100) / 100; return (Math.abs(r) < 1e-9 ? 0 : r).toString(); };
+  const fmt2 = (v) => (Math.round(v * 100) / 100).toFixed(2);
+
+  function clipLineThrough(x0, y0, m) {
+    // returns endpoints of the line y - y0 = m(x - x0) clipped to the view box
+    const yL = y0 + m * (co.xmin - x0), yR = y0 + m * (co.xmax - x0);
+    return { x1: co.xmin, y1: yL, x2: co.xmax, y2: yR };
+  }
+
+  function render() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    // grid
+    for (let gx = co.xmin; gx <= co.xmax; gx++) svg.appendChild(el('line', { x1: co.px(gx), y1: 0, x2: co.px(gx), y2: co.H, stroke: '#EDF2F5', 'stroke-width': 1 }));
+    for (let gy = co.ymin; gy <= co.ymax; gy++) svg.appendChild(el('line', { x1: 0, y1: co.py(gy), x2: co.W, y2: co.py(gy), stroke: '#EDF2F5', 'stroke-width': 1 }));
+    svg.appendChild(el('line', { x1: 0, y1: co.py(0), x2: co.W, y2: co.py(0), stroke: '#9AA9B3', 'stroke-width': 1.4 }));
+    svg.appendChild(el('line', { x1: co.px(0), y1: 0, x2: co.px(0), y2: co.H, stroke: '#9AA9B3', 'stroke-width': 1.4 }));
+
+    const mm2 = (m2Exact !== null ? m2Exact : m2);
+
+    // reference line through origin (grey)
+    const L1 = clipLineThrough(0, 0, m1);
+    svg.appendChild(el('line', { x1: co.px(L1.x1), y1: co.py(L1.y1), x2: co.px(L1.x2), y2: co.py(L1.y2), stroke: '#8A99A3', 'stroke-width': 2.4 }));
+    // blue line through P
+    const L2 = clipLineThrough(P.x, P.y, mm2);
+    svg.appendChild(el('line', { x1: co.px(L2.x1), y1: co.py(L2.y1), x2: co.px(L2.x2), y2: co.py(L2.y2), stroke: '#2B5B8A', 'stroke-width': 2.8 }));
+    // the point P
+    svg.appendChild(el('circle', { cx: co.px(P.x), cy: co.py(P.y), r: 5, fill: '#2B5B8A', stroke: '#fff', 'stroke-width': 1.5 }));
+
+    // verdict
+    const product = m1 * mm2;
+    const isPerp = Math.abs(product + 1) < 0.02;
+    const isPar = Math.abs(m1 - mm2) < 0.02;
+    const vEl = document.getElementById('pp-verdict');
+    if (isPar) { vEl.className = 'v-par'; vEl.textContent = '∥  Parallel  (m₁ = m₂)'; }
+    else if (isPerp) { vEl.className = 'v-perp'; vEl.textContent = '⊥  Perpendicular  (m₁·m₂ = −1)'; }
+    else { vEl.className = 'v-neither'; vEl.textContent = 'Neither parallel nor perpendicular'; }
+
+    // algebra readouts
+    document.getElementById('pp-eq1').textContent = 'y = ' + fmt(m1) + 'x';
+    const c2 = P.y - mm2 * P.x;
+    document.getElementById('pp-eq2').textContent = 'y = ' + fmt(mm2) + 'x ' + (c2 >= 0 ? '+ ' + fmt(c2) : '− ' + fmt(-c2));
+    const prodEl = document.getElementById('pp-prod');
+    prodEl.textContent = fmt(m1) + ' × ' + fmt(mm2) + ' = ' + fmt2(product);
+    prodEl.style.color = isPerp ? '#355026' : (isPar ? '#2B5B8A' : '#6a563c');
+
+    document.getElementById('pp-m1val').textContent = fmt2(m1);
+    document.getElementById('pp-m2val').textContent = fmt2(mm2);
+  }
+
+  document.getElementById('pp-m1').addEventListener('input', e => { m1 = parseFloat(e.target.value); m2Exact = null; render(); });
+  document.getElementById('pp-m2').addEventListener('input', e => { m2 = parseFloat(e.target.value); m2Exact = null; render(); });
+
+  document.getElementById('pp-snap-par').addEventListener('click', () => {
+    const slider = document.getElementById('pp-m2');
+    const lo = parseFloat(slider.min), hi = parseFloat(slider.max);
+    if (m1 < lo || m1 > hi) { m2Exact = null; document.getElementById('pp-verdict').textContent = 'Parallel gradient ' + fmt(m1) + ' is outside the blue slider range.'; render(); return; }
+    slider.value = m1.toFixed(2); m2 = m1; m2Exact = m1; render();
+  });
+  document.getElementById('pp-snap-perp').addEventListener('click', () => {
+    const slider = document.getElementById('pp-m2');
+    if (Math.abs(m1) < 1e-9) { m2Exact = null; document.getElementById('pp-verdict').textContent = 'Reference line is horizontal — its perpendicular is vertical (no gradient).'; render(); return; }
+    const perp = -1 / m1;
+    const lo = parseFloat(slider.min), hi = parseFloat(slider.max);
+    if (perp < lo || perp > hi) { m2Exact = null; document.getElementById('pp-verdict').textContent = 'Perpendicular gradient ' + fmt2(perp) + ' is outside the blue slider range — make the reference line steeper.'; render(); return; }
+    slider.value = perp.toFixed(2); m2 = perp; m2Exact = perp; render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem Solving with Straight Lines — Choosing the Right Tool</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.95em; }
+  th, td { border: 1px solid #C9BBA6; padding: 0.5em 0.7em; text-align: left; vertical-align: top; }
+  th { background: #E3D9C6; }
+  code, .math { font-family: 'Courier New', monospace; background: #FBF8F2; padding: 0.05em 0.3em; border-radius: 3px; }
+  .choice { background: #FFFDF5; border: 1px dashed #8B6F47; padding: 0.6em 0.9em; margin: 0.6em 0; border-radius: 6px; }
+  .scope-note { background: #FFF4E6; border-left: 3px solid #C97A27; padding: 0.5em 0.85em; margin: 0.75em 0; font-size: 0.92em; border-radius: 4px; }
+
+  /* ---- Toolkit summary card ---- */
+  .toolkit { background: #F4F7FA; border: 1px solid #BCCBD6; border-radius: 8px; padding: 0.9em 1.2em; margin: 1em 0; }
+  .toolkit ul { margin: 0.4em 0; padding-left: 1.2em; }
+
+  /* ---- Workbench interactive ---- */
+  #wb { background: #F4F7FA; border: 1px solid #BCCBD6; border-radius: 10px; padding: 1em 1.2em; margin: 1.2em 0; }
+  #wb svg { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; }
+  #wb .scenario { background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; padding: 0.7em 0.9em; margin-top: 0.7em; }
+  #wb .scenario strong { color: #28414f; }
+  #wb .step { background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; padding: 0.7em 0.9em; margin: 0.7em 0; }
+  #wb .step-head { font-family: Georgia, serif; font-weight: bold; color: #3A5A6B; margin-bottom: 0.35em; }
+  #wb .step-q { margin-bottom: 0.4em; font-size: 0.96em; }
+  #wb input[type=text] { font-family: 'Courier New', monospace; font-size: 0.98em; padding: 0.35em 0.55em; border: 1px solid #C3B49a; border-radius: 5px; background: #FFFEFB; width: 16em; max-width: 100%; }
+  #wb button.checkbtn { font-family: Georgia, serif; font-size: 0.9em; padding: 0.35em 0.85em; margin-left: 0.4em; border: 1px solid #4A6B3A; background: #E8F0E5; color: #355026; border-radius: 5px; cursor: pointer; }
+  #wb button.hintbtn { font-family: Georgia, serif; font-size: 0.85em; padding: 0.3em 0.7em; margin-left: 0.4em; border: 1px solid #8B7A3A; background: #F5EFD9; color: #6a5d23; border-radius: 5px; cursor: pointer; }
+  #wb .feedback { margin-top: 0.4em; padding: 0.45em 0.7em; border-radius: 5px; font-size: 0.9em; display: none; }
+  #wb .feedback.show { display: block; }
+  #wb .feedback.ok { background: #EAF1E7; border-left: 3px solid #4A6B3A; color: #355026; }
+  #wb .feedback.no { background: #F7ECE6; border-left: 3px solid #B5683A; color: #7a3a17; }
+  #wb .hintbox { margin-top: 0.4em; padding: 0.45em 0.7em; border-left: 3px solid #8B7A3A; background: #FAF6E6; border-radius: 5px; font-size: 0.9em; display: none; }
+  #wb .hintbox.show { display: block; }
+  #wb .step.done { background: #F2F8F0; border-color: #A4C79A; }
+  #wb .step.locked { opacity: 0.55; }
+  #wb .progress-strip { display: flex; gap: 0.3em; margin: 0.4em 0 0.6em; align-items: center; font-size: 0.85em; color: #5a6b76; }
+  #wb .pdot { width: 16px; height: 16px; border-radius: 50%; background: #D8D2C6; display: inline-block; }
+  #wb .pdot.done { background: #8FB87A; }
+  .investigate { background: #EAF1E7; border-left: 4px solid #4A6B3A; padding: 0.6em 1em; margin-top: 1em; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Problem Solving with Straight Lines<br><span style="font-size:0.6em; color:#6B6B6B;">Choosing the right tool — Pure 1, Coordinate Geometry (Lesson 3)</span></h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> You now have everything you need — gradients, three forms of a line, parallel and perpendicular conditions. But a real exam problem rarely tells you which tool to reach for. <em>How do you decide what to do first?</em>
+</div>
+
+<p>This is the third and final lesson of the Coordinate Geometry unit. It doesn't introduce new content — you have all the tools already from Lessons 1 and 2. What it teaches is the skill that exam-style problems actually test: <strong>choosing the right tool for the right step</strong>, and stitching several short calculations into one coherent solution. Open the panels in whichever order suits you, and spend real time in the workbench in The Designed World — it walks you through one rich problem, one step at a time, the way an exam answer is actually built.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>Multi-step coordinate-geometry problems almost always combine the same handful of tools. The skill is recognising which one each part of a question is calling for.</p>
+
+  <h3>Your toolkit so far</h3>
+  <div class="toolkit">
+    <strong>From Lesson 1 (Straight Line Graphs):</strong>
+    <ul>
+      <li><strong>Gradient between two points:</strong> <code>m = (y₂ − y₁)/(x₂ − x₁)</code>.</li>
+      <li><strong>Three forms of a line:</strong> <code>y = mx + c</code>, point–gradient <code>y − y₁ = m(x − x₁)</code>, general <code>ax + by + c = 0</code>.</li>
+      <li><strong>Substituting a point into an equation</strong> to test whether the point lies on the line, or to find an unknown coefficient.</li>
+    </ul>
+    <strong>From Lesson 2 (Parallel and Perpendicular Lines):</strong>
+    <ul>
+      <li><strong>Parallel:</strong> <code>m₁ = m₂</code>.</li>
+      <li><strong>Perpendicular:</strong> <code>m₁ · m₂ = −1</code>; equivalently, the negative reciprocal (flip and change sign).</li>
+    </ul>
+  </div>
+
+  <p>Three further bits of toolkit come up so often in problem-solving questions that it's worth meeting them now, even though one or two are formally beyond the strict P1 spec.</p>
+
+  <h3>The intersection of two lines</h3>
+  <p>To find where two lines meet, <strong>solve their two equations simultaneously</strong> (the simultaneous-equations skill from Algebra and Functions Lesson 4). The point you get is the intersection — and exam problems often use this to find a vertex of a shape, or the point where a perpendicular meets the original line.</p>
+
+  <h3>The midpoint of two points</h3>
+  <p>The midpoint of <code>(x₁, y₁)</code> and <code>(x₂, y₂)</code> is the point whose coordinates are the <em>averages</em> of the two:</p>
+  <p style="text-align:center;"><code>M = ( (x₁ + x₂)/2 , (y₁ + y₂)/2 )</code></p>
+  <p>This is constantly useful when a question mentions "the midpoint of AB", "the centre of a rectangle", or "the perpendicular bisector" — anything where you need the point exactly halfway between two others.</p>
+
+  <h3>The distance between two points</h3>
+  <p>The distance <code>d</code> between <code>(x₁, y₁)</code> and <code>(x₂, y₂)</code> comes straight from Pythagoras applied to the right triangle whose hypotenuse is the segment joining them:</p>
+  <p style="text-align:center;"><code>d = √[ (x₂ − x₁)² + (y₂ − y₁)² ]</code></p>
+  <p>This is useful for "length of AB", "show that the triangle is isosceles", or "find the radius" type questions.</p>
+
+  <div class="scope-note">
+    <strong>Honest scope note.</strong> In the Pearson Edexcel IAL specification, the distance formula is officially introduced in the <em>Vectors</em> unit (section 7.5, where it appears in its 3D form). It's included here because it appears constantly in P1-style textbook problems and exam paper questions, and you'll meet it as a familiar friend when Vectors arrives. The midpoint formula isn't named in the spec at all, but follows directly from "find the point halfway between" — equally common in problem-solving.
+  </div>
+
+  <h3>The art of "deciding what to do first"</h3>
+  <p>Most multi-step problems have the same rough shape. They give you some <em>information</em> (points, an equation, a condition like "perpendicular to L₁") and ask for some <em>result</em> (an equation, a point, a length, a proof). The decision-making art is reading the question and asking:</p>
+  <ul>
+    <li><strong>What am I being asked for, in the end?</strong> An equation? A point? A length? A "show that"?</li>
+    <li><strong>What's the last step likely to be?</strong> Working backwards from the result often reveals the structure.</li>
+    <li><strong>What do I have, and what's the smallest gap I can close first?</strong> A gradient between two given points is almost always a safe first move — even if you don't yet see how it'll be used.</li>
+  </ul>
+
+  <div class="choice">
+    <strong>A worked example, narrated.</strong> Points <code>A(1, 2)</code> and <code>B(5, 10)</code>. Find the equation of the perpendicular bisector of <code>AB</code>.
+    <ol>
+      <li><em>What's "perpendicular bisector"? It's the line that (a) is perpendicular to AB and (b) passes through the midpoint of AB.</em> So I need a gradient and a point — exactly the inputs for point–gradient form.</li>
+      <li><em>Find the gradient of AB.</em> <code>m = (10 − 2)/(5 − 1) = 8/4 = 2</code>.</li>
+      <li><em>Perpendicular gradient.</em> Negative reciprocal of <code>2</code> is <code>−1/2</code>.</li>
+      <li><em>Find the midpoint of AB.</em> <code>M = ((1+5)/2, (2+10)/2) = (3, 6)</code>.</li>
+      <li><em>Use point–gradient through M with gradient −1/2.</em> <code>y − 6 = −1/2 (x − 3)</code>. Rearrange to taste.</li>
+    </ol>
+    Notice how no single step was hard. The art is recognising "perpendicular bisector" decomposes into "perpendicular gradient" plus "midpoint" plus "point–gradient form" — three tools you already own.
+  </div>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change consolidated here (Pearson Edexcel IAL Pure Mathematics 1, sections 2.1–2.2):</strong> Apply the equation-of-a-line forms and the parallel/perpendicular conditions to multi-step problems involving points, lines, intersections, and shapes in the (x, y) plane.
+  </div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>The way mathematicians describe their craft is rarely "I knew exactly what to do." More often it's something like: "I tried a few things, noticed which one was getting somewhere, and followed it." Problem-solving is messier than the polished proofs in textbooks suggest — and that's true at every level, from a first lesson to research mathematics.</p>
+
+  <p>One mathematician who wrote thoughtfully about this was <strong>George Pólya</strong>, a Hungarian mathematician who taught at Stanford in the 20th century. His small book <em>How to Solve It</em> (1945) tried to capture, in plain language, the moves that good problem-solvers actually make. He boiled them down to four steps:</p>
+  <ol>
+    <li><strong>Understand the problem.</strong> Read it twice. What is unknown? What is given? Could you draw a picture?</li>
+    <li><strong>Make a plan.</strong> Have you seen a similar problem? What tools might apply? If you can't solve <em>this</em> problem, can you solve a simpler version first?</li>
+    <li><strong>Carry out the plan.</strong> Do each step. Check each step as you go, not just at the end.</li>
+    <li><strong>Look back.</strong> Does the answer make sense? Could you have got there faster? Will you remember the trick for next time?</li>
+  </ol>
+  <p>Eighty years on, Pólya's advice is still the best short guide there is. Notice how step 2 — "Have you seen a similar problem?" — is exactly the move this whole lesson is built around. Recognising that "perpendicular bisector" is a familiar combination of three already-met tools is what makes the problem feel manageable.</p>
+
+  <p>Two related thinking points worth holding onto:</p>
+  <ul>
+    <li><strong>Getting stuck is not a failure.</strong> It is, in fact, the universal experience of doing mathematics. The skill isn't avoiding it — it's having a repertoire of moves to try when you're stuck (sketch a picture, work backwards, try a special case, name what you don't yet have).</li>
+    <li><strong>Maths is collaborative.</strong> The popular image of the lone genius is mostly a myth. Mathematicians talk to each other constantly, argue about approaches, get unstuck by explaining their stuck-ness to a colleague. The "explain it to someone" trick in the Expressive Self section isn't a study tip — it's how the actual subject is done.</li>
+  </ul>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea your own — pick whichever appeals. You only need to do one.</p>
+
+  <div class="choice"><strong>Reverse-engineer a problem.</strong> Take a worked answer (any from this lesson or from a past paper) and write the <em>question</em> it must have come from. Going backwards from a clean solution forces you to see how the question was put together.</div>
+
+  <div class="choice"><strong>Talk yourself through it.</strong> Pick a multi-step problem and record yourself (audio or video) thinking out loud as you solve it — including the moments where you pause, change direction, or check yourself. Listening back is one of the most powerful ways to see how you actually think.</div>
+
+  <div class="choice"><strong>Make a tool-spotting guide.</strong> Take five exam-style problem phrasings (e.g. "find the perpendicular bisector", "show triangle ABC is right-angled", "find the area of the triangle formed by these three lines") and, for each, list the toolkit moves it decomposes into. Designing the guide is the learning.</div>
+
+  <div class="choice"><strong>Steal a problem and remix it.</strong> Take a standard exam question and change one piece of information — a coordinate, a gradient, a condition — then solve the new version. Notice what changes and what doesn't. Owning the parameters makes the structure visible.</div>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Here is a <strong>Problem-Solving Workbench</strong>. It presents one rich problem and walks you through it one step at a time — exactly the way you'd build a solution on paper. Each step gives you a question, a place to type your answer, a check button, and a hint if you need one. The diagram grows with you: as you finish each step, the new feature (a line, a midpoint, a perpendicular) appears on the graph. The next step unlocks only when the current one is right, so you can't drift past a mistake.</p>
+
+  <div id="wb">
+    <div class="scenario">
+      <strong>The problem.</strong> The points <code>A(2, 1)</code> and <code>B(6, 7)</code> are two adjacent vertices of rectangle <code>ABCD</code> (with the vertices in order round the shape). Side <code>BC</code> has length <code>√13</code>, and vertex <code>C</code> lies to the <em>right</em> of <code>B</code> (i.e. <code>C</code> has a larger <em>x</em>-coordinate than <code>B</code>). Find the coordinates of <code>C</code> and of the fourth vertex <code>D</code>.
+    </div>
+
+    <div class="progress-strip" id="wb-strip"></div>
+
+    <svg id="wb-svg" viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg" aria-label="A coordinate diagram that builds up as the problem is solved"></svg>
+
+    <div id="wb-steps"></div>
+  </div>
+
+  <div class="investigate">
+    <strong>After finishing the workbench, reflect:</strong>
+    <ol>
+      <li>Which step did you find most natural — and which one made you pause? That tells you where to focus.</li>
+      <li>Look back at the chain of steps. Could any of them have been combined or reordered? Often problems can be solved more than one way, and the "best" route is the one you find clearest.</li>
+      <li>If the problem had instead said "C lies to the <em>left</em> of B", how would the answer change, and what minus signs would have flipped along the way? Sketch the alternative rectangle without redoing all the arithmetic.</li>
+    </ol>
+  </div>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>Multi-step problems trigger a very specific kind of anxiety: the dreaded "blank page" moment, when you've read the question three times and still don't know where to start. That moment is almost universal, and it's not a sign of weakness — it's a sign you're attempting genuine problem-solving rather than just running through a procedure.</p>
+
+  <p>A few things that really help when the blank page is looming:</p>
+  <ul>
+    <li><strong>Always draw the picture first.</strong> Even a rough sketch of the points and lines often suggests the first move on its own. The act of drawing is thinking made visible.</li>
+    <li><strong>Compute something — anything.</strong> Find a gradient. Find a midpoint. You don't need to know where it's going. A scrap of progress on the page calms the brain and reveals structure.</li>
+    <li><strong>Name what you don't yet have.</strong> "I need an equation, so I need a gradient and a point. I have the point. So my next job is the gradient." Naming the gap turns "stuck" into a smaller, solvable question.</li>
+    <li><strong>Trust the toolkit.</strong> The whole point of this lesson is that you already own the tools. If a question feels alien, it's almost always built from familiar pieces in an unfamiliar order.</li>
+  </ul>
+
+  <p>And a piece of slightly counter-intuitive advice: <em>checking each step as you go is faster than checking at the end.</em> Most marks are lost not because students don't know the methods but because a sign error or arithmetic slip in step 2 ruins steps 3, 4, and 5. A 5-second sanity check at each step ("does this gradient look right for these two points?") is the single biggest fluency upgrade most learners can make.</p>
+
+  <p>Two reflections to sit with:</p>
+  <ul>
+    <li>What's your usual response to a blank page — push through, freeze, or sketch? Which would you like to make more habitual?</li>
+    <li>When you're stuck, do you tend to push harder on the same approach, or step back and try a different one? Both can work — but knowing your default tells you when to break it.</li>
+  </ul>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build a "Problem-Solver's Field Guide."</strong> Create a one- or two-page guide (handwritten and photographed, typed, or a slide) that teaches a learner how to approach a multi-step coordinate-geometry problem. It must contain:</p>
+
+  <ol>
+    <li><strong>Your toolkit checklist</strong> — list every move you can make with straight lines (gradient, three forms, parallel/perpendicular, intersection, midpoint, distance). For each, write one sentence on when it's the right tool.</li>
+    <li><strong>A four-step problem-solving routine of your own</strong> (inspired by Pólya if you like, but in your own words). What do you do first when you read a question? What do you do when stuck?</li>
+    <li><strong>A worked multi-step problem</strong> — pick a standard exam-style scenario (perpendicular bisector, finding a vertex of a triangle/rectangle, showing a quadrilateral is a parallelogram, finding the area of a triangle formed by three lines, etc.). Show every step with a one-sentence commentary explaining <em>why</em> you chose that step. The commentary is the assessment, not the arithmetic.</li>
+    <li><strong>A "decoding the wording" list</strong> — five exam-style phrases and what they actually require (e.g. "perpendicular bisector" → perpendicular gradient + midpoint + point–gradient form).</li>
+    <li><strong>One real-world application</strong> — a sentence linking multi-step line problems to a real context (architecture, navigation, computer graphics, surveying — your choice).</li>
+    <li><strong>A short reflection</strong> (2–3 sentences): the single move you find hardest in multi-step problems, and the strategy you'll use to handle it.</li>
+  </ol>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change assessed here (Pearson Edexcel IAL Pure Mathematics 1, sections 2.1–2.2):</strong> Apply the equation-of-a-line forms and the parallel/perpendicular conditions to multi-step coordinate problems, choosing appropriate tools and presenting solutions clearly.
+  </div>
+
+  <h3>How this is assessed — Haven Maths Rubric</h3>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for in this task</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>Each tool in the checklist is understood for what it does, not just named. The "decoding" list shows that exam phrases are recognised as combinations of familiar moves.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>The worked problem's calculations are correct end-to-end (sign errors caught, fractions handled, final answers in sensible form).</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The worked example is genuinely multi-step and the commentary explains <em>why</em> each step, not just what. The four-step routine is the learner's own and is usable.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The guide is clear and self-made, the real-world link is genuine, and the reflection names a specific personal sticking point with a strategy.</td></tr>
+  </table>
+
+  <p><em>Choose whatever form suits you — the mathematics and the thinking-out-loud are what's assessed; the presentation is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style synthesis questions with Socratic support whenever you get stuck.</p>
+  <a href="problem-solving-with-straight-lines-practice-companion.html" rel="noopener"
+     onclick="var w=window.open(this.href,'_blank'); if(w){w.opener=null;return false;} return true;"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+  <p style="font-size: 0.82em; color: #8A8270; margin-top: 0.6em;">Opens the practice companion. Keep both files in the same folder. (If your browser blocks a new tab, it will open in this one — use Back to return.)</p>
+</div>
+
+<script>
+(function () {
+  const svg = document.getElementById('wb-svg');
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const co = {
+    xmin: -2, xmax: 12, ymin: -4, ymax: 10, W: 560, H: 560,
+    px(x) { return (x - this.xmin) / (this.xmax - this.xmin) * this.W; },
+    py(y) { return this.H - (y - this.ymin) / (this.ymax - this.ymin) * this.H; }
+  };
+  function el(name, attrs) { const e = document.createElementNS(SVGNS, name); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+  // ---- The problem ----
+  // ABCD is a rectangle with adjacent vertices A(2,1), B(6,7), |BC| = √13, C lies to the right of B.
+  // m(AB) = (7-1)/(6-2) = 3/2.  m(BC) perpendicular = -2/3.
+  // Direction along BC from B: unit vector ∝ (3,-2)/√13 (the rightward branch, since dx > 0).
+  // Step of length √13 in that direction = (3,-2). So C = B + (3,-2) = (9, 5).
+  // D is opposite to B in the rectangle: D = A + (C - B) = (2 + 3, 1 - 2) = (5, -1).
+  // (Equivalently D = C + (A - B) = (9 - 4, 5 - 6) = (5, -1). Same point — cross-check.)
+  const A = {x: 2, y: 1}, B = {x: 6, y: 7};
+  const expected = {
+    mAB: 3/2,             // step 1
+    mBC: -2/3,            // step 2
+    C: {x: 9, y: 5},      // step 3
+    D: {x: 5, y: -1}      // step 4
+  };
+
+  const steps = [
+    {
+      label: 'Step 1 — Find the gradient of side AB.',
+      q: 'Compute m(AB) using A(2, 1) and B(6, 7). Enter as a fraction or decimal.',
+      check: (v) => approxEqual(parseNumber(v), expected.mAB),
+      hint: 'Use m = (y₂ − y₁)/(x₂ − x₁) with (x₁,y₁) = (2,1) and (x₂,y₂) = (6,7). You should get 6/4, which simplifies.',
+      revealNarration: 'AB has gradient 3/2 — a positive, fairly steep slope.'
+    },
+    {
+      label: 'Step 2 — Find the gradient of side BC.',
+      q: 'BC is perpendicular to AB (it\'s an adjacent side of the rectangle). What is the gradient of BC? Enter as a fraction or decimal.',
+      check: (v) => approxEqual(parseNumber(v), expected.mBC),
+      hint: 'Perpendicular ⇒ negative reciprocal of 3/2. Flip to 2/3, change sign to −2/3.',
+      revealNarration: 'BC has gradient −2/3 — gentler and going downhill, exactly what perpendicularity demands.'
+    },
+    {
+      label: 'Step 3 — Find the coordinates of C.',
+      q: 'C lies on the line through B(6, 7) with gradient −2/3, the length |BC| equals √13, and C is to the right of B (x > 6). Find C as an ordered pair, e.g. (3, 5).',
+      check: (v) => {
+        const p = parsePoint(v);
+        return p && approxEqual(p.x, expected.C.x) && approxEqual(p.y, expected.C.y);
+      },
+      hint: 'A unit step along the BC direction is (3,−2)/√13 (moving right and down — note dx > 0). A length of √13 means stepping (3,−2). So C = B + (3,−2) = (6+3, 7−2). Alternative: write C = (6+t, 7−2t/3) on BC and solve |BC|² = t² + (2t/3)² = 13, giving t = 3.',
+      revealNarration: 'C = (9, 5) — the third vertex, sitting nicely on integer grid lines.'
+    },
+    {
+      label: 'Step 4 — Find the coordinates of D, the fourth vertex of the rectangle.',
+      q: 'In rectangle ABCD (vertices in order), D is the vertex opposite B. Find D as an ordered pair.',
+      check: (v) => {
+        const p = parsePoint(v);
+        return p && approxEqual(p.x, expected.D.x) && approxEqual(p.y, expected.D.y);
+      },
+      hint: 'In a rectangle, opposite sides are parallel and equal: vector AD = vector BC. Compute vector BC = C − B = (3, −2), then D = A + (3, −2) = (2+3, 1−2). (Cross-check: the diagonals AC and BD share their midpoint — both should be ((2+9)/2, (1+5)/2) = (5.5, 3). Does your D give the same midpoint for BD?)',
+      revealNarration: 'D = (5, −1) — the fourth vertex, completing the rectangle. Notice the diagonals AC and BD both pass through (5.5, 3) — a useful sanity check.'
+    }
+  ];
+
+  // ---- helpers ----
+  function parseNumber(v) {
+    if (v == null) return NaN;
+    let s = v.trim().replace(/[–—−]/g,'-').replace(/\s+/g,'');
+    if (s.toLowerCase().startsWith('m=')) s = s.slice(2);
+    // fraction a/b
+    const fm = s.match(/^(-?\d+)\/(-?\d+)$/);
+    if (fm) { const n = parseInt(fm[1]), d = parseInt(fm[2]); return d === 0 ? NaN : n/d; }
+    const n = parseFloat(s);
+    return isNaN(n) ? NaN : n;
+  }
+  function parsePoint(v) {
+    if (!v) return null;
+    const s = v.trim().replace(/[–—−]/g,'-').replace(/[()\s]/g,'');
+    const parts = s.split(',');
+    if (parts.length !== 2) return null;
+    const x = parseNumber(parts[0]), y = parseNumber(parts[1]);
+    if (isNaN(x) || isNaN(y)) return null;
+    return { x, y };
+  }
+  function approxEqual(a, b) { return !isNaN(a) && !isNaN(b) && Math.abs(a - b) < 1e-3; }
+
+  // ---- state & rendering ----
+  let stepIdx = 0; // index of the next step to complete
+  const stepDone = [false, false, false, false];
+
+  function render() {
+    // SVG: grid, axes, plus features that should be visible given stepIdx
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    for (let gx = co.xmin; gx <= co.xmax; gx++) svg.appendChild(el('line', { x1: co.px(gx), y1: 0, x2: co.px(gx), y2: co.H, stroke: '#EDF2F5', 'stroke-width': 1 }));
+    for (let gy = co.ymin; gy <= co.ymax; gy++) svg.appendChild(el('line', { x1: 0, y1: co.py(gy), x2: co.W, y2: co.py(gy), stroke: '#EDF2F5', 'stroke-width': 1 }));
+    svg.appendChild(el('line', { x1: 0, y1: co.py(0), x2: co.W, y2: co.py(0), stroke: '#9AA9B3', 'stroke-width': 1.4 }));
+    svg.appendChild(el('line', { x1: co.px(0), y1: 0, x2: co.px(0), y2: co.H, stroke: '#9AA9B3', 'stroke-width': 1.4 }));
+    [-2, 2, 4, 6, 8, 10].forEach(n => {
+      const tx = el('text', { x: co.px(n), y: co.py(0)+13, 'font-size':9, fill:'#7A8A94','text-anchor':'middle','font-family':'Georgia, serif' }); tx.textContent=n; svg.appendChild(tx);
+      const ty = el('text', { x: co.px(0)-6, y: co.py(n)+3, 'font-size':9, fill:'#7A8A94','text-anchor':'end','font-family':'Georgia, serif' }); ty.textContent=n; svg.appendChild(ty);
+    });
+
+    // A and B always visible (given in the problem)
+    drawPoint(A.x, A.y, '#4A6B3A', 'A(2,1)', -16, 14);
+    drawPoint(B.x, B.y, '#4A6B3A', 'B(6,7)', 10, -8);
+
+    // Step 1: gradient AB known => draw segment AB
+    if (stepDone[0]) drawSeg(A, B, '#4A6B3A', 2.6);
+
+    // Step 2: gradient of BC known => draw a faint dashed perpendicular guide through B (the direction C lies along)
+    if (stepDone[1] && !stepDone[2]) drawLine(-2/3, 7 + (2/3)*6, '#9DBCE0', 1.6, '5 4', null);
+
+    // Step 3: C found => draw segment BC as a solid side of the rectangle
+    if (stepDone[2]) {
+      drawSeg(B, expected.C, '#2B5B8A', 2.6);
+      drawPoint(expected.C.x, expected.C.y, '#2B5B8A', 'C(9, 5)', 10, -8);
+    }
+
+    // Step 4: D found => draw the remaining two sides CD and DA to close the rectangle, mark D
+    if (stepDone[3]) {
+      drawSeg(expected.C, expected.D, '#6B4A6B', 2.6);
+      drawSeg(expected.D, A, '#6B4A6B', 2.6);
+      drawPoint(expected.D.x, expected.D.y, '#6B4A6B', 'D(5, -1)', 10, 14);
+    }
+
+    // Progress strip
+    const strip = document.getElementById('wb-strip');
+    strip.innerHTML = '<span>Progress:</span>';
+    for (let i = 0; i < 4; i++) {
+      const d = document.createElement('span');
+      d.className = 'pdot' + (stepDone[i] ? ' done' : '');
+      strip.appendChild(d);
+    }
+    if (stepDone.every(Boolean)) {
+      const done = document.createElement('span');
+      done.style.marginLeft = '0.6em'; done.style.color = '#355026'; done.style.fontWeight = 'bold';
+      done.textContent = '✓ All steps complete — rectangle ABCD closed';
+      strip.appendChild(done);
+    }
+  }
+  function drawLine(m, c, stroke, width, dash, label) {
+    const yL = m*co.xmin + c, yR = m*co.xmax + c;
+    const attrs = { x1: co.px(co.xmin), y1: co.py(yL), x2: co.px(co.xmax), y2: co.py(yR), stroke, 'stroke-width': width };
+    if (dash) attrs['stroke-dasharray'] = dash;
+    svg.appendChild(el('line', attrs));
+    if (label) {
+      const tx = el('text', { x: co.px(co.xmax)-6, y: co.py(yR)-4, 'font-size': 11, fill: stroke, 'text-anchor':'end', 'font-family':'Georgia, serif', 'font-style':'italic' });
+      tx.textContent = label; svg.appendChild(tx);
+    }
+  }
+  function drawSeg(p, q, stroke, width) {
+    svg.appendChild(el('line', { x1: co.px(p.x), y1: co.py(p.y), x2: co.px(q.x), y2: co.py(q.y), stroke, 'stroke-width': width }));
+  }
+  function drawPoint(x, y, color, label, ox, oy) {
+    svg.appendChild(el('circle', { cx: co.px(x), cy: co.py(y), r: 5, fill: color, stroke: '#fff', 'stroke-width': 1.5 }));
+    const t = el('text', { x: co.px(x)+ox, y: co.py(y)+oy, 'font-size': 11, fill: color, 'font-family':'Georgia, serif' });
+    t.textContent = label; svg.appendChild(t);
+  }
+
+  // ---- build the step cards ----
+  const stepsEl = document.getElementById('wb-steps');
+  steps.forEach((step, i) => {
+    const card = document.createElement('div'); card.className = 'step' + (i === 0 ? '' : ' locked'); card.dataset.i = i;
+    card.innerHTML =
+      '<div class="step-head">' + step.label + '</div>' +
+      '<div class="step-q">' + step.q + '</div>' +
+      '<div><input type="text" id="wb-in-' + i + '" placeholder="Your answer..." />' +
+      '<button class="checkbtn" data-i="' + i + '">Check</button>' +
+      '<button class="hintbtn" data-i="' + i + '">💡 Hint</button></div>' +
+      '<div class="hintbox" id="wb-hint-' + i + '">' + step.hint + '</div>' +
+      '<div class="feedback" id="wb-fb-' + i + '"></div>';
+    stepsEl.appendChild(card);
+  });
+
+  stepsEl.querySelectorAll('.checkbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.i);
+      if (i !== stepIdx) return; // only the active step
+      const val = document.getElementById('wb-in-' + i).value;
+      const fb = document.getElementById('wb-fb-' + i);
+      if (steps[i].check(val)) {
+        fb.className = 'feedback ok show';
+        fb.innerHTML = '✅ Correct. ' + steps[i].revealNarration;
+        stepDone[i] = true;
+        stepsEl.querySelector('.step[data-i="' + i + '"]').classList.add('done');
+        // unlock next
+        if (i + 1 < steps.length) {
+          stepsEl.querySelector('.step[data-i="' + (i+1) + '"]').classList.remove('locked');
+        }
+        stepIdx = Math.min(stepIdx + 1, steps.length);
+        render();
+      } else {
+        fb.className = 'feedback no show';
+        fb.innerHTML = '❌ Not yet — re-check the form of your answer and your arithmetic. Try again, or open the hint.';
+      }
+    });
+  });
+  stepsEl.querySelectorAll('.hintbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.i);
+      if (i !== stepIdx) return;
+      document.getElementById('wb-hint-' + i).classList.add('show');
+    });
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

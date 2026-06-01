@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parallel and Perpendicular Lines — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 820px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  .intro { background: #E5EBF0; border-left: 5px solid #3A5A6B; padding: 0.9em 1.2em; border-radius: 8px; margin: 1.2em 0; }
+  .intro strong { color: #28414f; }
+
+  #progress { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 1.2em 0; align-items: center; }
+  #progress .dot { width: 22px; height: 22px; border-radius: 50%; background: #D8D2C6; display: flex; align-items: center; justify-content: center; font-size: 0.72em; color: #5a5346; cursor: pointer; border: 2px solid transparent; font-family: Georgia, serif; }
+  #progress .dot.engaged { background: #E8C66B; color: #5a4a18; }
+  #progress .dot.correct { background: #8FB87A; color: #294017; }
+  #progress .dot.current { border-color: #3A5A6B; }
+
+  .card { background: #fff; border: 1px solid #D4C9B6; border-radius: 10px; padding: 1.2em 1.4em; margin: 1em 0; }
+  .qnum { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; color: #8B6F47; }
+  .stem { font-size: 1.08em; margin: 0.4em 0 0.8em; }
+  .stem code, .work code, code { font-family: 'Courier New', monospace; background: #F6F2EA; padding: 0.05em 0.3em; border-radius: 3px; }
+
+  .palette { margin: 0.6em 0; }
+  .palette .row { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.3em; }
+  .palette button { font-family: 'Courier New', monospace; font-size: 0.95em; padding: 0.25em 0.55em; border: 1px solid #BCA98a; background: #FBF8F2; border-radius: 5px; cursor: pointer; min-width: 2em; }
+  .palette button:hover { background: #F0E8DC; }
+
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; font-family: 'Courier New', monospace; font-size: 1em; padding: 0.5em; border: 1px solid #C3B49a; border-radius: 6px; background: #FFFEFB; }
+  textarea { min-height: 4.5em; resize: vertical; }
+  label.fieldlabel { font-size: 0.85em; color: #6B5A42; display: block; margin: 0.6em 0 0.2em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 0.9em; }
+  .actions button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.45em 0.9em; border-radius: 6px; cursor: pointer; border: 1px solid; }
+  .btn-soc { background: #F2E8F0; border-color: #6B4A6B; color: #5a3a5a; }
+  .btn-hint { background: #F5EFD9; border-color: #8B7A3A; color: #6a5d23; }
+  .btn-check { background: #E8F0E5; border-color: #4A6B3A; color: #355026; }
+  .btn-sol { background: #ECE4D8; border-color: #8a7355; color: #6a563c; }
+  .actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .reveal { margin-top: 0.8em; padding: 0.7em 1em; border-radius: 6px; display: none; }
+  .reveal.show { display: block; }
+  .reveal.soc { background: #F7F0F6; border-left: 4px solid #6B4A6B; }
+  .reveal.hint { background: #FAF6E6; border-left: 4px solid #8B7A3A; }
+  .reveal.sol { background: #F4EFE7; border-left: 4px solid #8a7355; }
+  .reveal.feedback { background: #EAF1E7; border-left: 4px solid #4A6B3A; }
+  .reveal.feedback.wrong { background: #F7ECE6; border-left-color: #B5683A; }
+  .reveal .step { margin: 0.35em 0; }
+  .ladder-item { margin: 0.3em 0; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 1em; }
+  .nav button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.45em 1.1em; border: 1px solid #6E8597; background: #fff; border-radius: 6px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .reflection { background: #F5EFD9; border-left: 5px solid #8B7A3A; padding: 1em 1.3em; border-radius: 8px; margin: 1.5em 0; }
+
+  @media print {
+    .actions, .nav, .palette, #progress { display: none !important; }
+    .card { display: block !important; page-break-inside: avoid; border: 1px solid #999; }
+    .reveal { display: block !important; }
+    textarea, input { border: 1px solid #999; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<p style="margin-bottom:0.3em;"><a href="parallel-and-perpendicular-lines-lesson.html" rel="noopener" style="font-family: Georgia, serif; font-size: 0.9em; color: #6B4A2E; text-decoration: none;">← Back to the lesson</a></p>
+
+<h1>Parallel and Perpendicular Lines — Practice Companion<br><span style="font-size:0.55em; color:#6B6B6B;">Pure 1, Coordinate Geometry · Lesson 2</span></h1>
+
+<div class="intro">
+  <p>Eight exam-style questions on parallel and perpendicular lines. Whenever you're stuck, you have <strong>four kinds of help</strong>, in this order:</p>
+  <p>🤔 <strong>Socratic prompt</strong> — a question to get you thinking (tap again for a more specific one). &nbsp; 💡 <strong>Hint</strong> — a piece of method. &nbsp; ✅ <strong>Check my answer</strong> — try as many times as you like; you'll get diagnostic feedback. &nbsp; 👀 <strong>Worked solution</strong> — the full method, unlocked once you've genuinely tried.</p>
+  <p style="margin-bottom:0;"><em>Give gradients as fractions or decimals (both accepted). For "general form" answers, use integer coefficients with the leading term positive, e.g. <code>3x − y − 5 = 0</code>.</em></p>
+</div>
+
+<div id="progress"></div>
+<div id="card-mount"></div>
+
+<div class="nav">
+  <button id="prevBtn">← Previous</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="reflection">
+  <h3 style="margin-top:0;">💛 Reflection</h3>
+  <p>Before you close this, take a moment:</p>
+  <ul>
+    <li>When you needed a perpendicular gradient, did you remember <em>both</em> the flip and the sign change every time? Where did a slip nearly happen?</li>
+    <li>Did rearranging a line into <code>y = mx + c</code> to read off its gradient feel automatic, or is it still worth slowing down for?</li>
+    <li>If you taught one of these questions to a friend, which would you choose, and why?</li>
+  </ul>
+  <p style="margin-bottom:0;"><em>You can print or save this page (including any solutions you opened) using your browser's print function.</em></p>
+</div>
+
+<script>
+const questions = [
+  {
+    type: 'Direct application',
+    stem: 'A line has gradient <code>3</code>. State the gradient of any line that is <strong>(a)</strong> parallel to it, and <strong>(b)</strong> perpendicular to it.',
+    accepted: ['(a)3(b)-1/3','3,-1/3','3 and -1/3','parallel 3 perpendicular -1/3','3;-1/3','a)3 b)-1/3','3,-0.333','3,-1/3.'],
+    socratic: [
+      'What is the condition on gradients for two lines to be parallel? And for perpendicular?',
+      'Parallel lines share the same gradient. For perpendicular, you need the negative reciprocal — "flip and change sign".',
+      'Parallel gradient is just 3. The negative reciprocal of 3 is −1/3.'
+    ],
+    hints: [
+      'Parallel: same gradient, so m = 3. Perpendicular: negative reciprocal.',
+      'Negative reciprocal of 3 = −1/3.'
+    ],
+    solution: [
+      'Step 1 (a). Parallel lines have equal gradients, so the parallel gradient is 3.',
+      'Step 2 (b). Perpendicular lines have gradients whose product is −1, so the perpendicular gradient is the negative reciprocal of 3: flip to 1/3, change sign to −1/3.',
+      'Answer: (a) 3; (b) −1/3.'
+    ]
+  },
+  {
+    type: 'Direct application (trickier)',
+    stem: 'Find the gradient of a line perpendicular to the line <code>y = −\u00BD x + 7</code>.',
+    accepted: ['2','m=2','m = 2'],
+    socratic: [
+      'First read off the gradient of the given line directly from y = mx + c.',
+      'The gradient is −½. What is the negative reciprocal of −½?',
+      'Flip −½ to get −2, then change the sign to +2. (Or: −1 ÷ (−½) = 2.)'
+    ],
+    hints: [
+      'The given gradient is m₁ = −½. Perpendicular gradient m₂ satisfies m₁m₂ = −1.',
+      'm₂ = −1 / (−½) = 2.'
+    ],
+    solution: [
+      'Step 1. From y = −½x + 7, the gradient of the given line is m₁ = −½.',
+      'Step 2. Perpendicular gradient is the negative reciprocal: flip ½ to 2, change the sign of the negative to give +2.',
+      'Step 3. Check: m₁m₂ = (−½)(2) = −1. ✓',
+      'Answer: m = 2.'
+    ]
+  },
+  {
+    type: 'Inverse problem',
+    stem: 'The lines <code>y = (k + 1)x − 3</code> and <code>y = 5x + 2</code> are parallel. Find the value of <code>k</code>.',
+    accepted: ['4','k=4','k = 4'],
+    socratic: [
+      'What must be true about the gradients of two parallel lines?',
+      'The two gradients are (k + 1) and 5. Parallel means they are equal.',
+      'Set k + 1 = 5 and solve.'
+    ],
+    hints: [
+      'Parallel ⇒ equal gradients: k + 1 = 5.',
+      'Solve k + 1 = 5.'
+    ],
+    solution: [
+      'Step 1. Parallel lines have equal gradients. The gradients are (k + 1) and 5.',
+      'Step 2. Set them equal: k + 1 = 5.',
+      'Step 3. Solve: k = 4.',
+      'Answer: k = 4.'
+    ]
+  },
+  {
+    type: 'Inverse problem',
+    stem: 'The lines <code>y = 2x + 1</code> and <code>y = px − 4</code> are perpendicular. Find the value of <code>p</code>.',
+    accepted: ['-1/2','p=-1/2','p = -1/2','-0.5','p=-0.5'],
+    socratic: [
+      'What is the condition on the two gradients for the lines to be perpendicular?',
+      'The gradients are 2 and p, and for perpendicular lines their product is −1.',
+      'Solve 2p = −1 for p.'
+    ],
+    hints: [
+      'Perpendicular ⇒ m₁m₂ = −1, so 2 × p = −1.',
+      'p = −1/2.'
+    ],
+    solution: [
+      'Step 1. Perpendicular lines satisfy m₁m₂ = −1. Here m₁ = 2 and m₂ = p.',
+      'Step 2. So 2p = −1.',
+      'Step 3. Solve: p = −1/2. (Equivalently, p is the negative reciprocal of 2.)',
+      'Answer: p = −1/2.'
+    ]
+  },
+  {
+    type: 'Interpretation',
+    stem: 'A line is given by <code>4x + 2y − 6 = 0</code>. Find the gradient of any line perpendicular to it.',
+    accepted: ['1/2','0.5','m=1/2','m = 1/2','m=0.5'],
+    socratic: [
+      'You can\'t read the gradient off this form directly — what should you do first?',
+      'Rearrange 4x + 2y − 6 = 0 into y = mx + c to find the given gradient.',
+      'You should get y = −2x + 3, so m₁ = −2. The perpendicular gradient is the negative reciprocal of −2.'
+    ],
+    hints: [
+      'Rearrange: 2y = −4x + 6, so y = −2x + 3. The given gradient is −2.',
+      'Negative reciprocal of −2 = +1/2.'
+    ],
+    solution: [
+      'Step 1. Rearrange into gradient–intercept form: 2y = −4x + 6, so y = −2x + 3.',
+      'Step 2. The given line has gradient m₁ = −2.',
+      'Step 3. Perpendicular gradient is the negative reciprocal: flip 2 to ½, change sign to give +½.',
+      'Answer: gradient = 1/2.'
+    ]
+  },
+  {
+    type: 'Modelling',
+    stem: 'On a map with east as the positive x-direction, a straight road runs along the line <code>y = \u2154 x</code>. A new access road must meet it at a perfect right angle. What gradient must the access road have?',
+    accepted: ['-3/2','m=-3/2','-1.5','m=-1.5','m = -3/2','-3/2.'],
+    socratic: [
+      'Meeting "at a perfect right angle" is the geometric way of saying the two roads are what?',
+      'The road\'s gradient is ⅔. You need the gradient of a line perpendicular to it.',
+      'Take the negative reciprocal of ⅔: flip to 3/2, change sign to −3/2.'
+    ],
+    hints: [
+      'A right-angle meeting means perpendicular: use the negative reciprocal of ⅔.',
+      'Flip ⅔ to 3/2 and change the sign: −3/2.'
+    ],
+    solution: [
+      'Step 1. "Meets at a right angle" means the access road is perpendicular to the existing road.',
+      'Step 2. The existing road has gradient ⅔.',
+      'Step 3. Perpendicular gradient = negative reciprocal of ⅔ = −3/2.',
+      'Step 4. Check: (⅔)(−3/2) = −1. ✓',
+      'Answer: gradient = −3/2.'
+    ]
+  },
+  {
+    type: 'Exam-style (multi-part)',
+    stem: 'The line <code>L₁</code> has equation <code>y = 3x − 2</code>.<br><strong>(a)</strong> Write down the gradient of a line perpendicular to <code>L₁</code>.<br><strong>(b)</strong> Hence find the equation of the line <code>L₂</code> that is perpendicular to <code>L₁</code> and passes through the point <code>(6, 1)</code>, giving your answer in the form <code>ax + by + c = 0</code> with integer coefficients.',
+    accepted: [
+      '(a)-1/3(b)x+3y-9=0','-1/3,x+3y-9=0','a)-1/3 b)x+3y-9=0',
+      '-1/3;x+3y-9=0','(a) -1/3 (b) x+3y-9=0','-1/3,x + 3y - 9 = 0'
+    ],
+    socratic: [
+      'For (a), the gradient of L₁ is 3. What is the gradient of any line perpendicular to it?',
+      'For (b), you now have a gradient (−1/3) and a point (6, 1). Which form lets you build the line immediately?',
+      'Use y − 1 = −1/3 (x − 6). To clear the fraction for the integer general form, multiply through by 3, then gather terms with a positive leading coefficient.'
+    ],
+    hints: [
+      '(a) Perpendicular gradient = negative reciprocal of 3 = −1/3.',
+      '(b) y − 1 = −1/3(x − 6). ×3: 3y − 3 = −(x − 6) = −x + 6, so x + 3y − 9 = 0.'
+    ],
+    solution: [
+      'Step 1 (a). L₁ has gradient 3, so a perpendicular line has gradient −1/3 (negative reciprocal).',
+      'Step 2 (b). Point–gradient through (6, 1): y − 1 = −1/3 (x − 6).',
+      'Step 3 (b). Multiply through by 3 to clear the fraction: 3y − 3 = −(x − 6) = −x + 6.',
+      'Step 4 (b). Gather all terms on one side with a positive leading coefficient: x + 3y − 9 = 0.',
+      'Answers: (a) −1/3; (b) x + 3y − 9 = 0.'
+    ]
+  },
+  {
+    type: 'Synthesis',
+    stem: 'Triangle <code>PQR</code> has vertices <code>P(0, 1)</code>, <code>Q(4, 3)</code> and <code>R(2, 7)</code>. By comparing gradients, show that angle <code>PQR</code> (the angle at <code>Q</code>) is a right angle.',
+    accepted: [
+      'gradientqp=1/2,gradientqr=-2,product=-1','qp=1/2,qr=-2,-1','1/2,-2,-1',
+      'm(qp)=1/2,m(qr)=-2,product-1,rightangle','1/2 and -2 product -1',
+      'qp=1/2 qr=-2 product=-1','gradient pq=1/2,gradient qr=-2,-1'
+    ],
+    socratic: [
+      'A right angle at Q is between the two sides meeting at Q. Which two sides are those?',
+      'Find the gradient of QP and the gradient of QR. If the angle at Q is a right angle, what must those two gradients do?',
+      'Compute m(QP) = (1−3)/(0−4) and m(QR) = (7−3)/(2−4). Then multiply them — a product of −1 proves perpendicular, hence a right angle.'
+    ],
+    hints: [
+      'The angle at Q is between QP and QR. m(QP) = (1−3)/(0−4) = −2/−4 = 1/2. m(QR) = (7−3)/(2−4) = 4/−2 = −2.',
+      'Product = (1/2)(−2) = −1, so QP ⊥ QR, and the angle at Q is 90°.'
+    ],
+    solution: [
+      'Step 1. The angle at Q lies between sides QP and QR, so find the gradient of each.',
+      'Step 2. m(QP) = (1 − 3)/(0 − 4) = (−2)/(−4) = 1/2.',
+      'Step 3. m(QR) = (7 − 3)/(2 − 4) = 4/(−2) = −2.',
+      'Step 4. Product of gradients: (1/2) × (−2) = −1. Since the product is −1, QP is perpendicular to QR.',
+      'Step 5. Therefore the angle PQR at Q is a right angle. ∎',
+      'Answer: m(QP) = 1/2, m(QR) = −2, product = −1 ⇒ right angle at Q.'
+    ]
+  }
+];
+
+const paletteCore = ['²','³','√','±','≤','≥','≠','−','·','|','π','∞','Δ'];
+const shortcuts = [
+  ['Delta','Δ'],['delta','Δ'],['sqrt','√'],['pi','π'],['inf','∞'],
+  ['^2','²'],['^3','³'],['<=','≤'],['>=','≥'],['!=','≠'],['+-','±']
+];
+
+const state = questions.map(() => ({ socIdx: 0, hintIdx: 0, attempts: 0, correct: false, engaged: false, solUnlocked: false, work: '', ans: '' }));
+let current = 0;
+
+function normalise(s) {
+  return s.toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/\(([a-h])\)/g, '')
+    .replace(/\.(?!\d)/g, '')
+    .replace(/\s+and\s+/g, ',')
+    .replace(/;/g, ',')
+    .replace(/[–—−]/g, '-');
+}
+function checkAnswer(input, accepted) {
+  const n = normalise(input);
+  return accepted.some(a => normalise(a) === n);
+}
+
+const mount = document.getElementById('card-mount');
+
+function buildPalette(qIndex) {
+  const wrap = document.createElement('div'); wrap.className = 'palette';
+  const row = document.createElement('div'); row.className = 'row';
+  paletteCore.forEach(sym => row.appendChild(palBtn(sym, qIndex)));
+  wrap.appendChild(row);
+  return wrap;
+}
+function palBtn(sym, qIndex) {
+  const b = document.createElement('button'); b.textContent = sym; b.type = 'button';
+  b.addEventListener('click', () => {
+    const ans = document.getElementById('ans-' + qIndex);
+    const tgt = (document.activeElement && document.activeElement.id === 'work-' + qIndex) ? document.getElementById('work-' + qIndex) : ans;
+    insertAtCursor(tgt, sym); tgt.focus();
+  });
+  return b;
+}
+function insertAtCursor(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  const pos = start + text.length;
+  field.selectionStart = field.selectionEnd = pos;
+}
+function applyShortcuts(field) {
+  let v = field.value;
+  shortcuts.forEach(([from, to]) => { v = v.split(from).join(to); });
+  if (v !== field.value) {
+    const delta = field.value.length - v.length;
+    const pos = (field.selectionStart ?? v.length) - delta;
+    field.value = v;
+    field.selectionStart = field.selectionEnd = Math.max(0, pos);
+  }
+}
+
+function renderCard() {
+  const q = questions[current]; const st = state[current];
+  mount.innerHTML = '';
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = '<div class="qnum">Question ' + (current + 1) + ' of ' + questions.length + ' &nbsp;·&nbsp; <span style="color:#a08a6a; font-style:italic;">' + q.type + '</span></div><div class="stem">' + q.stem + '</div>';
+  card.appendChild(buildPalette(current));
+
+  const workLabel = document.createElement('label'); workLabel.className = 'fieldlabel'; workLabel.textContent = 'Your working (think on the page):';
+  const work = document.createElement('textarea'); work.id = 'work-' + current; work.value = st.work || '';
+  work.addEventListener('input', () => { applyShortcuts(work); st.work = work.value; });
+  const ansLabel = document.createElement('label'); ansLabel.className = 'fieldlabel'; ansLabel.textContent = 'Your final answer:';
+  const ans = document.createElement('input'); ans.type = 'text'; ans.id = 'ans-' + current; ans.value = st.ans || '';
+  ans.addEventListener('input', () => { applyShortcuts(ans); st.ans = ans.value; });
+  card.appendChild(workLabel); card.appendChild(work); card.appendChild(ansLabel); card.appendChild(ans);
+
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const socBtn = mkBtn('🤔 Socratic prompt', 'btn-soc');
+  const hintBtn = mkBtn('💡 Hint', 'btn-hint');
+  const checkBtn = mkBtn('✅ Check my answer', 'btn-check');
+  const solBtn = mkBtn('👀 Worked solution', 'btn-sol');
+  actions.appendChild(socBtn); actions.appendChild(hintBtn); actions.appendChild(checkBtn); actions.appendChild(solBtn);
+  card.appendChild(actions);
+
+  const socRev = mkReveal('soc'), hintRev = mkReveal('hint'), fbRev = mkReveal('feedback'), solRev = mkReveal('sol');
+  card.appendChild(socRev); card.appendChild(hintRev); card.appendChild(fbRev); card.appendChild(solRev);
+  mount.appendChild(card);
+
+  function markEngaged() { st.engaged = true; renderProgress(); }
+
+  socBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.socIdx < q.socratic.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Think:</strong> ' + q.socratic[st.socIdx]; socRev.appendChild(item); st.socIdx++; }
+    if (st.socIdx >= q.socratic.length) socBtn.disabled = true;
+    socRev.classList.add('show'); updateSolGate();
+  });
+  hintBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.hintIdx < q.hints.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Hint ' + (st.hintIdx + 1) + ':</strong> ' + q.hints[st.hintIdx]; hintRev.appendChild(item); st.hintIdx++; }
+    if (st.hintIdx >= q.hints.length) hintBtn.disabled = true;
+    hintRev.classList.add('show'); updateSolGate();
+  });
+  checkBtn.addEventListener('click', () => {
+    markEngaged(); st.attempts++;
+    const val = ans.value.trim();
+    fbRev.className = 'reveal feedback show';
+    if (val === '') { fbRev.classList.add('wrong'); fbRev.innerHTML = 'Type your final answer in the answer box first, then check.'; }
+    else if (checkAnswer(val, q.accepted)) { st.correct = true; fbRev.innerHTML = '✅ <strong>Correct!</strong> Well reasoned. If you used help to get here, re-read the worked solution to lock in the method.'; }
+    else { fbRev.classList.add('wrong'); fbRev.innerHTML = '❌ Not yet — but keep going. ' + diagnostic(current) + ' &nbsp;<em>You can revise your answer and check again.</em>'; }
+    renderProgress(); updateSolGate();
+  });
+  solBtn.addEventListener('click', () => {
+    if (solBtn.disabled) return;
+    solRev.classList.add('show');
+    solRev.innerHTML = '<strong>Worked solution</strong>' + q.solution.map(s => '<div class="step">' + s + '</div>').join('');
+  });
+
+  function updateSolGate() {
+    st.solUnlocked = st.attempts >= 3 || (st.socIdx >= q.socratic.length && st.hintIdx >= q.hints.length) || st.correct;
+    if (st.solUnlocked) { solBtn.disabled = false; solBtn.textContent = '👀 Worked solution'; }
+    else { solBtn.disabled = true; solBtn.textContent = '👀 Worked solution (try a few times first)'; }
+  }
+  updateSolGate();
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === questions.length - 1);
+}
+
+function diagnostic(i) {
+  const map = [
+    'Parallel keeps the gradient the same; perpendicular needs the negative reciprocal (flip AND change sign). Check you did both for part (b).',
+    'Read the gradient off y = mx + c first, then take the negative reciprocal — flip the fraction and change the sign.',
+    'Parallel means equal gradients. Set the two gradient expressions equal and solve.',
+    'Perpendicular means the product of gradients is −1. Set up that equation and solve for the unknown.',
+    'You must rearrange into y = mx + c before reading the gradient. Then take the negative reciprocal.',
+    'A right-angle meeting means perpendicular — use the negative reciprocal of the road\'s gradient, including the sign.',
+    'Do (a) first and carry that gradient into (b). When clearing the fraction for general form, multiply every term and watch the signs.',
+    'The right angle is between the two sides meeting at that vertex. Find both gradients and show their product is −1.'
+  ];
+  return map[i] || 'Re-check whether you need equal gradients (parallel) or the negative reciprocal (perpendicular).';
+}
+
+function mkBtn(label, cls) { const b = document.createElement('button'); b.textContent = label; b.className = cls; b.type = 'button'; return b; }
+function mkReveal(cls) { const d = document.createElement('div'); d.className = 'reveal ' + cls; return d; }
+
+const progress = document.getElementById('progress');
+function renderProgress() {
+  progress.innerHTML = '<span style="font-size:0.85em; color:#6B5A42; margin-right:0.4em;">Progress:</span>';
+  questions.forEach((q, i) => {
+    const dot = document.createElement('div'); dot.className = 'dot';
+    if (state[i].correct) dot.classList.add('correct');
+    else if (state[i].engaged) dot.classList.add('engaged');
+    if (i === current) dot.classList.add('current');
+    dot.textContent = state[i].correct ? '✓' : (i + 1);
+    dot.title = 'Question ' + (i + 1);
+    dot.addEventListener('click', () => { current = i; renderCard(); renderProgress(); });
+    progress.appendChild(dot);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) { current--; renderCard(); renderProgress(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { if (current < questions.length - 1) { current++; renderCard(); renderProgress(); } });
+
+renderCard();
+renderProgress();
+</script>
+
+</body>
+</html>
