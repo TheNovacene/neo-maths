@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sine Rule and Area of a Triangle — When a Triangle Tells Its Own Story</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  h3 { color: #3A3A3A; margin-bottom: 0.3em; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.95em; }
+  th, td { border: 1px solid #C9BBA6; padding: 0.5em 0.7em; text-align: left; vertical-align: top; }
+  th { background: #E3D9C6; }
+  code, .math { font-family: 'Courier New', monospace; background: #FBF8F2; padding: 0.05em 0.3em; border-radius: 3px; }
+  .choice { background: #FFFDF5; border: 1px dashed #8B6F47; padding: 0.6em 0.9em; margin: 0.6em 0; border-radius: 6px; }
+
+  /* ---- Sine Rule Verifier interactive ---- */
+  .ex { background: #F4F7FA; border: 1px solid #BCCBD6; border-radius: 10px; padding: 1em 1.2em; margin: 1.2em 0; }
+  .ex .modepick { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.7em; }
+  .ex .modepick button { font-family: Georgia, serif; font-size: 0.86em; padding: 0.3em 0.65em; border: 1px solid #6E8597; background: #fff; color: #28414f; border-radius: 5px; cursor: pointer; }
+  .ex .modepick button.active { background: #3A5A6B; color: #fff; border-color: #3A5A6B; }
+  .ex .controls { display: flex; flex-wrap: wrap; gap: 1em; margin-bottom: 0.8em; }
+  .ex .control-group { flex: 1 1 200px; }
+  .ex label { font-family: Georgia, serif; font-size: 0.9em; display: block; margin-bottom: 0.2em; }
+  .ex input[type=range] { width: 100%; }
+  .ex svg { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; }
+  .ex .readout { font-family: 'Courier New', monospace; font-size: 0.96em; background: #fff; border: 1px solid #D4DEE6; border-radius: 6px; padding: 0.6em 0.8em; margin-top: 0.7em; }
+  .ex .readout .row { margin: 0.18em 0; }
+  .ex .readout .lab { color: #5a6b76; font-family: Georgia, serif; font-size: 0.88em; display: inline-block; min-width: 9em; }
+  .ex .verdict { margin-top: 0.5em; padding: 0.5em 0.8em; border-radius: 6px; font-weight: bold; text-align: center; }
+  .v-ok { background: #E6F2E4; color: #355026; border: 1px solid #A4C79A; }
+  .v-warn { background: #FAF6E6; color: #6a5d23; border: 1px solid #C5B17A; }
+  .investigate { background: #EAF1E7; border-left: 4px solid #4A6B3A; padding: 0.6em 1em; margin-top: 1em; border-radius: 6px; }
+  .investigate ol { margin: 0.4em 0 0.2em 1.1em; padding: 0; }
+  .investigate li { margin: 0.35em 0; }
+</style>
+</head>
+<body>
+
+<h1>The Sine Rule and Area of a Triangle<br><span style="font-size:0.6em; color:#6B6B6B;">When a triangle tells its own story — Pure 1, Trigonometry (Lesson 1)</span></h1>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> Right-angled triangles give up their secrets to SOH-CAH-TOA. But most triangles in the world don't have a right angle. So what rules govern <em>them</em> — and why does the same rule sometimes give two answers when you only wanted one?
+</div>
+
+<p>Welcome to Trigonometry. This unit is about extending the trig you met before — sin, cos, tan in right-angled triangles — to triangles of <em>any</em> shape, and then to the rich language of radians and circular motion. We start with the sine rule: a single beautiful equation that relates the sides of any triangle to the angles opposite them. Open the panels in any order, and spend real time with both interactives in The Designed World — the second one, on the ambiguous case, contains a genuine surprise.</p>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <h3>The convention</h3>
+  <p>In any triangle <code>ABC</code>, we label the three angles <code>A</code>, <code>B</code>, <code>C</code> at the three vertices, and the three sides <code>a</code>, <code>b</code>, <code>c</code> — <em>each side using the lowercase letter of the angle opposite it.</em> So side <code>a</code> is the side opposite angle <code>A</code>, side <code>b</code> is opposite angle <code>B</code>, and side <code>c</code> is opposite angle <code>C</code>.</p>
+  <p>This labelling is the secret to almost every trig-rule mistake. Spend a moment making sure it's solid: <em>vertex A, opposite side a, never adjacent.</em></p>
+
+  <h3>The sine rule</h3>
+  <p>In any triangle, the side and the sine of the opposite angle are in a fixed ratio:</p>
+  <p style="text-align:center; font-size:1.15em;"><code>a / sin A &nbsp; = &nbsp; b / sin B &nbsp; = &nbsp; c / sin C</code></p>
+  <p>That's it — three equal ratios, one for each side-and-its-opposite-angle pair. In practice you only ever use <em>two</em> of the three at a time, like a proportion: you have three of the four quantities in <code>(a, sin A, b, sin B)</code> and need to find the fourth.</p>
+
+  <h3>Why does it work?</h3>
+  <p>This is worth seeing properly — it's a one-line proof and it cements the result in memory in a way that no formula sheet ever can.</p>
+  <div class="choice">
+    <strong>The "two heights" idea.</strong> In triangle <code>ABC</code>, drop a perpendicular from vertex <code>C</code> to side <code>c</code> (the base <code>AB</code>). Call its length <code>h</code>. Now look at the two right-angled triangles you've created:
+    <ul style="margin:0.3em 0;">
+      <li>In the left triangle, <code>sin A = h / b</code>, so <code>h = b sin A</code>.</li>
+      <li>In the right triangle, <code>sin B = h / a</code>, so <code>h = a sin B</code>.</li>
+    </ul>
+    Both expressions equal the same height, so <code>b sin A = a sin B</code>, which rearranges to <code>a / sin A = b / sin B</code>. Repeat the trick from a different vertex and you get the third ratio. The whole rule comes from "write the same height two different ways" — that's the entire proof.
+  </div>
+
+  <h3>When to reach for it</h3>
+  <p>The sine rule is the right tool when you have <strong>a side-and-its-opposite-angle pair</strong> (so you can compute the common ratio), plus <em>one more piece of information</em>. Two practical cases come up constantly:</p>
+  <ul>
+    <li><strong>AAS / ASA</strong> (two angles and any side): the third angle follows from "angles sum to 180°", and then the sine rule gives any missing side. Always unambiguous.</li>
+    <li><strong>SSA</strong> (two sides and an angle <em>not</em> between them): the sine rule will give you the sine of an opposite angle — but here is the catch. Because <code>sin θ = sin(180° − θ)</code>, two different angles can have the same sine. Sometimes both are valid triangles, and sometimes only one is. This is the <strong>ambiguous case</strong>, and we'll meet it head-on in The Designed World.</li>
+  </ul>
+
+  <h3>Area of a triangle</h3>
+  <p>The same "height = a sin B" idea, taken just one step further, gives an elegant area formula. The area of any triangle is <code>½ × base × height</code> — and with the height expressed as <code>a sin B</code>, the area becomes:</p>
+  <p style="text-align:center; font-size:1.15em;"><code>Area = ½ ab sin C</code></p>
+  <p>In words: take any two sides of the triangle and the angle <em>between them</em>, and the area is half their product times the sine of that included angle. There are three versions of this formula (one for each angle), and you choose whichever matches the data you have.</p>
+
+  <div class="choice">
+    <strong>Worked example.</strong> In triangle <code>ABC</code>, <code>A = 40°</code>, <code>B = 75°</code>, and <code>a = 8 cm</code>. Find <code>b</code> and the area.
+    <br>• <em>Sine rule:</em> <code>b / sin 75° = 8 / sin 40°</code>, so <code>b = 8 sin 75° / sin 40° ≈ 12.02 cm</code>.
+    <br>• <em>Third angle:</em> <code>C = 180° − 40° − 75° = 65°</code>.
+    <br>• <em>Area:</em> using <code>½ ab sin C</code>, area <code>≈ ½ × 8 × 12.02 × sin 65° ≈ 43.6 cm²</code>.
+  </div>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change (Pearson Edexcel IAL Pure Mathematics 1, section 3.1):</strong> Use the sine rule, including the ambiguous case; use the area-of-a-triangle formula in the form <code>½ ab sin C</code>.
+  </div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>For most of recorded history, "find a length you cannot measure directly" was one of the most useful things a person could do. Trigonometry — the word literally means "triangle measurement", from the Greek <em>trigonon</em> (triangle) and <em>metron</em> (measure) — was developed for exactly this purpose.</p>
+
+  <ul>
+    <li><strong>Astronomers needed it first.</strong> Around 150 BCE, the Greek astronomer <strong>Hipparchus</strong> compiled what we'd now call the earliest known trigonometric table, computing chord lengths for use in predicting the positions of stars and planets. He wasn't writing the sine rule, but he was solving the same kind of triangle problem the rule now handles in a single line.</li>
+    <li><strong>The medieval Islamic world made it a science.</strong> Between roughly 800 and 1200 CE, mathematicians like <strong>al-Battani</strong>, <strong>Abu al-Wafa</strong>, and <strong>Nasir al-Din al-Tusi</strong> developed the sine, cosine, and tangent functions in something close to the modern form, and proved versions of both the sine rule and the cosine rule. The word "sine" itself comes from a Latin mistranslation of an Arabic word meaning "fold" — a small linguistic accident that stuck.</li>
+    <li><strong>Surveyors put it to work.</strong> The "Great Trigonometrical Survey" of India, begun in 1802, measured the entire subcontinent by triangulation — laying down a grid of triangles whose angles were measured precisely from elevated stations, and whose sides were then computed using the sine rule. It took 70 years, and it produced the first accurate measurement of Mount Everest.</li>
+  </ul>
+
+  <p>There's a quiet thinking point here. The sine rule is a piece of <em>pure</em> mathematics — a relationship between abstract angles and lengths — but its development was driven, in every culture that produced it, by a profoundly practical need: to know where you were, what shape the sky had, and how far away things were. Mathematics often grows where useful questions can't otherwise be answered.</p>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea your own — pick whichever appeals. You only need to do one.</p>
+
+  <div class="choice"><strong>Prove it yourself.</strong> Sketch a triangle, drop the perpendicular from one vertex, and write out the "two heights" proof of the sine rule in your own words. Doing the proof once, with your own hand, locks in the rule for good.</div>
+
+  <div class="choice"><strong>Triangulate something.</strong> Pick two points you can see from where you are (the corner of a building, a distant tree). Without measuring the distance to either directly, work out how you would find that distance using just the sine rule and one pair of measured angles. Sketch the diagram; the calculation can wait.</div>
+
+  <div class="choice"><strong>The two-triangle puzzle.</strong> Given the data <code>a = 6, b = 8, A = 40°</code> — find <em>both</em> possible values of angle <code>B</code>, and sketch the two distinct triangles that fit this data. (We'll explore why this happens in The Designed World — but you can discover the surprise for yourself first.)</div>
+
+  <div class="choice"><strong>Re-derive the area.</strong> The formula <code>½ ab sin C</code> looks like it was handed down from on high — but it isn't. Starting from "Area = ½ × base × height", explain in writing how the formula emerges from a single substitution. A few sentences is enough; the act of writing it is the learning.</div>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Two interactives here. The first lets you <strong>verify the sine rule</strong> on a triangle you control — see the three ratios <code>a/sin A</code>, <code>b/sin B</code>, <code>c/sin C</code> stay equal as you change the shape. The second is an <strong>ambiguous-case explorer</strong> that shows you, visually, how a single SSA data set can produce <em>two</em> different triangles.</p>
+
+  <div class="ex" id="sr-ex">
+    <div class="modepick" id="sr-mode">
+      <button data-mode="verify" class="active">1. Sine Rule Verifier</button>
+      <button data-mode="ambig">2. Ambiguous Case Explorer</button>
+    </div>
+
+    <div id="sr-controls-verify" class="controls">
+      <div class="control-group">
+        <label>Angle A: <strong><span id="sr-Aval">50</span>°</strong></label>
+        <input type="range" id="sr-A" min="10" max="160" step="1" value="50">
+      </div>
+      <div class="control-group">
+        <label>Angle B: <strong><span id="sr-Bval">70</span>°</strong></label>
+        <input type="range" id="sr-B" min="10" max="160" step="1" value="70">
+      </div>
+      <div class="control-group">
+        <label>Side c (base): <strong><span id="sr-cval">6</span></strong></label>
+        <input type="range" id="sr-c" min="2" max="10" step="0.1" value="6">
+      </div>
+    </div>
+
+    <div id="sr-controls-ambig" class="controls" style="display:none;">
+      <div class="control-group">
+        <label>Angle A: <strong><span id="amb-Aval">30</span>°</strong></label>
+        <input type="range" id="amb-A" min="10" max="80" step="1" value="30">
+      </div>
+      <div class="control-group">
+        <label>Side a (opposite A): <strong><span id="amb-aval">5</span></strong></label>
+        <input type="range" id="amb-a" min="1" max="12" step="0.1" value="5">
+      </div>
+      <div class="control-group">
+        <label>Side b (adjacent to A): <strong><span id="amb-bval">8</span></strong></label>
+        <input type="range" id="amb-b" min="1" max="12" step="0.1" value="8">
+      </div>
+    </div>
+
+    <svg id="sr-svg" viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg" aria-label="A triangle whose sides and angles you can vary, and a panel showing whether the sine rule's ratios are equal"></svg>
+
+    <div class="readout" id="sr-readout"></div>
+    <div class="verdict" id="sr-verdict"></div>
+  </div>
+
+  <div class="investigate">
+    <strong>Investigate with the Verifier (mode 1):</strong>
+    <ol>
+      <li>Set <code>A = 60°</code>, <code>B = 60°</code>. What do you notice about the three ratios? About the triangle's shape?</li>
+      <li>Now set <code>A = 90°</code>, <code>B = 45°</code>. Compute <code>a/sin A</code> and confirm it equals <code>c/sin C</code>. Why is the answer especially simple when one angle is 90°?</li>
+      <li>Make <code>A + B</code> very nearly 180° (so angle <code>C</code> is tiny). What happens to side <code>c</code>? Does the rule still work?</li>
+    </ol>
+    <strong>Investigate with the Ambiguous Case Explorer (mode 2):</strong>
+    <ol start="4">
+      <li>Start at the defaults (<code>A = 30°</code>, <code>a = 5</code>, <code>b = 8</code>). You should see <em>two</em> valid triangles. Read off both possible values of angle <code>B</code>. How are they related?</li>
+      <li>Slowly increase <code>a</code> from 5 to 9. The two triangles drift together and at some value of <code>a</code> they merge into one. What's special about that value, and how does it relate to <code>b sin A</code>?</li>
+      <li>Now make <code>a</code> very small (less than <code>b sin A</code>). What happens? Why does the geometry say "no triangle exists"?</li>
+      <li>Finally, set <code>a > b</code> (say <code>a = 9</code>, <code>b = 8</code>). Only one triangle appears. Why does SSA become unambiguous when the side opposite the given angle is the longer one?</li>
+    </ol>
+  </div>
+
+  <p style="font-size:0.9em; color:#4a5a64; margin-top:0.8em;"><em>The deep idea behind the ambiguous case:</em> when you compute <code>sin B = (b sin A) / a</code>, there are <em>two</em> angles between 0° and 180° with the same sine — one acute, one obtuse. The geometry decides whether both fit the triangle, only one fits, or neither does. The explorer makes that geometric truth visible.</p>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>The sine rule itself is a friendly piece of mathematics — three ratios, one equality, easy enough to write down. What learners often find unsettling is the <em>ambiguous case</em>. The first time a maths topic says "there might be two answers, you have to check which is valid," it can feel as though the ground has shifted: weren't equations supposed to give <em>one</em> answer?</p>
+
+  <p>A few things that genuinely help:</p>
+  <ul>
+    <li><strong>The two-answer outcome is honest, not broken.</strong> The sine rule isn't malfunctioning — the data SSA genuinely doesn't pin down a unique triangle. The rule is correctly reporting that both triangles fit. Reframing "two answers" as "two real triangles, both valid" turns a confusing moment into a curious one.</li>
+    <li><strong>Sketch first, calculate second.</strong> A quick sketch of the triangle (even a wonky one) often reveals immediately whether the obtuse partner of an angle could fit. Geometry settles what algebra alone can't.</li>
+    <li><strong>The rule "if a ≥ b, only one answer" is your friend.</strong> Memorise it, and you'll know in advance when to expect ambiguity and when not to.</li>
+  </ul>
+
+  <p>A second small worry that comes up: the labelling convention. "Side <code>a</code> is opposite vertex <code>A</code>" sounds simple but trips almost everyone up under time pressure. If you find yourself reaching for "the side next to A", pause, redraw, and re-check. There is <em>no</em> shame in re-labelling a triangle three times in a row — it is the most common source of lost marks in this topic, and the fix is calm re-drawing, not faster algebra.</p>
+
+  <p>Two reflections to sit with:</p>
+  <ul>
+    <li>When you meet a problem that has more than one valid answer, what's your instinct — pick one and move on, or pause to check both? Knowing your default tells you when to break it.</li>
+    <li>Sketching feels slow but is almost always faster overall. What stops you from sketching first? (Time pressure? Tidiness? A sense that "real" maths shouldn't need pictures?) Naming the reason makes it easier to override.</li>
+  </ul>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Build a "Triangle Detective's Casebook."</strong> Create a one- or two-page guide (handwritten and photographed, typed, or a slide) that teaches the sine rule, the area formula, and the ambiguous case to a learner who has only ever met SOH-CAH-TOA before. It must contain:</p>
+
+  <ol>
+    <li><strong>The labelling convention</strong>, clearly stated with a labelled diagram (vertex A, opposite side a — make it unmistakable).</li>
+    <li><strong>The sine rule</strong> stated cleanly, with <em>your own version of the "two heights" proof</em> — sketch the perpendicular, write the two expressions for <code>h</code>, derive the rule.</li>
+    <li><strong>A worked "AAS" problem of your own choosing</strong> — pick two angles and any side, find a missing side. Show every step.</li>
+    <li><strong>The area formula</strong> <code>½ ab sin C</code> stated, with a one-line explanation of <em>which</em> angle goes in (the included one), and a worked example using it.</li>
+    <li><strong>A casebook entry on the ambiguous case</strong> — explain in your own words why SSA can give two answers, when it does, and how to spot it. Include a sketch showing both triangles arising from the same SSA data.</li>
+    <li><strong>A short reflection</strong> (2–3 sentences): which part of this lesson felt most surprising, and which most familiar.</li>
+  </ol>
+
+  <div class="seed">
+    <strong>🌱 Seeds of Change assessed here (Pearson Edexcel IAL Pure Mathematics 1, section 3.1):</strong>
+    <ul style="margin:0.4em 0 0 0;">
+      <li>Use the sine rule, including the ambiguous case, to find missing sides and angles in a triangle.</li>
+      <li>Use the area-of-a-triangle formula <code>½ ab sin C</code>.</li>
+    </ul>
+  </div>
+
+  <h3>How this is assessed — Haven Maths Rubric</h3>
+  <table>
+    <tr><th>Strand</th><th>What we're looking for in this task</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>The labelling convention is correct and explained clearly. The "two heights" proof is genuine. The ambiguous case is understood as honest mathematics, not malfunction.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Calculations are correct, angles are in the right units, the included angle is used correctly in the area formula.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>The worked AAS problem and the ambiguous-case sketch are the learner's own and are carried through to a clean answer.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The casebook is clear and self-made, the proof is genuine rather than copied, and the reflection names a specific personal sticking point.</td></tr>
+  </table>
+
+  <p><em>Choose whatever form suits you — the mathematics is what's assessed; the presentation is yours.</em></p>
+</details>
+
+<div style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="sine-rule-and-area-of-a-triangle-practice-companion.html" rel="noopener"
+     onclick="var w=window.open(this.href,'_blank'); if(w){w.opener=null;return false;} return true;"
+     style="display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px;">
+    ✏️ Now Practise →
+  </a>
+  <p style="font-size: 0.82em; color: #8A8270; margin-top: 0.6em;">Opens the practice companion. Keep both files in the same folder. (If your browser blocks a new tab, it will open in this one — use Back to return.)</p>
+</div>
+
+<script>
+(function () {
+  const svg = document.getElementById('sr-svg');
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  function el(name, attrs) { const e = document.createElementNS(SVGNS, name); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  const deg = (r) => r * 180 / Math.PI;
+  const rad = (d) => d * Math.PI / 180;
+
+  // Coordinate system: in-SVG pixels with origin at lower-left of a drawing area.
+  // We render the triangle in a 560x400 viewBox; we'll compute pixel coords directly.
+  const W = 560, H = 400;
+
+  let mode = 'verify';
+  // Verifier state (ASA: A, B, c — third angle determined; sine rule then gives a, b)
+  let vA = 50, vB = 70, vc = 6;
+  // Ambiguous-case state (SSA: A, a, b)
+  let amA = 30, amA_a = 5, amA_b = 8;
+
+  function clear() { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  // Place a triangle with base of length `c` along a horizontal line, given angles A and B at the base.
+  // Returns pixel coords of A, B, C (in 'math' coords, then we transform to SVG pixel space).
+  function buildTriangle(Adeg, Bdeg, c) {
+    const Cdeg = 180 - Adeg - Bdeg;
+    // sine rule: a/sin A = b/sin B = c/sin C
+    const k = c / Math.sin(rad(Cdeg));
+    const a = k * Math.sin(rad(Adeg));
+    const b = k * Math.sin(rad(Bdeg));
+    // Place A at origin (math), B at (c, 0). C is at intersection of:
+    //   ray from A at angle Adeg above the x-axis
+    //   ray from B at angle (180 - Bdeg) above the x-axis (i.e. internal angle B)
+    // Equivalently C = (b cos A, b sin A).
+    const Cx = b * Math.cos(rad(Adeg));
+    const Cy = b * Math.sin(rad(Adeg));
+    return { Apt: {x:0, y:0}, Bpt: {x:c, y:0}, Cpt: {x:Cx, y:Cy}, a, b, c, A: Adeg, B: Bdeg, C: Cdeg };
+  }
+
+  // Auto-fit transform: take a triangle in math coords (y up), find bounding box,
+  // scale to fit in the viewBox with margin, flip y.
+  function transformFor(tris) {
+    const allPts = tris.flatMap(t => [t.Apt, t.Bpt, t.Cpt]);
+    const xs = allPts.map(p => p.x), ys = allPts.map(p => p.y);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const margin = 60;
+    const scaleX = (W - 2*margin) / (maxX - minX || 1);
+    const scaleY = (H - 2*margin) / (maxY - minY || 1);
+    const s = Math.min(scaleX, scaleY);
+    const ox = margin - minX * s;
+    const oy = H - margin + minY * s;  // y up
+    return (p) => ({ x: ox + p.x * s, y: oy - p.y * s });
+  }
+
+  function drawTriangle(t, T, opts) {
+    const A = T(t.Apt), B = T(t.Bpt), C = T(t.Cpt);
+    const poly = el('polygon', {
+      points: `${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}`,
+      fill: opts.fill || 'rgba(60, 90, 107, 0.08)',
+      stroke: opts.stroke || '#3A5A6B',
+      'stroke-width': opts.strokeWidth || 2
+    });
+    if (opts.dash) poly.setAttribute('stroke-dasharray', opts.dash);
+    svg.appendChild(poly);
+    // labels for vertices
+    label(A.x - 14, A.y + 4, 'A', opts.color || '#28414f');
+    label(B.x + 6, B.y + 4, 'B', opts.color || '#28414f');
+    label(C.x + 4, C.y - 6, 'C' + (opts.suffix || ''), opts.color || '#28414f');
+    // labels for sides
+    const mAB = mid(A, B), mBC = mid(B, C), mCA = mid(C, A);
+    label(mAB.x, mAB.y + 14, `c = ${t.c.toFixed(2)}`, '#5a6b76', 10);
+    label(mBC.x + 8, mBC.y, `a = ${t.a.toFixed(2)}`, '#5a6b76', 10);
+    label(mCA.x - 32, mCA.y, `b = ${t.b.toFixed(2)}`, '#5a6b76', 10);
+  }
+  function mid(p, q) { return { x: (p.x+q.x)/2, y: (p.y+q.y)/2 }; }
+  function label(x, y, text, color, size) {
+    const t = el('text', { x, y, 'font-size': size || 12, fill: color, 'font-family': 'Georgia, serif' });
+    t.textContent = text;
+    svg.appendChild(t);
+  }
+
+  function renderVerifier() {
+    clear();
+    // Guard: A + B < 180
+    if (vA + vB >= 175) { vB = 175 - vA; document.getElementById('sr-B').value = vB; document.getElementById('sr-Bval').textContent = vB; }
+    const t = buildTriangle(vA, vB, vc);
+    const T = transformFor([t]);
+    drawTriangle(t, T, {});
+    // Readout: three ratios
+    const r1 = t.a / Math.sin(rad(t.A));
+    const r2 = t.b / Math.sin(rad(t.B));
+    const r3 = t.c / Math.sin(rad(t.C));
+    const ro = document.getElementById('sr-readout');
+    ro.innerHTML =
+      `<div class="row"><span class="lab">Angles:</span> A = ${t.A}°, &nbsp; B = ${t.B}°, &nbsp; C = ${t.C.toFixed(1)}°</div>` +
+      `<div class="row"><span class="lab">Sides:</span> a = ${t.a.toFixed(3)}, &nbsp; b = ${t.b.toFixed(3)}, &nbsp; c = ${t.c.toFixed(3)}</div>` +
+      `<div class="row"><span class="lab">a / sin A =</span> ${r1.toFixed(4)}</div>` +
+      `<div class="row"><span class="lab">b / sin B =</span> ${r2.toFixed(4)}</div>` +
+      `<div class="row"><span class="lab">c / sin C =</span> ${r3.toFixed(4)}</div>`;
+    const vd = document.getElementById('sr-verdict');
+    vd.className = 'verdict v-ok';
+    vd.textContent = `✓ All three ratios equal (≈ ${r1.toFixed(3)}) — the sine rule holds for every triangle.`;
+  }
+
+  // Ambiguous case: given A, a, b with A acute.
+  // sin B = (b sin A) / a. If this > 1, no triangle. If = 1, one triangle (right angle at B).
+  // Else there are two candidate angles B1 = arcsin(...), B2 = 180 - B1.
+  // For each candidate B, the third angle C = 180 - A - B; if C > 0, the triangle is valid.
+  function renderAmbig() {
+    clear();
+    const A = amA, a = amA_a, b = amA_b;
+    const sinB = (b * Math.sin(rad(A))) / a;
+    const ro = document.getElementById('sr-readout');
+    const vd = document.getElementById('sr-verdict');
+
+    if (sinB > 1 + 1e-9) {
+      // No triangle: a is too short to reach the base.
+      // Draw the "set-up" to make it visible: AB known by b, and a circle of radius a around A misses the ground.
+      // Use placeholder layout with side b along the x-axis from origin.
+      const Apt = {x:0,y:0}, Bpt = {x:b, y:0};
+      // C would lie on ray from A at angle A above x-axis; mark the foot of the perpendicular too.
+      const dropLen = b * Math.sin(rad(A));
+      const foot = { x: b * Math.cos(rad(A)), y: b * Math.sin(rad(A)) }; // hmm not the foot — use perpendicular from B onto ray
+      // We'll just visualise the ray and an arc of radius a around B that fails to meet the ray.
+      const T = transformFor([{Apt, Bpt, Cpt: {x: b*Math.cos(rad(A))*1.1, y: b*Math.sin(rad(A))*1.1}}]);
+      const Ap = T(Apt), Bp = T(Bpt);
+      // ray from A
+      const rayEnd = T({x: b*Math.cos(rad(A))*1.1, y: b*Math.sin(rad(A))*1.1});
+      svg.appendChild(el('line',{x1:Ap.x,y1:Ap.y,x2:rayEnd.x,y2:rayEnd.y, stroke:'#9DBCE0','stroke-width':1.5,'stroke-dasharray':'5 4'}));
+      // arc of radius a around B (scaled)
+      const scale = (Bp.x - Ap.x) / b;
+      svg.appendChild(el('circle',{cx:Bp.x, cy:Bp.y, r: a*scale, fill:'none', stroke:'#B5683A','stroke-width':1.6,'stroke-dasharray':'4 3'}));
+      label(Ap.x-14, Ap.y+4, 'A', '#28414f');
+      label(Bp.x+6, Bp.y+4, 'B', '#28414f');
+      label(Bp.x + a*scale + 6, Bp.y - 6, `arc of radius a=${a.toFixed(2)}`, '#B5683A', 10);
+      ro.innerHTML =
+        `<div class="row"><span class="lab">Given:</span> A = ${A}°, a = ${a.toFixed(2)}, b = ${b.toFixed(2)}</div>` +
+        `<div class="row"><span class="lab">b sin A =</span> ${(b*Math.sin(rad(A))).toFixed(3)} &nbsp; (this is the minimum length a needs to reach the opposite side)</div>` +
+        `<div class="row"><span class="lab">sin B =</span> (b sin A)/a = ${sinB.toFixed(3)} > 1 — impossible.</div>`;
+      vd.className = 'verdict v-warn';
+      vd.textContent = '⚠ No triangle exists: side a is too short to reach the line of the third vertex.';
+      return;
+    }
+
+    if (Math.abs(sinB - 1) < 1e-9) {
+      // One triangle: B = 90°
+      const B1 = 90;
+      const C1 = 180 - A - B1;
+      if (C1 <= 0) { /* shouldn't happen for our slider ranges, but be safe */ }
+      const t1 = buildTriangle(A, B1, ( (b*Math.sin(rad(A))) / Math.sin(rad(C1)) ) /* c */ * Math.sin(rad(C1)) / Math.sin(rad(C1)) );
+      // Easier path: place the triangle ourselves so the SSA data is honoured exactly.
+      // A at origin, ray from A at angle A. C is on the ray at distance b. Then B is on x-axis such that |BC|=a, and 90° at B.
+      const Apt = {x:0,y:0};
+      const Cpt = {x: b*Math.cos(rad(A)), y: b*Math.sin(rad(A))};
+      const Bpt = {x: Cpt.x, y: 0};
+      const T = transformFor([{Apt,Bpt,Cpt}]);
+      drawTriangle({Apt,Bpt,Cpt, a, b, c: b*Math.cos(rad(A)), A, B: B1, C: C1}, T, {});
+      ro.innerHTML =
+        `<div class="row"><span class="lab">Given:</span> A = ${A}°, a = ${a.toFixed(2)}, b = ${b.toFixed(2)}</div>` +
+        `<div class="row"><span class="lab">sin B =</span> (b sin A)/a = ${sinB.toFixed(4)} — exactly 1.</div>` +
+        `<div class="row"><span class="lab">Only one triangle:</span> B = 90°, C = ${C1.toFixed(2)}°. (The boundary between "no triangle" and "two triangles".)</div>`;
+      vd.className = 'verdict v-ok';
+      vd.textContent = '⊥ Exactly one triangle, with a right angle at B. (a = b sin A — the borderline case.)';
+      return;
+    }
+
+    // Generic case: compute B1, B2; check both
+    const B1 = deg(Math.asin(sinB));   // acute
+    const B2 = 180 - B1;                // obtuse partner
+    const C1 = 180 - A - B1;
+    const C2 = 180 - A - B2;
+    const valid2 = C2 > 0.1;            // obtuse partner only valid if angles still sum properly
+
+    // Place by SSA: A at origin, ray at angle A; C on ray at distance b; B candidates are intersections of circle (centre C, radius a) with x-axis.
+    // Foot of perpendicular from C to x-axis is at x = b cos A, y = 0. The two intersections are at x = b cos A ± sqrt(a^2 - (b sin A)^2).
+    const Apt = {x:0,y:0};
+    const Cpt = {x: b*Math.cos(rad(A)), y: b*Math.sin(rad(A))};
+    const dx = Math.sqrt(Math.max(0, a*a - (b*Math.sin(rad(A)))**2));
+    const Bpt1 = {x: Cpt.x + dx, y: 0};   // farther B  -> acute angle at this B
+    const Bpt2 = {x: Cpt.x - dx, y: 0};   // closer B  -> obtuse angle at this B (only if x>0)
+
+    // figure out which is which: angle at Bpt1, Bpt2
+    const ang = (P, Q, R) => {
+      // angle at Q in triangle PQR (degrees)
+      const v1 = {x: P.x - Q.x, y: P.y - Q.y};
+      const v2 = {x: R.x - Q.x, y: R.y - Q.y};
+      const cosq = (v1.x*v2.x + v1.y*v2.y) / (Math.hypot(v1.x,v1.y)*Math.hypot(v2.x,v2.y));
+      return deg(Math.acos(Math.max(-1, Math.min(1, cosq))));
+    };
+    const t1 = {Apt, Bpt: Bpt1, Cpt, a, b, c: Bpt1.x, A, B: ang(Apt, Bpt1, Cpt), C: ang(Apt, Cpt, Bpt1)};
+    let t2 = null;
+    if (valid2 && Bpt2.x > 1e-6) {
+      t2 = {Apt, Bpt: Bpt2, Cpt, a, b, c: Bpt2.x, A, B: ang(Apt, Bpt2, Cpt), C: ang(Apt, Cpt, Bpt2)};
+    }
+
+    const T = transformFor(t2 ? [t1, t2] : [t1]);
+    // Draw triangle 1 (solid)
+    drawTriangle(t1, T, {stroke:'#3A5A6B', fill:'rgba(58,90,107,0.10)', suffix: t2 ? '₁' : ''});
+    if (t2) drawTriangle(t2, T, {stroke:'#6B4A6B', fill:'rgba(107,74,107,0.10)', dash:'6 4', suffix:'₂'});
+
+    ro.innerHTML =
+      `<div class="row"><span class="lab">Given:</span> A = ${A}°, a = ${a.toFixed(2)}, b = ${b.toFixed(2)}</div>` +
+      `<div class="row"><span class="lab">sin B =</span> (b sin A)/a = ${sinB.toFixed(4)}</div>` +
+      `<div class="row"><span class="lab">B₁ (acute) =</span> ${B1.toFixed(2)}° &nbsp; → &nbsp; C₁ = ${C1.toFixed(2)}°</div>` +
+      (t2
+        ? `<div class="row"><span class="lab">B₂ (obtuse) =</span> ${B2.toFixed(2)}° &nbsp; → &nbsp; C₂ = ${C2.toFixed(2)}°</div>`
+        : `<div class="row"><span class="lab">B₂ (obtuse) =</span> ${B2.toFixed(2)}° → C would be ${C2.toFixed(2)}° — rejected (angles must sum to 180°).</div>`);
+    const vd2 = document.getElementById('sr-verdict');
+    if (t2) {
+      vd2.className = 'verdict v-warn';
+      vd2.textContent = '⚠ Ambiguous case: TWO valid triangles fit this data.';
+    } else if (a >= b) {
+      vd2.className = 'verdict v-ok';
+      vd2.textContent = '✓ Only one triangle (a ≥ b, so the obtuse possibility is rejected).';
+    } else {
+      vd2.className = 'verdict v-ok';
+      vd2.textContent = '✓ Only one triangle (the obtuse possibility would make the angles exceed 180°).';
+    }
+  }
+
+  function render() {
+    document.getElementById('sr-Aval').textContent = vA;
+    document.getElementById('sr-Bval').textContent = vB;
+    document.getElementById('sr-cval').textContent = vc.toFixed(1);
+    document.getElementById('amb-Aval').textContent = amA;
+    document.getElementById('amb-aval').textContent = amA_a.toFixed(1);
+    document.getElementById('amb-bval').textContent = amA_b.toFixed(1);
+    if (mode === 'verify') renderVerifier(); else renderAmbig();
+  }
+
+  // ---- wire-up ----
+  document.querySelectorAll('#sr-mode button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#sr-mode button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      mode = b.dataset.mode;
+      document.getElementById('sr-controls-verify').style.display = (mode === 'verify') ? 'flex' : 'none';
+      document.getElementById('sr-controls-ambig').style.display = (mode === 'ambig') ? 'flex' : 'none';
+      render();
+    });
+  });
+  document.getElementById('sr-A').addEventListener('input', e => { vA = parseInt(e.target.value); render(); });
+  document.getElementById('sr-B').addEventListener('input', e => { vB = parseInt(e.target.value); render(); });
+  document.getElementById('sr-c').addEventListener('input', e => { vc = parseFloat(e.target.value); render(); });
+  document.getElementById('amb-A').addEventListener('input', e => { amA = parseInt(e.target.value); render(); });
+  document.getElementById('amb-a').addEventListener('input', e => { amA_a = parseFloat(e.target.value); render(); });
+  document.getElementById('amb-b').addEventListener('input', e => { amA_b = parseFloat(e.target.value); render(); });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
