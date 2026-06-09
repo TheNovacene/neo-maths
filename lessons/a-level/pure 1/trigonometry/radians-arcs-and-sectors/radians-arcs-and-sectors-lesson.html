@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radians, Arc Length, and Sector Area</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  .diagram { background: #FFFFFF; border: 1px solid #CBD5C0; border-radius: 8px; padding: 0.75em; margin: 1em 0; text-align: center; }
+  .diagram figcaption { font-style: italic; font-size: 0.9em; color: #4A4438; margin-top: 0.4em; }
+  table.toolkit { border-collapse: collapse; width: 100%; margin: 1em 0; background: #FFFDF8; }
+  table.toolkit th, table.toolkit td { border: 1px solid #BFD0B4; padding: 0.5em 0.7em; text-align: left; vertical-align: top; font-size: 0.96em; }
+  table.toolkit th { background: #DCE8D4; }
+  code, .mono { font-family: 'Courier New', monospace; }
+  svg { max-width: 100%; height: auto; }
+  .prompts { background: #EEF3F7; border-radius: 8px; padding: 0.6em 1em 0.6em 1.4em; }
+
+  /* ---- proof builder (Type 2) ---- */
+  .pb { background: #FFFFFF; border: 1px solid #B9CBB0; border-radius: 10px; padding: 1em 1.1em; margin: 1.25em 0; }
+  .pb-stage { display: flex; flex-wrap: wrap; gap: 1em; align-items: flex-start; }
+  .pb-figure { flex: 1 1 300px; text-align: center; }
+  .pb-side { flex: 1 1 280px; }
+  .pb-algebra { background: #F4F8F1; border: 1px solid #CBD5C0; border-radius: 8px; padding: 0.6em 0.8em; font-family: 'Courier New', monospace; font-size: 0.95em; min-height: 6.5em; }
+  .pb-algebra .ln { margin: 0.2em 0; padding-left: 0.2em; border-left: 3px solid transparent; }
+  .pb-algebra .ln.fresh { border-left-color: #4A6B3A; background: #E8F0E5; }
+  .pb-narration { background: #FBF7E8; border-left: 4px solid #8B7A3A; border-radius: 6px; padding: 0.55em 0.8em; margin-top: 0.7em; font-family: Georgia, serif; font-size: 0.96em; }
+  .pb-controls { margin-top: 0.8em; display: flex; gap: 0.5em; align-items: center; flex-wrap: wrap; }
+  .pb-controls button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.4em 0.9em; border-radius: 6px; border: 1px solid #4A6B3A; background: #E8F0E5; color: #2f4a22; cursor: pointer; }
+  .pb-controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .pb-step-label { font-size: 0.85em; color: #5a6b4a; margin-left: auto; }
+  .pb-print-all { display: none; }
+
+  /* ---- radian wrap animation (Type 3-style) ---- */
+  .radian-readout { font-family: 'Courier New', monospace; font-size: 0.92em; color: #4a4438; background: #FBF7E8; border: 1px solid #E4DBBF; border-radius: 6px; padding: 0.4em 0.6em; margin: 0.55em auto 0; max-width: 26em; }
+  .radian-readout b { color: #8a4a2e; }
+  .radian-print { display: none; }
+  .nowpractise a { display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px; }
+
+  /* ---- sector studio (interactive) ---- */
+  .studio { background: #FFFFFF; border: 1px solid #B8C6D4; border-radius: 10px; padding: 1em 1.1em; margin: 1.25em 0; }
+  .studio .controls { display: flex; flex-wrap: wrap; gap: 1.1em; margin-bottom: 0.6em; }
+  .studio .ctrl { flex: 1 1 220px; }
+  .studio label { font-size: 0.9em; color: #2f4658; font-weight: bold; }
+  .studio input[type=range] { width: 100%; }
+  .studio .snaps { margin-top: 0.3em; }
+  .studio .snaps button { font-family: Georgia, serif; font-size: 0.82em; padding: 0.2em 0.55em; margin-right: 0.3em; border: 1px solid #6E8597; background: #EEF3F7; border-radius: 5px; cursor: pointer; }
+  .studio .stage { display: flex; flex-wrap: wrap; gap: 1em; align-items: flex-start; }
+  .studio .fig { flex: 1 1 320px; text-align: center; }
+  .studio .readout { flex: 1 1 240px; }
+  .studio .readout .val { font-family: 'Courier New', monospace; background: #EEF3F7; border-radius: 6px; padding: 0.45em 0.6em; margin: 0.35em 0; font-size: 0.98em; }
+  .studio .readout .val b { color: #28414f; }
+  .studio .note { font-size: 0.9em; color: #4a4438; margin-top: 0.5em; }
+
+  @media print {
+    .pb-controls, .pb-stage > .pb-side, .pb-stage > .pb-figure { display: none; }
+    .pb-print-all { display: block; }
+    .pb-print-all .pb-frame { page-break-inside: avoid; border-top: 1px solid #bbb; padding-top: 0.6em; margin-top: 0.6em; }
+    .studio .controls, .studio .snaps { display: none; }
+    .radian-anim { display: none; }
+    .radian-print { display: block; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Radians, Arc Length, and Sector Area</h1>
+<p style="color:#6B6257; font-style:italic; margin-top:-0.5em;">Trigonometry · Lesson 4 · Pearson Edexcel International A-Level Pure Mathematics 1</p>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> For thousands of years we have measured turning in degrees — 360 of them to a full circle. But 360 is a choice somebody made, not a fact about circles. Is there a way to measure an angle that the circle would choose for <em>itself</em>?
+</div>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>A degree is an arbitrary unit. Splitting a full turn into 360 parts is a habit we inherited from ancient astronomers, not something the circle insists on. So here is a different idea: instead of importing a number from outside, let the circle measure its own angles <em>using its own radius as the ruler</em>.</p>
+
+  <p><strong>The radian.</strong> Lay the radius along the edge of the circle, bending it to follow the curve. The angle at the centre that this one radius-length of arc opens up is defined to be <strong>one radian</strong>. It is a pure ratio — a length of arc divided by a length of radius — so it carries no units of its own.</p>
+
+  <!-- ===================== RADIAN WRAP ANIMATION (interactive) ===================== -->
+  <figure class="diagram radian-anim">
+    <svg id="radsvg" viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animation: a straight radius standing on the edge of a circle bends along the edge, turning into an arc of equal length, and opening an angle of one radian at the centre"></svg>
+    <div class="radian-readout" id="radread"></div>
+    <div class="pb-controls" style="justify-content:center;">
+      <button id="radplay">▶ Lay the radius down</button>
+      <button id="radreset">↺ Reset</button>
+    </div>
+    <figcaption>Watch the radius (green) bend along the edge, becoming arc (orange) as it goes. When the whole radius has been laid down, the arc is exactly one radius long — and the angle it has opened at the centre <span class="mono">O</span> is <strong>one radian</strong> (≈ 57.3°). Because the circumference is <span class="mono">2πr</span> — that is, 2π radius-lengths laid end to end around the edge — a full turn is exactly <span class="mono">2π</span> radians.</figcaption>
+  </figure>
+  <!-- static fallback for printing (animations don't print) -->
+  <figure class="diagram radian-print">
+    <svg viewBox="0 0 420 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A circle of radius r with an arc of length r subtending an angle of one radian at the centre">
+      <circle cx="160" cy="160" r="120" fill="#F4F8F1" stroke="#9DB89A" stroke-width="1.5"/>
+      <line x1="160" y1="160" x2="280" y2="160" stroke="#4A6B3A" stroke-width="2"/>
+      <line x1="160" y1="160" x2="224.84" y2="59.02" stroke="#4A6B3A" stroke-width="2"/>
+      <path d="M280 160 A120 120 0 0 0 224.84 59.02" fill="none" stroke="#B5683A" stroke-width="4"/>
+      <circle cx="160" cy="160" r="3" fill="#2B2B2B"/>
+      <path d="M196 160 A36 36 0 0 0 179.45 129.71" fill="none" stroke="#8B6F47" stroke-width="1.5"/>
+      <text x="206" y="142" font-family="Georgia, serif" font-size="13" fill="#6a563c">1 rad</text>
+      <text x="208" y="156" font-family="Georgia, serif" font-size="11" fill="#8a7355">(≈ 57.3°)</text>
+      <text x="216" y="178" font-family="Georgia, serif" font-size="14" fill="#2f4a22">r</text>
+      <text x="170" y="104" font-family="Georgia, serif" font-size="14" fill="#2f4a22" transform="rotate(-30 175 110)">r</text>
+      <text x="250" y="95" font-family="Georgia, serif" font-size="14" fill="#9a4a2e">arc length = r</text>
+      <text x="135" y="178" font-family="Georgia, serif" font-size="13" fill="#2B2B2B">O</text>
+    </svg>
+    <figcaption>One radian: the angle made when the arc you walk along is exactly as long as the radius. Because a full circumference is <span class="mono">2πr</span> — that is, 2π radius-lengths — a full turn is exactly <span class="mono">2π</span> radians.</figcaption>
+  </figure>
+  <!-- ============================================================================ -->
+
+  <p>That last sentence is the whole key. The circumference of any circle is <span class="mono">2πr</span>, which is <span class="mono">2π</span> copies of the radius laid end to end around the edge. So a full turn is <strong><span class="mono">2π</span> radians</strong>, and that gives us the bridge to degrees:</p>
+
+  <p style="text-align:center; font-size:1.1em;"><span class="mono">2π radians = 360°</span> &nbsp;&nbsp;⟹&nbsp;&nbsp; <span class="mono">π radians = 180°</span></p>
+
+  <table class="toolkit">
+    <tr><th>To convert…</th><th>Multiply by…</th><th>Example</th></tr>
+    <tr><td>degrees → radians</td><td><span class="mono">π / 180</span></td><td><span class="mono">90° = 90 × π/180 = π/2 rad</span></td></tr>
+    <tr><td>radians → degrees</td><td><span class="mono">180 / π</span></td><td><span class="mono">π/3 rad = π/3 × 180/π = 60°</span></td></tr>
+  </table>
+
+  <p>Now for the payoff. Once an angle is measured in radians, the two most useful facts about a slice of a circle — a <strong>sector</strong> — become beautifully short. Watch them get built, one step at a time.</p>
+
+  <!-- ===================== TYPE 2 BUILD-THE-PROOF ANIMATION ===================== -->
+  <div class="pb" id="pb">
+    <strong>Building the two formulas — step by step</strong>
+    <div class="pb-stage">
+      <div class="pb-figure">
+        <svg id="pbsvg" viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated derivation of arc length and sector area"></svg>
+      </div>
+      <div class="pb-side">
+        <div class="pb-algebra" id="pbalg"></div>
+        <div class="pb-narration" id="pbnar"></div>
+      </div>
+    </div>
+    <div class="pb-controls">
+      <button id="pbback">◀ Back</button>
+      <button id="pbnext">Next ▶</button>
+      <button id="pbreset">↺ Reset</button>
+      <span class="pb-step-label" id="pbstep"></span>
+    </div>
+    <!-- print fallback: full sequence stacked -->
+    <div class="pb-print-all" id="pbprint"></div>
+  </div>
+  <!-- ============================================================================ -->
+
+  <p>So, with the angle <span class="mono">θ</span> in radians, the arc length and sector area of a circle of radius <span class="mono">r</span> are simply:</p>
+
+  <p style="text-align:center; font-size:1.15em;"><span class="mono">arc length&nbsp; s = rθ</span> &nbsp;&nbsp;&nbsp;and&nbsp;&nbsp;&nbsp; <span class="mono">sector area&nbsp; A = ½r²θ</span></p>
+
+  <p>Two formulas, no constants, nothing to memorise beyond the shapes themselves — and that cleanliness is <em>only</em> available in radians. That is the answer to the Driving Question: the circle's own unit of angle is the radian, and it rewards you with the simplest possible formulas.</p>
+
+  <div class="seed"><strong>Seed of Change (Pearson Edexcel IAL P1, §3.2):</strong> Understand the definition of a radian and convert between radians and degrees; use the formulae for arc length <span class="mono">s = rθ</span> and area of a sector <span class="mono">A = ½r²θ</span>, where θ is measured in radians.</div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>Why 360 degrees in the first place? The Babylonians, four thousand years ago, counted in base 60, and 360 is close to the number of days in a year — so a circle of the heavens got carved into 360 steps, one for roughly each day the Sun appears to march around the sky. It was a practical, human, calendar-shaped decision. There is nothing mathematically special about it.</p>
+
+  <p>The radian is younger and quieter. The idea — measuring an angle by the arc it cuts, in units of the radius — was used implicitly by mathematicians for centuries, but the <em>word</em> "radian" only appeared in 1873, written on an exam paper by James Thomson (brother of the physicist Lord Kelvin) at Queen's College, Belfast. A unit important enough to reshape mathematics, and it was christened in the margin of a maths test.</p>
+
+  <p>It matters because the radian is the angle measure the universe seems to prefer. When you study how things spin — a wheel, a planet, an electron — the equations come out clean in radians and cluttered in degrees. When you later meet calculus, the rule that the gradient of <span class="mono">sin x</span> is <span class="mono">cos x</span> is <em>only</em> true when <span class="mono">x</span> is in radians; in degrees an awkward factor of <span class="mono">π/180</span> infects everything. The radian is not just convenient — choosing it is choosing to listen to what the circle was telling us all along.</p>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea of a radian your own. Pick <strong>one</strong> of these — whichever suits how you think:</p>
+  <ul>
+    <li><strong>Explain it to a 12-year-old</strong> in three sentences, without using the word "degree". The test: could they picture one radian after reading it?</li>
+    <li><strong>Draw it.</strong> A sketch of a circle where you have physically "unrolled" the radius and bent it around the edge to show why a full turn takes a bit more than six radius-lengths (it takes 2π ≈ 6.28 of them).</li>
+    <li><strong>Find a metaphor.</strong> A clock hand, a pizza slice, a door swinging open, a skateboard spin — describe an everyday turning thing and say roughly how many radians it moves through. (A right angle is π/2 ≈ 1.57 radians; use that as your anchor.)</li>
+    <li><strong>Write the argument</strong> for a friend who insists degrees are "easier": why might a mathematician say radians are the more <em>honest</em> unit, even if they feel stranger at first?</li>
+  </ul>
+  <p>There is no single correct form here — the point is to move the idea from "a rule I was given" to "a picture I own".</p>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Time to play with sectors directly. Drag the two sliders to set the radius <span class="mono">r</span> and the angle <span class="mono">θ</span> (in radians). The picture, the arc, and every readout update live. The little orange tick marks along the arc show the radius-lengths laid end to end — count them and you are reading the angle in radians straight off the curve.</p>
+
+  <div class="studio" id="studio">
+    <div class="controls">
+      <div class="ctrl">
+        <label for="rSlider">radius&nbsp; r = <span id="rVal" class="mono">6.0</span> cm</label>
+        <input type="range" id="rSlider" min="1" max="10" step="0.1" value="6">
+      </div>
+      <div class="ctrl">
+        <label for="tSlider">angle&nbsp; θ = <span id="tVal" class="mono">1.20</span> rad</label>
+        <input type="range" id="tSlider" min="0.1" max="6.2832" step="0.01" value="1.2">
+        <div class="snaps">
+          snap θ to:
+          <button data-t="0.7853981634">π/4</button>
+          <button data-t="1.5707963268">π/2</button>
+          <button data-t="3.1415926536">π</button>
+          <button data-t="6.2831853072">2π</button>
+        </div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="fig">
+        <svg id="ssvg" viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive sector of a circle"></svg>
+      </div>
+      <div class="readout">
+        <div class="val">θ = <b id="oT">1.20</b> rad = <b id="oDeg">68.8</b>°</div>
+        <div class="val">arc&nbsp; s = rθ = <b id="oArc">7.20</b> cm</div>
+        <div class="val">area&nbsp; A = ½r²θ = <b id="oArea">21.60</b> cm²</div>
+        <div class="val">perimeter = 2r + rθ = <b id="oPerim">19.20</b> cm</div>
+        <div class="val">radius-lengths along arc = <b id="oRadii">1.20</b></div>
+        <div class="note" id="ssnote"></div>
+      </div>
+    </div>
+    <p style="margin:0.4em 0 0; font-weight:bold; color:#2f4658;">Investigate</p>
+    <ol class="prompts">
+      <li>Set <span class="mono">θ</span> to exactly <span class="mono">2π</span> (use the snap button). What is the arc length now, and why is that exactly the value you'd expect for this radius?</li>
+      <li>Keep <span class="mono">θ</span> fixed at <span class="mono">π/2</span>. Double the radius from 3 to 6. The arc length does one thing and the area does another — describe each, and explain the difference using the formulas.</li>
+      <li>Find a setting where the arc length and the radius are equal. What does the angle have to be, and does that match the definition of a radian?</li>
+      <li>Can you make the perimeter of the sector equal to <span class="mono">4r</span>? What value of <span class="mono">θ</span> does that force, and is it the same for every radius?</li>
+      <li>Push <span class="mono">θ</span> beyond <span class="mono">2π</span> if the slider lets you — what would it <em>mean</em> for a sector angle to be more than a full turn? (Notice what the note underneath the readouts says.)</li>
+    </ol>
+  </div>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>Radians can feel unsettling at first, and that is completely normal. You have spent years with degrees; a right angle has <em>always</em> been 90 of something. Being told it is now <span class="mono">π/2</span> — a number with π in it, that isn't even a whole number — can make a confident learner suddenly feel like a beginner again.</p>
+
+  <p>That wobble is not a sign you are bad at this. It is the specific discomfort of <strong>relearning something you thought was settled</strong>, and it passes with use. A few things that help:</p>
+  <ul>
+    <li><strong>Keep one anchor in your head:</strong> <span class="mono">π ≈ 3.14</span>, so a half-turn (180°) is about 3.14 radians and a quarter-turn (90°) is about 1.57. If a radian answer is wildly bigger or smaller than these anchors suggest, pause.</li>
+    <li><strong>Check your calculator's mode.</strong> Half of all "my answer is nonsense" moments in this topic are a calculator left in degrees when the work needed radians, or vice versa. It is not carelessness — it is the single most common slip, even for experts. Make checking the mode a habit, not a judgement.</li>
+    <li><strong>Notice when it stops feeling strange.</strong> Most people find that after a dozen problems, <span class="mono">π/2</span> starts to simply <em>mean</em> "a right angle" without translation. Watch for that moment — it is real progress, and worth noticing.</li>
+  </ul>
+  <p>How are you feeling about swapping a familiar unit for a stranger one? Naming it — "annoyed", "curious", "fine actually" — is itself a small act of regulation.</p>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Design a sector, then defend your maths.</strong> Choose a real circular-slice object — a pizza, a clock face's swept region, a hand-fan, a radar sweep, a slice of a circular cake, the region a security camera covers. Then produce a short piece (a page, a poster, or a narrated sketch) that does all of the following:</p>
+  <ol>
+    <li><strong>State your object's radius and the angle it turns through, and give that angle in <em>both</em> degrees and radians</strong>, showing the conversion.</li>
+    <li><strong>Calculate the arc length and the sector area</strong> using <span class="mono">s = rθ</span> and <span class="mono">A = ½r²θ</span>, with θ in radians. Show every step and keep units throughout.</li>
+    <li><strong>Calculate the perimeter of the sector</strong> (the two radii plus the arc) — a quantity exams love because it tests whether you remember the arc is curved, not straight.</li>
+    <li><strong>Explain, in your own words, why you had to use radians</strong> and what would have gone wrong with the area formula if you had left the angle in degrees.</li>
+  </ol>
+
+  <div class="seed"><strong>Seed of Change (Pearson Edexcel IAL P1, §3.2):</strong> Understand the definition of a radian and convert between radians and degrees; use <span class="mono">s = rθ</span> and <span class="mono">A = ½r²θ</span> with θ in radians, including in the context of perimeters and areas of sectors.</div>
+
+  <p style="margin-top:1em;"><strong>How this is assessed — the Haven Maths Rubric:</strong></p>
+  <table class="toolkit">
+    <tr><th>Strand</th><th>What we're looking for here</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>You can say what a radian <em>is</em> (an arc of one radius), not just convert mechanically, and you can explain why the formulas need radians.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Conversions, <span class="mono">s = rθ</span>, <span class="mono">A = ½r²θ</span> and the perimeter are computed correctly, with units and sensible rounding.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>You modelled a genuine object as a sector and chose realistic measurements that make the answer meaningful.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>The "why radians" explanation is in your own voice, and you sense-checked your answers against what the object is actually like.</td></tr>
+  </table>
+</details>
+
+<div class="nowpractise" style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions on conversions, arcs, and sectors, with Socratic support whenever you get stuck.</p>
+  <a href="radians-arcs-and-sectors-practice-companion.html" target="_blank" rel="noopener">✏️ Now Practise →</a>
+</div>
+
+<script>
+/* ============================ TYPE 2 PROOF BUILDER ============================ */
+(function () {
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  // illustrative instance (the proof itself is general/symbolic)
+  var cx = 200, cy = 175, R = 120, TH = 1.2; // theta = 1.2 rad for the picture
+  function pt(a) { return [cx + R * Math.cos(a), cy - R * Math.sin(a)]; } // screen y down
+
+  // Each step: an SVG-building function, the new algebra line(s), and a narration line.
+  var steps = [
+    {
+      draw: function (g) { drawCircle(g); markRadius(g); },
+      alg: ['Full circle:', '  circumference = 2&#960;r', '  area = &#960;r&#178;', '  one full turn = 2&#960; rad'],
+      nar: 'Everything about a sector is just a fraction of the whole circle. So start with the whole circle and one fact a radian gives us for free: a full turn is 2&#960; radians.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSector(g, '#DCE8D4'); markRadius(g); markAngle(g); },
+      alg: ['Take a slice of angle &#952;.', 'fraction of circle = &#952; / 2&#960;'],
+      nar: 'Cut out a slice with angle &#952; at the centre. What fraction of the whole circle is it? Its angle &#952; out of the full 2&#960; \u2014 so the fraction is &#952;\u20442&#960;.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSector(g, '#DCE8D4'); markRadius(g); markAngle(g); highlightArc(g); },
+      alg: ['arc s = (&#952;/2&#960;) &#215; 2&#960;r', '&nbsp;&nbsp;&nbsp;&nbsp;= r&#952;'],
+      nar: 'The arc is that same fraction of the whole circumference. Multiply the fraction by 2&#960;r \u2014 the 2&#960; cancels \u2014 and you are left with s = r&#952;.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSector(g, '#BFD8AE'); markRadius(g); markAngle(g); highlightArc(g); },
+      alg: ['area = (&#952;/2&#960;) &#215; &#960;r&#178;', '&nbsp;&nbsp;&nbsp;&nbsp;= (1/2)r&#178;&#952;'],
+      nar: 'The area is that fraction of the whole circle\u2019s area. Multiply by &#960;r&#178;; the 2&#960; cancels the &#960; and leaves a half, giving A = &#189;r&#178;&#952;.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSector(g, '#BFD8AE'); markRadius(g); markAngle(g); highlightArc(g); },
+      alg: ['Why radians? In degrees a full', 'turn is 360, so the fraction is', '&#952;/360 and a clumsy &#960;/180 is', 'dragged through both formulas.', 'Radians make 2&#960; cancel cleanly.'],
+      nar: 'Notice the magic: both formulas are clean only because a full turn is 2&#960; radians, so the 2&#960; cancels. In degrees you would carry a factor of &#960;/180 everywhere. That is why radians earn their place.'
+    }
+  ];
+
+  function el(name, attrs) {
+    var e = document.createElementNS(SVGNS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function drawCircle(g) { g.appendChild(el('circle', { cx: cx, cy: cy, r: R, fill: '#F8FBF6', stroke: '#9DB89A', 'stroke-width': 1.5 })); g.appendChild(el('circle', { cx: cx, cy: cy, r: 3, fill: '#2B2B2B' })); var t = el('text', { x: cx - 14, y: cy + 16, 'font-family': 'Georgia, serif', 'font-size': 13, fill: '#2B2B2B' }); t.textContent = 'O'; g.appendChild(t); }
+  function shadeSector(g, col) { var p0 = pt(0), p1 = pt(TH); var d = 'M' + cx + ' ' + cy + ' L' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' A' + R + ' ' + R + ' 0 0 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' Z'; g.appendChild(el('path', { d: d, fill: col, stroke: 'none' })); }
+  function markRadius(g) { var p0 = pt(0), p1 = pt(TH); g.appendChild(el('line', { x1: cx, y1: cy, x2: p0[0], y2: p0[1], stroke: '#4A6B3A', 'stroke-width': 2 })); g.appendChild(el('line', { x1: cx, y1: cy, x2: p1[0], y2: p1[1], stroke: '#4A6B3A', 'stroke-width': 2 })); var tr = el('text', { x: cx + 55, y: cy - 6, 'font-family': 'Georgia, serif', 'font-size': 14, fill: '#2f4a22' }); tr.textContent = 'r'; g.appendChild(tr); }
+  function markAngle(g) {
+    var a0 = 0.08, a1 = TH - 0.08, rr = 40;                 // span almost the whole sector angle, arm to arm
+    var sx = cx + rr * Math.cos(a0), sy = cy - rr * Math.sin(a0);
+    var ex = cx + rr * Math.cos(a1), ey = cy - rr * Math.sin(a1);
+    var d = 'M' + sx.toFixed(1) + ' ' + sy.toFixed(1) + ' A' + rr + ' ' + rr + ' 0 0 0 ' + ex.toFixed(1) + ' ' + ey.toFixed(1);
+    g.appendChild(el('path', { d: d, fill: 'none', stroke: '#8B6F47', 'stroke-width': 1.5 }));
+    var bis = TH / 2, lr = 58;                              // label on the bisector, just outside the marker
+    var lx = cx + lr * Math.cos(bis), ly = cy - lr * Math.sin(bis);
+    var ta = el('text', { x: (lx - 5).toFixed(1), y: (ly + 5).toFixed(1), 'font-family': 'Georgia, serif', 'font-size': 14, fill: '#6a563c' });
+    ta.innerHTML = '&#952;'; g.appendChild(ta);
+  }
+  function highlightArc(g) { var p0 = pt(0), p1 = pt(TH); var d = 'M' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' A' + R + ' ' + R + ' 0 0 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1); g.appendChild(el('path', { d: d, fill: 'none', stroke: '#B5683A', 'stroke-width': 4 })); var mid = pt(TH / 2); var ts = el('text', { x: mid[0] + 6, y: mid[1] - 6, 'font-family': 'Georgia, serif', 'font-size': 13, fill: '#9a4a2e' }); ts.textContent = 's'; g.appendChild(ts); }
+
+  var svg = document.getElementById('pbsvg');
+  var algBox = document.getElementById('pbalg');
+  var narBox = document.getElementById('pbnar');
+  var stepLbl = document.getElementById('pbstep');
+  var cur = 0;
+
+  function renderStep(n) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var g = el('g', {}); svg.appendChild(g);
+    steps[n].draw(g);
+    // cumulative algebra: all lines up to and including step n; mark the freshest block
+    var html = '';
+    for (var i = 0; i <= n; i++) {
+      var fresh = (i === n) ? ' fresh' : '';
+      html += '<div class="ln' + fresh + '">' + steps[i].alg.join('<br>') + '</div>';
+    }
+    algBox.innerHTML = html;
+    narBox.innerHTML = steps[n].nar;
+    stepLbl.textContent = 'Step ' + (n + 1) + ' of ' + steps.length;
+    document.getElementById('pbback').disabled = (n === 0);
+    document.getElementById('pbnext').disabled = (n === steps.length - 1);
+  }
+  document.getElementById('pbnext').addEventListener('click', function () { if (cur < steps.length - 1) renderStep(++cur); });
+  document.getElementById('pbback').addEventListener('click', function () { if (cur > 0) renderStep(--cur); });
+  document.getElementById('pbreset').addEventListener('click', function () { cur = 0; renderStep(0); });
+  renderStep(0);
+
+  // ---- print fallback: every state stacked ----
+  var pa = document.getElementById('pbprint');
+  var paHtml = '<strong>Building the two formulas \u2014 full sequence</strong>';
+  for (var i = 0; i < steps.length; i++) {
+    var tmp = document.createElementNS(SVGNS, 'svg');
+    tmp.setAttribute('viewBox', '0 0 420 320'); tmp.setAttribute('width', '300');
+    var g = el('g', {}); tmp.appendChild(g); steps[i].draw(g);
+    var algLines = '';
+    for (var j = 0; j <= i; j++) algLines += '<div>' + steps[j].alg.join('<br>') + '</div>';
+    paHtml += '<div class="pb-frame"><div style="font-weight:bold;">Step ' + (i + 1) + '</div>' +
+              '<div style="display:flex;gap:1em;flex-wrap:wrap;align-items:flex-start;">' +
+              '<div>' + new XMLSerializer().serializeToString(tmp) + '</div>' +
+              '<div style="font-family:Courier New,monospace;font-size:0.9em;">' + algLines + '</div></div>' +
+              '<div style="font-style:italic;font-size:0.9em;margin-top:0.3em;">' + steps[i].nar + '</div></div>';
+  }
+  pa.innerHTML = paHtml;
+})();
+
+/* ============================ SECTOR STUDIO ============================ */
+(function () {
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('ssvg');
+  var cx = 175, cy = 155, maxR = 120; // pixels; maxR maps to r = 10 cm
+  var rSlider = document.getElementById('rSlider');
+  var tSlider = document.getElementById('tSlider');
+
+  function el(name, attrs) { var e = document.createElementNS(SVGNS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function pxR(r) { return (r / 10) * maxR; }
+  function pt(r, a) { var pr = pxR(r); return [cx + pr * Math.cos(a), cy - pr * Math.sin(a)]; }
+
+  function render() {
+    var r = parseFloat(rSlider.value);
+    var t = parseFloat(tSlider.value);
+    document.getElementById('rVal').textContent = r.toFixed(1);
+    document.getElementById('tVal').textContent = t.toFixed(2);
+
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // faint full circle for reference
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: pxR(r), fill: 'none', stroke: '#C9D6DF', 'stroke-width': 1, 'stroke-dasharray': '3 4' }));
+
+    // sector shading (handle theta up to 2pi; large-arc flag when > pi)
+    var p0 = pt(r, 0), p1 = pt(r, t);
+    var large = (t > Math.PI) ? 1 : 0;
+    var dSec = 'M' + cx + ' ' + cy + ' L' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) +
+               ' A' + pxR(r).toFixed(1) + ' ' + pxR(r).toFixed(1) + ' 0 ' + large + ' 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' Z';
+    svg.appendChild(el('path', { d: dSec, fill: '#CFE3F2', stroke: 'none' }));
+
+    // two radii
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: p0[0], y2: p0[1], stroke: '#3A5A6B', 'stroke-width': 2 }));
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: p1[0], y2: p1[1], stroke: '#3A5A6B', 'stroke-width': 2 }));
+
+    // the arc (bold)
+    var dArc = 'M' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) +
+               ' A' + pxR(r).toFixed(1) + ' ' + pxR(r).toFixed(1) + ' 0 ' + large + ' 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1);
+    svg.appendChild(el('path', { d: dArc, fill: 'none', stroke: '#B5683A', 'stroke-width': 3.5 }));
+
+    // radius-length tick marks along the arc, at every whole radian (1 radian of angle = 1 radius of arc)
+    for (var k = 1; k <= Math.floor(t + 1e-9); k++) {
+      var inner = pt(r, k), outer = [cx + (pxR(r) + 7) * Math.cos(k), cy - (pxR(r) + 7) * Math.sin(k)];
+      svg.appendChild(el('line', { x1: inner[0], y1: inner[1], x2: outer[0], y2: outer[1], stroke: '#9a4a2e', 'stroke-width': 2 }));
+    }
+    // centre + O
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: 3, fill: '#2B2B2B' }));
+
+    // readouts
+    var arc = r * t, area = 0.5 * r * r * t, perim = 2 * r + r * t, deg = t * 180 / Math.PI;
+    document.getElementById('oT').textContent = t.toFixed(2);
+    document.getElementById('oDeg').textContent = deg.toFixed(1);
+    document.getElementById('oArc').textContent = arc.toFixed(2);
+    document.getElementById('oArea').textContent = area.toFixed(2);
+    document.getElementById('oPerim').textContent = perim.toFixed(2);
+    document.getElementById('oRadii').textContent = t.toFixed(2);
+
+    // productive-friction note
+    var note = document.getElementById('ssnote');
+    if (t > 2 * Math.PI - 1e-6) {
+      note.innerHTML = 'At θ = 2π the "sector" is the entire circle: the arc is the whole circumference 2πr = ' + (2 * Math.PI * r).toFixed(2) + ' cm, and the area is the whole πr² = ' + (Math.PI * r * r).toFixed(2) + ' cm². Beyond this you would be wrapping a second time around.';
+    } else if (Math.abs(t - 1) < 0.02) {
+      note.innerHTML = 'θ ≈ 1 radian: notice the arc length (' + arc.toFixed(2) + ' cm) almost exactly equals the radius (' + r.toFixed(1) + ' cm). That is the definition of a radian, live on the screen.';
+    } else {
+      note.innerHTML = 'Count the orange ticks: each marks one more radius-length of arc, so the number of ticks (plus the leftover) is θ itself.';
+    }
+  }
+
+  rSlider.addEventListener('input', render);
+  tSlider.addEventListener('input', render);
+  Array.prototype.forEach.call(document.querySelectorAll('#studio .snaps button'), function (b) {
+    b.addEventListener('click', function () { tSlider.value = b.getAttribute('data-t'); render(); });
+  });
+  render();
+})();
+
+/* ===================== RADIAN WRAP ANIMATION ===================== */
+(function () {
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('radsvg');
+  if (!svg) return;
+  var readout = document.getElementById('radread');
+  var playBtn = document.getElementById('radplay');
+  var resetBtn = document.getElementById('radreset');
+
+  var cx = 160, cy = 160, R = 120;          // matches the static fallback
+  var GREEN = '#4A6B3A', ORANGE = '#B5683A', FAINT = '#9DB89A';
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raf = null;
+
+  function el(name, attrs) {
+    var e = document.createElementNS(SVGNS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function txt(x, y, s, fill, size, extra) {
+    var t = el('text', { x: x, y: y, 'font-family': 'Georgia, serif', 'font-size': size || 14, fill: fill });
+    if (extra) for (var k in extra) t.setAttribute(k, extra[k]);
+    t.textContent = s; return t;
+  }
+  // point on the circle at math-angle a (CCW from +x), screen y down
+  function onCircle(a) { return [cx + R * Math.cos(a), cy - R * Math.sin(a)]; }
+
+  // t in [0,1]: fraction of the radius-length already wrapped onto the arc.
+  // wrapped arc has length t*R, subtending central angle phi = t radians.
+  function render(t) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var phi = t; // because arc length = t*R and angle = arc/R = t
+
+    // base circle + centre + fixed radius to angle 0
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: R, fill: '#F4F8F1', stroke: FAINT, 'stroke-width': 1.5 }));
+    var P0 = onCircle(0);
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: P0[0], y2: P0[1], stroke: GREEN, 'stroke-width': 2 }));
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: 3, fill: '#2B2B2B' }));
+    svg.appendChild(txt(135, 178, 'O', '#2B2B2B', 13));
+    svg.appendChild(txt(216, 178, 'r', '#2f4a22', 14));
+
+    // leading wrap point W and outward tangent direction (CCW)
+    var W = onCircle(phi);
+    var T = [-Math.sin(phi), -Math.cos(phi)];          // unit tangent in screen coords
+    var straightLen = (1 - t) * R;
+    var S = [W[0] + straightLen * T[0], W[1] + straightLen * T[1]];
+
+    // wrapped portion = the arc laid down so far (orange)
+    if (phi > 0.001) {
+      svg.appendChild(el('path', {
+        d: 'M ' + P0[0] + ' ' + P0[1] + ' A ' + R + ' ' + R + ' 0 0 0 ' + W[0] + ' ' + W[1],
+        fill: 'none', stroke: ORANGE, 'stroke-width': 4, 'stroke-linecap': 'round'
+      }));
+    }
+    // straight portion = the radius not yet laid down (green ruler), tangent at W
+    if (straightLen > 0.5) {
+      svg.appendChild(el('line', {
+        x1: W[0], y1: W[1], x2: S[0], y2: S[1],
+        stroke: GREEN, 'stroke-width': 4, 'stroke-linecap': 'round'
+      }));
+      // free tip of the ruler
+      svg.appendChild(el('circle', { cx: S[0], cy: S[1], r: 3.5, fill: GREEN }));
+    }
+
+    if (t >= 0.999) {
+      // completed: second radius, angle marker, final labels (mirrors the static diagram)
+      svg.appendChild(el('line', { x1: cx, y1: cy, x2: W[0], y2: W[1], stroke: GREEN, 'stroke-width': 2 }));
+      svg.appendChild(el('path', { d: 'M196 160 A36 36 0 0 0 179.45 129.71', fill: 'none', stroke: '#8B6F47', 'stroke-width': 1.5 }));
+      svg.appendChild(txt(206, 142, '1 rad', '#6a563c', 13));
+      svg.appendChild(txt(208, 156, '(\u2248 57.3\u00B0)', '#8a7355', 11));
+      svg.appendChild(txt(170, 104, 'r', '#2f4a22', 14, { transform: 'rotate(-30 175 110)' }));
+      svg.appendChild(txt(250, 95, 'arc length = r', '#9a4a2e', 14));
+    } else {
+      // mid-animation labels: which part is which
+      if (phi > 0.18) {
+        var mid = onCircle(phi * 0.5);
+        svg.appendChild(txt(mid[0] - 6, mid[1] - 8, 'arc', '#9a4a2e', 12));
+      }
+      if (straightLen > 24) {
+        svg.appendChild(txt((W[0] + S[0]) / 2 + 6, (W[1] + S[1]) / 2, 'radius', '#2f4a22', 12));
+      }
+    }
+
+    // live readout: how much of the radius is now arc, and the angle so far
+    if (readout) {
+      readout.innerHTML = 'Radius laid along the edge: <b>' + t.toFixed(2) +
+        ' of r</b> &nbsp;\u2022&nbsp; angle opened at O: <b>' + phi.toFixed(2) + ' rad</b>' +
+        (t >= 0.999 ? ' &nbsp;\u2014 the arc now equals the radius, so this is exactly <b>1 radian</b>.' : '');
+    }
+  }
+
+  function easeInOut(u) { return u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; }
+
+  function animate() {
+    if (raf) cancelAnimationFrame(raf);
+    if (reduceMotion) { render(1); setPlaying(false); return; }
+    var start = null, dur = 3000;
+    playBtn.disabled = true;
+    function frame(ts) {
+      if (start === null) start = ts;
+      var u = Math.min((ts - start) / dur, 1);
+      render(easeInOut(u));
+      if (u < 1) { raf = requestAnimationFrame(frame); }
+      else { raf = null; setPlaying(false); }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function setPlaying(p) { playBtn.disabled = p; }
+
+  playBtn.addEventListener('click', animate);
+  resetBtn.addEventListener('click', function () {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    setPlaying(false);
+    render(0);
+  });
+
+  render(0); // start: straight radius standing on the edge
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radians, Arc Length, and Sector Area — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 820px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  .intro { background: #E5EBF0; border-left: 5px solid #3A5A6B; padding: 0.9em 1.2em; border-radius: 8px; margin: 1.2em 0; }
+  .intro strong { color: #28414f; }
+
+  #progress { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 1.2em 0; align-items: center; }
+  #progress .dot { width: 22px; height: 22px; border-radius: 50%; background: #D8D2C6; display: flex; align-items: center; justify-content: center; font-size: 0.72em; color: #5a5346; cursor: pointer; border: 2px solid transparent; font-family: Georgia, serif; }
+  #progress .dot.engaged { background: #E8C66B; color: #5a4a18; }
+  #progress .dot.correct { background: #8FB87A; color: #294017; }
+  #progress .dot.current { border-color: #3A5A6B; }
+
+  .card { background: #fff; border: 1px solid #D4C9B6; border-radius: 10px; padding: 1.2em 1.4em; margin: 1em 0; }
+  .qnum { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; color: #8B6F47; }
+  .stem { font-size: 1.08em; margin: 0.4em 0 0.8em; }
+  .stem code, .work code, code { font-family: 'Courier New', monospace; background: #F6F2EA; padding: 0.05em 0.3em; border-radius: 3px; }
+
+  .palette { margin: 0.6em 0; }
+  .palette .row { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.3em; }
+  .palette button { font-family: 'Courier New', monospace; font-size: 0.95em; padding: 0.25em 0.55em; border: 1px solid #BCA98a; background: #FBF8F2; border-radius: 5px; cursor: pointer; min-width: 2em; }
+  .palette button:hover { background: #F0E8DC; }
+
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; font-family: 'Courier New', monospace; font-size: 1em; padding: 0.5em; border: 1px solid #C3B49a; border-radius: 6px; background: #FFFEFB; }
+  textarea { min-height: 4.5em; resize: vertical; }
+  label.fieldlabel { font-size: 0.85em; color: #6B5A42; display: block; margin: 0.6em 0 0.2em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 0.9em; }
+  .actions button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.45em 0.9em; border-radius: 6px; cursor: pointer; border: 1px solid; }
+  .btn-soc { background: #F2E8F0; border-color: #6B4A6B; color: #5a3a5a; }
+  .btn-hint { background: #F5EFD9; border-color: #8B7A3A; color: #6a5d23; }
+  .btn-check { background: #E8F0E5; border-color: #4A6B3A; color: #355026; }
+  .btn-sol { background: #ECE4D8; border-color: #8a7355; color: #6a563c; }
+  .actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .reveal { margin-top: 0.8em; padding: 0.7em 1em; border-radius: 6px; display: none; }
+  .reveal.show { display: block; }
+  .reveal.soc { background: #F7F0F6; border-left: 4px solid #6B4A6B; }
+  .reveal.hint { background: #FAF6E6; border-left: 4px solid #8B7A3A; }
+  .reveal.sol { background: #F4EFE7; border-left: 4px solid #8a7355; }
+  .reveal.feedback { background: #EAF1E7; border-left: 4px solid #4A6B3A; }
+  .reveal.feedback.wrong { background: #F7ECE6; border-left-color: #B5683A; }
+  .reveal .step { margin: 0.35em 0; }
+  .ladder-item { margin: 0.3em 0; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 1em; }
+  .nav button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.45em 1.1em; border: 1px solid #6E8597; background: #fff; border-radius: 6px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .reflection { background: #F5EFD9; border-left: 5px solid #8B7A3A; padding: 1em 1.3em; border-radius: 8px; margin: 1.5em 0; }
+
+  @media print {
+    .actions, .nav, .palette, #progress { display: none !important; }
+    .card { display: block !important; page-break-inside: avoid; border: 1px solid #999; }
+    .reveal { display: block !important; }
+    textarea, input { border: 1px solid #999; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<p style="margin-bottom:0.3em;"><a href="radians-arcs-and-sectors-lesson.html" rel="noopener" style="font-family: Georgia, serif; font-size: 0.9em; color: #6B4A2E; text-decoration: none;">← Back to the lesson</a></p>
+
+<h1>Radians, Arc Length &amp; Sector Area<br><span style="font-size:0.55em; color:#6B6B6B;">Pure 1, Trigonometry · Lesson 4</span></h1>
+
+<div class="intro">
+  <p>Eight exam-style questions on radians, arc length <code>s = rθ</code>, and sector area <code>A = ½r²θ</code>. Whenever you are stuck, you have <strong>four kinds of help</strong>, in this order:</p>
+  <p>🤔 <strong>Socratic prompt</strong> — a question to get you thinking. &nbsp; 💡 <strong>Hint</strong> — a piece of method. &nbsp; ✅ <strong>Check my answer</strong> — try as many times as you like. &nbsp; 👀 <strong>Worked solution</strong> — the full method, unlocked once you have genuinely tried.</p>
+  <p style="margin-bottom:0;"><em>Use radians unless told otherwise. Give angles in radians to 2 d.p. and lengths/areas to the accuracy each question states; where a question asks for an exact multiple of π, leave π in your answer. Keep full accuracy in working and round only at the end — and check your calculator is in the right mode.</em></p>
+</div>
+
+<div id="progress"></div>
+<div id="card-mount"></div>
+
+<div class="nav">
+  <button id="prevBtn">← Previous</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="reflection">
+  <h3 style="margin-top:0;">💛 Reflection</h3>
+  <p>Before you close this, take a moment:</p>
+  <ul>
+    <li>Did any answer come out the wrong size? Your anchors are <code>π ≈ 3.14</code> (a half-turn) and <code>π/2 ≈ 1.57</code> (a right angle). Sense-checking an angle against those catches most slips.</li>
+    <li>How many times did a wrong answer turn out to be the calculator in the wrong mode rather than a real error? Noticing that pattern is how you stop it happening in the exam.</li>
+    <li>Which felt harder — the conversions, the formulas, or rearranging them backwards to find <code>r</code> or <code>θ</code>? Whichever it was tells you exactly what to practise next.</li>
+    <li>For the perimeter questions, did you remember the arc is curved (length <code>rθ</code>), not a straight chord? That single habit earns marks.</li>
+  </ul>
+  <p style="margin-bottom:0;"><em>You can print or save this page (including any solutions you opened) using your browser's print function.</em></p>
+</div>
+
+<script>
+const questions = [
+  {
+    type: 'Direct application — degrees to radians',
+    stem: 'Express <code>144°</code> in radians, giving your answer as an exact multiple of <code>π</code> in its simplest form.',
+    accepted: ['4π/5','4pi/5','(4π)/5','(4pi)/5','4/5π','4/5pi','0.8π','0.8pi'],
+    socratic: [
+      'What single fact links a half-turn in degrees to a half-turn in radians?',
+      'If 180° is π radians, what fraction of 180° is 144°, and how does that help?',
+      'To go from degrees to radians you scale by a fixed factor. Which factor turns 180 into π?'
+    ],
+    hints: [
+      'To convert degrees to radians, multiply by π/180.',
+      'Set up 144 × π/180 and then simplify the fraction 144/180 by cancelling the common factor before you write the final form.'
+    ],
+    solution: [
+      'Step 1. Convert degrees to radians by multiplying by π/180: 144° = 144 × π/180 radians.',
+      'Step 2. Simplify 144/180. The highest common factor is 36: 144 ÷ 36 = 4 and 180 ÷ 36 = 5.',
+      'Step 3. So 144 × π/180 = 4π/5.',
+      'Answer: 4π/5 radians (≈ 2.51 rad).'
+    ]
+  },
+  {
+    type: 'Direct application — arc length (with a conversion first)',
+    stem: 'A sector of a circle has radius <code>7 cm</code> and the angle at the centre is <code>80°</code>. Find the length of the arc, to 2 decimal places.',
+    accepted: ['9.77','9.77cm','s=9.77','s = 9.77','9.77 cm','9.77cm','arc=9.77'],
+    socratic: [
+      'The formula s = rθ has a hidden requirement about θ. What is it?',
+      'The angle here is in degrees but the arc-length formula needs radians. What must you do first?',
+      'Once the angle is in radians, which two quantities do you simply multiply together?'
+    ],
+    hints: [
+      'The formula s = rθ only works with θ in radians, so convert 80° to radians first (multiply by π/180).',
+      'After converting, substitute the radius and the radian angle into s = rθ. Keep the full converted value in your calculator rather than a rounded one.'
+    ],
+    solution: [
+      'Step 1. The arc-length formula s = rθ needs θ in radians, so convert: 80° = 80 × π/180 = 4π/9 ≈ 1.39626 rad.',
+      'Step 2. Substitute into s = rθ: s = 7 × 1.39626…',
+      'Step 3. s ≈ 9.7738 cm.',
+      'Answer: s ≈ 9.77 cm.'
+    ]
+  },
+  {
+    type: 'Inverse problem — angle from arc and radius',
+    stem: 'An arc of length <code>15 cm</code> lies on a circle of radius <code>9 cm</code>. Find the angle the arc subtends at the centre, in radians to 2 decimal places.',
+    accepted: ['1.67','1.67rad','θ=1.67','θ = 1.67','1.67 rad','5/3','=1.67'],
+    socratic: [
+      'Which formula connects arc length, radius and angle?',
+      'You know s and r but not θ. How can you rearrange s = rθ to make θ the subject?',
+      'Once θ is the subject, it is a single division. Which quantity is divided by which?'
+    ],
+    hints: [
+      'Start from s = rθ and rearrange to make θ the subject: θ = s/r.',
+      'Substitute s = 15 and r = 9. The result is already in radians because s = rθ is a radian relationship — no conversion needed.'
+    ],
+    solution: [
+      'Step 1. Rearrange s = rθ to make θ the subject: θ = s/r.',
+      'Step 2. Substitute: θ = 15/9.',
+      'Step 3. 15/9 = 5/3 ≈ 1.6667 (already in radians).',
+      'Answer: θ ≈ 1.67 rad (exactly 5/3).'
+    ]
+  },
+  {
+    type: 'Inverse problem — radius from sector area and angle',
+    stem: 'A sector has area <code>30 cm²</code> and the angle at the centre is <code>1.5 radians</code>. Find the radius of the circle, to 2 decimal places.',
+    accepted: ['6.32','6.32cm','r=6.32','r = 6.32','6.32 cm','√40','2√10','6.32cm'],
+    socratic: [
+      'Which formula links area, radius and angle for a sector?',
+      'The unknown here is r, and it appears as r² in the formula. What will you eventually need to do to undo the square?',
+      'Rearrange A = ½r²θ to make r² the subject first, then deal with the square at the very end.'
+    ],
+    hints: [
+      'Use A = ½r²θ. Rearrange to make r² the subject: r² = 2A/θ.',
+      'Substitute A = 30 and θ = 1.5 to find r², then take the positive square root (a length cannot be negative).'
+    ],
+    solution: [
+      'Step 1. Sector area: A = ½r²θ. Rearrange for r²: r² = 2A/θ.',
+      'Step 2. Substitute: r² = (2 × 30) / 1.5 = 60/1.5 = 40.',
+      'Step 3. r = √40 = 2√10 ≈ 6.3246.',
+      'Answer: r ≈ 6.32 cm.'
+    ]
+  },
+  {
+    type: 'Interpretation — how area depends on the radius',
+    stem: 'A sector has radius <code>r</code> and central angle <code>θ</code>. The radius is doubled to <code>2r</code> while the angle <code>θ</code> stays the same. By what factor is the sector <strong>area</strong> multiplied? (Give a single number.)',
+    accepted: ['4','×4','x4','4×','factorof4','factor of 4','4times','quadruples','quadrupled','itquadruples'],
+    socratic: [
+      'Look at where r appears in the area formula A = ½r²θ. Is it to the first power, or the second?',
+      'If you replace r with 2r in r², what do you get? Write (2r)² out.',
+      'Compare this with the arc-length formula s = rθ, where r appears to the first power — would the arc scale by the same factor as the area?'
+    ],
+    hints: [
+      'In A = ½r²θ the radius appears squared, so replacing r with 2r replaces r² with (2r)². Expand (2r)² and compare it with r².',
+      'The angle θ is unchanged and the ½ is unchanged, so the whole change in area comes from the change in r² alone. Work out (2r)² ÷ r².'
+    ],
+    solution: [
+      'Step 1. Area depends on the square of the radius: A = ½r²θ.',
+      'Step 2. Doubling the radius replaces r² with (2r)² = 4r².',
+      'Step 3. The ½ and θ are unchanged, so the new area is 4 times the old area.',
+      'Answer: the area is multiplied by 4. (For contrast, the arc length s = rθ would only double, because there r is to the first power — a good illustration of why area grows faster than length.)'
+    ]
+  },
+  {
+    type: 'Modelling — a windscreen wiper',
+    stem: 'A windscreen wiper has a blade <code>45 cm</code> long, pivoting at one end, and it sweeps through an angle of <code>110°</code>. Modelling the wiped region as a sector, find its area to the nearest cm².',
+    accepted: ['1944','1944cm²','1944 cm²','1944cm2','1944cm^2','≈1944','area=1944'],
+    socratic: [
+      'What shape does the wiper blade sweep out, and which radius does the 45 cm play in that shape?',
+      'Which formula gives the area of that shape, and what does it require of the angle?',
+      'The angle is in degrees — what has to happen before it can go into the area formula?'
+    ],
+    hints: [
+      'The swept region is a sector with radius 45 cm, so use A = ½r²θ — but first convert 110° to radians (× π/180).',
+      'Substitute r = 45 and the radian angle into A = ½r²θ. Carry full accuracy through and round only the final area to the nearest whole number.'
+    ],
+    solution: [
+      'Step 1. The blade sweeps a sector of radius r = 45 cm. Use A = ½r²θ, which needs θ in radians.',
+      'Step 2. Convert: 110° = 110 × π/180 = 11π/18 ≈ 1.91986 rad.',
+      'Step 3. A = ½ × 45² × 1.91986 = ½ × 2025 × 1.91986 ≈ 1943.86 cm².',
+      'Answer: about 1944 cm². (A real wiper leaves a gap near the pivot, so the true wiped area is a little less — a sector is the first-pass model.)'
+    ]
+  },
+  {
+    type: 'Exam-style multi-part — “show that … hence find”',
+    stem: 'A sector <code>OAB</code> has radius <code>OA = OB = 10 cm</code> and the angle <code>AOB = 0.8 radians</code>. <br>(a) Show that the perimeter of the sector is <code>28 cm</code>. <br>(b) Hence find the area of the sector. <br><em>(Enter the area from part (b) in the answer box.)</em>',
+    accepted: ['40','40cm²','40 cm²','40cm2','40cm^2','a=40','area=40'],
+    socratic: [
+      'The perimeter of a sector is made of three pieces. What are they?',
+      'Two of those pieces are straight radii; the third is the arc. Which formula gives the arc length?',
+      'For the area, which formula uses the same r and θ you already have?'
+    ],
+    hints: [
+      'Perimeter of a sector = the two radii + the arc = 2r + rθ. Substitute r = 10 and θ = 0.8 to verify part (a).',
+      'For part (b) use A = ½r²θ with the same r = 10 and θ = 0.8 radians.'
+    ],
+    solution: [
+      'Step 1. (a) The perimeter is the two radii plus the arc: P = 2r + rθ = 2(10) + (10)(0.8) = 20 + 8 = 28 cm, as required.',
+      'Step 2. (b) The area of a sector is A = ½r²θ.',
+      'Step 3. Substitute r = 10, θ = 0.8: A = ½ × 10² × 0.8 = ½ × 100 × 0.8 = 0.5 × 80 = 40.',
+      'Answer: area = 40 cm².'
+    ]
+  },
+  {
+    type: 'Synthesis — chain the perimeter and area formulas',
+    stem: 'A sector has a perimeter of <code>24 cm</code> and a radius of <code>7 cm</code>. Find the area of the sector, in cm². <em>(You will need to find the central angle first.)</em>',
+    accepted: ['35','35cm²','35 cm²','35cm2','35cm^2','area=35','a=35'],
+    socratic: [
+      'You know the perimeter and the radius but not the angle. Which formula contains all three of perimeter, radius and angle?',
+      'Write the perimeter as 2r + rθ. With the perimeter and r known, what kind of equation does that give you in θ?',
+      'Once you have θ, which formula turns r and θ into the area?'
+    ],
+    hints: [
+      'The perimeter of a sector is P = 2r + rθ. Substitute P = 24 and r = 7 to form an equation in θ, and solve it.',
+      'With θ found, use A = ½r²θ with r = 7 to get the area. (The numbers are designed to come out neatly.)'
+    ],
+    solution: [
+      'Step 1. Perimeter of a sector: P = 2r + rθ. Substitute P = 24, r = 7: 24 = 14 + 7θ.',
+      'Step 2. Solve for θ: 7θ = 10, so θ = 10/7 ≈ 1.43 rad.',
+      'Step 3. Area: A = ½r²θ = ½ × 49 × (10/7) = ½ × 7 × 10 = 35.',
+      'Answer: area = 35 cm².'
+    ]
+  }
+];
+
+const paletteCore = ['²','³','√','±','≤','≥','≠','−','·','π','°','θ','φ','/'];
+const shortcuts = [
+  ['Delta','Δ'],['delta','Δ'],['sqrt','√'],['pi','π'],['theta','θ'],['phi','φ'],['deg','°'],
+  ['^2','²'],['^3','³'],['<=','≤'],['>=','≥'],['!=','≠'],['+-','±']
+];
+
+const state = questions.map(() => ({ socIdx: 0, hintIdx: 0, attempts: 0, correct: false, engaged: false, solUnlocked: false, work: '', ans: '' }));
+let current = 0;
+
+/* Canonical normaliser (SKILL.md order): lowercase → dashes → connectives(and/;) →
+   part-labels → full-stops → strip ALL whitespace LAST. "or" is deliberately NOT
+   collapsed (it must stay distinct from "and" in inequality answers). */
+function normalise(s) {
+  return s.toLowerCase()
+    .replace(/[–—−]/g, '-')          // 2. normalise dashes early
+    .replace(/\s+and\s+/g, ',')      // 3. connective "and" → comma (needs surrounding space → before whitespace strip)
+    .replace(/;/g, ',')              //    semicolon → comma
+    .replace(/\(([a-h])\)/g, '')     // 4. strip part-labels (a)–(h)
+    .replace(/\.(?!\d)/g, '')        // 5. strip full stops unless followed by a digit
+    .replace(/\s+/g, '');            // 6. strip ALL whitespace LAST
+}
+function checkAnswer(input, accepted) {
+  const n = normalise(input);
+  return accepted.some(a => normalise(a) === n);
+}
+
+const mount = document.getElementById('card-mount');
+
+function buildPalette(qIndex) {
+  const wrap = document.createElement('div'); wrap.className = 'palette';
+  const row = document.createElement('div'); row.className = 'row';
+  paletteCore.forEach(sym => row.appendChild(palBtn(sym, qIndex)));
+  wrap.appendChild(row);
+  return wrap;
+}
+function palBtn(sym, qIndex) {
+  const b = document.createElement('button'); b.textContent = sym; b.type = 'button';
+  b.addEventListener('click', () => {
+    const ans = document.getElementById('ans-' + qIndex);
+    const tgt = (document.activeElement && document.activeElement.id === 'work-' + qIndex) ? document.getElementById('work-' + qIndex) : ans;
+    insertAtCursor(tgt, sym); tgt.focus();
+  });
+  return b;
+}
+function insertAtCursor(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  const pos = start + text.length;
+  field.selectionStart = field.selectionEnd = pos;
+}
+function applyShortcuts(field) {
+  let v = field.value;
+  shortcuts.forEach(([from, to]) => { v = v.split(from).join(to); });
+  if (v !== field.value) {
+    const delta = field.value.length - v.length;
+    const pos = (field.selectionStart ?? v.length) - delta;
+    field.value = v;
+    field.selectionStart = field.selectionEnd = Math.max(0, pos);
+  }
+}
+
+function renderCard() {
+  const q = questions[current]; const st = state[current];
+  mount.innerHTML = '';
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = '<div class="qnum">Question ' + (current + 1) + ' of ' + questions.length + ' &nbsp;·&nbsp; <span style="color:#a08a6a; font-style:italic;">' + q.type + '</span></div><div class="stem">' + q.stem + '</div>';
+  card.appendChild(buildPalette(current));
+
+  const workLabel = document.createElement('label'); workLabel.className = 'fieldlabel'; workLabel.textContent = 'Your working (think on the page):';
+  const work = document.createElement('textarea'); work.id = 'work-' + current; work.value = st.work || '';
+  work.addEventListener('input', () => { applyShortcuts(work); st.work = work.value; });
+  const ansLabel = document.createElement('label'); ansLabel.className = 'fieldlabel'; ansLabel.textContent = 'Your final answer:';
+  const ans = document.createElement('input'); ans.type = 'text'; ans.id = 'ans-' + current; ans.value = st.ans || '';
+  ans.addEventListener('input', () => { applyShortcuts(ans); st.ans = ans.value; });
+  card.appendChild(workLabel); card.appendChild(work); card.appendChild(ansLabel); card.appendChild(ans);
+
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const socBtn = mkBtn('🤔 Socratic prompt', 'btn-soc');
+  const hintBtn = mkBtn('💡 Hint', 'btn-hint');
+  const checkBtn = mkBtn('✅ Check my answer', 'btn-check');
+  const solBtn = mkBtn('👀 Worked solution', 'btn-sol');
+  actions.appendChild(socBtn); actions.appendChild(hintBtn); actions.appendChild(checkBtn); actions.appendChild(solBtn);
+  card.appendChild(actions);
+
+  const socRev = mkReveal('soc'), hintRev = mkReveal('hint'), fbRev = mkReveal('feedback'), solRev = mkReveal('sol');
+  card.appendChild(socRev); card.appendChild(hintRev); card.appendChild(fbRev); card.appendChild(solRev);
+  mount.appendChild(card);
+
+  function markEngaged() { st.engaged = true; renderProgress(); }
+
+  socBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.socIdx < q.socratic.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Think:</strong> ' + q.socratic[st.socIdx]; socRev.appendChild(item); st.socIdx++; }
+    if (st.socIdx >= q.socratic.length) socBtn.disabled = true;
+    socRev.classList.add('show'); updateSolGate();
+  });
+  hintBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.hintIdx < q.hints.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Hint ' + (st.hintIdx + 1) + ':</strong> ' + q.hints[st.hintIdx]; hintRev.appendChild(item); st.hintIdx++; }
+    if (st.hintIdx >= q.hints.length) hintBtn.disabled = true;
+    hintRev.classList.add('show'); updateSolGate();
+  });
+  checkBtn.addEventListener('click', () => {
+    markEngaged(); st.attempts++;
+    const val = ans.value.trim();
+    fbRev.className = 'reveal feedback show';
+    if (val === '') { fbRev.classList.add('wrong'); fbRev.innerHTML = 'Type your final answer in the answer box first, then check.'; }
+    else if (checkAnswer(val, q.accepted)) { st.correct = true; fbRev.innerHTML = '✅ <strong>Correct!</strong> Well reasoned. If you used help to get here, re-read the worked solution to lock in the method.'; }
+    else { fbRev.classList.add('wrong'); fbRev.innerHTML = '❌ Not yet — but keep going. ' + diagnostic(current) + ' &nbsp;<em>You can revise and check again.</em>'; }
+    renderProgress(); updateSolGate();
+  });
+  solBtn.addEventListener('click', () => {
+    if (solBtn.disabled) return;
+    solRev.classList.add('show');
+    solRev.innerHTML = '<strong>Worked solution</strong>' + q.solution.map(s => '<div class="step">' + s + '</div>').join('');
+  });
+
+  function updateSolGate() {
+    st.solUnlocked = st.attempts >= 3 || (st.socIdx >= q.socratic.length && st.hintIdx >= q.hints.length) || st.correct;
+    if (st.solUnlocked) { solBtn.disabled = false; solBtn.textContent = '👀 Worked solution'; }
+    else { solBtn.disabled = true; solBtn.textContent = '👀 Worked solution (try a few times first)'; }
+  }
+  updateSolGate();
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === questions.length - 1);
+}
+
+/* Answer-free diagnostics: name the likely error type and point at the approach,
+   without stating the answer or the exact arithmetic. */
+function diagnostic(i) {
+  const map = [
+    'To convert degrees to radians you multiply by π/180 (not 180/π) — and the question wants an exact multiple of π, so cancel the fraction rather than giving a decimal.',
+    'Two common slips here: forgetting to convert 80° to radians before using s = rθ, or leaving the calculator in degree mode. Convert first, then multiply by the radius.',
+    'Rearrange s = rθ to θ = s/r — check you divided the arc by the radius and not the other way round. No conversion is needed; the result is already in radians.',
+    'The radius is squared in A = ½r²θ, so rearrange to r² = 2A/θ first, then square-root at the very end. A missing factor of 2, or forgetting the square root, are the usual causes.',
+    'Look at the power of r: arc length uses r¹ but area uses r², so doubling r does not scale them by the same factor. Expand (2r)² and compare with r².',
+    'This is a sector area, so use A = ½r²θ with the 45 cm as the radius — but the angle must be converted from degrees to radians first.',
+    'Check part (b): the area uses A = ½r²θ with θ in radians (0.8 is already in radians). If your perimeter in (a) was not 28, re-check that the arc is rθ, not a straight line.',
+    'Work in two stages: first use perimeter = 2r + rθ to find θ, then put that θ into A = ½r²θ. A wrong area here usually traces back to an error in finding θ.'
+  ];
+  return map[i] || 'Re-check whether the angle needs converting to radians, and which formula (s = rθ or A = ½r²θ) the question is really asking for.';
+}
+
+function mkBtn(label, cls) { const b = document.createElement('button'); b.textContent = label; b.className = cls; b.type = 'button'; return b; }
+function mkReveal(cls) { const d = document.createElement('div'); d.className = 'reveal ' + cls; return d; }
+
+const progress = document.getElementById('progress');
+function renderProgress() {
+  progress.innerHTML = '<span style="font-size:0.85em; color:#6B5A42; margin-right:0.4em;">Progress:</span>';
+  questions.forEach((q, i) => {
+    const dot = document.createElement('div'); dot.className = 'dot';
+    if (state[i].correct) dot.classList.add('correct');
+    else if (state[i].engaged) dot.classList.add('engaged');
+    if (i === current) dot.classList.add('current');
+    dot.textContent = state[i].correct ? '✓' : (i + 1);
+    dot.title = 'Question ' + (i + 1);
+    dot.addEventListener('click', () => { current = i; renderCard(); renderProgress(); });
+    progress.appendChild(dot);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) { current--; renderCard(); renderProgress(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { if (current < questions.length - 1) { current++; renderCard(); renderProgress(); } });
+
+renderCard();
+renderProgress();
+</script>
+
+</body>
+</html>
