@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem Solving with the Sine Rule, Cosine Rule, and Area</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  .diagram { background: #FFFFFF; border: 1px solid #CBD5C0; border-radius: 8px; padding: 0.75em; margin: 1em 0; text-align: center; }
+  .diagram figcaption { font-style: italic; font-size: 0.9em; color: #4A4438; margin-top: 0.4em; }
+  table.toolkit { border-collapse: collapse; width: 100%; margin: 1em 0; background: #FFFDF8; }
+  table.toolkit th, table.toolkit td { border: 1px solid #BFD0B4; padding: 0.5em 0.7em; text-align: left; vertical-align: top; font-size: 0.96em; }
+  table.toolkit th { background: #DCE8D4; }
+  code, .mono { font-family: 'Courier New', monospace; }
+  /* ---- workbench ---- */
+  .wb { background: #FFFFFF; border: 1px solid #B8C6D4; border-radius: 10px; padding: 1em 1.1em; margin: 1.25em 0; }
+  .wb-step { border-top: 1px solid #DCE4EC; padding: 0.85em 0 0.4em; }
+  .wb-step:first-of-type { border-top: none; }
+  .wb-step.locked { opacity: 0.45; }
+  .wb-step h4 { margin: 0 0 0.35em; color: #3A5A6B; }
+  .wb-row { display: flex; flex-wrap: wrap; gap: 0.5em; align-items: center; margin: 0.4em 0; }
+  .wb input[type=text] { font-family: 'Courier New', monospace; font-size: 1em; padding: 0.35em 0.5em; border: 1px solid #9DB1C2; border-radius: 5px; width: 9em; }
+  .wb button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.4em 0.8em; border-radius: 6px; border: 1px solid #6B4A2E; background: #EDE3D3; color: #6B4A2E; cursor: pointer; }
+  .wb button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .wb .hintbtn { background: #F5EFD9; border-color: #8B7A3A; color: #6B5A1A; }
+  .wb .feedback { font-size: 0.93em; margin: 0.3em 0; min-height: 1.2em; }
+  .wb .ok { color: #2E6B2E; font-weight: bold; }
+  .wb .no { color: #9A4A2E; }
+  .wb .hint { background: #FBF7E8; border-left: 3px solid #8B7A3A; padding: 0.4em 0.7em; margin: 0.3em 0; font-size: 0.92em; display: none; }
+  .wb .payoff { background: #E8F0E5; border: 1px solid #7FA86A; border-radius: 8px; padding: 0.7em 0.9em; margin-top: 0.8em; display: none; }
+  svg { max-width: 100%; height: auto; }
+  .prompts { background: #EEF3F7; border-radius: 8px; padding: 0.6em 1em 0.6em 1.4em; }
+  .nowpractise a { display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Problem Solving with the Sine Rule, Cosine Rule, and Area</h1>
+<p style="color:#6B6257; font-style:italic; margin-top:-0.5em;">Trigonometry · Lesson 3 (synthesis) · Pearson Edexcel International A-Level Pure Mathematics 1</p>
+
+<div class="driving-question">
+  <strong>Driving Question:</strong> You now own every tool for non-right-angled triangles — the sine rule, the cosine rule, the area formula. But a real problem never tells you which one to pick up first. So how do you <em>decide</em> where to start when nobody hands you the method?
+</div>
+
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>This lesson adds no new formula. Instead it builds the skill that exams really test: <strong>choosing</strong> the right tool, in the right order, from a kit you already own. Here is the whole kit on one page.</p>
+
+  <table class="toolkit">
+    <tr><th>Tool</th><th>What it gives you</th><th>Reach for it when you know…</th></tr>
+    <tr><td><strong>Sine rule</strong><br><span class="mono">a/sin A = b/sin B = c/sin C</span></td><td>a missing side or angle</td><td>a side and the angle <em>opposite</em> it, plus one more piece (AAS, ASA, or the SSA "ambiguous" case)</td></tr>
+    <tr><td><strong>Cosine rule</strong><br><span class="mono">a² = b² + c² − 2bc cos A</span></td><td>a missing side (or, rearranged, a missing angle)</td><td>two sides and the angle <em>between</em> them (SAS), or all three sides (SSS)</td></tr>
+    <tr><td><strong>Area</strong><br><span class="mono">½ ab sin C</span></td><td>the area of the triangle</td><td>two sides and the angle <em>between</em> them</td></tr>
+  </table>
+
+  <p>The single most useful question to ask yourself is: <em>"Do I have a side paired with its opposite angle?"</em> If yes, the sine rule is usually the quickest way in. If not — if your known angle is wedged <em>between</em> two known sides — the sine rule has nothing to grip, and the cosine rule is your starting tool. The diagram below turns that judgement into a flowchart.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decision flowchart for choosing a trigonometric tool">
+      <style>
+        .box { fill:#FFFDF8; stroke:#4A6B3A; stroke-width:1.5; }
+        .q { fill:#DCE8D4; stroke:#4A6B3A; stroke-width:1.5; }
+        .lbl { font-family: Georgia, serif; font-size:14px; fill:#2B2B2B; }
+        .lblb { font-family: Georgia, serif; font-size:14px; fill:#2B2B2B; font-weight:bold; }
+        .edge { stroke:#7A8B6A; stroke-width:1.5; fill:none; }
+        .ed { font-family: Georgia, serif; font-size:12px; fill:#5A6B4A; font-style:italic; }
+      </style>
+      <!-- start -->
+      <rect class="q" x="250" y="14" width="260" height="46" rx="8"/>
+      <text class="lblb" x="380" y="34" text-anchor="middle">What am I given about the</text>
+      <text class="lblb" x="380" y="52" text-anchor="middle">triangle?</text>
+      <!-- branch 1: side opposite angle? -->
+      <path class="edge" d="M380 60 L380 92"/>
+      <rect class="q" x="250" y="92" width="260" height="58" rx="8"/>
+      <text class="lbl" x="380" y="116" text-anchor="middle">Do I have a side paired with</text>
+      <text class="lbl" x="380" y="134" text-anchor="middle">the angle opposite it?</text>
+      <!-- yes -> sine -->
+      <path class="edge" d="M250 121 L120 121 L120 175"/>
+      <text class="ed" x="170" y="113" text-anchor="middle">yes</text>
+      <rect class="box" x="20" y="175" width="200" height="58" rx="8"/>
+      <text class="lblb" x="120" y="199" text-anchor="middle">Sine rule</text>
+      <text class="lbl" x="120" y="219" text-anchor="middle">(AAS / ASA / SSA)</text>
+      <!-- no -> next question -->
+      <path class="edge" d="M510 121 L640 121 L640 175"/>
+      <text class="ed" x="590" y="113" text-anchor="middle">no</text>
+      <rect class="q" x="520" y="175" width="240" height="58" rx="8"/>
+      <text class="lbl" x="640" y="199" text-anchor="middle">Is the known angle wedged</text>
+      <text class="lbl" x="640" y="219" text-anchor="middle">between two known sides?</text>
+      <!-- SAS / SSS -> cosine -->
+      <path class="edge" d="M520 233 L380 233 L380 256"/>
+      <text class="ed" x="450" y="249" text-anchor="middle">yes (SAS) — or all three sides (SSS)</text>
+      <rect class="box" x="280" y="256" width="200" height="40" rx="8"/>
+      <text class="lblb" x="380" y="281" text-anchor="middle">Cosine rule</text>
+      <!-- area note -->
+      <rect class="box" x="20" y="252" width="230" height="44" rx="8" style="fill:#F5EFD9; stroke:#8B7A3A;"/>
+      <text class="lbl" x="135" y="270" text-anchor="middle">Two sides + included angle?</text>
+      <text class="lblb" x="135" y="288" text-anchor="middle">Area = ½ ab sin C</text>
+    </svg>
+    <figcaption>A decision flowchart for choosing the first tool. "Opposite" sends you to the sine rule; "between" (included) sends you to the cosine rule and the area formula.</figcaption>
+  </figure>
+
+  <p>Often a problem needs <strong>more than one tool in sequence</strong>: the cosine rule unlocks a side, that side feeds the sine rule for an angle, and the area formula finishes the job. Recognising which tool comes <em>next</em> is the same judgement applied again and again.</p>
+
+  <div class="seed"><strong>Seed of Change (Pearson Edexcel IAL P1, §3.1):</strong> Use the sine rule and the cosine rule, including the ambiguous case of the sine rule; use the area of a triangle in the form ½ ab sin C — selecting and combining these in multi-step, unstructured problems.</div>
+</details>
+
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>For most of history, the only way to measure something you couldn't walk across — a river, a valley, the distance to a ship at sea — was to turn it into a triangle. Surveyors would pace out one side they <em>could</em> measure (a "baseline"), measure two angles with a theodolite, and let the sine rule hand them the rest. This is <strong>triangulation</strong>, and it mapped whole countries: the Great Trigonometrical Survey of India spent most of the 19th century chaining triangles across a subcontinent to measure it. The same idea, sped up and satellite-borne, is how your phone's GPS fixes your position right now.</p>
+
+  <p>But the tools alone don't solve anything. What surveyors and navigators actually relied on was a <em>way of thinking</em> when the path forward isn't obvious. In 1945 the mathematician <strong>George Pólya</strong> wrote it down as four plain steps in his book <em>How to Solve It</em> — and they fit a trigonometry problem perfectly:</p>
+
+  <ol>
+    <li><strong>Understand the problem.</strong> What do I actually know, and what am I asked to find? Draw the triangle. Mark on every length and angle. Bearings? Turn them into interior angles first.</li>
+    <li><strong>Make a plan.</strong> Which tool reaches the unknown? If I can't get there in one step, what intermediate quantity would unlock it? (A side I could find with the cosine rule might be exactly what the sine rule then needs.)</li>
+    <li><strong>Carry out the plan.</strong> Do the algebra carefully, keeping full accuracy until the final rounding.</li>
+    <li><strong>Look back.</strong> Is the answer sensible? Is the biggest side opposite the biggest angle? Does the distance feel realistic for the picture?</li>
+  </ol>
+
+  <p>The diagram-first habit in step 1 is not a nicety — it is where most of the thinking happens. A clear, labelled figure usually <em>shows</em> you which tool fits before you've written any algebra.</p>
+</details>
+
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Pick <em>one</em> of these and make the reasoning your own — no full solution required, just the <strong>thinking</strong>:</p>
+  <ul>
+    <li>Write a short "first move" rule in your own words — the test you'd run on any triangle problem to decide whether to start with the sine rule or the cosine rule. Try to make it one sentence a friend could memorise.</li>
+    <li>Sketch a triangle problem of your own where you'd <em>have</em> to use two tools in sequence. Don't solve it — just annotate the order: "cosine rule first, because…; then sine rule, because…".</li>
+    <li>Explain to someone (out loud, or in a voice note to yourself) why a known angle <em>between</em> two known sides rules out starting with the sine rule. If you can teach that one idea clearly, you understand the whole choice.</li>
+  </ul>
+  <p>There's no single right expression here — the goal is to hear yourself reason about <em>choosing</em>, because that's the part an exam can't give you.</p>
+</details>
+
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Here is a real navigation problem. You'll solve it the way a navigator would — one decision at a time. Each step unlocks only when the previous one is right, and the chart fills in as you go, so you can always <em>see</em> what you know.</p>
+
+  <p><strong>The situation.</strong> A ship leaves harbour <strong>H</strong> and sails <strong>15 km on a bearing of 045°</strong> to point <strong>A</strong>. It then turns and sails <strong>11 km on a bearing of 150°</strong> to point <strong>B</strong>. The skipper needs to know how far B is from harbour, what bearing to steer to return straight home, and the area of sea enclosed by the route.</p>
+
+  <div class="wb" id="wb">
+    <div style="text-align:center;">
+      <svg id="wbsvg" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Navigation chart, filling in as each step is solved"></svg>
+    </div>
+
+    <div style="text-align:center; margin:0.1em 0 0.5em;">
+      <label style="font-size:0.92em; cursor:pointer; user-select:none;">
+        <input type="checkbox" id="northToggle" style="vertical-align:middle; margin-right:0.4em;">
+        Show the North-line guides at A and B (each extended above <em>and</em> below its point)
+      </label>
+    </div>
+    <p id="northnote" style="display:none; background:#EEF3F6; border-left:3px solid #3A5A6B; padding:0.5em 0.75em; margin:0 0 0.9em; font-size:0.9em; line-height:1.5;">
+      Every North line points the same way, so they are all <strong>parallel</strong>. The route <strong>H→A</strong> is a straight line — a <em>transversal</em> — crossing the parallel North lines at H and at A, so the <strong>45°</strong> at H and the <strong>45°</strong> at A are equal <strong>alternate angles</strong> (“Z-angles”). That is exactly <em>why</em> the back-bearing at A is 225° (= 180° + 45°). Extending each North line <em>below</em> its point reveals the South direction too: at A you can see ∠HAB split into 45° + 30° = 75°.
+    </p>
+
+    <div class="wb-step" id="s1" data-step="1">
+      <h4>Step 1 — Understand: find the interior angle at A</h4>
+      <p style="margin:0.2em 0; font-size:0.95em;">A bearing is measured clockwise from North. Turn the two bearings at A into the actual interior angle ∠HAB of the triangle. (Give your answer in degrees.)</p>
+      <div class="wb-row">
+        <input type="text" id="i1" placeholder="∠HAB = ? °" aria-label="interior angle at A">
+        <button class="checkbtn" data-step="1">✅ Check</button>
+        <button class="hintbtn" data-step="1">💡 Hint</button>
+      </div>
+      <div class="feedback" id="f1"></div>
+      <div class="hint" id="h1a">The bearing of A <em>from</em> H is 045°. Standing at A and looking back at H, you face the reverse bearing — add 180°. The bearing onward from A to B is 150°. The interior angle ∠HAB is the angle between those two directions at A.</div>
+      <div class="hint" id="h1b">Reverse bearing A→H = 045° + 180° = 225°. The direction A→B is 150°. The angle between them is 225° − 150°.</div>
+    </div>
+
+    <div class="wb-step locked" id="s2" data-step="2">
+      <h4>Step 2 — Plan &amp; do: find the distance HB</h4>
+      <p style="margin:0.2em 0; font-size:0.95em;">You now know two sides (HA = 15, AB = 11) and the angle <em>between</em> them. Which tool fits? Find HB, to 1 decimal place (km).</p>
+      <div class="wb-row">
+        <input type="text" id="i2" placeholder="HB = ? km" aria-label="distance HB">
+        <button class="checkbtn" data-step="2" disabled>✅ Check</button>
+        <button class="hintbtn" data-step="2" disabled>💡 Hint</button>
+      </div>
+      <div class="feedback" id="f2"></div>
+      <div class="hint" id="h2a">Two sides and the included angle ⇒ cosine rule. With the angle at A opposite the side HB, write HB² = HA² + AB² − 2·HA·AB·cos A.</div>
+      <div class="hint" id="h2b">Substitute: HB² = 15² + 11² − 2(15)(11)cos 75°. Work out the right-hand side, then take the square root.</div>
+    </div>
+
+    <div class="wb-step locked" id="s3" data-step="3">
+      <h4>Step 3 — Next tool: find the angle ∠AHB</h4>
+      <p style="margin:0.2em 0; font-size:0.95em;">Now you have a side (HB) paired with its opposite angle (A) — so the sine rule has something to grip. Find ∠AHB, to 1 decimal place (degrees).</p>
+      <div class="wb-row">
+        <input type="text" id="i3" placeholder="∠AHB = ? °" aria-label="angle AHB">
+        <button class="checkbtn" data-step="3" disabled>✅ Check</button>
+        <button class="hintbtn" data-step="3" disabled>💡 Hint</button>
+      </div>
+      <div class="feedback" id="f3"></div>
+      <div class="hint" id="h3a">Sine rule: sin(∠AHB) / AB = sin A / HB. The side opposite ∠AHB is AB = 11.</div>
+      <div class="hint" id="h3b">Rearrange to sin(∠AHB) = AB·sin A / HB = 11·sin 75° / HB, then apply sin⁻¹. Use your unrounded HB for full accuracy.</div>
+    </div>
+
+    <div class="wb-step locked" id="s4" data-step="4">
+      <h4>Step 4 — Finish: find the area enclosed by the route</h4>
+      <p style="margin:0.2em 0; font-size:0.95em;">Find the area of triangle HAB, to 1 decimal place (km²).</p>
+      <div class="wb-row">
+        <input type="text" id="i4" placeholder="area = ? km²" aria-label="area">
+        <button class="checkbtn" data-step="4" disabled>✅ Check</button>
+        <button class="hintbtn" data-step="4" disabled>💡 Hint</button>
+      </div>
+      <div class="feedback" id="f4"></div>
+      <div class="hint" id="h4a">You have two sides and the angle between them — that's exactly what the area formula ½ ab sin C wants.</div>
+      <div class="hint" id="h4b">Area = ½ · HA · AB · sin A = ½ · 15 · 11 · sin 75°.</div>
+    </div>
+
+    <div class="payoff" id="payoff">
+      <strong>Solved — and now the navigator's answer.</strong> The angle ∠AHB you found is measured from the H→A direction (bearing 045°). Since B lies clockwise of A as seen from H, the bearing of B from the harbour is 045° + ∠AHB ≈ <strong>086°</strong>. To steer <em>home</em> from B, the skipper reverses it: 086° + 180° = <strong>266°</strong>. So: B is about <strong>16.1 km</strong> from harbour on a bearing of <strong>086°</strong>, the route home is bearing <strong>266°</strong>, and the triangle of sea enclosed is about <strong>79.7 km²</strong>.
+    </div>
+  </div>
+
+  <p><strong>Investigate with the chart:</strong></p>
+  <ol class="prompts">
+    <li>Notice the order you were forced into: cosine rule <em>before</em> sine rule. Why can't you find ∠AHB first? (What would the sine rule need that you don't yet have?)</li>
+    <li>In Step 3 the sine rule gives <span class="mono">sin(∠AHB) ≈ 0.658</span>, which has two solutions between 0° and 180°. Why is the obtuse one impossible here? (Look at the triangle: which is the longest side, and which angle must therefore be largest?)</li>
+    <li>Suppose the skipper had instead measured HB directly and knew all three sides. Which tool would now be the natural <em>first</em> move, and why?</li>
+    <li>Re-do Step 4 using ½ · HA · HB · sin(∠AHB) instead of ½ · HA · AB · sin A. You should get the same area — why must you?</li>
+  </ol>
+</details>
+
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>The hardest moment in a problem like this is the very first one — the blank-page feeling of <em>"I don't know where to start."</em> That feeling is not a sign you can't do it. It's just the normal gap between reading a problem and seeing into it, and it closes the instant you do one small, concrete thing: <strong>draw the triangle and label what you know.</strong></p>
+
+  <p>Notice how the workbench never asked you to see the whole solution at once. It asked for one decision at a time. That's a habit you can carry into any problem: you don't need the full route before you take the first step — you need only the <em>next</em> step.</p>
+
+  <p>Pause and check in with yourself:</p>
+  <ul>
+    <li>Where did you feel stuck, and what got you moving again — the diagram, a hint, or just naming what you knew?</li>
+    <li>When the answer came out, did it <em>feel</em> right before you checked it? Building that sense of "this is about the right size" is real mathematical skill, not a lucky guess.</li>
+    <li>Next time the blank-page feeling shows up, what's the one small move you'll make first?</li>
+  </ul>
+</details>
+
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Your task: become the problem-setter.</strong> Design <em>one</em> multi-step triangle problem of your own — set in a real context (navigation, surveying, a sports field, a roof truss, anything) — that genuinely needs <strong>at least two</strong> of the three tools used in sequence. Then write a full model solution that:</p>
+  <ul>
+    <li>begins with a clearly labelled diagram;</li>
+    <li>states, at each step, <em>which</em> tool you're using and <em>why</em> it fits (name the configuration: SAS, SSS, AAS, …);</li>
+    <li>keeps full accuracy through the working and rounds only at the end;</li>
+    <li>finishes with a "look back" sentence checking the answer is sensible.</li>
+  </ul>
+  <p>Swap with a partner if you can: solving each other's problems is the real test of whether the setup is clear and consistent.</p>
+
+  <div class="seed"><strong>Seed of Change (Pearson Edexcel IAL P1, §3.1):</strong> Select and combine the sine rule, cosine rule (including the ambiguous case), and the area formula ½ ab sin C to solve multi-step problems presented in unstructured, real-world form.</div>
+
+  <p style="margin-top:1em;"><strong>How your work will be assessed — the Haven Maths Rubric:</strong></p>
+  <table class="toolkit">
+    <tr><th>Strand</th><th>What we're looking for here</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>You choose tools by the configuration (opposite vs included), not by guesswork, and can justify each choice.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Correct substitution and algebra; full accuracy carried through; sensible final rounding.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>You translate an unstructured, real-world situation (including bearings) into a correctly labelled triangle and a working plan.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>You design a consistent problem of your own and check that your answer is reasonable ("look back").</td></tr>
+  </table>
+</details>
+
+<div class="nowpractise" style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions with Socratic support whenever you get stuck.</p>
+  <a href="problem-solving-with-sine-cosine-rules-and-area-practice-companion.html" target="_blank" rel="noopener">✏️ Now Practise →</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var SVGNS = "http://www.w3.org/2000/svg";
+  // ----- verified scenario (see Python verification) -----
+  // H=(0,0) A=(10.607,10.607) B=(16.107,1.080); angleA=75, HB=16.1428, angleH=41.1627, area=79.6889
+  var ANS = {
+    1: { val: 75,      tol: 0.5,  unit: "°"   },
+    2: { val: 16.1428, tol: 0.25, unit: " km" },
+    3: { val: 41.1627, tol: 0.6,  unit: "°"   },
+    4: { val: 79.6889, tol: 1.0,  unit: " km²"}
+  };
+  // pixel transform: px = 70 + 26*x ; py = 360 - 26*y  (North is up)
+  function PX(x){ return 70 + 26 * x; }
+  function PY(y){ return 360 - 26 * y; }
+  var P = {
+    H: { x: PX(0),      y: PY(0)      },
+    A: { x: PX(10.607), y: PY(10.607) },
+    B: { x: PX(16.107), y: PY(1.080)  }
+  };
+
+  var state = { current: 1, showNorth: false, done: { 1:false, 2:false, 3:false, 4:false } };
+
+  function el(name, attrs) {
+    var e = document.createElementNS(SVGNS, name);
+    for (var k in attrs) { e.setAttribute(k, attrs[k]); }
+    return e;
+  }
+  function line(x1,y1,x2,y2,stroke,w,dash) {
+    var a = { x1:x1, y1:y1, x2:x2, y2:y2, stroke:stroke, "stroke-width":w };
+    if (dash) { a["stroke-dasharray"] = dash; }
+    return el("line", a);
+  }
+  function dot(x,y,r,fill) { return el("circle", { cx:x, cy:y, r:r, fill:fill }); }
+  function txt(x,y,s,opts) {
+    var t = el("text", { x:x, y:y, "font-family":"Georgia, serif", "font-size":(opts&&opts.size)||14, fill:(opts&&opts.fill)||"#2B2B2B" });
+    if (opts && opts.anchor) { t.setAttribute("text-anchor", opts.anchor); }
+    if (opts && opts.weight) { t.setAttribute("font-weight", opts.weight); }
+    t.textContent = s;
+    return t;
+  }
+  // faint dashed vertical North line through (cx,cy), extended above AND below, with arrowhead + N
+  function northGuide(cx, cy) {
+    var g = el("g", {});
+    var top = cy - 60, bot = cy + 56;
+    g.appendChild(line(cx, top, cx, bot, "#9BB0BD", 1.4, "4 4"));
+    g.appendChild(el("path", { d:"M"+cx+" "+(top-6)+" l -4 10 l 8 0 z", fill:"#9BB0BD" }));
+    g.appendChild(txt(cx, top - 10, "N", { anchor:"middle", size:12, fill:"#5A7686", weight:"bold" }));
+    return g;
+  }
+  // small arc from screen-angle a0 to a1 (degrees, y-down convention), to mark an angle
+  function angleArc(cx, cy, r, a0, a1, stroke) {
+    var d = Math.PI/180;
+    var x0 = cx + r*Math.cos(a0*d), y0 = cy + r*Math.sin(a0*d);
+    var x1 = cx + r*Math.cos(a1*d), y1 = cy + r*Math.sin(a1*d);
+    return el("path", { d:"M"+x0.toFixed(2)+" "+y0.toFixed(2)+" A "+r+" "+r+" 0 0 1 "+x1.toFixed(2)+" "+y1.toFixed(2), fill:"none", stroke:stroke, "stroke-width":2 });
+  }
+
+  function render() {
+    var svg = document.getElementById("wbsvg");
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+
+    // North arrow at H (always shown)
+    svg.appendChild(line(P.H.x, P.H.y, P.H.x, P.H.y - 56, "#3A5A6B", 1.5));
+    var arrow = el("path", { d: "M"+(P.H.x)+" "+(P.H.y-62)+" l -5 12 l 10 0 z", fill:"#3A5A6B" });
+    svg.appendChild(arrow);
+    svg.appendChild(txt(P.H.x, P.H.y - 66, "N", { anchor:"middle", size:13, fill:"#3A5A6B", weight:"bold" }));
+
+    // optional North-line guides (learner-toggled): extend H below, full lines at A and B
+    if (state.showNorth) {
+      svg.appendChild(line(P.H.x, P.H.y, P.H.x, P.H.y + 52, "#9BB0BD", 1.4, "4 4"));
+      svg.appendChild(northGuide(P.A.x, P.A.y));
+      svg.appendChild(northGuide(P.B.x, P.B.y));
+    }
+
+    // Given legs HA and AB (always shown)
+    svg.appendChild(line(P.H.x, P.H.y, P.A.x, P.A.y, "#3A5A6B", 2.4));
+    svg.appendChild(line(P.A.x, P.A.y, P.B.x, P.B.y, "#3A5A6B", 2.4));
+
+    // leg labels
+    svg.appendChild(txt((P.H.x+P.A.x)/2 - 26, (P.H.y+P.A.y)/2, "15 km", { size:13, fill:"#3A5A6B" }));
+    svg.appendChild(txt((P.A.x+P.B.x)/2 + 6, (P.A.y+P.B.y)/2 - 4, "11 km", { size:13, fill:"#3A5A6B" }));
+
+    // closing side HB: shown once Step 2 is done
+    if (state.done[2]) {
+      svg.appendChild(line(P.H.x, P.H.y, P.B.x, P.B.y, "#9A4A2E", 2.4, "6 4"));
+      svg.appendChild(txt((P.H.x+P.B.x)/2 - 6, (P.H.y+P.B.y)/2 + 18, "HB ≈ 16.1 km", { size:13, fill:"#9A4A2E", weight:"bold" }));
+    }
+
+    // vertices + labels
+    svg.appendChild(dot(P.H.x, P.H.y, 4, "#2B2B2B"));
+    svg.appendChild(dot(P.A.x, P.A.y, 4, "#2B2B2B"));
+    svg.appendChild(dot(P.B.x, P.B.y, 4, "#2B2B2B"));
+    svg.appendChild(txt(P.H.x - 10, P.H.y + 18, "H (harbour)", { anchor:"end", size:13, weight:"bold" }));
+    svg.appendChild(txt(P.A.x, P.A.y - 12, "A", { anchor:"middle", size:14, weight:"bold" }));
+    svg.appendChild(txt(P.B.x + 10, P.B.y + 4, "B", { anchor:"start", size:14, weight:"bold" }));
+
+    // angle labels appear as steps complete
+    if (state.done[1]) {
+      // arc spanning the actual interior angle ∠HAB (ray A→B at 60° round to ray A→H at 135°)
+      svg.appendChild(angleArc(P.A.x, P.A.y, 42, 60, 135, "#2E6B2E"));
+      svg.appendChild(txt(338, 140, "75°", { anchor:"middle", size:13, fill:"#2E6B2E", weight:"bold" }));
+    }
+    if (state.done[3]) {
+      svg.appendChild(txt(P.H.x + 30, P.H.y - 6, "41.2°", { anchor:"start", size:13, fill:"#2E6B2E", weight:"bold" }));
+    }
+    if (state.done[4]) {
+      svg.appendChild(txt((P.H.x+P.A.x+P.B.x)/3, (P.H.y+P.A.y+P.B.y)/3 + 4, "≈ 79.7 km²", { anchor:"middle", size:13, fill:"#4A6B3A" }));
+    }
+
+    // equal alternate angles, highlighted in matching colour when guides are shown
+    if (state.showNorth) {
+      svg.appendChild(angleArc(P.H.x, P.H.y, 30, -90, -45, "#B5651D"));   // North-up ↔ HA at H
+      svg.appendChild(txt(86, 322, "45°", { anchor:"middle", size:12, fill:"#B5651D", weight:"bold" }));
+      svg.appendChild(angleArc(P.A.x, P.A.y, 28, 90, 135, "#B5651D"));    // South ↔ AH at A
+      svg.appendChild(txt(322, 118, "45°", { anchor:"middle", size:12, fill:"#B5651D", weight:"bold" }));
+    }
+  }
+
+  function parseNum(s) {
+    if (s == null) { return NaN; }
+    var m = String(s).replace(/,/g, "").match(/-?\d+(\.\d+)?/);
+    return m ? parseFloat(m[0]) : NaN;
+  }
+
+  function setStepEnabled(step, enabled) {
+    var card = document.getElementById("s" + step);
+    if (enabled) { card.classList.remove("locked"); } else { card.classList.add("locked"); }
+    document.querySelectorAll('[data-step="' + step + '"]').forEach(function (b) {
+      if (b.tagName === "BUTTON") { b.disabled = !enabled; }
+    });
+  }
+
+  function check(step) {
+    var val = parseNum(document.getElementById("i" + step).value);
+    var fb = document.getElementById("f" + step);
+    var a = ANS[step];
+    if (isNaN(val)) {
+      fb.className = "feedback no";
+      fb.textContent = "Type a number first — just the value is fine.";
+      return;
+    }
+    if (Math.abs(val - a.val) <= a.tol) {
+      fb.className = "feedback ok";
+      fb.textContent = "✓ Yes — " + (step === 1 ? "the two directions at A are 225° and 150°, so ∠HAB = 75°." :
+                      step === 2 ? "HB ≈ 16.1 km. The dashed side is now on the chart." :
+                      step === 3 ? "∠AHB ≈ 41.2°. A side paired with its opposite angle was the key." :
+                                   "area ≈ 79.7 km².");
+      if (!state.done[step]) { state.done[step] = true; }
+      if (step < 4) { setStepEnabled(step + 1, true); }
+      if (step === 4) { document.getElementById("payoff").style.display = "block"; }
+      render();
+    } else {
+      fb.className = "feedback no";
+      // answer-free, diagnostic nudges (never state the value)
+      fb.textContent = step === 1 ? "Not quite. Did you take the reverse bearing A→H (add 180° to 045°) before subtracting the 150°?" :
+                       step === 2 ? "Not quite — check you used the cosine of 75° (not its sine), and that the −2·15·11 term was subtracted. Keep full accuracy before rounding." :
+                       step === 3 ? "Not quite. Make sure the side over sin in the sine rule is the one opposite the angle you want (AB = 11), and use the unrounded HB." :
+                                    "Not quite — the included angle in ½ ab sin C must be the one between the two sides you chose. Check it's 75° between HA and AB.";
+    }
+  }
+
+  function toggleHint(step) {
+    var a = document.getElementById("h" + step + "a");
+    var b = document.getElementById("h" + step + "b");
+    if (a.style.display !== "block") { a.style.display = "block"; }
+    else { b.style.display = "block"; }
+  }
+
+  document.querySelectorAll(".checkbtn").forEach(function (btn) {
+    btn.addEventListener("click", function () { check(parseInt(btn.getAttribute("data-step"), 10)); });
+  });
+  document.querySelectorAll(".hintbtn").forEach(function (btn) {
+    btn.addEventListener("click", function () { toggleHint(parseInt(btn.getAttribute("data-step"), 10)); });
+  });
+  document.querySelectorAll(".wb input").forEach(function (inp) {
+    inp.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        var step = parseInt(inp.id.replace("i", ""), 10);
+        check(step);
+      }
+    });
+  });
+
+  var nt = document.getElementById("northToggle");
+  if (nt) {
+    nt.addEventListener("change", function () {
+      state.showNorth = nt.checked;
+      var note = document.getElementById("northnote");
+      if (note) { note.style.display = nt.checked ? "block" : "none"; }
+      render();
+    });
+  }
+
+  render();
+})();
+</script>
+
+</body>
+</html>

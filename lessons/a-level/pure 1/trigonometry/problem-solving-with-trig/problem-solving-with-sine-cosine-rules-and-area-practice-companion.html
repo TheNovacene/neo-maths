@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem Solving with the Sine Rule, Cosine Rule, and Area — Practice Companion</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 820px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; line-height: 1.25; }
+  .intro { background: #E5EBF0; border-left: 5px solid #3A5A6B; padding: 0.9em 1.2em; border-radius: 8px; margin: 1.2em 0; }
+  .intro strong { color: #28414f; }
+
+  #progress { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 1.2em 0; align-items: center; }
+  #progress .dot { width: 22px; height: 22px; border-radius: 50%; background: #D8D2C6; display: flex; align-items: center; justify-content: center; font-size: 0.72em; color: #5a5346; cursor: pointer; border: 2px solid transparent; font-family: Georgia, serif; }
+  #progress .dot.engaged { background: #E8C66B; color: #5a4a18; }
+  #progress .dot.correct { background: #8FB87A; color: #294017; }
+  #progress .dot.current { border-color: #3A5A6B; }
+
+  .card { background: #fff; border: 1px solid #D4C9B6; border-radius: 10px; padding: 1.2em 1.4em; margin: 1em 0; }
+  .qnum { font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.08em; color: #8B6F47; }
+  .stem { font-size: 1.08em; margin: 0.4em 0 0.8em; }
+  .stem code, .work code, code { font-family: 'Courier New', monospace; background: #F6F2EA; padding: 0.05em 0.3em; border-radius: 3px; }
+
+  .palette { margin: 0.6em 0; }
+  .palette .row { display: flex; flex-wrap: wrap; gap: 0.3em; margin-bottom: 0.3em; }
+  .palette button { font-family: 'Courier New', monospace; font-size: 0.95em; padding: 0.25em 0.55em; border: 1px solid #BCA98a; background: #FBF8F2; border-radius: 5px; cursor: pointer; min-width: 2em; }
+  .palette button:hover { background: #F0E8DC; }
+
+  textarea, input[type=text] { width: 100%; box-sizing: border-box; font-family: 'Courier New', monospace; font-size: 1em; padding: 0.5em; border: 1px solid #C3B49a; border-radius: 6px; background: #FFFEFB; }
+  textarea { min-height: 4.5em; resize: vertical; }
+  label.fieldlabel { font-size: 0.85em; color: #6B5A42; display: block; margin: 0.6em 0 0.2em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5em; margin-top: 0.9em; }
+  .actions button { font-family: Georgia, serif; font-size: 0.92em; padding: 0.45em 0.9em; border-radius: 6px; cursor: pointer; border: 1px solid; }
+  .btn-soc { background: #F2E8F0; border-color: #6B4A6B; color: #5a3a5a; }
+  .btn-hint { background: #F5EFD9; border-color: #8B7A3A; color: #6a5d23; }
+  .btn-check { background: #E8F0E5; border-color: #4A6B3A; color: #355026; }
+  .btn-sol { background: #ECE4D8; border-color: #8a7355; color: #6a563c; }
+  .actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .reveal { margin-top: 0.8em; padding: 0.7em 1em; border-radius: 6px; display: none; }
+  .reveal.show { display: block; }
+  .reveal.soc { background: #F7F0F6; border-left: 4px solid #6B4A6B; }
+  .reveal.hint { background: #FAF6E6; border-left: 4px solid #8B7A3A; }
+  .reveal.sol { background: #F4EFE7; border-left: 4px solid #8a7355; }
+  .reveal.feedback { background: #EAF1E7; border-left: 4px solid #4A6B3A; }
+  .reveal.feedback.wrong { background: #F7ECE6; border-left-color: #B5683A; }
+  .reveal .step { margin: 0.35em 0; }
+  .ladder-item { margin: 0.3em 0; }
+
+  .nav { display: flex; justify-content: space-between; margin-top: 1em; }
+  .nav button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.45em 1.1em; border: 1px solid #6E8597; background: #fff; border-radius: 6px; cursor: pointer; }
+  .nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .reflection { background: #F5EFD9; border-left: 5px solid #8B7A3A; padding: 1em 1.3em; border-radius: 8px; margin: 1.5em 0; }
+
+  @media print {
+    .actions, .nav, .palette, #progress { display: none !important; }
+    .card { display: block !important; page-break-inside: avoid; border: 1px solid #999; }
+    .reveal { display: block !important; }
+    textarea, input { border: 1px solid #999; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<p style="margin-bottom:0.3em;"><a href="problem-solving-with-sine-cosine-rules-and-area-lesson.html" rel="noopener" style="font-family: Georgia, serif; font-size: 0.9em; color: #6B4A2E; text-decoration: none;">← Back to the lesson</a></p>
+
+<h1>Problem Solving with the Sine Rule, Cosine Rule &amp; Area<br><span style="font-size:0.55em; color:#6B6B6B;">Pure 1, Trigonometry · Lesson 3 (synthesis)</span></h1>
+
+<div class="intro">
+  <p>Eight exam-style questions that mix the <strong>sine rule</strong>, the <strong>cosine rule</strong>, and the <strong>area formula</strong> — because the real skill in this lesson is <em>choosing</em> the right tool, not just running it. Whenever you are stuck, you have <strong>four kinds of help</strong>, in this order:</p>
+  <p>🤔 <strong>Socratic prompt</strong> — a question to get you thinking. &nbsp; 💡 <strong>Hint</strong> — a piece of method. &nbsp; ✅ <strong>Check my answer</strong> — try as many times as you like. &nbsp; 👀 <strong>Worked solution</strong> — the full method, unlocked once you have genuinely tried.</p>
+  <p style="margin-bottom:0;"><em>Give angles in degrees to 1 decimal place and lengths to 2 decimal places unless told otherwise. Keep full accuracy in your working and round only at the end. Calculator must be in degrees mode.</em></p>
+</div>
+
+<div id="progress"></div>
+<div id="card-mount"></div>
+
+<div class="nav">
+  <button id="prevBtn">← Previous</button>
+  <button id="nextBtn">Next →</button>
+</div>
+
+<div class="reflection">
+  <h3 style="margin-top:0;">💛 Reflection</h3>
+  <p>Before you close this, take a moment:</p>
+  <ul>
+    <li>On each question, what was the <em>first</em> thing you looked for to decide which rule to use? If you can name that habit, you can repeat it under pressure.</li>
+    <li>Which felt harder — knowing <em>which</em> tool to reach for, or carrying out the calculation once you had chosen? Whichever it was tells you what to practise next.</li>
+    <li>Where a problem needed two tools in sequence, did you spot the intermediate quantity (a side or an angle) that unlocked the next step? That look-ahead is the heart of synthesis.</li>
+    <li>Did any answer come out feeling the wrong size? Sense-checking against the picture — biggest side opposite biggest angle — is a real skill, not a luxury.</li>
+  </ul>
+  <p style="margin-bottom:0;"><em>You can print or save this page (including any solutions you opened) using your browser's print function.</em></p>
+</div>
+
+<script>
+const questions = [
+  {
+    type: 'Direct application — cosine rule (SAS)',
+    stem: 'In triangle <code>ABC</code>, <code>b = 9 cm</code>, <code>c = 12 cm</code>, and the included angle <code>A = 55°</code>. Find the length of side <code>a</code>, to 2 decimal places.',
+    accepted: ['10.06','a=10.06','a = 10.06','10.06cm','10.06 cm','a=10.06cm'],
+    socratic: [
+      'Do you have a side paired with the angle opposite it, or an angle wedged between two known sides? Which rule does that point to?',
+      'Two sides with the angle between them (SAS) gives no side-and-opposite-angle pair, so the sine rule cannot start. Which rule is built for SAS?',
+      'Use the cosine rule with A as the included angle: a² = b² + c² − 2bc cos A. Substitute b, c and A, then square-root.'
+    ],
+    hints: [
+      'This is SAS — angle A sits between the two given sides b and c — so reach for the cosine rule: a² = b² + c² − 2bc cos A.',
+      'Substitute to set up a² = 9² + 12² − 2(9)(12) cos 55°. Evaluate the right-hand side, then take the positive square root to finish.'
+    ],
+    solution: [
+      'Step 1. The known angle A lies between the two known sides b and c — the SAS case — so use the cosine rule for the opposite side a.',
+      'Step 2. a² = b² + c² − 2bc cos A = 9² + 12² − 2(9)(12) cos 55° = 81 + 144 − 216 cos 55°.',
+      'Step 3. cos 55° ≈ 0.57358, so 216 × 0.57358 ≈ 123.89.',
+      'Step 4. a² ≈ 225 − 123.89 ≈ 101.11, so a ≈ √101.11 ≈ 10.06.',
+      'Answer: a ≈ 10.06 cm.'
+    ]
+  },
+  {
+    type: 'Direct application — sine rule (AAS)',
+    stem: 'In triangle <code>ABC</code>, angle <code>A = 52°</code>, angle <code>B = 47°</code>, and side <code>a = 9 cm</code> (opposite A). Find side <code>c</code>, to 2 decimal places.',
+    accepted: ['11.28','c=11.28','c = 11.28','11.28cm','11.28 cm','c=11.28cm'],
+    socratic: [
+      'You know a side and the angle opposite it (a and A). What does that pairing make available?',
+      'To use the sine rule for c you need the angle opposite c — angle C — which you are not given directly. What must the three angles add to?',
+      'Find C from the angle sum (C = 180° − A − B), then apply the sine rule: c / sin C = a / sin A.'
+    ],
+    hints: [
+      'A side paired with its opposite angle (a, A) means the sine rule is the way in — but c needs its own opposite angle C first, which the angle sum 180° gives you.',
+      'With C found, set up c = a · sin C / sin A and substitute a = 9, A = 52° and your value of C. Evaluate to finish.'
+    ],
+    solution: [
+      'Step 1. You have a side and its opposite angle (a opposite A), so the sine rule applies — but c needs its opposite angle C first.',
+      'Step 2. Angle sum: C = 180° − 52° − 47° = 81°.',
+      'Step 3. Sine rule: c / sin C = a / sin A, so c = a · sin C / sin A = 9 × sin 81° / sin 52°.',
+      'Step 4. sin 81° ≈ 0.98769, sin 52° ≈ 0.78801, so c ≈ 9 × 0.98769 / 0.78801 ≈ 11.28.',
+      'Answer: c ≈ 11.28 cm.'
+    ]
+  },
+  {
+    type: 'Inverse problem — area formula',
+    stem: 'In triangle <code>ABC</code>, <code>a = 6 cm</code>, <code>b = 10 cm</code>, and the area is <code>15 cm²</code>. Find the <em>acute</em> value of the included angle <code>C</code>, to 1 decimal place.',
+    accepted: ['30','30.0','30°','30.0°','c=30','c=30.0','c=30°','c=30.0°'],
+    socratic: [
+      'Which formula links two sides, the angle between them, and the area?',
+      'Area = ½ ab sin C. You know the area and the two sides — so you can solve for sin C.',
+      'Rearrange to sin C = 2 × area / (ab), then take the inverse sine for the acute angle.'
+    ],
+    hints: [
+      'The area formula ½ ab sin C is the one that uses two sides and their included angle. Set ½(6)(10) sin C = 15.',
+      'Rearrange to make sin C the subject (sin C = 2 × 15 / (6 × 10)), then apply inverse sine to read off the acute value of C.'
+    ],
+    solution: [
+      'Step 1. Two sides and the included angle relate to the area through Area = ½ ab sin C.',
+      'Step 2. Substitute: ½ × 6 × 10 × sin C = 15, i.e. 30 sin C = 15.',
+      'Step 3. sin C = 15 / 30 = 0.5.',
+      'Step 4. The acute solution is C = sin⁻¹(0.5) = 30.0°. (There is also an obtuse partner, C = 150°, since sine is positive in both the first and second quadrants — but the question asks for the acute value.)',
+      'Answer: C = 30.0°.'
+    ]
+  },
+  {
+    type: 'Inverse problem — cosine rule (SSS)',
+    stem: 'A triangle has sides <code>a = 8</code>, <code>b = 5</code>, and <code>c = 11</code>. Find the <em>largest</em> angle in the triangle, to 1 decimal place.',
+    accepted: ['113.6','113.6°','c=113.6','c=113.6°'],
+    socratic: [
+      'Where in any triangle is the largest angle always found — opposite which side?',
+      'The largest angle sits opposite the longest side. Which side is longest here, and which angle is therefore the largest?',
+      'It is angle C, opposite c = 11. With three sides known, use the rearranged cosine rule: cos C = (a² + b² − c²) / (2ab).'
+    ],
+    hints: [
+      'The largest angle is opposite the longest side (c = 11), so you are finding C. Three sides known means the rearranged cosine rule: cos C = (a² + b² − c²) / (2ab).',
+      'Substitute to get cos C = (8² + 5² − 11²) / (2 × 8 × 5). The numerator is negative — so expect an obtuse angle — then take the inverse cosine.'
+    ],
+    solution: [
+      'Step 1. The largest angle is opposite the longest side, c = 11, so we want angle C.',
+      'Step 2. SSS case: cos C = (a² + b² − c²) / (2ab) = (8² + 5² − 11²) / (2 × 8 × 5) = (64 + 25 − 121) / 80 = −32 / 80 = −0.4.',
+      'Step 3. The cosine is negative, confirming C is obtuse — a useful check before computing.',
+      'Step 4. C = cos⁻¹(−0.4) ≈ 113.6°.',
+      'Answer: the largest angle is C ≈ 113.6°.'
+    ]
+  },
+  {
+    type: 'Interpretation — choosing the tool',
+    stem: 'For each situation, state which rule you would reach for <strong>first</strong> — write <code>sine</code>, <code>cosine</code>, or <code>area</code>. <em>Do not calculate anything.</em><br><strong>(a)</strong> You know two sides and the angle between them, and want the third side.<br><strong>(b)</strong> You know one side, the angle opposite it, and one more angle, and want a second side.<br><strong>(c)</strong> You know two sides and the angle between them, and want the enclosed area.',
+    accepted: ['(a)cosine(b)sine(c)area','cosine,sine,area','a)cosine b)sine c)area','cosine;sine;area','(a) cosine (b) sine (c) area'],
+    socratic: [
+      'What single question decides between the sine rule and the cosine rule — what kind of side-and-angle information does each need to start?',
+      'The sine rule needs a side paired with the angle opposite it. The cosine rule (and the area formula) start from two sides with the angle between them. Which description fits each part?',
+      'For each part ask: is the known angle opposite a known side, or wedged between two known sides? And is it a side, or the area, that is wanted?'
+    ],
+    hints: [
+      'Decision test: a side paired with its opposite angle → sine rule; an angle between two known sides, wanting the third side → cosine rule; two sides and the angle between them, wanting the area → area formula ½ ab sin C.',
+      'Apply that test to each of (a), (b), (c) in turn — read off which configuration is described, with no arithmetic.'
+    ],
+    solution: [
+      'Step 1. The deciding question is always: do I have a side paired with the angle opposite it (→ sine rule), or an angle between two known sides (→ cosine rule / area)?',
+      'Step 2 (a). Two sides and the angle between them, wanting the third side — that is SAS, so the cosine rule.',
+      'Step 3 (b). A side with its opposite angle, plus another angle, wanting a second side — exactly what the sine rule needs.',
+      'Step 4 (c). Two sides and the included angle, wanting the area — that is the area formula ½ ab sin C.',
+      'Answer: (a) cosine; (b) sine; (c) area.'
+    ]
+  },
+  {
+    type: 'Modelling — bearings',
+    stem: 'A walker leaves checkpoint <code>X</code> and walks 6 km on a bearing of 070° to <code>Y</code>. From <code>Y</code> she walks 9 km on a bearing of 150° to <code>Z</code>. Find the direct distance <code>XZ</code>, to 1 decimal place (km).',
+    accepted: ['11.7','11.7km','11.7 km','xz=11.7','xz = 11.7','approximately 11.7 km'],
+    socratic: [
+      'Sketch triangle XYZ. You know XY = 6 and YZ = 9. Which angle of the triangle do you need, and at which vertex?',
+      'You need the interior angle at Y, between YX and YZ. The two bearings (070° out to Y, 150° on to Z) give it. How does the direction back from Y to X relate to 070°?',
+      'Interior angle at Y = 180° − (change in bearing) = 180° − (150° − 70°). Then two sides and the included angle means the cosine rule for XZ.'
+    ],
+    hints: [
+      'Turn the bearings into the interior angle at Y first: it is 180° − (150° − 70°). Then XY = 6 and YZ = 9 with that included angle is an SAS cosine-rule problem.',
+      'Set up XZ² = 6² + 9² − 2(6)(9) cos(angle Y), substitute your angle, evaluate the right-hand side and square-root to finish.'
+    ],
+    solution: [
+      'Step 1. Sketch triangle XYZ: XY = 6 km on bearing 070°, YZ = 9 km on bearing 150°.',
+      'Step 2. Interior angle at Y: the change in bearing from 070° to 150° is 80°, so the interior angle is 180° − 80° = 100°. (Equivalently, the back-bearing Y→X is 070° + 180° = 250°, and 250° − 150° = 100°.)',
+      'Step 3. SAS case: XZ² = XY² + YZ² − 2(XY)(YZ) cos Y = 6² + 9² − 2(6)(9) cos 100° = 117 − 108 cos 100°.',
+      'Step 4. cos 100° ≈ −0.17365, so −108 × (−0.17365) ≈ +18.75, giving XZ² ≈ 117 + 18.75 ≈ 135.75.',
+      'Step 5. XZ ≈ √135.75 ≈ 11.65, which rounds to 11.7 km.',
+      'Answer: XZ ≈ 11.7 km.'
+    ]
+  },
+  {
+    type: 'Exam-style — chaining the tools',
+    stem: 'In triangle <code>ABC</code>, <code>a = 9</code>, <code>b = 7</code>, and the included angle <code>C = 62°</code>.<br><strong>(a)</strong> Find side <code>c</code>, to 2 decimal places.<br><strong>(b)</strong> Hence find angle <code>A</code> (opposite side a), to 1 decimal place.<br><strong>(c)</strong> Hence find the area of the triangle, to 1 decimal place (cm²).',
+    accepted: ['(a)8.42(b)70.8(c)27.8','8.42,70.8,27.8','(a) 8.42 (b) 70.8 (c) 27.8','c=8.42,a=70.8,area=27.8','c=8.42,a=70.8°,area=27.8'],
+    socratic: [
+      'Part (a): two sides and the angle between them, wanting the third side. Which rule?',
+      'Part (b): once c is found, you have a side paired with its opposite angle (c and C). Which rule becomes available for angle A?',
+      'Part (c): the area formula ½ ab sin C uses the two original sides and their included angle directly.'
+    ],
+    hints: [
+      '(a) SAS → cosine rule: c² = a² + b² − 2ab cos C = 9² + 7² − 2(9)(7) cos 62°. (b) Then sine rule: sin A = a sin C / c. (c) Area = ½ ab sin C — set each up and evaluate in turn.',
+      'For (b), a = 9 is the longest side, so A is the largest angle — decide whether it is acute or obtuse by comparing a² with b² + c² before choosing which inverse-sine value to keep.'
+    ],
+    solution: [
+      'Step 1 (a). SAS: c² = a² + b² − 2ab cos C = 9² + 7² − 2(9)(7) cos 62° = 130 − 126 cos 62°.',
+      'Step 2 (a). cos 62° ≈ 0.46947, so 126 × 0.46947 ≈ 59.15, giving c² ≈ 70.85 and c ≈ 8.42.',
+      'Step 3 (b). Now c and C are a side–opposite-angle pair, so use the sine rule: sin A = a sin C / c = 9 × sin 62° / 8.42.',
+      'Step 4 (b). sin A ≈ 9 × 0.88295 / 8.42 ≈ 0.9441, so A ≈ sin⁻¹(0.9441) ≈ 70.8°.',
+      'Step 5 (b, check). a² = 81 and b² + c² ≈ 49 + 70.85 = 119.85 > 81, so A is acute — the obtuse partner is rejected.',
+      'Step 6 (c). Area = ½ ab sin C = ½ × 9 × 7 × sin 62° ≈ 31.5 × 0.88295 ≈ 27.8 cm².',
+      'Answers: (a) c ≈ 8.42; (b) A ≈ 70.8°; (c) area ≈ 27.8 cm².'
+    ]
+  },
+  {
+    type: 'Synthesis — quadrilateral, two triangles',
+    stem: 'A quadrilateral <code>ABCD</code> is divided by the diagonal <code>BD</code> into two triangles.<br>In triangle <code>ABD</code>: <code>AB = 5 cm</code>, <code>AD = 8 cm</code>, and angle <code>A = 60°</code>.<br>In triangle <code>BCD</code>: <code>BC = 7 cm</code> and <code>CD = 4 cm</code>.<br><strong>(a)</strong> Find the diagonal <code>BD</code>, to 2 decimal places.<br><strong>(b)</strong> Hence find the area of triangle <code>BCD</code>, to 2 decimal places (cm²).',
+    accepted: ['(a)7(b)13.42','(a)7.00(b)13.42','7,13.42','7.00,13.42','(a) 7 (b) 13.42','(a) 7.00 (b) 13.42','bd=7,area=13.42','bd=7.00,area=13.42','bd=7,13.42'],
+    socratic: [
+      'Part (a): in triangle ABD you know two sides and the angle between them. Which rule gives the third side, BD?',
+      'Part (b): once BD is known, triangle BCD has all three sides (BC, CD, BD). With no angle yet, how do you get one — and then the area?',
+      'Find an angle of BCD with the rearranged cosine rule, then use Area = ½ × (two sides) × sin(angle between them). (Heron’s formula is a neat alternative once all three sides are known.)'
+    ],
+    hints: [
+      '(a) Triangle ABD is SAS: BD² = AB² + AD² − 2(AB)(AD) cos A = 5² + 8² − 2(5)(8) cos 60°. (b) Triangle BCD then has three known sides — use the rearranged cosine rule to find one angle, then the area formula ½ ab sin C with that angle.',
+      'For (b), with all three sides of BCD known you may instead apply Heron’s formula directly: s = (BC + CD + BD)/2, area = √(s(s−BC)(s−CD)(s−BD)). Either route works — set it up and evaluate.'
+    ],
+    solution: [
+      'Step 1 (a). Triangle ABD is SAS (angle A between AB and AD): BD² = AB² + AD² − 2(AB)(AD) cos A = 5² + 8² − 2(5)(8) cos 60°.',
+      'Step 2 (a). cos 60° = 0.5 exactly, so BD² = 25 + 64 − 80 × 0.5 = 89 − 40 = 49, giving BD = 7.00 cm.',
+      'Step 3 (b). Triangle BCD now has all three sides: BC = 7, CD = 4, BD = 7. Find the angle at C (between BC and CD): cos C = (BC² + CD² − BD²) / (2 · BC · CD) = (49 + 16 − 49) / 56 = 16/56 ≈ 0.2857.',
+      'Step 4 (b). C ≈ cos⁻¹(0.2857) ≈ 73.4°, so area = ½ × BC × CD × sin C = ½ × 7 × 4 × sin 73.4° ≈ 14 × 0.9583 ≈ 13.42 cm².',
+      'Step 5 (b, check). Heron: s = (7 + 4 + 7)/2 = 9, area = √(9 × 2 × 5 × 2) = √180 ≈ 13.42 cm². ✓',
+      'Answers: (a) BD = 7.00 cm; (b) area of triangle BCD ≈ 13.42 cm².'
+    ]
+  }
+];
+
+const paletteCore = ['²','³','√','±','≤','≥','≠','−','·','π','°','θ','α','β','sin','cos','tan'];
+const shortcuts = [
+  ['Delta','Δ'],['delta','Δ'],['sqrt','√'],['pi','π'],['theta','θ'],['alpha','α'],['beta','β'],['deg','°'],
+  ['^2','²'],['^3','³'],['<=','≤'],['>=','≥'],['!=','≠'],['+-','±']
+];
+
+const state = questions.map(() => ({ socIdx: 0, hintIdx: 0, attempts: 0, correct: false, engaged: false, solUnlocked: false, work: '', ans: '' }));
+let current = 0;
+
+function normalise(s) {
+  return s.toLowerCase()
+    .replace(/\s+and\s+/g, ',')
+    .replace(/\s+or\s+/g, ',')
+    .replace(/\s+/g, '')
+    .replace(/\(([a-h])\)/g, '')
+    .replace(/\.(?!\d)/g, '')
+    .replace(/;/g, ',')
+    .replace(/[–—−]/g, '-');
+}
+function checkAnswer(input, accepted) {
+  const n = normalise(input);
+  return accepted.some(a => normalise(a) === n);
+}
+
+const mount = document.getElementById('card-mount');
+
+function buildPalette(qIndex) {
+  const wrap = document.createElement('div'); wrap.className = 'palette';
+  const row = document.createElement('div'); row.className = 'row';
+  paletteCore.forEach(sym => row.appendChild(palBtn(sym, qIndex)));
+  wrap.appendChild(row);
+  return wrap;
+}
+function palBtn(sym, qIndex) {
+  const b = document.createElement('button'); b.textContent = sym; b.type = 'button';
+  b.addEventListener('click', () => {
+    const ans = document.getElementById('ans-' + qIndex);
+    const tgt = (document.activeElement && document.activeElement.id === 'work-' + qIndex) ? document.getElementById('work-' + qIndex) : ans;
+    insertAtCursor(tgt, sym); tgt.focus();
+  });
+  return b;
+}
+function insertAtCursor(field, text) {
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  const pos = start + text.length;
+  field.selectionStart = field.selectionEnd = pos;
+}
+function applyShortcuts(field) {
+  let v = field.value;
+  shortcuts.forEach(([from, to]) => { v = v.split(from).join(to); });
+  if (v !== field.value) {
+    const delta = field.value.length - v.length;
+    const pos = (field.selectionStart ?? v.length) - delta;
+    field.value = v;
+    field.selectionStart = field.selectionEnd = Math.max(0, pos);
+  }
+}
+
+function renderCard() {
+  const q = questions[current]; const st = state[current];
+  mount.innerHTML = '';
+  const card = document.createElement('div'); card.className = 'card';
+  card.innerHTML = '<div class="qnum">Question ' + (current + 1) + ' of ' + questions.length + ' &nbsp;·&nbsp; <span style="color:#a08a6a; font-style:italic;">' + q.type + '</span></div><div class="stem">' + q.stem + '</div>';
+  card.appendChild(buildPalette(current));
+
+  const workLabel = document.createElement('label'); workLabel.className = 'fieldlabel'; workLabel.textContent = 'Your working (think on the page):';
+  const work = document.createElement('textarea'); work.id = 'work-' + current; work.value = st.work || '';
+  work.addEventListener('input', () => { applyShortcuts(work); st.work = work.value; });
+  const ansLabel = document.createElement('label'); ansLabel.className = 'fieldlabel'; ansLabel.textContent = 'Your final answer:';
+  const ans = document.createElement('input'); ans.type = 'text'; ans.id = 'ans-' + current; ans.value = st.ans || '';
+  ans.addEventListener('input', () => { applyShortcuts(ans); st.ans = ans.value; });
+  card.appendChild(workLabel); card.appendChild(work); card.appendChild(ansLabel); card.appendChild(ans);
+
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const socBtn = mkBtn('🤔 Socratic prompt', 'btn-soc');
+  const hintBtn = mkBtn('💡 Hint', 'btn-hint');
+  const checkBtn = mkBtn('✅ Check my answer', 'btn-check');
+  const solBtn = mkBtn('👀 Worked solution', 'btn-sol');
+  actions.appendChild(socBtn); actions.appendChild(hintBtn); actions.appendChild(checkBtn); actions.appendChild(solBtn);
+  card.appendChild(actions);
+
+  const socRev = mkReveal('soc'), hintRev = mkReveal('hint'), fbRev = mkReveal('feedback'), solRev = mkReveal('sol');
+  card.appendChild(socRev); card.appendChild(hintRev); card.appendChild(fbRev); card.appendChild(solRev);
+  mount.appendChild(card);
+
+  function markEngaged() { st.engaged = true; renderProgress(); }
+
+  socBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.socIdx < q.socratic.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Think:</strong> ' + q.socratic[st.socIdx]; socRev.appendChild(item); st.socIdx++; }
+    if (st.socIdx >= q.socratic.length) socBtn.disabled = true;
+    socRev.classList.add('show'); updateSolGate();
+  });
+  hintBtn.addEventListener('click', () => {
+    markEngaged();
+    if (st.hintIdx < q.hints.length) { const item = document.createElement('div'); item.className = 'ladder-item'; item.innerHTML = '<strong>Hint ' + (st.hintIdx + 1) + ':</strong> ' + q.hints[st.hintIdx]; hintRev.appendChild(item); st.hintIdx++; }
+    if (st.hintIdx >= q.hints.length) hintBtn.disabled = true;
+    hintRev.classList.add('show'); updateSolGate();
+  });
+  checkBtn.addEventListener('click', () => {
+    markEngaged(); st.attempts++;
+    const val = ans.value.trim();
+    fbRev.className = 'reveal feedback show';
+    if (val === '') { fbRev.classList.add('wrong'); fbRev.innerHTML = 'Type your final answer in the answer box first, then check.'; }
+    else if (checkAnswer(val, q.accepted)) { st.correct = true; fbRev.innerHTML = '✅ <strong>Correct!</strong> Well reasoned. If you used help to get here, re-read the worked solution to lock in the method.'; }
+    else { fbRev.classList.add('wrong'); fbRev.innerHTML = '❌ Not yet — but keep going. ' + diagnostic(current) + ' &nbsp;<em>You can revise and check again.</em>'; }
+    renderProgress(); updateSolGate();
+  });
+  solBtn.addEventListener('click', () => {
+    if (solBtn.disabled) return;
+    solRev.classList.add('show');
+    solRev.innerHTML = '<strong>Worked solution</strong>' + q.solution.map(s => '<div class="step">' + s + '</div>').join('');
+  });
+
+  function updateSolGate() {
+    st.solUnlocked = st.attempts >= 3 || (st.socIdx >= q.socratic.length && st.hintIdx >= q.hints.length) || st.correct;
+    if (st.solUnlocked) { solBtn.disabled = false; solBtn.textContent = '👀 Worked solution'; }
+    else { solBtn.disabled = true; solBtn.textContent = '👀 Worked solution (try a few times first)'; }
+  }
+  updateSolGate();
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === questions.length - 1);
+}
+
+function diagnostic(i) {
+  const map = [
+    'SAS — the angle sits between the two given sides: use the cosine rule a² = b² + c² − 2bc cos A. Check the calculator is in degrees and that the 2bc cos A term was subtracted.',
+    'A side with its opposite angle points to the sine rule — but find the third angle from the 180° sum first, then make sure the side over sin is the one opposite the angle you want.',
+    'Use the area formula ½ ab sin C with the two given sides; rearrange for sin C, then take the inverse sine for the acute value.',
+    'The largest angle is opposite the longest side. With three sides, use cos C = (a² + b² − c²)/(2ab); a negative result means the angle is obtuse.',
+    'No arithmetic needed — for each part decide whether the known angle is opposite a known side (sine) or between two known sides (cosine / area), and whether a side or the area is wanted.',
+    'Turn the bearings into the interior angle at the turning point first (180° − change in bearing), then it is an SAS cosine-rule calculation for the direct distance.',
+    'Work in order: cosine rule for side c, then the sine rule for angle A (with the acute/obtuse check), then ½ ab sin C for the area.',
+    'Find the diagonal with the cosine rule (SAS) first; the second triangle then has three known sides, so find an angle (cosine rule) and use ½ ab sin C — or use Heron’s formula.'
+  ];
+  return map[i] || 'Re-check whether you\'re in SAS (find a side) or SSS (find an angle) and use the right form of the cosine rule.';
+}
+
+function mkBtn(label, cls) { const b = document.createElement('button'); b.textContent = label; b.className = cls; b.type = 'button'; return b; }
+function mkReveal(cls) { const d = document.createElement('div'); d.className = 'reveal ' + cls; return d; }
+
+const progress = document.getElementById('progress');
+function renderProgress() {
+  progress.innerHTML = '<span style="font-size:0.85em; color:#6B5A42; margin-right:0.4em;">Progress:</span>';
+  questions.forEach((q, i) => {
+    const dot = document.createElement('div'); dot.className = 'dot';
+    if (state[i].correct) dot.classList.add('correct');
+    else if (state[i].engaged) dot.classList.add('engaged');
+    if (i === current) dot.classList.add('current');
+    dot.textContent = state[i].correct ? '✓' : (i + 1);
+    dot.title = 'Question ' + (i + 1);
+    dot.addEventListener('click', () => { current = i; renderCard(); renderProgress(); });
+    progress.appendChild(dot);
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) { current--; renderCard(); renderProgress(); } });
+document.getElementById('nextBtn').addEventListener('click', () => { if (current < questions.length - 1) { current++; renderCard(); renderProgress(); } });
+
+renderCard();
+renderProgress();
+</script>
+
+</body>
+</html>
