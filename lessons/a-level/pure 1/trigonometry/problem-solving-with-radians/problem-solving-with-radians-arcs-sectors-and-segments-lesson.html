@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem Solving with Radians, Arcs, Sectors, and Segments</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #FAF7F2; color: #2B2B2B; max-width: 900px; margin: 2em auto; padding: 1em 2em; line-height: 1.6; }
+  h1 { color: #3A3A3A; }
+  .driving-question { background: #FFF9E6; border-left: 5px solid #C9A227; padding: 1em 1.25em; margin: 1.5em 0; font-style: italic; font-size: 1.1em; }
+  details { margin: 1em 0; padding: 1em 1.25em; border-radius: 8px; }
+  details[open] { padding-bottom: 1.25em; }
+  summary { cursor: pointer; padding: 0.25em 0; }
+  .knowing-world  { background: #E8F0E5; }
+  .human-story    { background: #F0E8DC; }
+  .expressive-self{ background: #F2E8F0; }
+  .designed-world { background: #E5EBF0; }
+  .living-body    { background: #F5EFD9; }
+  .final-task     { background: #EDE3D3; border: 2px solid #6B4A2E; }
+  .seed { background: #FFFDF5; border-left: 3px solid #8B6F47; padding: 0.5em 0.75em; margin: 0.75em 0; font-size: 0.95em; }
+  .diagram { background: #FFFFFF; border: 1px solid #CBD5C0; border-radius: 8px; padding: 0.75em; margin: 1em 0; text-align: center; }
+  .diagram figcaption { font-style: italic; font-size: 0.9em; color: #4A4438; margin-top: 0.4em; }
+  table.toolkit { border-collapse: collapse; width: 100%; margin: 1em 0; background: #FFFDF8; }
+  table.toolkit th, table.toolkit td { border: 1px solid #BFD0B4; padding: 0.5em 0.7em; text-align: left; vertical-align: top; font-size: 0.96em; }
+  table.toolkit th { background: #DCE8D4; }
+  code, .mono { font-family: 'Courier New', monospace; }
+  svg { max-width: 100%; height: auto; }
+  .prompts { background: #EEF3F7; border-radius: 8px; padding: 0.6em 1em 0.6em 1.4em; }
+
+  /* ---- proof builder (Type 2) ---- */
+  .pb { background: #FFFFFF; border: 1px solid #B9CBB0; border-radius: 10px; padding: 1em 1.1em; margin: 1.25em 0; }
+  .pb-stage { display: flex; flex-wrap: wrap; gap: 1em; align-items: flex-start; }
+  .pb-figure { flex: 1 1 300px; text-align: center; }
+  .pb-side { flex: 1 1 280px; }
+  .pb-algebra { background: #F4F8F1; border: 1px solid #CBD5C0; border-radius: 8px; padding: 0.6em 0.8em; font-family: 'Courier New', monospace; font-size: 0.95em; min-height: 6.5em; }
+  .pb-algebra .ln { margin: 0.2em 0; padding-left: 0.2em; border-left: 3px solid transparent; }
+  .pb-algebra .ln.fresh { border-left-color: #4A6B3A; background: #E8F0E5; }
+  .pb-narration { background: #FBF7E8; border-left: 4px solid #8B7A3A; border-radius: 6px; padding: 0.55em 0.8em; margin-top: 0.7em; font-family: Georgia, serif; font-size: 0.96em; }
+  .pb-controls { margin-top: 0.8em; display: flex; gap: 0.5em; align-items: center; flex-wrap: wrap; }
+  .pb-controls button { font-family: Georgia, serif; font-size: 0.95em; padding: 0.4em 0.9em; border-radius: 6px; border: 1px solid #4A6B3A; background: #E8F0E5; color: #2f4a22; cursor: pointer; }
+  .pb-controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .pb-step-label { font-size: 0.85em; color: #5a6b4a; margin-left: auto; }
+  .pb-print-all { display: none; }
+
+  /* ---- water-tank workbench (Designed World, gated steps) ---- */
+  .wb { background: #FFFFFF; border: 1px solid #B8C6D4; border-radius: 10px; padding: 1em 1.1em; margin: 1.25em 0; }
+  .wb-stage { display: flex; flex-wrap: wrap; gap: 1em; align-items: flex-start; }
+  .wb-figure { flex: 1 1 320px; text-align: center; }
+  .wb-side { flex: 1 1 300px; }
+  .wb-step { border: 1px solid #D3DEE7; border-radius: 8px; padding: 0.6em 0.85em; margin: 0.55em 0; background: #F7FAFC; }
+  .wb-step.locked { opacity: 0.45; }
+  .wb-step h4 { margin: 0.1em 0 0.35em; color: #28414f; font-size: 1em; }
+  .wb-step p { margin: 0.25em 0; font-size: 0.95em; }
+  .wb-step input[type=text] { font-family: 'Courier New', monospace; font-size: 1em; padding: 0.32em 0.5em; border: 1px solid #8FA6B5; border-radius: 5px; width: 7em; }
+  .wb-step button { font-family: Georgia, serif; font-size: 0.9em; padding: 0.32em 0.8em; border: 1px solid #3A5A6B; background: #E5EBF0; color: #28414f; border-radius: 6px; cursor: pointer; margin-left: 0.4em; }
+  .wb-step button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .wb-fb { margin-top: 0.4em; font-size: 0.92em; padding: 0.35em 0.6em; border-radius: 5px; display: none; }
+  .wb-fb.ok { background: #E7F1E0; border-left: 4px solid #4A6B3A; color: #2f4a22; display: block; }
+  .wb-fb.no { background: #F7ECE6; border-left: 4px solid #B5683A; color: #7a3d22; display: block; }
+  .nowpractise a { display: inline-block; background: #EDE3D3; border: 2px solid #6B4A2E; color: #6B4A2E; font-family: Georgia, serif; font-size: 1.1em; font-weight: bold; text-decoration: none; padding: 0.7em 1.5em; border-radius: 8px; }
+
+  @media print {
+    .pb-controls, .pb-stage > .pb-side, .pb-stage > .pb-figure { display: none; }
+    .pb-print-all { display: block; }
+    .pb-print-all .pb-frame { page-break-inside: avoid; border-top: 1px solid #bbb; padding-top: 0.6em; margin-top: 0.6em; }
+    .wb-step { opacity: 1 !important; }
+    .wb-step button { display: none; }
+    body { max-width: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Problem Solving with Radians, Arcs, Sectors, and Segments</h1>
+<p style="color:#6B6257; font-style:italic; margin-top:-0.5em;">Trigonometry · Lesson 5 (synthesis) · Pearson Edexcel International A-Level Pure Mathematics 1</p>
+
+<div class="driving-question">
+  Every sector hides a triangle. What is left when you take the triangle away — and how would you measure that curved sliver?
+</div>
+
+<p>This is a <strong>synthesis</strong> lesson. You already have every tool you need from Lesson 4 — radians, arc length <span class="mono">s = rθ</span>, and sector area <span class="mono">½r²θ</span>. Here we put them to work on richer problems, and we meet one new shape that falls out almost for free: the <strong>segment</strong>.</p>
+
+<!-- ===================================================================== -->
+<details class="knowing-world" open>
+  <summary style="font-size: 1.25em; font-weight: bold;">🧠 The Knowing World</summary>
+
+  <p>First, the toolkit you are bringing into this lesson — all with <span class="mono">θ</span> in <strong>radians</strong>:</p>
+  <table class="toolkit">
+    <tr><th>Quantity</th><th>Formula</th><th>In words</th></tr>
+    <tr><td>Arc length</td><td><span class="mono">s = rθ</span></td><td>radius times angle</td></tr>
+    <tr><td>Sector area</td><td><span class="mono">A = ½r²θ</span></td><td>the area of the whole slice</td></tr>
+  </table>
+
+  <p>Now the new shape. Slice a circle and you get a <strong>sector</strong> (the whole wedge). Join the two ends of the arc with a straight line — a <strong>chord</strong> — and the sector splits into two pieces: a <strong>triangle</strong> (the two radii and the chord) and a <strong>segment</strong> (the curved sliver between the chord and the arc).</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A sector split by its chord into an inner triangle and an outer segment, with the radius, the central angle theta, the arc s, the chord, the triangle and the segment all labelled.">
+      <circle cx="170" cy="155" r="110" fill="#F4F8F1" stroke="#9DB89A" stroke-width="1.3"/>
+      <!-- segment fill (between chord and arc) -->
+      <path d="M280 155 A110 110 0 0 0 204.7 50.6 Z" fill="#EBCDA6"/>
+      <!-- triangle fill -->
+      <path d="M170 155 L280 155 L204.7 50.6 Z" fill="#DCE8D4"/>
+      <!-- arc highlight -->
+      <path d="M280 155 A110 110 0 0 0 204.7 50.6" fill="none" stroke="#B5683A" stroke-width="3.5"/>
+      <!-- chord -->
+      <line x1="280" y1="155" x2="204.7" y2="50.6" stroke="#6B4A2E" stroke-width="2" stroke-dasharray="6 3"/>
+      <!-- radii -->
+      <line x1="170" y1="155" x2="280" y2="155" stroke="#4A6B3A" stroke-width="2"/>
+      <line x1="170" y1="155" x2="204.7" y2="50.6" stroke="#4A6B3A" stroke-width="2"/>
+      <circle cx="170" cy="155" r="3" fill="#2B2B2B"/>
+      <!-- angle marker -->
+      <path d="M201.5 152.6 A33 33 0 0 0 184.8 124.0" fill="none" stroke="#8B6F47" stroke-width="1.4"/>
+      <text x="206" y="138" font-size="13" fill="#6a563c">θ</text>
+      <text x="151" y="170" font-size="12" fill="#2B2B2B">O</text>
+      <text x="232" y="170" font-size="13" fill="#2f4a22">r</text>
+      <text x="262" y="92" font-size="13" fill="#9a4a2e">s</text>
+      <text x="196" y="128" font-size="12.5" fill="#3f5a30">triangle</text>
+      <text x="250" y="62" font-size="12.5" fill="#9a4a2e">segment</text>
+      <text x="232" y="118" font-size="11" fill="#6B4A2E" transform="rotate(-44 232 118)">chord</text>
+    </svg>
+    <figcaption>The anatomy of a slice: <strong>sector = triangle + segment</strong>. The chord is the dividing line.</figcaption>
+  </figure>
+
+  <p>So if we can find the sector and the triangle, the segment is just the difference. Watch the formula get built, one step at a time.</p>
+
+  <!-- ===================== TYPE 2 BUILD-THE-PROOF ANIMATION ===================== -->
+  <div class="pb" id="pb">
+    <strong>Building the segment formula — step by step</strong>
+    <div class="pb-stage">
+      <div class="pb-figure">
+        <svg id="pbsvg" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated derivation of the area of a segment as sector minus triangle"></svg>
+      </div>
+      <div class="pb-side">
+        <div class="pb-algebra" id="pbalg"></div>
+        <div class="pb-narration" id="pbnar"></div>
+      </div>
+    </div>
+    <div class="pb-controls">
+      <button id="pbback">◀ Back</button>
+      <button id="pbnext">Next ▶</button>
+      <button id="pbreset">↺ Reset</button>
+      <span class="pb-step-label" id="pbstep"></span>
+    </div>
+    <div class="pb-print-all" id="pbprint"></div>
+  </div>
+  <!-- ============================================================================ -->
+
+  <p>So, with <span class="mono">θ</span> in radians, the synthesis toolkit for this lesson is:</p>
+  <table class="toolkit">
+    <tr><th>Quantity</th><th>Formula</th></tr>
+    <tr><td>Triangle (two radii, included angle)</td><td><span class="mono">½r² sin θ</span></td></tr>
+    <tr><td><strong>Segment</strong> (sector − triangle)</td><td><span class="mono">½r²(θ − sin θ)</span></td></tr>
+    <tr><td>Chord length</td><td><span class="mono">2r sin(θ/2)</span></td></tr>
+    <tr><td>Segment perimeter (arc + chord)</td><td><span class="mono">rθ + 2r sin(θ/2)</span></td></tr>
+  </table>
+
+  <div class="seed"><strong>Seed of Change (Pearson Edexcel IAL P1, §3.2):</strong> Use radian measure to solve problems involving arc length, the area of a sector, and the area of a segment, including problems set in unstructured, real-world contexts.</div>
+</details>
+
+<!-- ===================================================================== -->
+<details class="human-story">
+  <summary style="font-size: 1.25em; font-weight: bold;">🌍 The Human Story</summary>
+
+  <p>Here is something that surprises most people: trigonometry did not begin with the sine. It began with the <strong>chord</strong> — the very line you just drew across the sector.</p>
+
+  <p>Around the second century BCE, the Greek astronomer <strong>Hipparchus of Nicaea</strong> wanted to predict the positions of the Sun, Moon, and stars. To do that he needed to turn angles into lengths, so he built what is generally regarded as the first trigonometric table — a <em>table of chords</em>: for each central angle, how long is the chord that spans it? Three centuries later, <strong>Ptolemy</strong> refined this into the famous chord table in his <em>Almagest</em>, computed in steps of half a degree on a circle of radius 60.</p>
+
+  <p>Their chord function, written <span class="mono">crd θ</span>, is exactly the formula in your toolkit. For a circle of radius <span class="mono">r</span>, the chord of an angle <span class="mono">θ</span> is <span class="mono">2r sin(θ/2)</span> — so the ancient <span class="mono">crd</span> and our modern sine are the same idea wearing different clothes. The sine we use today emerged later, refined by mathematicians in India (such as Āryabhaṭa) and the medieval Islamic world, as a more convenient half-chord. When you compute a chord in this lesson, you are using the oldest tool in trigonometry.</p>
+
+  <p style="font-size:0.95em; color:#5a4a37;"><em>A curiosity for the curious:</em> long before all this, <strong>Hippocrates of Chios</strong> (5th century BCE) studied crescent shapes bounded by circular arcs — close cousins of the segment — and managed to show that the area of a particular "lune" exactly equals the area of a triangle. It was one of the first times anyone turned a region bounded by curves into a region bounded by straight lines, an early step in the long quest to "square the circle."</p>
+</details>
+
+<!-- ===================================================================== -->
+<details class="expressive-self">
+  <summary style="font-size: 1.25em; font-weight: bold;">🎨 The Expressive Self</summary>
+
+  <p>Make the idea your own. Pick whichever of these helps you think — write, sketch, or say it out loud:</p>
+  <div class="prompts">
+    <ul>
+      <li>In one or two sentences, explain <em>why</em> the segment formula <span class="mono">½r²(θ − sin θ)</span> must always give a <strong>smaller</strong> number than the sector <span class="mono">½r²θ</span>. What are you subtracting, and could it ever be zero or negative for a real slice?</li>
+      <li>Sketch the same circle three times, with <span class="mono">θ</span> small, medium, and almost a full half-turn. Shade the segment each time. What happens to the segment as <span class="mono">θ</span> grows?</li>
+      <li>Hunt for segments in the world around you: the cross-section of water in a pipe, the glass in an arched window, the shape of a bridge arch, a slice taken off the side of a round cake. Photograph or draw one, and mark where the chord and the arc are.</li>
+    </ul>
+  </div>
+  <p style="font-size:0.95em;">There is no single right wording here. The goal is to be able to <em>say</em> what a segment is and why its formula looks the way it does — because an idea you can explain is one you can use under pressure.</p>
+</details>
+
+<!-- ===================================================================== -->
+<details class="designed-world">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠️ The Designed World</summary>
+
+  <p>Here is a real engineering problem that comes down entirely to a segment. You will solve it the way an engineer would — one decision at a time. Each step unlocks only when the previous one is right, and the chart fills in as you go, so you can always <em>see</em> what you know.</p>
+
+  <p><strong>The situation.</strong> A water tank is a <strong>cylinder lying on its side</strong>, of radius <span class="mono">r = 1.2 m</span> and length <span class="mono">3 m</span>. The water is <span class="mono">0.45 m</span> deep at the lowest point. Slice the tank straight across and you see a circle: the flat water surface is a <strong>chord</strong>, and the wet area is the <strong>segment</strong> beneath it. The question: <em>how much water (by volume) is in the tank?</em></p>
+
+  <div class="wb" id="wb">
+    <div class="wb-stage">
+      <div class="wb-figure">
+        <svg id="tanksvg" viewBox="0 0 460 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="End-on cross-section of the tank, filling in with each solved step"></svg>
+      </div>
+      <div class="wb-side">
+
+        <div class="wb-step" id="ws1">
+          <h4>Step 1 — Find the angle θ</h4>
+          <p>Drop a perpendicular from the centre <span class="mono">O</span> to the water surface. Its length is <span class="mono">r − h = 1.2 − 0.45 = 0.75 m</span>, and it splits the angle into two halves, so <span class="mono">cos(θ/2) = 0.75 / 1.2</span>.</p>
+          <p>Find <span class="mono">θ</span> in radians (2 d.p.): <input type="text" id="in1" placeholder="θ ="> <button id="ck1">Check</button></p>
+          <div class="wb-fb" id="fb1"></div>
+        </div>
+
+        <div class="wb-step locked" id="ws2">
+          <h4>Step 2 — Area of the whole sector</h4>
+          <p>Use <span class="mono">½r²θ</span> with your value of <span class="mono">θ</span>.</p>
+          <p>Sector area in m² (2 d.p.): <input type="text" id="in2" placeholder="area ="> <button id="ck2" disabled>Check</button></p>
+          <div class="wb-fb" id="fb2"></div>
+        </div>
+
+        <div class="wb-step locked" id="ws3">
+          <h4>Step 3 — Area of the triangle</h4>
+          <p>The two radii and the chord make an isosceles triangle: <span class="mono">½r² sin θ</span>.</p>
+          <p>Triangle area in m² (2 d.p.): <input type="text" id="in3" placeholder="area ="> <button id="ck3" disabled>Check</button></p>
+          <div class="wb-fb" id="fb3"></div>
+        </div>
+
+        <div class="wb-step locked" id="ws4">
+          <h4>Step 4 — The wet area (the segment)</h4>
+          <p>Segment = sector − triangle.</p>
+          <p>Wet cross-section in m² (2 d.p.): <input type="text" id="in4" placeholder="area ="> <button id="ck4" disabled>Check</button></p>
+          <div class="wb-fb" id="fb4"></div>
+        </div>
+
+        <div class="wb-step locked" id="ws5">
+          <h4>Step 5 — The volume of water</h4>
+          <p>The cross-section is the same all along: volume = wet area × length (3 m).</p>
+          <p>Volume in m³ (2 d.p.): <input type="text" id="in5" placeholder="V ="> <button id="ck5" disabled>Check</button></p>
+          <div class="wb-fb" id="fb5"></div>
+        </div>
+
+      </div>
+    </div>
+    <p style="font-size:0.9em; color:#4a4438; margin-top:0.4em;"><em>Tip: keep full accuracy on your calculator between steps and round only the figure you type. A real tank of these dimensions holds a little under two cubic metres — about two thousand litres — when filled to this depth.</em></p>
+  </div>
+
+  <p>Notice the shape of the work: the hard part was not any single formula, it was <em>seeing</em> that the wet area is a segment, and finding <span class="mono">θ</span> from the depth. Once those two moves are made, the rest is the toolkit you already had.</p>
+</details>
+
+<!-- ===================================================================== -->
+<details class="living-body">
+  <summary style="font-size: 1.25em; font-weight: bold;">💛 The Living Body</summary>
+
+  <p>Radians, arcs, and sectors are not only on the page — they are in how your body moves. Hold your arm straight and sweep your hand in an arc: your arm is the radius <span class="mono">r</span>, the angle your shoulder turns through is <span class="mono">θ</span>, and your fingertip travels an arc of length <span class="mono">s = rθ</span>. The area your arm can sweep is a sector; the patch just beyond your reach, cut off by a straight edge in front of you, is a segment.</p>
+
+  <p>Take a moment to notice how you felt working through the tank problem:</p>
+  <div class="prompts">
+    <ul>
+      <li>Which step felt hardest — finding <span class="mono">θ</span> from the depth, or the subtraction at the end? Naming the hard part is how you get better at it.</li>
+      <li>When a multi-step problem unlocks one step at a time, does that feel steadying or slow? Both are valid — knowing your preference helps you set up your own working.</li>
+      <li>If you felt a flicker of "I can't do this" at the start, did it change once the first step came out right? That shift is worth remembering next time you meet a long problem.</li>
+    </ul>
+  </div>
+</details>
+
+<!-- ===================================================================== -->
+<details class="final-task">
+  <summary style="font-size: 1.25em; font-weight: bold;">🛠 Final Task</summary>
+
+  <p><strong>Design and solve a segment problem of your own.</strong> Invent a real situation whose answer depends on the area of a segment — for example a partly-filled pipe or trough, an arched window or doorway, a tunnel cross-section, or a slice cut from a round cake. Then write a full model solution that:</p>
+  <ul>
+    <li>begins with a clearly labelled diagram (radius, the angle <span class="mono">θ</span> in radians, the chord, the arc, and the segment);</li>
+    <li>states at each step <em>which</em> formula you are using and <em>why</em> it fits;</li>
+    <li>finds <span class="mono">θ</span> honestly from the information given (do not just assume it);</li>
+    <li>keeps full accuracy through the working and rounds only at the end;</li>
+    <li>finishes with a "look back" sentence checking the answer is sensible (e.g. the segment is smaller than the sector; the volume is plausible).</li>
+  </ul>
+  <p>If you can, swap with a partner and solve each other's problems — that is the real test of whether your setup is clear.</p>
+
+  <div class="seed"><strong>Seed of Change (Pearson Edexcel IAL P1, §3.2):</strong> Solve multi-step problems in radian measure involving the arc length and area of a sector, and the area and perimeter of a segment, presented in unstructured, real-world form.</div>
+
+  <p style="margin-top:1em;"><strong>How your work will be assessed — the Haven Maths Rubric:</strong></p>
+  <table class="toolkit">
+    <tr><th>Strand</th><th>What we are looking for here</th></tr>
+    <tr><td><strong>Conceptual Understanding</strong></td><td>You can explain that a segment is a sector minus its triangle, and why <span class="mono">θ</span> must be in radians.</td></tr>
+    <tr><td><strong>Fluency &amp; Accuracy</strong></td><td>Correct substitution into <span class="mono">½r²θ</span>, <span class="mono">½r² sin θ</span>, and <span class="mono">½r²(θ − sin θ)</span>; full accuracy carried through; sensible final rounding.</td></tr>
+    <tr><td><strong>Application to Problems</strong></td><td>You translate an unstructured, real-world situation into a labelled circle, recovering <span class="mono">θ</span> from the given information.</td></tr>
+    <tr><td><strong>Independence &amp; Reflection</strong></td><td>You design a coherent problem of your own and check that your answer is reasonable.</td></tr>
+  </table>
+</details>
+
+<div class="nowpractise" style="text-align: center; margin: 2em 0 1em;">
+  <p style="font-style: italic; color: #4A4438; margin-bottom: 0.75em;">Ready to build fluency? The practice companion has exam-style questions on arcs, sectors, and segments, with Socratic support whenever you get stuck.</p>
+  <a href="problem-solving-with-radians-arcs-sectors-and-segments-practice-companion.html" target="_blank" rel="noopener">✏️ Now Practise →</a>
+</div>
+
+<script>
+/* ============================ TYPE 2 PROOF BUILDER ============================ */
+(function () {
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var cx = 200, cy = 180, R = 120, TH = 1.3;            // illustrative slice
+  function pt(a) { return [cx + R * Math.cos(a), cy - R * Math.sin(a)]; } // screen y down
+
+  var steps = [
+    {
+      draw: function (g) { drawCircle(g); shadeSector(g, '#DCE8D4'); markRadius(g); markAngle(g); highlightArc(g); },
+      alg: ['The sector (the whole slice):', 'sector area = ½r²θ'],
+      nar: 'Here is our slice — the sector. From Lesson 4 its area is ½r²θ. We want the curved piece beyond the straight chord, so first draw that chord.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSector(g, '#EDF3E9'); markRadius(g); markAngle(g); highlightArc(g); drawChord(g); },
+      alg: ['Join the arc&#8217;s ends with a chord.', 'Inside sits an isosceles triangle:', 'two sides r, included angle θ.'],
+      nar: 'Join the two ends of the arc with a straight chord. Inside the sector you now see an isosceles triangle — two sides of length r with the angle θ between them.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeTriangle(g, '#BFD8AE'); markRadius(g); markAngle(g); highlightArc(g); drawChord(g); },
+      alg: ['triangle = ½ · r · r · sin θ', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ½r² sin θ'],
+      nar: 'That triangle&#8217;s area comes straight from Lesson 1: ½ab sin C, with both sides equal to r and included angle θ. So the triangle is ½r² sin θ.'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSegment(g, '#E7B585'); markRadius(g); markAngle(g); highlightArc(g); drawChord(g); },
+      alg: ['segment = sector − triangle', '&nbsp;&nbsp;&nbsp;&nbsp;= ½r²θ − ½r² sin θ', '&nbsp;&nbsp;&nbsp;&nbsp;= ½r²(θ − sin θ)'],
+      nar: 'The segment is what is left when you lift the triangle out of the sector. Subtract, then factor out ½r²: the segment is ½r²(θ − sin θ).'
+    },
+    {
+      draw: function (g) { drawCircle(g); shadeSegment(g, '#E7B585'); markRadius(g); markAngle(g); highlightArc(g); drawChord(g); },
+      alg: ['Two more, for perimeters:', 'chord = 2r sin(θ/2)', 'segment perimeter = arc + chord', '&nbsp;&nbsp;&nbsp;&nbsp;= rθ + 2r sin(θ/2)', '(θ in radians throughout)'],
+      nar: 'Finally, the chord itself is 2r sin(θ/2), and the segment&#8217;s perimeter is its arc plus that chord. As always with these formulas, θ must be in radians.'
+    }
+  ];
+
+  function el(name, attrs) { var e = document.createElementNS(SVGNS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function drawCircle(g) {
+    g.appendChild(el('circle', { cx: cx, cy: cy, r: R, fill: '#F8FBF6', stroke: '#9DB89A', 'stroke-width': 1.5 }));
+    g.appendChild(el('circle', { cx: cx, cy: cy, r: 3, fill: '#2B2B2B' }));
+    var t = el('text', { x: cx - 16, y: cy + 16, 'font-family': 'Georgia, serif', 'font-size': 13, fill: '#2B2B2B' }); t.textContent = 'O'; g.appendChild(t);
+  }
+  function shadeSector(g, col) { var p0 = pt(0), p1 = pt(TH); g.appendChild(el('path', { d: 'M' + cx + ' ' + cy + ' L' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' A' + R + ' ' + R + ' 0 0 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' Z', fill: col, stroke: 'none' })); }
+  function shadeTriangle(g, col) { var p0 = pt(0), p1 = pt(TH); g.appendChild(el('path', { d: 'M' + cx + ' ' + cy + ' L' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' L' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' Z', fill: col, stroke: 'none' })); }
+  function shadeSegment(g, col) { var p0 = pt(0), p1 = pt(TH); g.appendChild(el('path', { d: 'M' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' A' + R + ' ' + R + ' 0 0 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1) + ' Z', fill: col, stroke: 'none' })); }
+  function markRadius(g) {
+    var p0 = pt(0), p1 = pt(TH);
+    g.appendChild(el('line', { x1: cx, y1: cy, x2: p0[0].toFixed(1), y2: p0[1].toFixed(1), stroke: '#4A6B3A', 'stroke-width': 2 }));
+    g.appendChild(el('line', { x1: cx, y1: cy, x2: p1[0].toFixed(1), y2: p1[1].toFixed(1), stroke: '#4A6B3A', 'stroke-width': 2 }));
+    var tr = el('text', { x: cx + 52, y: cy - 6, 'font-family': 'Georgia, serif', 'font-size': 14, fill: '#2f4a22' }); tr.textContent = 'r'; g.appendChild(tr);
+  }
+  function markAngle(g) {
+    var a0 = 0.08, a1 = TH - 0.08, rr = 38;
+    var sx = cx + rr * Math.cos(a0), sy = cy - rr * Math.sin(a0);
+    var ex = cx + rr * Math.cos(a1), ey = cy - rr * Math.sin(a1);
+    g.appendChild(el('path', { d: 'M' + sx.toFixed(1) + ' ' + sy.toFixed(1) + ' A' + rr + ' ' + rr + ' 0 0 0 ' + ex.toFixed(1) + ' ' + ey.toFixed(1), fill: 'none', stroke: '#8B6F47', 'stroke-width': 1.5 }));
+    var bis = TH / 2, lr = 56, lx = cx + lr * Math.cos(bis), ly = cy - lr * Math.sin(bis);
+    var ta = el('text', { x: (lx - 5).toFixed(1), y: (ly + 5).toFixed(1), 'font-family': 'Georgia, serif', 'font-size': 14, fill: '#6a563c' }); ta.innerHTML = '&#952;'; g.appendChild(ta);
+  }
+  function drawChord(g) { var p0 = pt(0), p1 = pt(TH); g.appendChild(el('line', { x1: p0[0].toFixed(1), y1: p0[1].toFixed(1), x2: p1[0].toFixed(1), y2: p1[1].toFixed(1), stroke: '#6B4A2E', 'stroke-width': 2, 'stroke-dasharray': '6 3' })); }
+  function highlightArc(g) {
+    var p0 = pt(0), p1 = pt(TH);
+    g.appendChild(el('path', { d: 'M' + p0[0].toFixed(1) + ' ' + p0[1].toFixed(1) + ' A' + R + ' ' + R + ' 0 0 0 ' + p1[0].toFixed(1) + ' ' + p1[1].toFixed(1), fill: 'none', stroke: '#B5683A', 'stroke-width': 4 }));
+    var mid = pt(TH / 2); var ts = el('text', { x: mid[0] + 6, y: mid[1] - 6, 'font-family': 'Georgia, serif', 'font-size': 13, fill: '#9a4a2e' }); ts.textContent = 's'; g.appendChild(ts);
+  }
+
+  var svg = document.getElementById('pbsvg'), algBox = document.getElementById('pbalg'), narBox = document.getElementById('pbnar'), stepLbl = document.getElementById('pbstep'), cur = 0;
+  function renderStep(n) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var g = el('g', {}); svg.appendChild(g); steps[n].draw(g);
+    var html = '';
+    for (var i = 0; i <= n; i++) { html += '<div class="ln' + (i === n ? ' fresh' : '') + '">' + steps[i].alg.join('<br>') + '</div>'; }
+    algBox.innerHTML = html; narBox.innerHTML = steps[n].nar;
+    stepLbl.textContent = 'Step ' + (n + 1) + ' of ' + steps.length;
+    document.getElementById('pbback').disabled = (n === 0);
+    document.getElementById('pbnext').disabled = (n === steps.length - 1);
+  }
+  document.getElementById('pbnext').addEventListener('click', function () { if (cur < steps.length - 1) renderStep(++cur); });
+  document.getElementById('pbback').addEventListener('click', function () { if (cur > 0) renderStep(--cur); });
+  document.getElementById('pbreset').addEventListener('click', function () { cur = 0; renderStep(0); });
+  renderStep(0);
+
+  // print fallback: every state stacked
+  var pa = document.getElementById('pbprint');
+  var paHtml = '<strong>Building the segment formula — full sequence</strong>';
+  for (var i = 0; i < steps.length; i++) {
+    var tmp = document.createElementNS(SVGNS, 'svg');
+    tmp.setAttribute('viewBox', '0 0 400 320'); tmp.setAttribute('width', '300');
+    var g2 = el('g', {}); tmp.appendChild(g2); steps[i].draw(g2);
+    var algLines = '';
+    for (var j = 0; j <= i; j++) { algLines += steps[j].alg.join('<br>') + '<br>'; }
+    paHtml += '<div class="pb-frame"><div>' + tmp.outerHTML + '</div><div class="mono" style="font-size:0.9em;">' + algLines + '</div><div style="font-size:0.9em;">' + steps[i].nar + '</div></div>';
+  }
+  pa.innerHTML = paHtml;
+})();
+
+/* ============================ WATER-TANK WORKBENCH ============================ */
+(function () {
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('tanksvg');
+  if (!svg) return;
+
+  // verified target values (r=1.2, h=0.45, L=3)
+  var TH = 1.7913, SECT = 1.2898, TRI = 0.7026, SEG = 0.5872, VOL = 1.7616;
+  var done = { 1: false, 2: false, 3: false, 4: false, 5: false };
+
+  // geometry of the cross-section schematic (faithful to h/r = 0.375)
+  var cx = 230, cy = 175, R = 120, SY = 250, LX = 136.3, RX = 323.7, BY = 295;
+  var WATER = 'M 323.7 250.0 L 320.2 254.1 L 316.6 258.1 L 312.8 261.9 L 308.8 265.5 L 304.7 268.9 L 300.4 272.2 L 296.0 275.2 L 291.4 278.1 L 286.8 280.7 L 282.0 283.2 L 277.1 285.4 L 272.1 287.4 L 267.0 289.2 L 261.9 290.7 L 256.6 292.0 L 251.4 293.1 L 246.1 293.9 L 240.7 294.5 L 235.4 294.9 L 230.0 295.0 L 224.6 294.9 L 219.3 294.5 L 213.9 293.9 L 208.6 293.1 L 203.4 292.0 L 198.1 290.7 L 193.0 289.2 L 187.9 287.4 L 182.9 285.4 L 178.0 283.2 L 173.2 280.7 L 168.6 278.1 L 164.0 275.2 L 159.6 272.2 L 155.3 268.9 L 151.2 265.5 L 147.2 261.9 L 143.4 258.1 L 139.8 254.1 L 136.3 250.0 Z';
+
+  function el(n, a) { var e = document.createElementNS(SVGNS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  function txt(x, y, s, fill, size, anchor) { var t = el('text', { x: x, y: y, 'font-family': 'Georgia, serif', 'font-size': size || 13, fill: fill || '#2B2B2B' }); if (anchor) t.setAttribute('text-anchor', anchor); t.textContent = s; return t; }
+
+  function render() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.appendChild(txt(cx, 32, 'End-on cross-section', '#3a3a3a', 14, 'middle')).setAttribute('font-weight', 'bold');
+    // tank wall
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: R, fill: '#FFFFFF', stroke: '#6E7B8A', 'stroke-width': 3 }));
+    // water segment
+    svg.appendChild(el('path', { d: WATER, fill: '#AED9EC', stroke: 'none' }));
+    // chord (water surface)
+    svg.appendChild(el('line', { x1: LX, y1: SY, x2: RX, y2: SY, stroke: '#2E6E95', 'stroke-width': 2.5 }));
+    svg.appendChild(txt(cx, SY - 7, 'water surface (chord)', '#2E6E95', 12, 'middle'));
+    // depth h
+    svg.appendChild(el('line', { x1: cx + 16, y1: SY, x2: cx + 16, y2: BY, stroke: '#555', 'stroke-width': 1.2 }));
+    svg.appendChild(el('line', { x1: cx + 12, y1: SY, x2: cx + 20, y2: SY, stroke: '#555', 'stroke-width': 1.2 }));
+    svg.appendChild(el('line', { x1: cx + 12, y1: BY, x2: cx + 20, y2: BY, stroke: '#555', 'stroke-width': 1.2 }));
+    svg.appendChild(txt(cx + 24, (SY + BY) / 2 + 4, 'h = 0.45', '#333', 12));
+    // radii
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: LX, y2: SY, stroke: '#4A6B3A', 'stroke-width': 2 }));
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: RX, y2: SY, stroke: '#4A6B3A', 'stroke-width': 2 }));
+    svg.appendChild(txt(cx + 56, cy + 28, 'r = 1.2', '#2f4a22', 13));
+    // r - h dashed
+    svg.appendChild(el('line', { x1: cx, y1: cy, x2: cx, y2: SY, stroke: '#888', 'stroke-width': 1.1, 'stroke-dasharray': '4 3' }));
+    svg.appendChild(txt(cx - 52, (cy + SY) / 2 + 4, 'r − h = 0.75', '#666', 11));
+    // centre
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: 3.5, fill: '#2B2B2B' }));
+    svg.appendChild(txt(cx - 16, cy - 4, 'O', '#2B2B2B', 13));
+
+    // progressive reveals
+    if (done[1]) {
+      svg.appendChild(el('path', { d: 'M 253.4 193.8 A 30 30 0 0 1 206.6 193.8', fill: 'none', stroke: '#8B6F47', 'stroke-width': 1.5 }));
+      svg.appendChild(txt(cx, 213, 'θ = 1.79 rad', '#6a563c', 12.5, 'middle'));
+    }
+    var yv = 322, lines = [];
+    if (done[2]) lines.push('sector ½r²θ = 1.29 m²');
+    if (done[3]) lines.push('triangle ½r²sinθ = 0.70 m²');
+    if (done[4]) lines.push('segment (wet) = 0.59 m²');
+    if (done[5]) lines.push('volume = wet × 3 = 1.76 m³');
+    for (var i = 0; i < lines.length; i++) {
+      var fill = (i === lines.length - 1 && done[5]) ? '#1f6f3a' : '#28414f';
+      svg.appendChild(txt(8, 60 + i * 18, lines[i], fill, 12.5)).setAttribute('font-family', "'Courier New', monospace");
+    }
+  }
+
+  function near(v, target, tol) { return isFinite(v) && Math.abs(v - target) <= tol; }
+  function parseNum(s) { var m = (s || '').replace(/[^0-9.\-]/g, ''); return parseFloat(m); }
+
+  function wire(step, target, tol, hintLow, fbEl, inEl, unlockNext) {
+    return function () {
+      var v = parseNum(inEl.value);
+      var fb = document.getElementById(fbEl);
+      if (near(v, target, tol)) {
+        done[step] = true;
+        fb.className = 'wb-fb ok';
+        fb.textContent = 'Correct — and the chart now shows it. ' + (step < 5 ? 'Next step unlocked below.' : 'That is the volume of water in the tank.');
+        if (unlockNext) {
+          var ns = document.getElementById('ws' + (step + 1));
+          if (ns) ns.classList.remove('locked');
+          var nb = document.getElementById('ck' + (step + 1));
+          if (nb) nb.disabled = false;
+        }
+        render();
+      } else {
+        fb.className = 'wb-fb no';
+        fb.textContent = isFinite(v) ? hintLow : 'Type a number (you can include the unit if you like).';
+      }
+    };
+  }
+
+  document.getElementById('ck1').addEventListener('click', wire(1, TH, 0.03, 'Not quite. θ/2 = cos⁻¹(0.75/1.2); remember to double it, and check your calculator is in radian mode.', 'fb1', document.getElementById('in1'), true));
+  document.getElementById('ck2').addEventListener('click', wire(2, SECT, 0.03, 'Close but not there. Use ½ × 1.2² × θ with your θ in radians.', 'fb2', document.getElementById('in2'), true));
+  document.getElementById('ck3').addEventListener('click', wire(3, TRI, 0.03, 'Not yet. It is ½ × 1.2² × sin θ — make sure you take the sine of θ, not θ/2.', 'fb3', document.getElementById('in3'), true));
+  document.getElementById('ck4').addEventListener('click', wire(4, SEG, 0.03, 'Check the subtraction: wet area = sector − triangle.', 'fb4', document.getElementById('in4'), true));
+  document.getElementById('ck5').addEventListener('click', wire(5, VOL, 0.04, 'Multiply the wet cross-sectional area by the length, 3 m.', 'fb5', document.getElementById('in5'), false));
+
+  render();
+})();
+</script>
+
+</body>
+</html>
