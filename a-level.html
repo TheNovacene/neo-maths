@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verse-al Maths · A Level · The Novacene</title>
+  <meta name="description" content="Verse-al Maths A Level — Pure Mathematics 1, built in the open on the Verse-al Ways of Knowing. Lessons and practice companions for advanced learners." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal-deep:  #1a4a4a;
+      --teal-mid:   #2d7a7a;
+      --teal-light: #4db8b8;
+      --amber:      #e8923a;
+      --cream:      #faf6ef;
+      --ink:        #1a2a2a;
+      --muted:      #6a8a8a;
+      --card-bg:    rgba(255,255,255,0.72);
+      --radius:     16px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(45,122,122,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(232,146,58,0.10) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 3rem 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .wordmark {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--teal-mid);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s forwards;
+    }
+    .wordmark a { color: var(--muted); text-decoration: none; font-weight: 400; transition: color 0.3s; }
+    .wordmark a:hover { color: var(--amber); }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--teal-deep);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+    h1 em { font-style: italic; color: var(--amber); }
+
+    .tagline {
+      margin-top: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      max-width: 560px;
+      margin-left: auto; margin-right: auto;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s forwards;
+    }
+
+    .status-pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal-mid);
+      border: 1px solid rgba(45,122,122,0.35);
+      border-radius: 50px;
+      padding: 0.35rem 0.9rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--teal-light), var(--amber));
+      margin: 1.5rem auto 0;
+      border-radius: 2px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+
+    main {
+      position: relative;
+      z-index: 5;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 4rem;
+    }
+
+    .strand {
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s forwards;
+    }
+    .strand:nth-of-type(1) { animation-delay: 0.55s; }
+    .strand:nth-of-type(2) { animation-delay: 0.7s; }
+    .strand:nth-of-type(3) { animation-delay: 0.85s; }
+    .strand:nth-of-type(4) { animation-delay: 1.0s; }
+
+    .strand-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .strand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: var(--teal-deep);
+    }
+
+    .strand-count { font-size: 0.8rem; color: var(--muted); }
+
+    .strand-seed {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .unit-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 2px 16px rgba(26,74,74,0.06);
+    }
+    .unit-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--card-accent, var(--teal-light));
+      border-radius: 4px 0 0 4px;
+      transition: width var(--transition);
+    }
+    .unit-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(26,74,74,0.14); }
+    .unit-card:hover::before { width: 6px; }
+
+    .strand[data-strand="algebra"]  .unit-card { --card-accent: #4db8b8; }
+    .strand[data-strand="coord"]    .unit-card { --card-accent: #5a9fd4; }
+    .strand[data-strand="graphs"]   .unit-card { --card-accent: #8b6bc4; }
+    .strand[data-strand="trig"]     .unit-card { --card-accent: #e8923a; }
+
+    .unit-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--teal-deep);
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+
+    .unit-links { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    .unit-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--teal-mid);
+      border: 1px solid rgba(45,122,122,0.3);
+      border-radius: 50px;
+      padding: 0.32rem 0.8rem;
+      transition: all 0.25s ease;
+    }
+    .unit-links a:hover { background: var(--teal-mid); color: #fff; border-color: var(--teal-mid); }
+    .unit-links a.practice { color: var(--amber); border-color: rgba(232,146,58,0.4); }
+    .unit-links a.practice:hover { background: var(--amber); color: #fff; border-color: var(--amber); }
+
+    .back-row { text-align: center; margin-top: 3rem; }
+    .back-row a {
+      font-size: 0.85rem;
+      color: var(--teal-mid);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(45,122,122,0.3);
+      padding-bottom: 2px;
+      transition: color 0.25s ease;
+    }
+    .back-row a:hover { color: var(--amber); }
+
+    footer {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      padding: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 2rem 1.25rem 1rem; }
+      main   { padding: 0 1.25rem 3rem; }
+      .units-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="wordmark">The Novacene · Verse-al Maths · <a href="/verse-al-maths/">GCSE</a> · A Level</p>
+    <h1>Pure mathematics for<br /><em>curious minds</em></h1>
+    <p class="tagline">The Verse-al Ways of Knowing, carried into advanced study — rigour without losing yourself in it.</p>
+    <span class="status-pill">Pure 1 · growing in the open</span>
+    <div class="divider"></div>
+  </header>
+
+  <main>
+
+    <section class="strand" data-strand="algebra">
+      <div class="strand-head">
+        <h2 class="strand-name">Algebra &amp; Functions</h2>
+        <span class="strand-count">6 units</span>
+      </div>
+      <p class="strand-seed">To speak in the language of the unknown, until the unknown becomes known.</p>
+      <div class="units-grid">
+        <div class="unit-card">
+          <h3 class="unit-name">Indices &amp; surds</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/indices-and-surds/indices-and-surds-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/indices-and-surds/indices-and-surds-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Quadratic functions</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/quadratic-functions-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/quadratic-functions-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Deriving the quadratic formula</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/deriving-quadratic-formula-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/deriving-quadratic-formula-practice_companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">The discriminant</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/discriminant/discriminant-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/discriminant/discriminant-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Simultaneous equations</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/simultaneous-equations/simultaneous_equations_lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/simultaneous-equations/simultaneous_equations_practice_companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Inequalities</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/inequalities/inequalities-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/inequalities/inequalities-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="strand" data-strand="coord">
+      <div class="strand-head">
+        <h2 class="strand-name">Coordinate Geometry in the (x, y) Plane</h2>
+        <span class="strand-count">3 units</span>
+      </div>
+      <p class="strand-seed">To find the shape of change, the line that maps the range.</p>
+      <div class="units-grid">
+        <div class="unit-card">
+          <h3 class="unit-name">Straight-line graphs</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/straight-line-graphs-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/straight-line-graphs-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Parallel &amp; perpendicular lines</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/parallel-and-perpendicular-lines-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/parallel-and-perpendicular-lines-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Problem solving with straight lines</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/problem-solving-with-straight-lines-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/problem-solving-with-straight-lines-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="strand" data-strand="graphs">
+      <div class="strand-head">
+        <h2 class="strand-name">Graphs &amp; Transformations</h2>
+        <span class="strand-count">1 unit</span>
+      </div>
+      <p class="strand-seed">To watch a familiar curve become something new, and know exactly why.</p>
+      <div class="units-grid">
+        <div class="unit-card">
+          <h3 class="unit-name">Transformations</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/transformations/transformations-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/transformations/transformations-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="strand" data-strand="trig">
+      <div class="strand-head">
+        <h2 class="strand-name">Trigonometry</h2>
+        <span class="strand-count">5 units</span>
+      </div>
+      <p class="strand-seed">To measure what cannot be seen, the hidden side of every triangle.</p>
+      <div class="units-grid">
+        <div class="unit-card">
+          <h3 class="unit-name">Sine rule &amp; the area of a triangle</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/sine-rule/sine-rule-and-area-of-a-triangle-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/sine-rule/sine-rule-and-area-of-a-triangle-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Cosine rule</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/cosine-rule/cosine-rule-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/cosine-rule/cosine-rule-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Problem solving with sine &amp; cosine rules</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-trig/problem-solving-with-sine-cosine-rules-and-area-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-trig/problem-solving-with-sine-cosine-rules-and-area-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Radians, arcs &amp; sectors</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/radians-arcs-and-sectors/radians-arcs-and-sectors-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/radians-arcs-and-sectors/radians-arcs-and-sectors-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+        <div class="unit-card">
+          <h3 class="unit-name">Problem solving with radians: arcs, sectors &amp; segments</h3>
+          <div class="unit-links">
+            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-radians/problem-solving-with-radians-arcs-sectors-and-segments-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-radians/problem-solving-with-radians-arcs-sectors-and-segments-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="back-row">
+      <a href="/verse-al-maths/">← The GCSE curriculum</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>I am not finished, I am forming — each question a contour of my becoming.</p>
+  </footer>
+
+</body>
+</html>
