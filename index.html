@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verse-al Maths · The Novacene</title>
+  <title>NEO Maths · Nudge Education Online</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --teal-deep:    #1a4a4a;
-      --teal-mid:     #2d7a7a;
-      --teal-light:   #4db8b8;
-      --amber:        #e8923a;
-      --cream:        #faf6ef;
-      --ink:          #1a2a2a;
-      --muted:        #6a8a8a;
-      --card-bg:      rgba(255,255,255,0.72);
+      --teal-deep:    #1A2E3B;
+      --teal-mid:     #1F8E7F;
+      --teal-light:   #2AB3A0;
+      --amber:        #2AB3A0;
+      --cream:        #F7F7F5;
+      --ink:          #2D3436;
+      --muted:        #6B7B8D;
+      --card-bg:      rgba(255,255,255,0.82);
       --radius:       16px;
       --transition:   0.35s cubic-bezier(0.4, 0, 0.2, 1);
       --wok-kw:       #4db8b8;
@@ -31,7 +31,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       background-color: var(--cream);
       color: var(--ink);
       min-height: 100vh;
@@ -43,8 +43,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(45,122,122,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(232,146,58,0.10) 0%, transparent 60%);
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(42,179,160,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(26,46,59,0.06) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
     }
@@ -57,7 +57,7 @@
     }
 
     .wordmark {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.25em;
@@ -69,7 +69,7 @@
     }
 
     h1 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(2.8rem, 7vw, 5rem);
       font-weight: 300;
       line-height: 1.1;
@@ -82,7 +82,7 @@
 
     .tagline {
       margin-top: 1rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(1rem, 2.5vw, 1.3rem);
       font-weight: 300;
       font-style: italic;
@@ -98,7 +98,7 @@
     .divider {
       width: 60px;
       height: 2px;
-      background: linear-gradient(90deg, var(--teal-light), var(--amber));
+      background: linear-gradient(90deg, var(--teal-deep), var(--teal-light));
       margin: 1.5rem auto 0;
       border-radius: 2px;
       opacity: 0;
@@ -120,7 +120,7 @@
       border: 1px solid rgba(255,255,255,0.6);
       border-radius: 50px;
       padding: 0.65rem 1.25rem;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       font-weight: 500;
       color: var(--muted);
@@ -158,7 +158,7 @@
       border: none;
       color: var(--teal-mid);
       cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
       padding: 0;
       text-decoration: underline;
@@ -222,7 +222,7 @@
     .topic-card:hover::before { width: 6px; }
 
     .topic-number {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 3rem;
       font-weight: 300;
       color: var(--card-accent, var(--teal-light));
@@ -236,7 +236,7 @@
     .topic-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
 
     .topic-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.5rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -248,7 +248,7 @@
 
     .topic-seeds {
       margin-top: 1rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       font-size: 0.95rem;
       color: var(--muted);
@@ -286,7 +286,7 @@
     }
 
     .lessons-topic-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(1.8rem, 5vw, 3rem);
       font-weight: 300;
       color: var(--teal-deep);
@@ -294,7 +294,7 @@
     }
 
     .lessons-subtitle {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       color: var(--muted);
       font-size: 1rem;
@@ -331,7 +331,7 @@
     }
 
     .lesson-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.15rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -460,7 +460,7 @@
     .wok-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
 
     .wok-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.5rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -490,7 +490,7 @@
     .wok-details.visible { display: block; }
 
     .wok-details h3 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.3rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -514,7 +514,7 @@
     .topic-section:nth-child(8) { animation-delay: 0.45s; }
 
     .topic-section-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.1rem;
       font-weight: 400;
       color: var(--muted);
@@ -603,7 +603,7 @@
     .skill-icon { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
 
     .skill-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.4rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -618,7 +618,7 @@
       color: var(--muted);
       line-height: 1.5;
       font-style: italic;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
     }
 
     .skill-card[data-skill="see-it"]          { --skill-accent: #4db8b8; }
@@ -647,7 +647,7 @@
     .skill-details.visible { display: block; }
 
     .skill-details h3 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.3rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -657,7 +657,7 @@
     }
 
     .skill-details .skill-details-desc {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       color: var(--muted);
       font-size: 1rem;
@@ -692,7 +692,7 @@
       z-index: 5;
       text-align: center;
       padding: 2rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       font-size: 0.95rem;
       color: var(--muted);
@@ -714,7 +714,7 @@
 <body>
 
   <header>
-    <p class="wordmark">The Novacene · Verse-al Maths · <a href="/verse-al-maths/guide.html" style="color:var(--muted);text-decoration:none;font-weight:400;transition:color 0.3s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--muted)'">Guide</a></p>
+    <p class="wordmark">NEO by Nudge Education · Maths · <a href="/neo-maths/guide.html" style="color:var(--muted);text-decoration:none;font-weight:400;transition:color 0.3s" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--muted)'">Guide</a></p>
     <h1>Mathematics for<br /><em>curious minds</em></h1>
     <p class="tagline">A curriculum that begins with who you are, not what you don't know yet.</p>
     <div class="view-toggle" id="view-toggle">
@@ -754,7 +754,7 @@
   </main>
 
   <footer>
-    <p>I am not finished, I am forming — each question a contour of my becoming.</p>
+    <p>Connection before curriculum. Always. &nbsp;·&nbsp; NEO by Nudge Education</p>
   </footer>
 
   <script>
@@ -1137,7 +1137,7 @@
         const lessonActivities = getActivitiesForLesson(slug, topic.folder);
         const activitiesHTML = lessonActivities.length > 0
           ? `<div class="activities-list">${lessonActivities.map(act => {
-              return `<a href="/verse-al-maths/lessons/${topic.folder}/${act.file}.html" target="_blank" rel="noopener" class="activity-link">
+              return `<a href="/neo-maths/lessons/${topic.folder}/${act.file}.html" target="_blank" rel="noopener" class="activity-link">
                 Activity ${act.num} · ${titleCase(act.base)}
                 <div class="wok-badges">${createWokBadge(act.wok)}</div>
               </a>`;
@@ -1145,7 +1145,7 @@
           : '';
 
         card.innerHTML = `
-          <a href="/verse-al-maths/lessons/${topic.folder}/${slug}.html" target="_blank" rel="noopener" class="lesson-link">
+          <a href="/neo-maths/lessons/${topic.folder}/${slug}.html" target="_blank" rel="noopener" class="lesson-link">
             <div class="lesson-title">${titleCase(slug)}</div>
             <div class="open-label">Open lesson</div>
           </a>
@@ -1261,7 +1261,7 @@
             <div class="activities-grid">`;
 
           acts.forEach(act => {
-            html += `<a href="/verse-al-maths/lessons/${act.folder}/${act.file}.html" target="_blank" rel="noopener" class="activity-card">
+            html += `<a href="/neo-maths/lessons/${act.folder}/${act.file}.html" target="_blank" rel="noopener" class="activity-card">
               <div class="activity-card-title">${titleCase(act.base)} Activity ${act.num}</div>
               <div class="activity-card-wok">${createWokBadge(act.wok)}</div>
             </a>`;
@@ -1337,7 +1337,7 @@
             const otherSkills = actSkills.filter(s => s !== skillKey);
             const badgesHTML = otherSkills.map(s => createSkillBadge(s)).join('') + createWokBadge(act.wok);
 
-            html += `<a href="/verse-al-maths/lessons/${act.folder}/${act.file}.html" target="_blank" rel="noopener" class="activity-card">
+            html += `<a href="/neo-maths/lessons/${act.folder}/${act.file}.html" target="_blank" rel="noopener" class="activity-card">
               <div class="activity-card-title">${titleCase(act.base)} Activity ${act.num}</div>
               <div class="activity-card-wok">${badgesHTML}</div>
             </a>`;

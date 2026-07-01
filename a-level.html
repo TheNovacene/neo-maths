@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verse-al Maths · A Level · The Novacene</title>
-  <meta name="description" content="Verse-al Maths A Level — Pure Mathematics 1, built in the open on the Verse-al Ways of Knowing. Lessons and practice companions for advanced learners." />
+  <title>NEO Maths · A Level · Nudge Education</title>
+  <meta name="description" content="NEO Maths A Level — Pure Mathematics 1, built in the open on the NEO Ways of Knowing. Lessons and practice companions for advanced learners." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --teal-deep:  #1a4a4a;
-      --teal-mid:   #2d7a7a;
-      --teal-light: #4db8b8;
-      --amber:      #e8923a;
-      --cream:      #faf6ef;
-      --ink:        #1a2a2a;
-      --muted:      #6a8a8a;
+      --teal-deep:  #1A2E3B;
+      --teal-mid:   #1F8E7F;
+      --teal-light: #2AB3A0;
+      --amber:      #2AB3A0;
+      --cream:      #F7F7F5;
+      --ink:        #2D3436;
+      --muted:      #6B7B8D;
       --card-bg:    rgba(255,255,255,0.72);
       --radius:     16px;
       --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -27,7 +27,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       background-color: var(--cream);
       color: var(--ink);
       min-height: 100vh;
@@ -66,7 +66,7 @@
     .wordmark a:hover { color: var(--amber); }
 
     h1 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(2.8rem, 7vw, 5rem);
       font-weight: 300;
       line-height: 1.1;
@@ -78,7 +78,7 @@
 
     .tagline {
       margin-top: 1rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(1rem, 2.5vw, 1.3rem);
       font-weight: 300;
       font-style: italic;
@@ -138,7 +138,7 @@
     }
 
     .strand-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.7rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -147,7 +147,7 @@
     .strand-count { font-size: 0.8rem; color: var(--muted); }
 
     .strand-seed {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       color: var(--muted);
       margin-bottom: 1.1rem;
@@ -182,13 +182,13 @@
     .unit-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(26,74,74,0.14); }
     .unit-card:hover::before { width: 6px; }
 
-    .strand[data-strand="algebra"]  .unit-card { --card-accent: #4db8b8; }
+    .strand[data-strand="algebra"]  .unit-card { --card-accent: #2AB3A0; }
     .strand[data-strand="coord"]    .unit-card { --card-accent: #5a9fd4; }
     .strand[data-strand="graphs"]   .unit-card { --card-accent: #8b6bc4; }
-    .strand[data-strand="trig"]     .unit-card { --card-accent: #e8923a; }
+    .strand[data-strand="trig"]     .unit-card { --card-accent: #2AB3A0; }
 
     .unit-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.25rem;
       font-weight: 400;
       color: var(--teal-deep);
@@ -228,7 +228,7 @@
       z-index: 5;
       text-align: center;
       padding: 2rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       font-size: 0.95rem;
       color: var(--muted);
@@ -250,9 +250,9 @@
 <body>
 
   <header>
-    <p class="wordmark">The Novacene · Verse-al Maths · <a href="/verse-al-maths/">GCSE</a> · A Level</p>
+    <p class="wordmark">NEO by Nudge Education · Maths · <a href="/neo-maths/">GCSE</a> · A Level</p>
     <h1>Pure mathematics for<br /><em>curious minds</em></h1>
-    <p class="tagline">The Verse-al Ways of Knowing, carried into advanced study — rigour without losing yourself in it.</p>
+    <p class="tagline">The NEO Ways of Knowing, carried into advanced study — rigour without losing yourself in it.</p>
     <span class="status-pill">Pure 1 · growing in the open</span>
     <div class="divider"></div>
   </header>
@@ -269,43 +269,43 @@
         <div class="unit-card">
           <h3 class="unit-name">Indices &amp; surds</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/indices-and-surds/indices-and-surds-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/indices-and-surds/indices-and-surds-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/indices-and-surds/indices-and-surds-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/indices-and-surds/indices-and-surds-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Quadratic functions</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/quadratic-functions-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/quadratic-functions-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/quadratic-functions/quadratic-functions-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/quadratic-functions/quadratic-functions-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Deriving the quadratic formula</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/deriving-quadratic-formula-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/quadratic-functions/deriving-quadratic-formula-practice_companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/quadratic-functions/deriving-quadratic-formula-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/quadratic-functions/deriving-quadratic-formula-practice_companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">The discriminant</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/discriminant/discriminant-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/discriminant/discriminant-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/discriminant/discriminant-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/discriminant/discriminant-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Simultaneous equations</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/simultaneous-equations/simultaneous_equations_lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/simultaneous-equations/simultaneous_equations_practice_companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/simultaneous-equations/simultaneous_equations_lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/simultaneous-equations/simultaneous_equations_practice_companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Inequalities</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/inequalities/inequalities-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/inequalities/inequalities-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/inequalities/inequalities-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/inequalities/inequalities-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
       </div>
@@ -321,22 +321,22 @@
         <div class="unit-card">
           <h3 class="unit-name">Straight-line graphs</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/straight-line-graphs-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/straight-line-graphs-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/straight-line-graphs-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/straight-line-graphs-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Parallel &amp; perpendicular lines</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/parallel-and-perpendicular-lines-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/parallel-and-perpendicular-lines-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/parallel-and-perpendicular-lines-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/parallel-and-perpendicular-lines-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Problem solving with straight lines</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/problem-solving-with-straight-lines-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/problem-solving-with-straight-lines-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/problem-solving-with-straight-lines-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/coordinate-geometry-in-%28x,y%29-plane/problem-solving-with-straight-lines-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
       </div>
@@ -352,8 +352,8 @@
         <div class="unit-card">
           <h3 class="unit-name">Transformations</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/transformations/transformations-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/transformations/transformations-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/transformations/transformations-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/transformations/transformations-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
       </div>
@@ -369,43 +369,43 @@
         <div class="unit-card">
           <h3 class="unit-name">Sine rule &amp; the area of a triangle</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/sine-rule/sine-rule-and-area-of-a-triangle-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/sine-rule/sine-rule-and-area-of-a-triangle-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/trigonometry/sine-rule/sine-rule-and-area-of-a-triangle-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/trigonometry/sine-rule/sine-rule-and-area-of-a-triangle-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Cosine rule</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/cosine-rule/cosine-rule-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/cosine-rule/cosine-rule-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/trigonometry/cosine-rule/cosine-rule-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/trigonometry/cosine-rule/cosine-rule-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Problem solving with sine &amp; cosine rules</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-trig/problem-solving-with-sine-cosine-rules-and-area-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-trig/problem-solving-with-sine-cosine-rules-and-area-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-trig/problem-solving-with-sine-cosine-rules-and-area-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-trig/problem-solving-with-sine-cosine-rules-and-area-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Radians, arcs &amp; sectors</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/radians-arcs-and-sectors/radians-arcs-and-sectors-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/radians-arcs-and-sectors/radians-arcs-and-sectors-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/trigonometry/radians-arcs-and-sectors/radians-arcs-and-sectors-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/trigonometry/radians-arcs-and-sectors/radians-arcs-and-sectors-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
         <div class="unit-card">
           <h3 class="unit-name">Problem solving with radians: arcs, sectors &amp; segments</h3>
           <div class="unit-links">
-            <a href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-radians/problem-solving-with-radians-arcs-sectors-and-segments-lesson.html" target="_blank" rel="noopener">Lesson</a>
-            <a class="practice" href="/verse-al-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-radians/problem-solving-with-radians-arcs-sectors-and-segments-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
+            <a href="/neo-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-radians/problem-solving-with-radians-arcs-sectors-and-segments-lesson.html" target="_blank" rel="noopener">Lesson</a>
+            <a class="practice" href="/neo-maths/lessons/a-level/pure%201/trigonometry/problem-solving-with-radians/problem-solving-with-radians-arcs-sectors-and-segments-practice-companion.html" target="_blank" rel="noopener">Practice companion</a>
           </div>
         </div>
       </div>
     </section>
 
     <div class="back-row">
-      <a href="/verse-al-maths/">← The GCSE curriculum</a>
+      <a href="/neo-maths/">← The GCSE curriculum</a>
     </div>
 
   </main>
