@@ -719,7 +719,7 @@
     <p class="tagline">A curriculum that begins with who you are, not what you don't know yet.</p>
     <div class="view-toggle" id="view-toggle">
       <button class="toggle-btn active" onclick="switchView('topic')">By Topic</button>
-      <button class="toggle-btn" onclick="switchView('wok')">By Way of Knowing</button>
+      <button class="toggle-btn" onclick="switchView('wok')">By Cornerstone</button>
       <button class="toggle-btn" onclick="switchView('skill')">By Skill</button>
     </div>
     <div class="divider"></div>
@@ -743,6 +743,7 @@
       <div class="lessons-grid" id="lessons-grid"></div>
     </div>
     <div id="wok-view">
+      <p class="section-label" style="margin-bottom:1rem">The Cornerstones — Nutrition runs through every lesson’s real-world Final Task</p>
       <div class="wok-grid" id="wok-grid"></div>
       <div class="wok-details" id="wok-details"></div>
     </div>
@@ -911,11 +912,11 @@
     };
 
     const wokInfo = {
-      kw: { name: "The Knowing World", emoji: "🧠", colour: "#4db8b8" },
-      dw: { name: "The Designed World", emoji: "🏗", colour: "#8b6bc4" },
-      hs: { name: "The Human Story", emoji: "🧬", colour: "#e8923a" },
-      es: { name: "The Expressive Self", emoji: "🗣", colour: "#5a9fd4" },
-      lb: { name: "The Living Body", emoji: "🌀", colour: "#5a7a5a" },
+      kw: { name: "Reflection", emoji: "🔎", colour: "#2AB3A0" },
+      dw: { name: "Movement", emoji: "🔄", colour: "#5a9fd4" },
+      hs: { name: "Connection", emoji: "🤝", colour: "#1F8E7F" },
+      es: { name: "Creativity", emoji: "🎨", colour: "#8b6bc4" },
+      lb: { name: "Rest", emoji: "🌙", colour: "#5a7a5a" },
     };
 
     const skillInfo = {
