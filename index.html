@@ -748,7 +748,7 @@
       <div class="wok-details" id="wok-details"></div>
     </div>
     <div id="skill-view">
-      <p class="section-label">Skills you'll develop</p>
+      <p class="section-label">Eight moves, grouped under six subject-agnostic capabilities</p>
       <div class="skill-grid" id="skill-grid"></div>
       <div class="skill-details" id="skill-details"></div>
     </div>
@@ -929,6 +929,15 @@
       "connect":        { name: "Connect",          emoji: "🔗", desc: "Seeing how graphs, equations, tables, and words describe the same idea." },
       "investigate":    { name: "Investigate",       emoji: "🔬", desc: "Spotting patterns, forming conjectures, and testing them." },
     };
+
+    const capabilityInfo = [
+      { name: "Sense-making", emoji: "🧭", desc: "number sense, pattern, intuition before formalism", skills: ["see-it"] },
+      { name: "Reasoning & justification", emoji: "⚖️", desc: "building an argument, proving, spotting what holds true", skills: ["step-through","spot-what-stays"] },
+      { name: "Communication & representation", emoji: "🔁", desc: "moving between words, symbols and representations", skills: ["translate","connect"] },
+      { name: "Creative problem-solving", emoji: "💡", desc: "the unfamiliar, modelling, more than one route", skills: ["experiment","investigate"] },
+      { name: "Metacognition & self-regulation", emoji: "🎯", desc: "noticing your own thinking, checking, pacing", skills: ["sense-check"] },
+      { name: "Ethical & relational literacy", emoji: "🤝", desc: "engaging with others, and with technology, thoughtfully", skills: [] },
+    ];
 
     const skillMap = {
       "1-graphs-functions/coordinates-kw-activity-1": ["see-it", "investigate"],
@@ -1277,27 +1286,29 @@
 
     function renderSkillView() {
       const grid = document.getElementById('skill-grid');
-      grid.innerHTML = '';
-      const skillKeys = Object.keys(skillInfo);
-
-      skillKeys.forEach(key => {
-        const info = skillInfo[key];
-        let count = 0;
-        Object.values(skillMap).forEach(skills => {
-          if (skills.includes(key)) count++;
-        });
-
-        const card = document.createElement('div');
-        card.className = 'skill-card';
-        card.dataset.skill = key;
-        card.innerHTML = `
-          <span class="skill-icon">${info.emoji}</span>
-          <div class="skill-name">${info.name}</div>
-          <div class="skill-count">${count} activities</div>
-          <div class="skill-desc">${info.desc}</div>`;
-        card.addEventListener('click', () => showSkillDetails(key));
-        grid.appendChild(card);
+      grid.style.display = 'block';
+      let html = '';
+      capabilityInfo.forEach(cap => {
+        html += `<div class="topic-section"><div class="topic-section-title">${cap.emoji} ${cap.name} — ${cap.desc}</div>`;
+        if (cap.skills.length) {
+          html += `<div class="skill-grid">`;
+          cap.skills.forEach(key => {
+            const info = skillInfo[key];
+            let count = 0;
+            Object.values(skillMap).forEach(skills => { if (skills.includes(key)) count++; });
+            html += `<div class="skill-card" data-skill="${key}" onclick="showSkillDetails('${key}')">
+              <span class="skill-icon">${info.emoji}</span>
+              <div class="skill-name">${info.name}</div>
+              <div class="skill-count">${count} activities</div>
+              <div class="skill-desc">${info.desc}</div></div>`;
+          });
+          html += `</div>`;
+        } else {
+          html += `<p class="skill-desc" style="color:var(--muted);margin:0.25rem 0 0.75rem">Developed through Cornerstones Day &amp; RSHE, rather than tagged on individual maths activities.</p>`;
+        }
+        html += `</div>`;
       });
+      grid.innerHTML = html;
     }
 
     function showSkillDetails(skillKey) {
